@@ -83,3 +83,7 @@
 .wrapper-right {
   @apply pr-32;
 }
+
+.highlight {
+  @apply bg-primary-500 text-white px-2;
+}
