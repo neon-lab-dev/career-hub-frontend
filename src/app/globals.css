@@ -1,33 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-} */
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+* {
+  @apply font-plus-jakarta-sans;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* CSS file */
+.display-large {
+  @apply text-[48px] font-[800] tracking-tighter;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.display-medium {
+  @apply text-[40px] font-[800] tracking-tight;
+}
+
+.display-small {
+  @apply text-[32px] font-[800] tracking-tight;
+}
+
+.title-large {
+  @apply text-[40px] font-[600] tracking-tighter;
+}
+
+.title-medium {
+  @apply text-[32px] font-[600] tracking-tight;
+}
+
+.title-small {
+  @apply text-[28px] font-[600] tracking-tight;
+}
+
+.heading-large {
+  @apply text-[28px] font-[500] tracking-tight;
+}
+
+.heading-medium {
+  @apply text-[24px] font-[500] tracking-normal;
+}
+
+.heading-small {
+  @apply text-[20px] font-[500] tracking-normal;
+}
+
+.body-large {
+  @apply text-[18px] font-[400] leading-[125%] tracking-tight;
+}
+
+.body-medium {
+  @apply text-[16px] font-[400] leading-[125%] tracking-tight;
+}
+
+.body-small {
+  @apply text-[14px] font-[400] leading-[120%] tracking-tight;
+}
+
+.caption-large {
+  @apply text-[16px] font-[500] tracking-tighter;
+}
+
+.caption-medium {
+  @apply text-[14px] font-[500] tracking-tighter;
+}
+
+.caption-small {
+  @apply text-[12px] font-[500] tracking-tighter;
+}
+.max-width {
+  @apply max-w-[1440px];
+}
+
+.section {
+  @apply py-24;
+}
+
+.wrapper-left {
+  @apply pl-32;
+}
+
+.wrapper-right {
+  @apply pr-32;
+}
+
+.highlight {
+  @apply bg-primary-500 text-white px-2;
 }
