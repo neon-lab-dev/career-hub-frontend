@@ -12,6 +12,13 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-primary-button":
+          "linear-gradient(180deg, #F9533A 0%, #C22A13 93.51%)",
+        "gradient-primary-button-hover":
+          "linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(180deg, #F9533A 0%, #C22A13 93.51%)",
+      },
+      boxShadow: {
+        "primary-button": "0px 8px 24px -10px rgba(249, 83, 58, 0.50)",
       },
       fontFamily: {
         "plus-jakarta-sans": ["Plus Jakarta Sans", "sans-serif"],
@@ -56,6 +63,17 @@ const config: Config = {
           900: "#383842",
           950: "#25252c",
         },
+      },
+      fontWeight: {
+        100: "100",
+        200: "200",
+        300: "300",
+        400: "400",
+        500: "500",
+        600: "600",
+        700: "700",
+        800: "800",
+        900: "900",
       },
     },
   },
