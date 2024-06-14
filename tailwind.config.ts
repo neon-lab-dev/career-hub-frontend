@@ -22,6 +22,7 @@ const config: Config = {
       },
       fontFamily: {
         "plus-jakarta-sans": ["Plus Jakarta Sans", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
       },
       colors: {
         primary: {
@@ -63,6 +64,9 @@ const config: Config = {
           900: "#383842",
           950: "#25252c",
         },
+        error: {
+          500: "#FF3333",
+        },
       },
       fontWeight: {
         100: "100",
@@ -77,6 +81,10 @@ const config: Config = {
       },
     },
   },
+  daisyui: {
+    themes: ["light"],
+  },
+
   plugins: [require("daisyui")],
 };
 export default config;
