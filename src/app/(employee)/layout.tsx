@@ -1,5 +1,6 @@
+import Footer from '@/components/Footer';
 import '../globals.css';
-
+import Navbar from '@/components/Navbar';
 
 
 export default function EmployeeRootLayout({
@@ -7,5 +8,9 @@ export default function EmployeeRootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return <div>
+    <Navbar/>
+    {children}
+    <Footer/>
+    </div>;
 }
