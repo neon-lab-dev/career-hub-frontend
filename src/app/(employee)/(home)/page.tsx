@@ -1,6 +1,8 @@
 "use client";
 
 import SearchField from "@/components/reusable/SearchField";
+import Input from "@/components/Input";
+import JobDetailCard from "@/components/JobDetailCard";
 import React from "react";
 import searchIcon from "../../../assets/icons/search-icon.svg";
 import location from "../../../assets/icons/location.svg";

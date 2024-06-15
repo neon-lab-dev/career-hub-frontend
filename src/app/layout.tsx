@@ -1,4 +1,9 @@
+import "./globals.css";
 
+export const metadata = {
+  title: "Career Hub",
+  description: "Explore job/internships opportunities at the Career Hub.",
+};
 
 export default function RootLayout({
   children,
@@ -6,7 +11,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-white text-black">
       <body>{children}</body>
     </html>
   );
