@@ -20,7 +20,7 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
           variant === "A"
             ? "bg-courseCard-gradient-blue"
             : "bg-courseCard-gradient-white"
-        } max-w-[590.55px] max-h-[324px] rounded-[33.089px] card-border flex`}
+        } w-[590.55px] max-h-[324px] rounded-[33.089px] card-border flex relative`}
       >
         <div className="flex flex-col gap-[10px] p-[22px]">
           <Image
@@ -43,13 +43,24 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
               >
                 Placement
               </span>{" "}
+              <br />
               Program!
             </h1>
+
+            
+
+            
           ) : (
             <h1
               className={`font-Poppins font-semibold text-[33.089px] leading-[34.743px] -tracking-wide   text-secondary-575 capitalize`}
             >
-              Full Stack Development
+              {/* Full Stack Development */}
+              {
+                courseDetails.title.length >= 22 ? 
+                <span className="w-[324px]">{courseDetails.title}</span>
+                : 
+                <span>{courseDetails.title}</span>
+              }
             </h1>
           )}
 
@@ -59,15 +70,15 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
             className={`${variant === "A" ? "hidden" : "block"}`}
           />
 
-          <div
+          <hr
             style={{
-              backgroundColor:
+              borderColor:
                 variant === "A"
                   ? "rgba(255, 255, 255, 0.12)"
                   : "rgba(89, 90, 97, 0.15)",
             }}
-            className="h-[1.654px] my-[10px]"
-          ></div>
+            className="h-[1.654px] my-3"
+          />
 
           <div className="flex flex-col gap-[9px]">
             {courseDetails?.features?.map((feature, index: any) => (
@@ -99,7 +110,7 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
               variant === "A"
                 ? "bg-white text-secondary-550"
                 : "bg-secondary-525 text-white"
-            } font-Poppins text-[11.581px] font-medium  px-[23.162px] py-[11.581px] rounded-[9.927px] max-w-[120px]`}
+            } font-Poppins text-[11.581px] font-medium  px-[23.162px] py-[11.581px] rounded-[9.927px] max-w-[120px] mt-2`}
           >
             View Details
           </button>
@@ -109,7 +120,7 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
         <Image
           src={courseDetails?.image}
           alt="student1"
-          className="border border-gray-800"
+          className="absolute right-0 bottom-0 "
         />
         {/* </div> */}
       </div>

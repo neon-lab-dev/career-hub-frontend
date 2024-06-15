@@ -24,7 +24,7 @@ interface SearchFieldProps {
     return (
         <>
         
-        <div className={`flex justify-between border-[1.25px] border-primary-500 rounded-[100px] p-4 bg-white ${className}`}>
+        <div className={`w-[749px] mx-auto flex justify-between border-[1.25px] border-primary-500 rounded-[100px] p-4 bg-white ${className}`}>
       <div className="flex items-center gap-4">
         <div className='w-[55px] h-[55px] bg-primary-500 rounded-full flex justify-center items-center'>
           <Image src={searchIcon} alt="search-icon" className='w-[30px]' />
@@ -41,7 +41,7 @@ interface SearchFieldProps {
         onClick={handleLocation}
       >
         <Image src={locationIcon} alt="location-icon" />
-        <p className='font-plus-jakarta-sans text-xl text-neutral-700 font-normal leadi'>{locationPlaceholder}</p>
+        <p className='font-plus-jakarta-sans text-xl text-neutral-700 font-normal'>{locationPlaceholder}</p>
       </div>
     </div>
 
