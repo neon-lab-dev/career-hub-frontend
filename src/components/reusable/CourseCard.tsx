@@ -20,9 +20,9 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
           variant === "A"
             ? "bg-courseCard-gradient-blue"
             : "bg-courseCard-gradient-white"
-        } max-w-[557.55px] max-h-[316px] rounded-[33.089px] card-border flex relative`}
+        } max-w-[590.55px] max-h-[324px] rounded-[33.089px] card-border flex`}
       >
-        <div className="flex flex-col gap-[14.89px] p-[23.162px]">
+        <div className="flex flex-col gap-[10px] p-[22px]">
           <Image
             src={courseDetails.logo}
             alt="search-icon"
@@ -66,7 +66,7 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
                   ? "rgba(255, 255, 255, 0.12)"
                   : "rgba(89, 90, 97, 0.15)",
             }}
-            className="h-[1.654px]"
+            className="h-[1.654px] my-[10px]"
           ></div>
 
           <div className="flex flex-col gap-[9px]">
@@ -109,7 +109,7 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
         <Image
           src={courseDetails?.image}
           alt="student1"
-          className="max-h-[317.654px] abso"
+          className="border border-gray-800"
         />
         {/* </div> */}
       </div>
