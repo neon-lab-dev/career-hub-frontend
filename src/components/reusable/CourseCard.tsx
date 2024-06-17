@@ -4,11 +4,16 @@ import techLogo from "../../assets/images/tech-logo.png";
 
 import tickBlue from "../../assets/icons/tick-blue.svg";
 import tickWhite from "../../assets/icons/tick-mark-white.svg";
-import Image from "next/image";
-import { TCourseDetails } from "@/app/(employee)/(home)/page";
+import Image, { StaticImageData } from "next/image";
 
 type CourseProps = {
-  courseDetails: TCourseDetails;
+  courseDetails: {
+    logo: StaticImageData;
+    title: string;
+    features: string[];
+    path: string;
+    image: StaticImageData;
+  };
   variant: "A" | "B";
 };
 
@@ -46,21 +51,16 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
               <br />
               Program!
             </h1>
-
-            
-
-            
           ) : (
             <h1
               className={`font-Poppins font-semibold text-[33.089px] leading-[34.743px] -tracking-wide   text-secondary-575 capitalize`}
             >
               {/* Full Stack Development */}
-              {
-                courseDetails.title.length >= 22 ? 
+              {courseDetails.title.length >= 22 ? (
                 <span className="w-[324px]">{courseDetails.title}</span>
-                : 
+              ) : (
                 <span>{courseDetails.title}</span>
-              }
+              )}
             </h1>
           )}
 

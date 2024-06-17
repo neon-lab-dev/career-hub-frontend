@@ -2,14 +2,21 @@ import { IMAGES } from "@/assets";
 import Image from "next/image";
 import React from "react";
 import Button from "./Button";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   showApplyButton?: boolean;
+  wrapperClassName?: string;
 };
 
-const JobDetailCard = ({ showApplyButton }: Props) => {
+const JobDetailCard = ({ showApplyButton, wrapperClassName }: Props) => {
   return (
-    <div className="flex flex-col gap-5 p-6 rounded-[20px] border border-neutral-100 bg-white">
+    <div
+      className={twMerge(
+        "flex flex-col gap-5 p-6 rounded-[20px] border border-neutral-100 bg-white",
+        wrapperClassName
+      )}
+    >
       <div className="flex gap-3 items-center">
         <Image
           src={IMAGES.companyLogo}

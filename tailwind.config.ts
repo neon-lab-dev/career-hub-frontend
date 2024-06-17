@@ -12,9 +12,11 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        'courseCard-gradient-blue': 'linear-gradient(282deg, #213FAC 0%, #2D65E8 100%)',
-        'courseCard-gradient-white': 'linear-gradient(282deg, #DCEAFD 0%, #EFF6FF 100%)',
-        'line': 'rgba(255, 255, 255, 0.12)',
+        "courseCard-gradient-blue":
+          "linear-gradient(282deg, #213FAC 0%, #2D65E8 100%)",
+        "courseCard-gradient-white":
+          "linear-gradient(282deg, #DCEAFD 0%, #EFF6FF 100%)",
+        line: "rgba(255, 255, 255, 0.12)",
         "gradient-primary-button":
           "linear-gradient(180deg, #F9533A 0%, #C22A13 93.51%)",
         "gradient-primary-button-hover":
@@ -25,7 +27,7 @@ const config: Config = {
       },
       fontFamily: {
         "plus-jakarta-sans": ["Plus Jakarta Sans", "sans-serif"],
-        "Poppins": ["Poppins", "sans-serif"],
+        Poppins: ["Poppins", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
       },
       colors: {
@@ -54,7 +56,7 @@ const config: Config = {
           400: "#778db9",
           500: "#556ea2",
           525: "#2D65E8",
-          550: '#264FC6',
+          550: "#264FC6",
           575: "#3E81F3",
           600: "#425687",
           700: "#37466d",
@@ -76,16 +78,19 @@ const config: Config = {
           925: "#434447",
           950: "#25252c",
         },
-        success : {
+        success: {
           50: "#EFFEF7",
           100: "#1ACD81",
         },
-        warning : {
+        warning: {
           50: "#FFC244",
           // 100: "#1ACD81",
         },
         error: {
           500: "#FF3333",
+        },
+        woodsmoke: {
+          800: "#434347",
         },
       },
       fontWeight: {

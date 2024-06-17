@@ -73,10 +73,10 @@ input {
   @apply text-[12px] font-[500] tracking-tighter;
 }
 .max-width {
-  @apply max-w-[1440px];
+  @apply max-w-[1440px] mx-auto;
 }
 
-.section {
+.py-section {
   @apply py-24;
 }
 
@@ -88,10 +88,25 @@ input {
   @apply pr-32;
 }
 
+.wrapper {
+  @apply px-32;
+}
+
 .highlight {
   @apply bg-primary-500 text-white px-2;
 }
 
 .card-border {
   border: 1.654px solid rgba(255, 255, 255, 0.15);
+}
+
+.bg-landing-stats-heading {
+  background: linear-gradient(96deg, #f9533a 2.09%, #ffaca0 98.26%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-heading {
+  @apply font-700 text-[40px] text-secondary-950 tracking-[-0.5px];
 }
