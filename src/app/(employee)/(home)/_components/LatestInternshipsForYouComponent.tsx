@@ -9,13 +9,12 @@ const LatestInternshipsForYouComponent = () => {
         <span className="highlight">Latest internships</span> For You
       </h3>
       <div className="w-full overflow-hidden wrapper-left">
-        <div className="flex gap-8 w-full overflow-x-auto">
-          <JobDetailCard wrapperClassName="min-w-[500px]" />
-          <JobDetailCard wrapperClassName="min-w-[500px]" />
-          <JobDetailCard wrapperClassName="min-w-[500px]" />
-          <JobDetailCard wrapperClassName="min-w-[500px]" />
-          <JobDetailCard wrapperClassName="min-w-[500px]" />
-          <JobDetailCard wrapperClassName="min-w-[500px]" />
+        <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
+            <div key={index} className="carousel-item">
+              <JobDetailCard wrapperClassName="min-w-[500px]" />
+            </div>
+          ))}
         </div>
       </div>
       <Button variant="outline" className="px-12 py-5">
