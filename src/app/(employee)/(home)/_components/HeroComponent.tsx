@@ -37,7 +37,10 @@ const HeroComponent = () => {
               label: "Learners",
             },
           ].map((item, index) => (
-            <div className="flex flex-col items-center justify-center text-center gap-2">
+            <div
+              key={index}
+              className="flex flex-col items-center justify-center text-center gap-2"
+            >
               <h4 className="text-4xl font-800 bg-landing-stats-heading">
                 {item.value}
               </h4>

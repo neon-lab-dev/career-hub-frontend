@@ -21,7 +21,7 @@ const WhatWeDoComponent = () => {
             desc: "Lorem ipsum dolor sit amet consectetur. Accumsan sed dolor scelerisque massa amet convallis bibendum.",
           },
         ].map((item, index) => (
-          <div className="flex flex-col gap-2 max-w-80">
+          <div key={index} className="flex flex-col gap-2 max-w-80">
             <div className="h-24 w-24 bg-primary-50 rounded-2xl"></div>
             <h4 className="text-2xl font-800 text-secondary-950 mt-5">
               {item.heading}
