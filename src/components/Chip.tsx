@@ -8,7 +8,7 @@ interface ChipProps {
     children: ReactNode;
 }
 
-const Button: React.FC<ChipProps> = ({ variant, onClick, children }) => {
+const Button: React.FC<ChipProps> = ({ variant, children }) => {
     const baseStyles = 'px-4 pb-[10px] pt-2 rounded-[5px] font-semibold';
 
     const variantStyles = {
