@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import Image from 'next/image';
-import twMerge from 'tailwindcss-classnames'; // Import twMerge for class merging
 import AddIcon from "@/assets/images/Add Circle.svg"; // Adjust path as necessary
 import CloseIcon from "@/assets/images/Close Circle.svg"; // Adjust path as necessary
 
@@ -11,14 +10,15 @@ interface ChipProps {
 }
 
 const Chip: React.FC<ChipProps> = ({ variant, children, className }) => {
-    const baseStyles = ['px-4', 'pb-[10px]', 'pt-2', 'rounded-[5px]', 'font-semibold'];
+    const baseStyles = 'px-4 pb-[10px] pt-2 rounded-[5px] font-semibold';
     
     const variantStyles = {
-        add: 'bg-secondary-50 text-secondary-600 border border-secondary-200',
-        close: 'bg-secondary-700 text-white',
+        add: `bg-secondary-50 text-secondary-600 border border-secondary-200 ${baseStyles}`,
+        close: `bg-secondary-700 text-white ${baseStyles}`,
     };
 
-    const buttonClass = twMerge([baseStyles, variantStyles[variant], className]);
+    // Concatenate classes
+    const buttonClass = `${variantStyles[variant]} ${className || ''}`.trim();
 
     // Define the image source based on variant
     const getImageSource = () => {
