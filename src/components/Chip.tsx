@@ -11,14 +11,14 @@ interface ChipProps {
 }
 
 const Chip: React.FC<ChipProps> = ({ variant, children, className }) => {
-    const baseStyles = 'px-4 pb-[10px] pt-2 rounded-[5px] font-semibold';
+    const baseStyles = ['px-4', 'pb-[10px]', 'pt-2', 'rounded-[5px]', 'font-semibold'];
     
     const variantStyles = {
         add: 'bg-secondary-50 text-secondary-600 border border-secondary-200',
         close: 'bg-secondary-700 text-white',
     };
 
-    const buttonClass = twMerge(baseStyles, variantStyles[variant], className);
+    const buttonClass = twMerge([baseStyles, variantStyles[variant], className]);
 
     // Define the image source based on variant
     const getImageSource = () => {
