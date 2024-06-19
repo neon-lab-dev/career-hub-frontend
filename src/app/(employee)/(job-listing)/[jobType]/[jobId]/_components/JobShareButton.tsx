@@ -10,8 +10,11 @@ type Props = {
 };
 
 const JobShareButton = ({ jobTitle }: Props) => {
-  const path = window.location.href;
   const shareUrl = () => {
+    let path: string = "";
+    if (typeof window !== "undefined") {
+      path = window.location.href;
+    }
     if (navigator.share) {
       navigator.share({
         title: jobTitle,
