@@ -1,6 +1,6 @@
 import React from "react";
-import Image from "next/image";
-import closeIcon from "../../assets/icons/Close-Circle-modal.svg";
+// import Image from "next/image";
+// import closeIcon from "../../assets/icons/Close-Circle-modal.svg";
 import Login from "./Login";
 import Signup from "./Signup";
 import OTP from "./OTP";
@@ -30,9 +30,9 @@ const AuthModal: React.FC<TModalTypes> = ({
           onClick={(e_) => e_.stopPropagation()}
           className={`font-plus-jakarta-sans w-[529px] ${
             modalType === "OTP"
-              ? "h-[452px] overflow-hidden"
-              : "h-[575px] overflow-y-auto"
-          } absolute rounded-2xl bg-white p-6 text-center drop-shadow-2xl  ${
+              ? "h-[375px] overflow-hidden"
+              : "h-[550px]"
+          } absolute rounded-2xl bg-white p-6 text-center drop-shadow-2xl overflow-y-auto ${
             openModal
               ? "opacity-1 translate-y-0 duration-300"
               : "translate-y-20 opacity-0 duration-150"
@@ -40,17 +40,17 @@ const AuthModal: React.FC<TModalTypes> = ({
         >
 
           {/* Close button */}
-          <div
+          {/* <div
             onClick={() => setOpenModal(false)}
             className="flex justify-end cursor-pointer"
           >
             <Image src={closeIcon} alt="close-btn" className="w-6 h-6" />
-          </div>
+          </div> */}
 
 
           {/* Auth modal heading */}
           <div>
-            <h1 className=" text-secondary-800 text-[28px] font-700 text-center mt-8">
+            <h1 className=" text-secondary-800 text-[28px] font-700 text-center">
               <span className="bg-primary-500 px-2 text-white mr-3">
                 {modalType === "Login"
                   ? "Login"
