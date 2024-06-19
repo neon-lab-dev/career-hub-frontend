@@ -3,6 +3,7 @@ import { ICONS, IMAGES } from "@/assets";
 import Button from "@/components/Button";
 import Image from "next/image";
 import React from "react";
+import { toast } from "sonner";
 
 type Props = {
   jobTitle: string;
@@ -23,10 +24,10 @@ const JobShareButton = ({ jobTitle }: Props) => {
     } else {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(path).then(() => {
-          alert("Link copied to clipboard");
+          toast.success("Link copied to clipboard");
         });
       } else {
-        alert("Cannot share link. Please copy the link manually.");
+        toast.error("Cannot share link. Please copy the link manually.");
       }
     }
   };

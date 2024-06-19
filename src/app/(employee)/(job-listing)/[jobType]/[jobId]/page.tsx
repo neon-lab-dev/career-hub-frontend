@@ -6,6 +6,7 @@ import Button from "@/components/Button";
 import { SkillsContainer } from "./_components/SkillsContainer";
 import Link from "next/link";
 import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
+import { sampleJob } from "@/mockData/jobs";
 
 type Props = {
   params: {
@@ -13,20 +14,6 @@ type Props = {
     jobId: string;
   };
 };
-
-const skills = ["React", "Node", "MongoDB", "Express", "HTML", "CSS"];
-const extraBenefits = [
-  "Health Insurance",
-  "Paid Time Off",
-  "Remote Work",
-  "Flexible Work Hours",
-];
-
-const about =
-  "Mployee.Me is a pioneering company dedicated to empowering job seekers in their quest to secure the best jobs by overcoming the challenges posed by Applicant Tracking Systems (ATS). With our cutting-edge ResuScan Software, we provide a comprehensive solution to optimize your resume and increase your chances of success. Our innovative technology allows you to obtain your ATS Resume Score, enabling you to gauge the effectiveness of your resume. Not only that, but our software identifies any mistakes or areas for improvement based on ATS requirements.\n Additionally, we offer valuable insights into the right resume keywords that align with specific job descriptions, ensuring your application stands out to employers. These efforts can help a job seeker secure the right career in 20+ industries. At Mployee.Me, we are committed to equipping job seekers with the tools and knowledge to excel in their career aspirations.";
-
-const rolesAndResponsibilities =
-  "Developing new user-facing features using React.js\nBuilding reusable components and front-end libraries for future use\nTranslating designs and wireframes into high-quality code\nOptimizing components for maximum performance across a vast array of web-capable devices and browsers\nDeveloping new user-facing features using React.js\nBuilding reusable components and front-end libraries for future use\nTranslating designs and wireframes into high-quality code\nOptimizing components for maximum performance across a vast array of web-capable devices and browsers\nDeveloping new user-facing features using React.js\nBuilding reusable components and front-end libraries for future use\nTranslating designs and wireframes into high-quality code\nOptimizing components for maximum performance across a vast array of web-capable devices and browsers\nDeveloping new user-facing features using React.js\nBuilding reusable components and front-end libraries for future use\nTranslating designs and wireframes into high-quality code\nOptimizing components for maximum performance across a vast array of web-capable devices and browsers";
 
 const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
   if (!AVAILABLE_JOB_TYPES.includes(jobType)) return <NotFound />;
@@ -68,7 +55,7 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
                 About {jobType.substring(0, jobType.length - 1)}
               </h3>
               <p className="font-400 text-neutral-700 flex flex-col gap-6">
-                {about
+                {sampleJob.about
                   .split("\n")
                   .filter((res) => res)
                   .map((para, index) => (
@@ -80,7 +67,7 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
                 Roles and Responsibilities
               </h3>
               <ul className="font-400 text-neutral-700 flex flex-col gap-1 list-disc">
-                {rolesAndResponsibilities
+                {sampleJob.responsibilities
                   .split("\n")
                   .filter((res) => res)
                   .map((res, index) => (
@@ -129,7 +116,7 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
               </div>
               <hr />
               <p className="font-400 text-neutral-700 flex flex-col gap-6">
-                {about
+                {sampleJob.about
                   .split("\n")
                   .filter((res) => res)
                   .map((para, index) => (
@@ -139,8 +126,11 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
             </div>
           </div>
           <div className="min-w-[447px] flex flex-col gap-6">
-            <SkillsContainer title="Skills" labels={skills} />
-            <SkillsContainer title="Extra Benefits" labels={extraBenefits} />
+            <SkillsContainer title="Skills" labels={sampleJob.skills} />
+            <SkillsContainer
+              title="Extra Benefits"
+              labels={sampleJob.extraBenefits}
+            />
           </div>
         </div>
       </div>
