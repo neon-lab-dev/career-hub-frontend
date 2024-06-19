@@ -4,9 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+/* * {
   @apply font-plus-jakarta-sans;
-}
+} */
 
 input {
   @apply font-poppins;

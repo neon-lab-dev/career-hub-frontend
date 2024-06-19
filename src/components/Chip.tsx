@@ -8,7 +8,7 @@ interface ChipProps {
     children: ReactNode;
 }
 
-const Button: React.FC<ChipProps> = ({ variant, onClick, children }) => {
+const Button: React.FC<ChipProps> = ({ variant, children }) => {
     const baseStyles = 'px-4 pb-[10px] pt-2 rounded-[5px] font-semibold';
 
     const variantStyles = {
@@ -32,7 +32,7 @@ const Button: React.FC<ChipProps> = ({ variant, onClick, children }) => {
 
     return (
         <div className={`w-[150px] flex gap-2 m-2 py-[20px] ${buttonClass} `}>
-            <button className='text-[14px]' >
+            <button className='text-[20px]' >
                 {children}
             </button>
             <Image src={getImageSource()} alt="Button Icon"  />
