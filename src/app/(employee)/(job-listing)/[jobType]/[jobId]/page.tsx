@@ -1,11 +1,11 @@
 import NotFound from "@/components/NotFound";
-import { AVAILABLE_JOB_TYPES } from "../page";
 import Image from "next/image";
 import { IMAGES } from "@/assets";
 import JobShareButton from "./_components/JobShareButton";
 import Button from "@/components/Button";
 import { SkillsContainer } from "./_components/SkillsContainer";
 import Link from "next/link";
+import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
 
 type Props = {
   params: {
