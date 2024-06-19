@@ -23,6 +23,10 @@ const config: Config = {
       boxShadow: {
         "primary-button": "0px 8px 24px -10px rgba(249, 83, 58, 0.50)",
       },
+      customBorder: {
+        'white-horizontal-line': 'rgba(255, 255, 255, 0.12)',
+        'gray-horizontal-line': 'rgba(89, 90, 97, 0.15)',
+      },
       fontFamily: {
         "plus-jakarta-sans": ["Plus Jakarta Sans", "sans-serif"],
         "Poppins": ["Poppins", "sans-serif"],
@@ -87,6 +91,7 @@ const config: Config = {
         error: {
           500: "#FF3333",
         },
+       
       },
       fontWeight: {
         100: "100",

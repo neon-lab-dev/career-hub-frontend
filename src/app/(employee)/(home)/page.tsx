@@ -6,7 +6,7 @@ import JobDetailCard from "@/components/JobDetailCard";
 import React from "react";
 import searchIcon from "../../../assets/icons/search-icon.svg";
 import location from "../../../assets/icons/location.svg";
-import Button from "@/components/reusable/Button";
+import StatusLabel from "@/components/StatusLabel";
 import CourseCard from "@/components/reusable/CourseCard";
 import cuveteLogo from "../../../assets/images/cuvette-logo.png";
 import cuveteLogo2 from "../../../assets/images/cuvette-logo2.png";
@@ -65,30 +65,26 @@ const HomePage = () => {
       />
 
 
-      <Button
+      <StatusLabel
         variant="applied"
-        onClick={() => console.log("Applied button clicked")}
       >
         Applied
-      </Button>
-      <Button
+      </StatusLabel>
+      <StatusLabel
         variant="rejected"
-        onClick={() => console.log("rejected button clicked")}
       >
         rejected
-      </Button>
-      <Button
+      </StatusLabel>
+      <StatusLabel
         variant="hired"
-        onClick={() => console.log("hired button clicked")}
       >
         hired
-      </Button>
-      <Button
+      </StatusLabel>
+      <StatusLabel
         variant="interview"
-        onClick={() => console.log("interview button clicked")}
       >
         interview
-      </Button>
+      </StatusLabel>
 
 
       <div className="flex overflow-hidden gap-6">
