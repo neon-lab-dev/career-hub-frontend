@@ -52,52 +52,7 @@ const HomePage = () => {
   return (
     <div>
       HomePage
-      <Chip variant="add" children="Chip content"/>
-      <Chip variant="close" children="Chip content"/>
-      <SearchField
-        searchPlaceholder="Job title or keyword"
-        locationPlaceholder="Any Location"
-        // onSearch={handleSearchChange}
-        // handleLocation={handleLocationClick}
-        searchIcon={searchIcon}
-        locationIcon={location}
-        className=""
-      />
-
-
-      <Button
-        variant="applied"
-        onClick={() => console.log("Applied button clicked")}
-      >
-        Applied
-      </Button>
-      <Button
-        variant="rejected"
-        onClick={() => console.log("rejected button clicked")}
-      >
-        rejected
-      </Button>
-      <Button
-        variant="hired"
-        onClick={() => console.log("hired button clicked")}
-      >
-        hired
-      </Button>
-      <Button
-        variant="interview"
-        onClick={() => console.log("interview button clicked")}
-      >
-        interview
-      </Button>
-
-
-      <div className="flex overflow-hidden gap-6">
-      {
-        courseDetails.map((details, index) => 
-          <CourseCard key={index} courseDetails={details} variant={index % 2 === 0 ? "A" : "B"}/>
-        )
-      }
-      </div>
+      <Chip variant="add" children={"add"}/>
     </div>
   );
 };

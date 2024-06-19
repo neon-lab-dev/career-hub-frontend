@@ -5,6 +5,20 @@ import hourGlass from '@/assets/icons/hourglass.svg';
 import correctPrimary from '@/assets/icons/correct-primary.svg';
 import crossPrimary from '@/assets/icons/correct-primary.svg';
 import application from '@/assets/icons/applications.svg';
+import arrow from '@/assets/icons/arrow_back.svg'
+import pen from '@/assets/icons/Pen.svg'
+import bin from '@/assets/icons/Trash Bin Trash.svg'
+import circle from '@/assets/icons/Add Circle.svg'
+import sucess from "@/assets/icons/image 9.svg"
+import papperclip from "@/assets/icons/Paperclip.svg"
+import hamburger from "@/assets/images/Hamburger Menu.svg"
+import close from "@/assets/icons/Close Circle.svg"
+import profile from "@/assets/images/Ellipse 169.svg"
+import down from "@/assets/icons/Alt Arrow Down.svg"
+
+
+
+
 
 export const IMAGES = {
   companyLogo,
@@ -12,4 +26,14 @@ export const IMAGES = {
   correctPrimary,
   crossPrimary,
   application,
+  arrow,
+  pen,
+  bin,
+  circle,
+  sucess,
+  papperclip,
+  hamburger,
+  close,
+  profile,
+  down
 };

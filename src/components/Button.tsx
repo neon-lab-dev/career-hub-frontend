@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "outline" | "muted" | "ghost";
+  variant?: "primary" | "secondary" | "outline" | "muted" | "ghost" | "normal" | "natural";
 };
 
 const classNames = {
@@ -17,6 +17,10 @@ const classNames = {
     muted:
       "border border-primary-200 bg-primary-50 text-primary-500 disabled:opacity-50",
     ghost: "",
+    normal:
+      "text-base bg-primary-500 text-white rounded-lg px-6 font-semibold py-2",
+    natural:
+    "text-base bg-neutral-100 rounded-lg px-6 font-semibold py-2"
   },
 } as const;
 
