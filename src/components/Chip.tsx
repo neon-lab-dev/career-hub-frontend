@@ -9,7 +9,7 @@ interface ChipProps {
     className?: string; // Allow custom class names to be passed
 }
 
-const Chip: React.FC<ChipProps> = ({ variant, children, className }) => {
+const Chip: React.FC<ChipProps> = ({ variant, children , className}) => {
     const baseStyles = 'px-4 pb-[10px] pt-2 rounded-[5px] font-semibold';
     
     const variantStyles = {
