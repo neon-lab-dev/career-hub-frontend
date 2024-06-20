@@ -1,10 +1,6 @@
-import Button from "@/components/Button";
-import JobDetailCard from "@/components/JobDetailCard";
-import CourseCard from "@/components/reusable/CourseCard";
 import React from "react";
-import searchIcon from "@/assets/icons/search-icon.svg";
-import location from "@/assets/icons/location.svg";
 import { COURSE_DETAILS } from "@/mockData/course";
+import CourseCard from "@/components/CourseCard";
 
 const TrendingTodayComponent = () => {
   return (

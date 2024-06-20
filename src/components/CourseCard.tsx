@@ -1,16 +1,16 @@
 import techLogo from "@/assets/images/tech-logo.png";
 import tickBlue from "@/assets/icons/tick-blue.svg";
 import tickWhite from "@/assets/icons/tick-mark-white.svg";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { twMerge } from "tailwind-merge";
 
 type CourseProps = {
   courseDetails: {
-    logo: string;
+    logo: StaticImageData;
     title: string;
     features: string[];
-    image: string;
-  }
+    image: StaticImageData;
+  };
   variant: "A" | "B";
 };
 
