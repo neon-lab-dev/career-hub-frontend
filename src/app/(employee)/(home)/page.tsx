@@ -2,9 +2,9 @@ import React from "react";
 import HeroComponent from "./_components/HeroComponent";
 import LatestJobYouMightLikeComponent from "./_components/LatestJobYouMightLikeComponent";
 import LatestInternshipsForYou from "./_components/LatestInternshipsForYouComponent";
-import TrendingToday from "./_components/TrendingTodayComponent";
-import OurValuableHiringPartnersComponent from "./_components/OurValuableHiringPartnersComponent";
-import WhatWeDoComponent from "./_components/WhatWeDoComponent";
+import TrendingToday from "../../../components/TrendingCourseToday";
+import WhatWeDoComponent from "../../../components/WhatWeDo";
+import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
 
 const HomePage = () => {
   return (
@@ -13,7 +13,7 @@ const HomePage = () => {
       <LatestJobYouMightLikeComponent />
       <LatestInternshipsForYou />
       <TrendingToday />
-      <OurValuableHiringPartnersComponent />
+      <OurValuableHiringPartners />
       <WhatWeDoComponent />
     </div>
   );

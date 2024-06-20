@@ -2,7 +2,7 @@ import React from "react";
 import { COURSE_DETAILS } from "@/mockData/course";
 import CourseCard from "@/components/CourseCard";
 
-const TrendingTodayComponent = () => {
+const TrendingCourseToday = () => {
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
       <h3 className="section-heading wrapper max-width m-auto">
@@ -25,4 +25,4 @@ const TrendingTodayComponent = () => {
   );
 };
 
-export default TrendingTodayComponent;
+export default TrendingCourseToday;

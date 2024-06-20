@@ -9,7 +9,7 @@ type Props = {
   jobTitle: string;
 };
 
-const JobShareButton = ({ jobTitle }: Props) => {
+const JobShareButtonComponent = ({ jobTitle }: Props) => {
   const shareUrl = () => {
     let path: string = "";
     if (typeof window !== "undefined") {
@@ -42,4 +42,4 @@ const JobShareButton = ({ jobTitle }: Props) => {
   );
 };
 
-export default JobShareButton;
+export default JobShareButtonComponent;

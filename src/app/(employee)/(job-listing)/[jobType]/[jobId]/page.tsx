@@ -1,12 +1,16 @@
 import NotFound from "@/components/NotFound";
 import Image from "next/image";
 import { IMAGES } from "@/assets";
-import JobShareButton from "./_components/JobShareButton";
+import JobShareButton from "./_components/JobShareButtonComponent";
 import Button from "@/components/Button";
-import { SkillsContainer } from "./_components/SkillsContainer";
+import SkillsContainerComponent from "./_components/SkillsContainerComponent";
 import Link from "next/link";
 import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
 import { sampleJob } from "@/mockData/jobs";
+import SimilarJobsForYou from "./_components/SimilarJobsForYouComponent";
+import TrendingCourseToday from "@/components/TrendingCourseToday";
+import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
+import WhatWeDo from "@/components/WhatWeDo";
 
 type Props = {
   params: {
@@ -126,14 +130,21 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
             </div>
           </div>
           <div className="min-w-[447px] flex flex-col gap-6">
-            <SkillsContainer title="Skills" labels={sampleJob.skills} />
-            <SkillsContainer
+            <SkillsContainerComponent
+              title="Skills"
+              labels={sampleJob.skills}
+            />
+            <SkillsContainerComponent
               title="Extra Benefits"
               labels={sampleJob.extraBenefits}
             />
           </div>
         </div>
       </div>
+      <SimilarJobsForYou />
+      <TrendingCourseToday />
+      <OurValuableHiringPartners />
+      <WhatWeDo />
     </div>
   );
 };

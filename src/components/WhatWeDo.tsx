@@ -1,6 +1,6 @@
 import React from "react";
 
-const WhatWeDoComponent = () => {
+const WhatWeDo = () => {
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14 wrapper max-width">
       <h3 className="section-heading">
@@ -34,4 +34,4 @@ const WhatWeDoComponent = () => {
   );
 };
 
-export default WhatWeDoComponent;
+export default WhatWeDo;

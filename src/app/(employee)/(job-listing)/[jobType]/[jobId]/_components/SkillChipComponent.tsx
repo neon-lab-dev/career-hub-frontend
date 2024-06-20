@@ -1,6 +1,6 @@
 import React from "react";
 
-const SkillChip = ({ label }: { label: string }) => {
+const SkillChipComponent = ({ label }: { label: string }) => {
   return (
     <div className="border border-secondary-200 rounded-[100px] font-500 text-secondary-400 text-sm px-4 py-2">
       {label}
@@ -8,4 +8,4 @@ const SkillChip = ({ label }: { label: string }) => {
   );
 };
 
-export default SkillChip;
+export default SkillChipComponent;
