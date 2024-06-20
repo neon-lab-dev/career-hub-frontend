@@ -7,6 +7,7 @@ import OurValuableHiringPartnersComponent from "./_components/OurValuableHiringP
 import WhatWeDoComponent from "./_components/WhatWeDoComponent";
 
 const HomePage = () => {
+  return <div>HomePage</div>;
   return (
     <div className="flex flex-col">
       <HeroComponent />
