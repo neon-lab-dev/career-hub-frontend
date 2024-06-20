@@ -5,7 +5,7 @@ import JobDetailCard from "@/components/JobDetailCard";
 import React from "react";
 import searchIcon from "../../../assets/icons/search-icon.svg";
 import location from "../../../assets/icons/location.svg";
-import Button from "@/components/reusable/Button";
+import StatusLabel from "@/components/StatusLabel";
 import CourseCard from "@/components/reusable/CourseCard";
 import cuveteLogo from "../../../assets/images/cuvette-logo.png";
 import cuveteLogo2 from "../../../assets/images/cuvette-logo2.png";
