@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Conventions
 
-## Getting Started
+1. Page naming
+<!-- 2. Component naming -->
+2. Try using global CSS rather than Inline css
+3. Distributing tasks
+4. One branch one Issue
+5. Deletion of branch after task completion|
 
-First, run the development server:
+## Page Naming
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Page names should be in PascalCase.
+- Page names should be what the page route is + Page.
+- If the pages has the components that are used in that page only, the create a folder `_components` inside the folder and put the components in that folder. THe components name should be as ComponentName + Component.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Using CSS
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- If the classNames are being used more than once in a component, then create a variable for that className and use it.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## One branch one Issue
 
-## Learn More
+- Create a branch for each issue itself and work on that issue in that branch only.
 
-To learn more about Next.js, take a look at the following resources:
+## Deletion of branch after task completion
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Whoever merges the branch should delete the branch after merging it to the main branch.
+- If the branch is merged, don't work on that branch again. Create a new branch for the new issue.
