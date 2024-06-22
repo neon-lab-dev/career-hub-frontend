@@ -1,10 +1,11 @@
 import companyLogo from "@/assets/images/company-logo.png";
 
 // ICONS
-import hourGlass from '@/assets/icons/hourglass.svg';
-import correctPrimary from '@/assets/icons/correct-primary.svg';
-import crossPrimary from '@/assets/icons/correct-primary.svg';
-import application from '@/assets/icons/applications.svg';
+import hourGlass from "@/assets/icons/hourglass.svg";
+import correctPrimary from "@/assets/icons/correct-primary.svg";
+import crossPrimary from "@/assets/icons/correct-primary.svg";
+import application from "@/assets/icons/applications.svg";
+import share from "@/assets/icons/Share.svg";
 import arrow from '@/assets/icons/arrow_back.svg'
 import pen from '@/assets/icons/Pen.svg'
 import bin from '@/assets/icons/Trash Bin Trash.svg'
@@ -36,4 +37,12 @@ export const IMAGES = {
   close,
   profile,
   down
+};
+
+export const ICONS = {
+  hourGlass,
+  correctPrimary,
+  crossPrimary,
+  application,
+  share,
 };
