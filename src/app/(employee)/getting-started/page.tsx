@@ -1,11 +1,45 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react';
+import Button from "@/components/Button";
+import Input from "@/components/Input";
+import GetStartedLayout from "./_components/getStartedLayout";
+import Image from 'next/image';
+import { IMAGES } from '@/assets';
+import CertificateModel from './_components/CertificateModel';
+import EducationModel from './_components/EducationModel';
+import ProjectDetails from './_components/ProjectDetails';
+import WorkExp from './_components/WorkExp';
+import Link from 'next/link';
 
-const page = () => {
+
+const Page = () => {
+  const [Step, setStep] = useState(1);
+  const [FirstName, setFirstName] = useState('');
+  const [LastName, setLastName] = useState('');
+  const [Dob, setDob] = useState('');
+  const [Gender, setGender] = useState('');
+  const [Loading, setLoading] = useState(false);
+
+  const handleContinue = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    setLoading(true);
+    // Simulate async operation, e.g., API call or timeout
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Move to the next step
+    setStep(Step + 1);
+    setLoading(false);
+  };
+
+  const goToPreviousStep = () => {
+    if (Step > 1) {
+      setStep(Step - 1);
+    }
+  };
   return (
-    <GetStartedLayout progress={step * 11.3} goToPreviousStep={goToPreviousStep}>
+    <GetStartedLayout progress={Step * 11.3} goToPreviousStep={goToPreviousStep}>
       <div className="flex justify-center w-full">
         <div className="flex justify-center gap-4">
-          {step === 1 && (
+          {Step === 1 && (
             <div>
               <div className="flex py-6 font-plus-jakarta-sans text-3xl pr-4 font-700">
                 <span>Let&apos;s get started</span>
@@ -16,7 +50,7 @@ const page = () => {
                     <label htmlFor="firstName">First name</label>
                     <Input
                       id="firstName"
-                      value={firstName}
+                      value={FirstName}
                       onChange={(e) => setFirstName(e.target.value)}
                       placeholder="Enter first name"
                     />
@@ -25,7 +59,7 @@ const page = () => {
                     <label htmlFor="lastName">Last name</label>
                     <Input
                       id="lastName"
-                      value={lastName}
+                      value={LastName}
                       onChange={(e) => setLastName(e.target.value)}
                       placeholder="Enter last name"
                     />
@@ -36,7 +70,7 @@ const page = () => {
                   <Input
                     id="dob"
                     type="date"
-                    value={dob}
+                    value={Dob}
                     onChange={(e) => setDob(e.target.value)}
                     className="placeholder:uppercase"
                   />
@@ -58,13 +92,13 @@ const page = () => {
                     </button>
                   </div>
                 </div>
-                <Button variant="primary" type="submit" disabled={loading}>
-                  {loading ? 'Loading...' : 'Continue'}
+                <Button variant="primary" type="submit" disabled={Loading}>
+                  {Loading ? 'Loading...' : 'Continue'}
                 </Button>
               </form>
             </div>
           )}
-          {step === 2 && (
+          {Step === 2 && (
             <div>
               <div className="flex  py-6 font-plus-jakarta-sans text-3xl pr-4 font-700">
                 <span>Where do you live currently?</span>
@@ -102,13 +136,13 @@ const page = () => {
                     />
                   </div>
                 </div>
-                <Button variant="primary" type="submit" className='mt-4' disabled={loading}>
-                  {loading ? 'Loading...' : 'Continue'}
+                <Button variant="primary" type="submit" className='mt-4' disabled={Loading}>
+                  {Loading ? 'Loading...' : 'Continue'}
                 </Button>
               </form>
             </div>
           )}
-          {step === 3 && (
+          {Step === 3 && (
             <div>
               <div className="flex  font-plus-jakarta-sans  py-6  font-900 text-3xl pr-4">
                 <span>Education</span>
@@ -128,12 +162,12 @@ const page = () => {
                 </div>
               </div>
               <EducationModel />
-              <Button variant="primary" type="submit" className='mt-4' disabled={loading} onClick={handleContinue}>
-                {loading ? 'Loading...' : 'contiune'}
+              <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+                {Loading ? 'Loading...' : 'contiune'}
               </Button>
             </div>
           )}
-          {step === 4 && (
+          {Step === 4 && (
             <div>
               <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
                 <span>Project Details</span>
@@ -151,14 +185,14 @@ const page = () => {
               </div>
               <ProjectDetails />
               <div className='flex gap-8 items-center text-xl'>
-                <Button variant="primary" type="submit" className='mt-4' disabled={loading} onClick={handleContinue}>
-                  {loading ? 'Loading...' : 'contiune'}
+                <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+                  {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
               </div>
             </div>
           )}
-          {step === 5 && (
+          {Step === 5 && (
             <div>
               <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
                 <span>Work Experience</span>
@@ -177,14 +211,14 @@ const page = () => {
               </div>
               <WorkExp />
               <div className='flex gap-8 items-center text-xl'>
-                <Button variant="primary" type="submit" className='mt-4' disabled={loading} onClick={handleContinue}>
-                  {loading ? 'Loading...' : 'contiune'}
+                <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+                  {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
               </div>
             </div>
           )}
-          {step === 6 && (
+          {Step === 6 && (
             <div>
               <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
                 <span>Certifications</span>
@@ -206,14 +240,14 @@ const page = () => {
               </div> */}
               <CertificateModel />
               <div className='flex gap-8 items-center text-xl'>
-                <Button variant="primary" type="submit" className='mt-4' disabled={loading} onClick={handleContinue}>
-                  {loading ? 'Loading...' : 'contiune'}
+                <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+                  {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
               </div>
             </div>
           )}
-          {step === 7 && (
+          {Step === 7 && (
             <div>
               <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
                 <span>Skills</span>
@@ -228,12 +262,12 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <Button variant="primary" type="submit" className='mt-4' disabled={loading} onClick={handleContinue}>
-                {loading ? 'Loading...' : 'contiune'}
+              <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+                {Loading ? 'Loading...' : 'contiune'}
               </Button>
             </div>
           )}
-          {step === 8 && (
+          {Step === 8 && (
             <div>
               <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
                 <span>Upload your resume</span>
@@ -253,12 +287,12 @@ const page = () => {
                   </div>
                 </div>
               </div>
-              <Button variant="primary" type="submit" className='mt-4' disabled={loading} onClick={handleContinue}>
-                {loading ? 'Loading...' : 'contiune'}
+              <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+                {Loading ? 'Loading...' : 'contiune'}
               </Button>
             </div>
           )}
-          {step === 9 && (
+          {Step === 9 && (
             <div className=''>
               <div className="flex  justify-center jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
                 <span>Your Profile is created successfully</span>
@@ -268,8 +302,8 @@ const page = () => {
                 <Image src={IMAGES.sucess} alt='bin' />
               </div>
               <div className='flex justify-center'>
-                <Button variant="primary" type="submit" className='mt-4' disabled={loading} onClick={handleContinue}>
-                  <Link href="/">                  {loading ? 'Loading...' : 'Back to home'}
+                <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+                  <Link href="/">                  {Loading ? 'Loading...' : 'Back to home'}
                   </Link>
                 </Button>
               </div>
@@ -281,4 +315,4 @@ const page = () => {
   );
 };
 
-export default page
+export default Page
