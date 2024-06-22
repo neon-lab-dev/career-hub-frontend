@@ -1,51 +1,20 @@
-"use client";
-
-
 import React from "react";
-import cuveteLogo from "../../../assets/images/cuvette-logo.png";
-import cuveteLogo2 from "../../../assets/images/cuvette-logo2.png";
-import student1 from "../../../assets/images/student-1.png";
-import student2 from "../../../assets/images/student2.png";
-
-
-export type TCourseDetails = {
-  logo: any,
-  title: string,
-  features: string[],
-  path: string,
-  image: any
-}
+import HeroComponent from "./_components/HeroComponent";
+import LatestJobYouMightLikeComponent from "./_components/LatestJobYouMightLikeComponent";
+import LatestInternshipsForYou from "./_components/LatestInternshipsForYouComponent";
+import TrendingToday from "../../../components/TrendingCourseToday";
+import WhatWeDoComponent from "../../../components/WhatWeDo";
+import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
 
 const HomePage = () => {
-  const courseDetails: TCourseDetails[] = [
-    {
-    logo: cuveteLogo,
-    title: "Pay After Placement Program!",
-    features: [
-      "100% Job guarantee with average CTC of 5 LPA",
-      "Direct Referral in our 6500+ partner companies",
-      "Resume building, 1:1 interviews, Mentorship"
-    ],
-    path: "",
-    image: student1
-  },
-    {
-    logo: cuveteLogo2,
-    title: "Full Stack Development",
-    features: [
-      "100% Fully Refundable Program",
-      "Earn upto  25LPA Salary",
-      "Top mentors from MAANG"
-    ],
-    path: "",
-    image: student2
-  },
- 
- 
-]
   return (
-    <div>
-      HomePage
+    <div className="flex flex-col">
+      <HeroComponent />
+      <LatestJobYouMightLikeComponent />
+      <LatestInternshipsForYou />
+      <TrendingToday />
+      <OurValuableHiringPartners />
+      <WhatWeDoComponent />
     </div>
   );
 };

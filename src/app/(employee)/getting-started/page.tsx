@@ -1,40 +1,6 @@
-"use client"
-import React, { useState } from 'react';
-import Button from "@/components/Button";
-import Input from "@/components/Input";
-import GetStartedLayout from "./_components/getStartedLayout";
-import Image from 'next/image';
-import { IMAGES } from '@/assets';
-import CertificateModel from './_components/CertificateModel';
-import EducationModel from './_components/EducationModel';
-import ProjectDetails from './_components/ProjectDetails';
-import WorkExp from './_components/WorkExp';
-import Link from 'next/link';
+import React from 'react'
 
-const GettingStarted = () => {
-  const [step, setStep] = useState(1);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [dob, setDob] = useState('');
-  const [gender, setGender] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handleContinue = async (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-    setLoading(true);
-    // Simulate async operation, e.g., API call or timeout
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // Move to the next step
-    setStep(step + 1);
-    setLoading(false);
-  };
-
-  const goToPreviousStep = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
-
+const page = () => {
   return (
     <GetStartedLayout progress={step * 11.3} goToPreviousStep={goToPreviousStep}>
       <div className="flex justify-center w-full">
@@ -315,4 +281,4 @@ const GettingStarted = () => {
   );
 };
 
-export default GettingStarted;
+export default page
