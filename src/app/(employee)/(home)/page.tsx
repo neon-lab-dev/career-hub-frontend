@@ -1,5 +1,4 @@
 "use client";
-
 import SearchField from "@/components/reusable/SearchField";
 import Input from "@/components/Input";
 import JobDetailCard from "@/components/JobDetailCard";
@@ -52,48 +51,9 @@ const HomePage = () => {
   return (
     <div>
       HomePage
-      <Chip variant="add" children="Chip content"/>
-      <Chip variant="close" children="Chip content"/>
-      <SearchField
-        searchPlaceholder="Job title or keyword"
-        locationPlaceholder="Any Location"
-        // onSearch={handleSearchChange}
-        // handleLocation={handleLocationClick}
-        searchIcon={searchIcon}
-        locationIcon={location}
-        className=""
-      />
+      <Chip variant="add">Chip Content</Chip>
+      <Chip variant="close">Chip Content</Chip>
 
-
-      <StatusLabel
-        variant="applied"
-      >
-        Applied
-      </StatusLabel>
-      <StatusLabel
-        variant="rejected"
-      >
-        rejected
-      </StatusLabel>
-      <StatusLabel
-        variant="hired"
-      >
-        hired
-      </StatusLabel>
-      <StatusLabel
-        variant="interview"
-      >
-        interview
-      </StatusLabel>
-
-
-      <div className="flex overflow-hidden gap-6">
-      {
-        courseDetails.map((details, index) => 
-          <CourseCard key={index} courseDetails={details} variant={index % 2 === 0 ? "A" : "B"}/>
-        )
-      }
-      </div>
     </div>
   );
 };
