@@ -42,7 +42,7 @@ const GettingStarted = () => {
           {step === 1 && (
             <div>
               <div className="flex py-6 font-plus-jakarta-sans text-3xl pr-4 font-700">
-                <span>Let's get started</span>
+                <span>Let&apos;s get started</span>
               </div>
               <form onSubmit={handleContinue}>
                 <div className="flex gap-10">
@@ -230,7 +230,7 @@ const GettingStarted = () => {
                     <span className=' text-lg text-neutral-900 font-700'>Certificate From google </span>
                     <span className=' text-lg text-neutral-500'> | Apr 2022</span>
                   </div>
-                  <Image src={IMAGES.pen} className='mt-1' alt='bin'/>
+                  <Image src={IMAGES.pen} className='mt-1' alt='bin' />
                   <Image src={IMAGES.bin} className='mt-1' alt='bin' />
                 </div>
               </div>

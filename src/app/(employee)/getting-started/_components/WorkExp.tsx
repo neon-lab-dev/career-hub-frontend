@@ -11,9 +11,9 @@ const WorkExp = () => {
         <div>{/* The button to open modal */}
             <div className=' flex justify-end'>
                 <label htmlFor="my_modal_7" className=" bg-white">
-                    <div className=' flex justify-end gap-2 cursor-pointer' htmlFor="my_modal_7">
+                    <div className=' flex justify-end gap-2 cursor-pointer'>
                         <span className=' text-primary-500 text-[16px] font-600'>Add More</span>
-                        <Image src={IMAGES.circle} />
+                        <Image src={IMAGES.circle} alt='circle' />
                     </div>
                 </label>
             </div>
@@ -64,7 +64,6 @@ const WorkExp = () => {
                         <label htmlFor="Work Description">Work Description</label>
                         <textarea
                             id="Work Description"
-                            type="text"
                             placeholder="You can write about what was the goal of this project? How did you develop this project? and What are some important features of the project?"
                             className='border p-4 rounded-xl'
                         />

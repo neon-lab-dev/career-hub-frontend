@@ -1,18 +1,12 @@
 "use client";
 
-import SearchField from "@/components/reusable/SearchField";
-import Input from "@/components/Input";
-import JobDetailCard from "@/components/JobDetailCard";
+
 import React from "react";
-import searchIcon from "../../../assets/icons/search-icon.svg";
-import location from "../../../assets/icons/location.svg";
-import Button from "@/components/reusable/Button";
-import CourseCard from "@/components/reusable/CourseCard";
 import cuveteLogo from "../../../assets/images/cuvette-logo.png";
 import cuveteLogo2 from "../../../assets/images/cuvette-logo2.png";
 import student1 from "../../../assets/images/student-1.png";
 import student2 from "../../../assets/images/student2.png";
-import Chip from "@/components/Chip";
+
 
 export type TCourseDetails = {
   logo: any,
@@ -52,7 +46,6 @@ const HomePage = () => {
   return (
     <div>
       HomePage
-      <Chip variant="add" children={"add"}/>
     </div>
   );
 };

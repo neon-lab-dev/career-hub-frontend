@@ -2,7 +2,12 @@ import React from 'react';
 import { IMAGES } from "@/assets";
 import Image from "next/image";
 
-const GetStartedLayout = ({ children, progress, goToPreviousStep }) => {
+interface GetStartedLayoutProps {
+  children: React.ReactNode; // Define the type for children
+  progress: number; // Define the type for progress (assuming it's a number)
+  goToPreviousStep: () => void; // Define the type for goToPreviousStep (assuming it's a function that returns void)
+}
+const GetStartedLayout: React.FC<GetStartedLayoutProps> = ({ children, progress, goToPreviousStep }) => {
   return (
     <div className="bg-[#F5F6FA] w-full p-6">
       <div className="bg-white pt-10 mb-10 rounded-2xl mx-32 h-[600px]">

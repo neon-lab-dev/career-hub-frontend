@@ -11,9 +11,9 @@ const CertificateModel = () => {
         <div>{/* The button to open modal */}
             <div className=' flex justify-end'>
                 <label htmlFor="my_modal_7" className=" bg-white">
-                    <div className=' flex justify-end gap-2 cursor-pointer' htmlFor="my_modal_7">
+                    <div className=' flex justify-end gap-2 cursor-pointer'>
                         <span className=' text-primary-500 text-[16px] font-600'>Add More</span>
-                        <Image src={IMAGES.circle} />
+                        <Image src={IMAGES.circle} alt='circle' />
                     </div>
                 </label>
             </div>
