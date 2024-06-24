@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 const Sidebar = () => {
   const pathname = usePathname();
   return (
-    <div className="pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 h-full flex flex-col gap-16">
+    <div className="w-[177px] pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 h-full flex flex-col gap-16">
       <span className="text-3xl font-bold pr-6">
         <Link href="/">Logo</Link>
       </span>

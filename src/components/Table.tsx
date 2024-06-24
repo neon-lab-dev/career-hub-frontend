@@ -11,7 +11,7 @@ type TableProps = {
 
 const Table: React.FC<TableProps> = ({ headers, data, renderCustomCell, className }) => {
   return (
-    <div className={twMerge(`w-full overflow-x-auto max-w-[1153px] mx-auto ${className}`)}>
+    <div className={twMerge(`w-[full] overflow-x-auto max-w-[1153px] mx-auto ${className}`)}>
       <div className="rounded-[14px]">
         <table className="table w-full">
           <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500">

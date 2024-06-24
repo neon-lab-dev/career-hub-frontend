@@ -78,7 +78,7 @@ const Dashboard = () => {
 
   return (
     <div className="bg-[#f5f6fa] p-6 flex flex-col gap-6">
-      <div className="flex items-center gap-4 overflow-x-auto max-w-[1050px]">
+      <div className="flex items-center gap-4 overflow-x-auto ">
         <KPICard
           image={applicationIcon}
           title="Jobs Posted"
