@@ -1,16 +1,18 @@
 import { DataItem, Header } from "@/app/(employee)/applications/page";
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 type TableProps = {
   headers: Header[];
   data: DataItem[];
   renderCustomCell?: (column: Header, item: DataItem) => React.ReactNode;
+  className: string;
 };
 
-const Table: React.FC<TableProps> = ({ headers, data, renderCustomCell }) => {
+const Table: React.FC<TableProps> = ({ headers, data, renderCustomCell, className }) => {
   return (
-    <div className="overflow-x-auto">
-      <div className="w-full max-w-[1153px] mx-auto overflow-x-auto rounded-[14px]">
+    <div className={twMerge(`w-full overflow-x-auto max-w-[1153px] mx-auto ${className}`)}>
+      <div className="rounded-[14px]">
         <table className="table w-full">
           <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500">
             <tr>

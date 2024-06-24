@@ -69,6 +69,7 @@ const config: Config = {
         neutral: {
           50: "#f7f7f8",
           100: "#eeeef0",
+          150: "#E5E5E8",
           200: "#d8d9df",
           300: "#b6b7c3",
           400: "#8f91a1",
@@ -79,6 +80,7 @@ const config: Config = {
           900: "#383842",
           925: "#434447",
           950: "#25252c",
+          975: "#434347"
         },
         success : {
           50: "#EFFEF7",

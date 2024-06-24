@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 
 type cardProp = {
-  image: string;
+  image: any;
   value: number | string;
   title: string;
   alt: string;
