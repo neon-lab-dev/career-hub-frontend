@@ -13,13 +13,13 @@ const HeroComponent = () => {
             <span className="highlight text-white">Health Career</span> Today{" "}
             <br className="hidden xl:block" />
             with Top Internships and Jobs!
-            {/* <Image
+            <Image
               src={IMAGES.hero1}
               alt="hero1"
               width={106}
               height={106}
               quality={100}
-              className="absolute -top-12 -left-36"
+              className="absolute h-[48px] w-[48px] xl:h-[106px] xl:w-[106px] -top-16 left-9 xl:-left-48"
             />
             <Image
               src={IMAGES.hero2}
@@ -27,8 +27,8 @@ const HeroComponent = () => {
               width={106}
               height={106}
               quality={100}
-              className="absolute -top-12 -right-36"
-            /> */}
+              className="absolute h-[58px] w-[58px] xl:h-[106px] xl:w-[106px] -top-24 xl:-top-16 right-9 xl:-right-44 rotate-12 xl:rotate-0"
+            />
           </h1>
           <p className="text-secondary-600 xl:max-w-3xl text-base sm:text-lg xl:text-2xl leading-[126%] max-w-sm">
             Find the best opportunities in the health industry. From internships
@@ -67,22 +67,22 @@ const HeroComponent = () => {
               </span>
             </div>
           ))}
-          {/* <Image
-            src={IMAGES.hero3}
-            alt="hero1"
-            width={84}
-            height={84}
-            quality={100}
-            className="absolute -top-32 left-6"
-          />
           <Image
             src={IMAGES.hero3}
             alt="hero1"
             width={84}
             height={84}
             quality={100}
-            className="absolute -top-32 right-6"
-          /> */}
+            className="absolute -bottom-20 xl:-top-40 left-6 xl:left-0 h-[61px] w-[61px] xl:h-[84px] xl:w-[84px] -rotate-12"
+          />
+          <Image
+            src={IMAGES.hero4}
+            alt="hero1"
+            width={84}
+            height={84}
+            quality={100}
+            className="absolute -bottom-24 xl:-top-40 xl:right-0 right-6 h-[61px] w-[61px] xl:h-[84px] xl:w-[84px]"
+          />
         </div>
       </div>
     </div>
