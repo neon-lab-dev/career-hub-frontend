@@ -1,10 +1,26 @@
+"use client";
 import React from "react";
 import profileImg from "@/assets/icons/profileImg.svg";
 import arrowDown from "@/assets/icons/Alt Arrow Down.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
+  const pathname = usePathname();
+  const getTitle = (path: string) => {
+    const knownPrefixes = ['/admin/', '/employer/'];
+    let title = path;
+    knownPrefixes.forEach(prefix => {
+      if (title.startsWith(prefix)) {
+        title = title.replace(prefix, '');
+      }
+    });
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  };
+
+  const title = getTitle(pathname);
+  
   // Dropdown items
   const dropdownItems = [
     {
@@ -23,7 +39,7 @@ const Header = () => {
   return (
     <div className="bg-white px-7 py-4 font-plus-jakarta-sans flex justify-between items-center">
       {/* Heading */}
-      <h1 className="text-2xl font-700 text-secondary-900">Home</h1>
+      <h1 className="text-2xl font-700 text-secondary-900">{title}</h1>
 
       {/* Profile Dropdown */}
       <div

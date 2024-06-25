@@ -114,6 +114,7 @@ const Dashboard = () => {
           <Image src={addCircle} alt="addCircle" />
         </Button>
       </div>
+
       <Table
       className="w-full max-w-full"
         headers={headers}
