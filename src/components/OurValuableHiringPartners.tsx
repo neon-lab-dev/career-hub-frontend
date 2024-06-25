@@ -7,8 +7,9 @@ const OurValuableHiringPartners = () => {
   return (
     <div className="bg-primary-50">
       <div className="py-section flex flex-col items-center justify-center gap-14 max-width">
-        <h3 className="section-heading">
-          Our Valuable <span className="highlight">Hiring Partners</span>
+        <h3 className="section-heading text-center xl:text-left">
+          Our Valuable <br className="xl:hidden" />
+          <span className="highlight">Hiring Partners</span>
         </h3>
         <div className="w-full overflow-hidden">
           <Marquee autoFill className="flex items-center justify-center">
