@@ -1,16 +1,18 @@
 import React from 'react';
 import Image from 'next/image';
+import { twMerge } from "tailwind-merge";
 
 type cardProp = {
   image: any;
   value: number | string;
   title: string;
   alt: string;
+  classNames?: string;
 };
 
-const KPICard: React.FC<cardProp> = ({ image, alt, value, title }) => {
+const KPICard: React.FC<cardProp> = ({ image, alt, value, title, classNames }) => {
   return (
-    <div className="p-4 flex items-center w-[17.25rem] h-[5.5625rem] bg-[#ffffff] rounded-[0.875rem] gap-4">
+    <div className={twMerge(`p-4 flex items-center max-w-[17.25rem] h-[5.5625rem] bg-[#ffffff] rounded-[0.875rem] gap-4 ${classNames}`)}>
       <div className="h-[3rem] w-[3rem] border border-primary-100 bg-primary-50 rounded-full flex justify-center items-center">
         <Image
           src={image}

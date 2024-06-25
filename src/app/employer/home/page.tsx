@@ -80,24 +80,28 @@ const Dashboard = () => {
     <div className="bg-[#f5f6fa] p-6 flex flex-col gap-6">
       <div className="flex items-center gap-4 overflow-x-auto ">
         <KPICard
+        classNames="w-full max-w-full"
           image={applicationIcon}
           title="Jobs Posted"
           value="24"
           alt="application-icon"
         />
         <KPICard
+        classNames="w-full max-w-full"
           image={hourglass}
           title="Internships Posted"
           value="10 "
           alt="application-icon"
         />
         <KPICard
+        classNames="w-full max-w-full"
           image={checkCircle}
           title="Hired"
           value="4"
           alt="application-icon"
         />
         <KPICard
+        classNames="w-full max-w-full"
           image={closeCircle}
           title="Rejected"
           value="10"

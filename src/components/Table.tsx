@@ -6,7 +6,7 @@ type TableProps = {
   headers: Header[];
   data: DataItem[];
   renderCustomCell?: (column: Header, item: DataItem) => React.ReactNode;
-  className: string;
+  className?: string;
 };
 
 const Table: React.FC<TableProps> = ({ headers, data, renderCustomCell, className }) => {

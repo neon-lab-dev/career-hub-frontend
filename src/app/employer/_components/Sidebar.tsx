@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
                 pathname === navlink?.path
                   ? "text-primary-500"
                   : "text-neutral-600"
-              } text-sm font-500`}
+              } text-sm font-600`}
             >
               {
                 navlink?.icon &&
@@ -63,7 +63,6 @@ const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
           </div>
         ))}
       </div>
-
 
     </div>
   );
