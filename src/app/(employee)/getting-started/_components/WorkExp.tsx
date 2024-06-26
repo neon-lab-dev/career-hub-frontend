@@ -20,14 +20,14 @@ const WorkExp = () => {
             {/* Put this part before </body> tag */}
             <input type="checkbox" id="my_modal_7" className="modal-toggle" />
             <div className="modal" role="dialog" >
-                <div className=" max-w-3xl modal-box">
+                <div className=" max-w-3xl max-md:w-[350px] modal-box">
                     <div className="flex gap-6 mt-4">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="Company Name">Company Name</label>
                             <Input
                                 id="Company Name"
                                 placeholder="eg., Google"
-                                className='w-[350px]'
+                                className='w-[350px]  max-md:w-[140px] max-md:placeholder:text-xs'
                             />
                         </div>
                         <div className="flex flex-col gap-2">
@@ -35,7 +35,7 @@ const WorkExp = () => {
                             <Input
                                 id="pinCode"
                                 placeholder="mm/yyyy"
-                                className='w-[350px]'
+                                className='w-[350px]  max-md:w-[140px] max-md:placeholder:text-xs'
                             />
                         </div>
                     </div>
@@ -46,7 +46,7 @@ const WorkExp = () => {
                                 id="From"
                                 placeholder=""
                                 type='month'
-                                className='w-[350px]'
+                                className='w-[350px]  max-md:w-[140px] max-md:placeholder:text-xs'
 
                             />
                         </div>
@@ -56,7 +56,7 @@ const WorkExp = () => {
                                 id="to"
                                 placeholder=""
                                 type='month'
-                                className='w-[350px]'
+                                className='w-[350px]  max-md:w-[140px] max-md:placeholder:text-xs   '
                             />
                         </div>
                     </div>

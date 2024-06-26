@@ -20,22 +20,23 @@ const CertificateModel = () => {
             {/* Put this part before </body> tag */}
             <input type="checkbox" id="my_modal_7" className="modal-toggle" />
             <div className="modal" role="dialog" >
-                <div className="modal-box w-[700px]">
+                <div className="modal-box w-[700px] max-md:w-[350px]">
                     <div className="flex flex-col mt-4 gap-2 ">
                         <label htmlFor="Certificate Name">Certificate Name</label>
                         <Input
                             id="Certificate Name"
                             type="text"
                             placeholder="eg., UI UX Design Certificate"
+                            className='max-md:placeholder:text-xs'
                         />
                     </div>
-                    <div className="flex gap-6 mt-4">
+                    <div className="flex max-md:flex-wrap gap-6 max-md:gap-2 mt-4">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="Certificate link / ID">Certificate link / ID</label>
                             <Input
                                 id="Certificate link / ID"
                                 placeholder="link here"
-                                className=''
+                                className=' max-md:w-[140px] max-md:placeholder:text-xs'
                             />
                         </div>
                         <div className="flex flex-col gap-2">
@@ -44,6 +45,7 @@ const CertificateModel = () => {
                                 id="pinCode"
                                 placeholder="mm/yyyy"
                                 type='month'
+                                className=' max-md:w-[140px] max-md:placeholder:text-xs'
                             />
                         </div>
                     </div>

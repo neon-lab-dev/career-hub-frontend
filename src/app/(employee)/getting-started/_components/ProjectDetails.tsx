@@ -44,7 +44,7 @@ const ProjectDetails = () => {
                                 id="From"
                                 placeholder=""
                                 type='month'
-                                className='w-[250px]'
+                                className='w-[250px]  max-md:w-[140px] max-md:placeholder:text-xs'
 
                             />
                         </div>
@@ -54,7 +54,7 @@ const ProjectDetails = () => {
                                 id="to"
                                 placeholder=""
                                 type='month'
-                                className='w-[250px]'
+                                className='w-[250px]  max-md:w-[140px] max-md:placeholder:text-xs'
                             />
                         </div>
                     </div>

@@ -40,19 +40,20 @@ const Page = () => {
       <div className="flex justify-center w-full">
         <div className="flex justify-center gap-4">
           {Step === 1 && (
-            <div>
-              <div className="flex py-6 font-plus-jakarta-sans text-3xl pr-4 font-700">
+            <div className=' '>
+              <div className="flex py-6 font-plus-jakarta-sans text-3xl max-lg:text-2xl max-sm:text-xl pr-4 font-700">
                 <span>Let&apos;s get started</span>
               </div>
               <form onSubmit={handleContinue}>
-                <div className="flex gap-10">
+                <div className="flex max-lg:flex-wrap gap-10 max-lg:gap-4">
                   <div className="flex flex-col gap-2">
                     <label htmlFor="firstName">First name</label>
                     <Input
                       id="firstName"
                       value={FirstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      placeholder="Enter first name"
+                      placeholder="John"
+                      className=' max-md:w-[140px] max-md:placeholder:text-xs max-sm:w-[11  0px]'
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -61,7 +62,8 @@ const Page = () => {
                       id="lastName"
                       value={LastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      placeholder="Enter last name"
+                      placeholder="Doe"
+                      className=' max-md:w-[140px] max-md:placeholder:text-xs max-sm:w-[110px]'
                     />
                   </div>
                 </div>
@@ -92,19 +94,21 @@ const Page = () => {
                     </button>
                   </div>
                 </div>
-                <Button variant="primary" type="submit" disabled={Loading}>
-                  {Loading ? 'Loading...' : 'Continue'}
-                </Button>
+                <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-5 '>
+                  <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[230px]'>
+                    {Loading ? 'Loading...' : 'Continue'}
+                  </Button>
+                </div>
               </form>
             </div>
           )}
           {Step === 2 && (
             <div>
-              <div className="flex  py-6 font-plus-jakarta-sans text-3xl pr-4 font-700">
+              <div className="flex  py-6 font-plus-jakarta-sans text-3xl max-md:text-xl max-sm:text-lg pr-4 font-700">
                 <span>Where do you live currently?</span>
               </div>
               <form onSubmit={handleContinue}>
-                <div className="flex flex-col mt-4 gap-2">
+                <div className="flex flex-col mt-4 gap-2 max">
                   <label htmlFor="addressLine1">Address Line 1</label>
                   <Input
                     id="addressLine1"
@@ -120,12 +124,14 @@ const Page = () => {
                     placeholder="Enter address line 2"
                   />
                 </div>
-                <div className="flex gap-10 mt-4">
+                <div className="flex gap-10 max-md:gap-4 mt-4">
                   <div className="flex flex-col gap-2">
                     <label htmlFor="city">Select City</label>
                     <Input
                       id="city"
                       placeholder="Enter city"
+                      className=' max-md:w-[140px] max-md:placeholder:text-xs max-sm:w-[110px]'
+
                     />
                   </div>
                   <div className="flex flex-col gap-2">
@@ -133,26 +139,29 @@ const Page = () => {
                     <Input
                       id="pinCode"
                       placeholder="Enter Pin Code"
+                      className=' max-md:w-[140px] max-md:placeholder:text-[10px] max-sm:w-[120px]'
                     />
                   </div>
                 </div>
-                <Button variant="primary" type="submit" className='mt-4' disabled={Loading}>
-                  {Loading ? 'Loading...' : 'Continue'}
-                </Button>
+                <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-10 mt-5 '>
+                  <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[230px]'>
+                    {Loading ? 'Loading...' : 'Continue'}
+                  </Button>
+                </div>
               </form>
             </div>
           )}
           {Step === 3 && (
             <div>
-              <div className="flex  font-plus-jakarta-sans  py-6  font-900 text-3xl pr-4">
+              <div className="flex  font-plus-jakarta-sans  py-6  font-900 text-3xl max-md:text-xl max-sm:text-lg pr-4 max-sm:mx-2">
                 <span>Education</span>
               </div>
               {/* Add education form fields here */}
-              <div className=' flex justify-center py-4'>
-                <div className='flex border items-center gap-10 p-3 rounded-xl'>
+              <div className=' flex justify-center py-4 max-sm:m-2'>
+                <div className='flex border items-center max-md:items-end gap-10 max-md:gap-1 max-md:pb-4 p-3  rounded-xl'>
                   <div className=' flex flex-col '>
-                    <span className=' text-xl text-neutral-900 font-bold'>Meenakshi College of Engineering</span>
-                    <div className='flex flex-col text-[16px] text-neutral-500'>
+                    <span className=' text-xl text-neutral-900 font-bold max-md:text-xs'>Meenakshi College of Engineering</span>
+                    <div className='flex flex-col text-[16px] max-md:text-[12px] text-neutral-500 '>
                       <span>B.E., Computer Science Engineering | 9.2 CGPA</span>
                       <span>2021-2025</span>
                     </div>
@@ -162,30 +171,32 @@ const Page = () => {
                 </div>
               </div>
               <EducationModel />
-              <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
-                {Loading ? 'Loading...' : 'contiune'}
-              </Button>
+              <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-10 mt-5 '>
+                <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[230px] ' onClick={handleContinue}>
+                  {Loading ? 'Loading...' : 'Continue'}
+                </Button>
+              </div>
             </div>
           )}
           {Step === 4 && (
             <div>
-              <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
+              <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl max-md:text-xl pr-4">
                 <span>Project Details</span>
               </div>
               {/* Add education form fields here */}
               <div className=' flex justify-center py-4'>
-                <div className='flex border items-start gap-6 p-4 rounded-xl '>
+                <div className='flex border items-start max-md:items-end gap-6 max-md:gap-1 p-4 rounded-xl '>
                   <div className=' flex flex-col gap-2 '>
-                    <span className=' text-2xl text-neutral-900 font-700'>Project name</span>
-                    <span className=' text-[14px] w-[400px]'>Lorem ipsum dolor sit amet consectetur. Vulputate dui ut aliquam cras etiam. Sed ut ultrices pharetra erat in non.</span>
+                    <span className=' text-2xl text-neutral-900 font-700 max-md:text-lg'>Project name</span>
+                    <span className=' text-[14px] w-[400px] max-md:w-[200px]'>Lorem ipsum dolor sit amet consectetur. Vulputate dui ut aliquam cras etiam. Sed ut ultrices pharetra erat in non.</span>
                   </div>
                   <Image src={IMAGES.pen} className='mt-1' alt='pen' />
                   <Image src={IMAGES.bin} className='mt-1' alt='bin' />
                 </div>
               </div>
               <ProjectDetails />
-              <div className='flex gap-8 items-center text-xl'>
-                <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+              <div className='flex gap-8 max-md:flex-col max-md:gap-2 items-center text-xl max-md:mt-32'>
+                <Button variant="primary" type="submit" className='mt-4 max-md:w-[250px] ' disabled={Loading} onClick={handleContinue}>
                   {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
@@ -194,24 +205,24 @@ const Page = () => {
           )}
           {Step === 5 && (
             <div>
-              <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
+              <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl max-md:text-xl pr-4">
                 <span>Work Experience</span>
               </div>
               {/* Add education form fields here */}
               <div className=' flex justify-center py-4'>
-                <div className='flex border items-start gap-6 p-4 rounded-xl '>
-                  <div className=' flex flex-col gap-2 '>
-                    <span className=' text-2xl text-neutral-900 font-700'>UX Designer @Google, Chennai</span>
-                    <span className=' text-[14px] w-[400px]'>Apr 2022 - Present (25 months) | Part-time</span>
-                    <span className='w-[400px]'>Lorem ipsum dolor sit amet consectetur. Egestas porttitor dignissim dolor </span>
+                <div className='flex border items-start max-md:items-end max-md:gap-1 gap-6 p-4 max-md:p-1 rounded-xl '>
+                  <div className=' flex flex-col gap-2  max-md:gap-1'>
+                    <span className=' text-2xl max-md:text-sm text-neutral-900 font-700'>UX Designer @Google, Chennai</span>
+                    <span className=' text-[14px] w-[400px] max-md:w-[200px] max-md:text-[10px]'>Apr 2022 - Present (25 months) | Part-time</span>
+                    <span className='w-[400px] max-md:w-[200px] max-md:text-xs'>Lorem ipsum dolor sit amet consectetur. Egestas porttitor dignissim dolor </span>
                   </div>
                   <Image src={IMAGES.pen} className='mt-1' alt='bin' />
                   <Image src={IMAGES.bin} className='mt-1' alt='bin' />
                 </div>
               </div>
               <WorkExp />
-              <div className='flex gap-8 items-center text-xl'>
-                <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+              <div className='flex gap-8 max-md:flex-col max-md:gap-2 items-center text-xl max-md:mt-32'>
+                <Button variant="primary" type="submit" className='mt-4 max-md:w-[200px] ' disabled={Loading} onClick={handleContinue}>
                   {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
@@ -220,15 +231,15 @@ const Page = () => {
           )}
           {Step === 6 && (
             <div>
-              <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
+              <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl max-md:text-xl pr-4">
                 <span>Certifications</span>
               </div>
               {/* Add education form fields here */}
               <div className=' flex justify-center py-4'>
-                <div className='flex border items-start gap-10 p-4 rounded-xl '>
-                  <div className=' flex gap-1 pr-10'>
-                    <span className=' text-lg text-neutral-900 font-700'>Certificate From google </span>
-                    <span className=' text-lg text-neutral-500'> | Apr 2022</span>
+                <div className='flex border items-start gap-10 max-md:gap-1 p-4  rounded-xl '>
+                  <div className=' flex gap-1 pr-10 max-md:pr-2 max-md:text-[10px]'>
+                    <span className=' text-lg max-md:text-[12px] text-neutral-900 font-700'>Certificate From google </span>
+                    <span className=' text-lg max-md:text-[12px] text-neutral-500'> | Apr 2022</span>
                   </div>
                   <Image src={IMAGES.pen} className='mt-1' alt='bin' />
                   <Image src={IMAGES.bin} className='mt-1' alt='bin' />
@@ -239,8 +250,8 @@ const Page = () => {
                 <Image src={IMAGES.circle} />
               </div> */}
               <CertificateModel />
-              <div className='flex gap-8 items-center text-xl'>
-                <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
+              <div className='flex gap-8 max-md:flex-col max-md:gap-2 items-center text-xl max-md:mt-32'>
+                <Button variant="primary" type="submit" className='mt-4 max-md:w-[250px] ' disabled={Loading} onClick={handleContinue}>
                   {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
@@ -249,32 +260,34 @@ const Page = () => {
           )}
           {Step === 7 && (
             <div>
-              <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
-                <span>Skills</span>
+              <div className="flex  jus font-plus-jakarta-sans py-6 max-md:text-xl  font-900 text-3xl pr-4">
+                <span className=' max-md:px-3'>Skills</span>
               </div>
               {/* Add education form fields here */}
               <div className=' flex justify-center py-4'>
                 <div className='flex  items-start gap-10 p-4 rounded-xl '>
                   <div className='flex flex-col gap-3'>
                     <label htmlFor="" className=' text-xl font-700'>Enter your skills</label>
-                    <Input className='w-[500px]' placeholder='eg., Design, Adobe, Figma, etc.,' />
+                    <Input className='w-[500px] max-md:w-[250px]' placeholder='eg., Design, Adobe, Figma, etc.,' />
                     <span>Enter comma separated values*</span>
                   </div>
                 </div>
               </div>
-              <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
-                {Loading ? 'Loading...' : 'contiune'}
-              </Button>
+              <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-5 '>
+                <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[250px]' onClick={handleContinue}>
+                  {Loading ? 'Loading...' : 'Continue'}
+                </Button>
+              </div>
             </div>
           )}
           {Step === 8 && (
             <div>
-              <div className="flex  jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
+              <div className="flex  jus font-plus-jakarta-sans py-6 max-md:text-xl  font-900 text-3xl pr-4">
                 <span>Upload your resume</span>
               </div>
               {/* Add education form fields here */}
               <div className=' py-4'>
-                <div className="relative border-2 border-dashed border-gray-400 rounded-lg p-8 bg-white shadow-md w-[600px] h-[200px]">
+                <div className="relative border-2 border-dashed border-gray-400 rounded-lg p-8 bg-white shadow-md w-[600px] max-md:w-[250px] h-[200px]">
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <Image src={IMAGES.papperclip} alt='bin' />
                     <span className="text-lg text-gray-400">Drag & Drop your file here</span>
@@ -287,23 +300,26 @@ const Page = () => {
                   </div>
                 </div>
               </div>
-              <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
-                {Loading ? 'Loading...' : 'contiune'}
-              </Button>
+              <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-5 '>
+                <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[250px]' onClick={handleContinue}>
+                  {Loading ? 'Loading...' : 'Continue'}
+                </Button>
+              </div>
             </div>
           )}
           {Step === 9 && (
             <div className=''>
-              <div className="flex  justify-center jus font-plus-jakarta-sans py-6  font-900 text-3xl pr-4">
+              <div className="flex  justify-center jus font-plus-jakarta-sans py-6  max-md:text-xl font-900 text-3xl max-md:text-center pr-4 max-md:pr-0">
                 <span>Your Profile is created successfully</span>
               </div>
               {/* Add education form fields here */}
               <div className='flex justify-center'>
                 <Image src={IMAGES.sucess} alt='bin' />
               </div>
-              <div className='flex justify-center'>
-                <Button variant="primary" type="submit" className='mt-4' disabled={Loading} onClick={handleContinue}>
-                  <Link href="/">                  {Loading ? 'Loading...' : 'Back to home'}
+              <div className='flex justify-center max-md:mt-32'>
+                <Button variant="primary" type="submit" className='mt-4 max-md:w-[250px]' disabled={Loading} onClick={handleContinue}>
+                  <Link href="/">
+                    {Loading ? 'Loading...' : 'Back to home'}
                   </Link>
                 </Button>
               </div>

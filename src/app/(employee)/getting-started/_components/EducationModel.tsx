@@ -11,8 +11,8 @@ const CertificateModel = () => {
         <div>{/* The button to open modal */}
             <div className=' flex justify-end'>
                 <label htmlFor="my_modal_7" className=" bg-white">
-                    <div className=' flex justify-end gap-2 cursor-pointer' >
-                        <span className=' text-primary-500 text-[16px] font-600'>Add More</span>
+                    <div className=' flex justify-end gap-2 cursor-pointer max-md:mx-4' >
+                        <span className=' text-primary-500 text-[16px] font-600 '>Add More</span>
                         <Image src={IMAGES.circle} alt="cricle" />
                     </div>
                 </label>
@@ -20,8 +20,8 @@ const CertificateModel = () => {
             {/* Put this part before </body> tag */}
             <input type="checkbox" id="my_modal_7" className="modal-toggle" />
             <div className="modal" role="dialog" >
-                <div className=" max-w-xl modal-box">
-                    <div className="flex gap-6 mt-4">
+                <div className=" max-w-xl max-md:w-[350px] modal-box">
+                    <div className="flex max-md:flex-col gap-6 mt-4">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="Institute Name">Institute Name</label>
                             <Input
@@ -45,7 +45,7 @@ const CertificateModel = () => {
                             <Input
                                 id="Course"
                                 placeholder="link here"
-                                className='w-[250px]'
+                                className='w-[250px]  max-md:w-[140px] max-md:placeholder:text-xs'
 
                             />
                         </div>
@@ -55,8 +55,7 @@ const CertificateModel = () => {
                                 id="eg., 9/10"
                                 placeholder="eg., 9/10"
                                 type='text'
-                                className='w-[250px]'
-
+                                className='w-[250px]  max-md:w-[140px] max-md:placeholder:text-xs'
                             />
                         </div>
                     </div>
@@ -67,7 +66,7 @@ const CertificateModel = () => {
                                 id="From"
                                 placeholder=""
                                 type='month'
-                                className='w-[250px]'
+                                className='w-[250px]  max-md:w-[140px] max-md:placeholder:text-xs'
 
                             />
                         </div>
@@ -77,7 +76,7 @@ const CertificateModel = () => {
                                 id="to"
                                 placeholder=""
                                 type='month'
-                                className='w-[250px]'
+                                className='w-[250px]  max-md:w-[140px] max-md:placeholder:text-xs'
                             />
                         </div>
                     </div>
