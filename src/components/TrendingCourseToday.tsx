@@ -5,7 +5,7 @@ import CourseCard from "@/components/CourseCard";
 const TrendingCourseToday = () => {
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto">
+      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
         <span className="highlight">Trending</span> Today⚡
       </h3>
       <div className="w-full overflow-hidden wrapper-left">
