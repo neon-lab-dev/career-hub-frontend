@@ -77,19 +77,19 @@ input {
 }
 
 .py-section {
-  @apply py-24;
+  @apply py-[64px] xl:py-24;
 }
 
 .wrapper-left {
-  @apply pl-32;
+  @apply pl-[23px] xl:pl-32;
 }
 
 .wrapper-right {
-  @apply pr-32;
+  @apply pr-[23px] xl:pr-32;
 }
 
 .wrapper {
-  @apply px-32;
+  @apply px-[23px] xl:px-32;
 }
 
 .highlight {
@@ -107,5 +107,5 @@ input {
 }
 
 .section-heading {
-  @apply font-700 text-[40px] text-secondary-950 tracking-[-0.5px];
+  @apply font-700 text-[32px] xl:text-[40px] text-secondary-950 tracking-[-0.5px];
 }

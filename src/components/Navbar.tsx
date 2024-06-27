@@ -49,14 +49,14 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center  bg-white py-6 px-11 max-lg:px-6 wrapper max-width m-auto">
+      <div className="flex justify-between items-center  bg-white py-6  max-lg:px-4 wrapper max-width m-auto">
         <div className="flex items-center gap-8 font-Poppins">
           <span className="text-3xl font-bold pr-6">
             <Link href="/">Logo</Link>
           </span>
-          <ul className="flex gap-8 text-base text-neutral-600 font-semibold max-lg:hidden font-poppins">
+          <ul className="flex gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold max-lg:hidden font-poppins">
             {navItems.map((item, index) => (
-              <li key={index} className="hover:text-primary-500">
+              <li key={index} className="hover:text-primary-500 max-xl:text-[13px]">
                 <Link href={item.href}>{item.text}</Link>
               </li>
             ))}
