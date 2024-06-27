@@ -15,7 +15,7 @@ const classNames = {
       "border border-secondary-100 bg-secondary-50 text-secondary-600 hover:border-secondary-100 hover:bg-secondary-100 disabled:border-none disabled:bg-neutral-50 disabled:text-neutral-300",
     outline: "border border-primary-500 text-primary-500 disabled:opacity-50",
     muted:
-      "border border-primary-200 bg-primary-50 text-primary-500 disabled:opacity-50",
+      "text-sm xl:text-base border border-primary-200 bg-primary-50 text-primary-500 disabled:opacity-50",
     ghost: "",
     normal:
       "text-base bg-primary-500 text-white rounded-lg px-6 font-semibold py-2",
