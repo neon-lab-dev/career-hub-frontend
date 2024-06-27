@@ -6,7 +6,7 @@ const WhatWeDo = () => {
       <h3 className="section-heading">
         What we <span className="highlight">Do?</span>
       </h3>
-      <div className="flex gap-20 items-center">
+      <div className="flex flex-col xl:flex-row gap-16 xl:gap-20 items-center">
         {[
           {
             heading: "Lorem ipsum ",
@@ -21,7 +21,7 @@ const WhatWeDo = () => {
             desc: "Lorem ipsum dolor sit amet consectetur. Accumsan sed dolor scelerisque massa amet convallis bibendum.",
           },
         ].map((item, index) => (
-          <div key={index} className="flex flex-col gap-2 max-w-80">
+          <div key={index} className="flex flex-col items-center xl:items-start text-center xl:text-left gap-2 max-w-80">
             <div className="h-24 w-24 bg-primary-50 rounded-2xl"></div>
             <h4 className="text-2xl font-800 text-secondary-950 mt-5">
               {item.heading}
