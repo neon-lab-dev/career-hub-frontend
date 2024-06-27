@@ -1,10 +1,9 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import "../globals.css";
-import Header from "./_components/Header";
-import Sidebar from "./_components/Sidebar";
 import ScreenWarning from '@/components/ScreenWarning';
-import home from "@/assets/icons/home.svg";
+import Sidebar from '../employer/_components/Sidebar';
+import Header from '../employer/_components/Header';
 
 export default function EmployeeRootLayout({ children }: any) {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
@@ -21,21 +20,33 @@ export default function EmployeeRootLayout({ children }: any) {
 
   const navlinks = [
     {
-      label: "Home",
-      path: "/employer/home",
-      icon: home
+      label: "Dashboard",
+      path: "/admin/dashboard",
+    },
+    {
+      label: "Employees",
+      path: "/admin/employees",
+    },
+    {
+      label: "Employers",
+      path: "/admin/employers",
+    },
+    {
+      label: "Jobs Posted",
+      path: "/admin/jobs-posted",
     },
   ];
+  
 
   return (
     <div className="flex">
       {isSmallScreen ? (
         <div className='flex justify-center w-full h-screen'>
-          <ScreenWarning />
+          <ScreenWarning/>
         </div>
       ) : (
         <>
-          <Sidebar navlinks={navlinks} />
+          <Sidebar navlinks={navlinks}/>
           <div className="w-full h-full">
             <Header />
             {children}
