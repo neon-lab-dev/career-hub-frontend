@@ -10,11 +10,7 @@ import Image from "next/image";
 import menuDots from "@/assets/icons/menu-dots.svg";
 import addCircle from "@/assets/icons/Add Circle.svg";
 import Button from "@/components/Button";
-
-export type Header = {
-  header: string;
-  accessor: keyof DataItem;
-};
+import { Header } from "@/app/admin/tableTypes";
 
 export type DataItem = {
   userName: string;
@@ -24,7 +20,7 @@ export type DataItem = {
 };
 
 const Dashboard = () => {
-  const headers: Header[] = [
+  const headers: Header<DataItem>[] = [
     { header: "Name", accessor: "userName" },
     { header: "Applied on", accessor: "appliedOn" },
     { header: "Status", accessor: "status" },
@@ -58,7 +54,7 @@ const Dashboard = () => {
     },
   ];
 
-  const renderCustomCell = (column: Header, item: DataItem) => {
+  const renderCustomCell = (column: Header<DataItem>, item: DataItem) => {
     if (column.accessor === "status") {
       return (
         <StatusLabel key="status" variant={item.status}>
