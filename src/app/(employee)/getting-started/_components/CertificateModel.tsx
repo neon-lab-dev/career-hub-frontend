@@ -20,7 +20,7 @@ const CertificateModel = () => {
             {/* Put this part before </body> tag */}
             <input type="checkbox" id="my_modal_7" className="modal-toggle" />
             <div className="modal" role="dialog" >
-                <div className="modal-box w-[700px] max-md:w-[350px]">
+                <div className="modal-box w-[700px] max-md:w-[349px]">
                     <div className="flex flex-col mt-4 gap-2 ">
                         <label htmlFor="Certificate Name">Certificate Name</label>
                         <Input
