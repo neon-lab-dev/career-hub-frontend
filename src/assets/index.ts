@@ -16,6 +16,12 @@ import hamburger from "@/assets/images/Hamburger Menu.svg"
 import close from "@/assets/icons/Close Circle.svg"
 import profile from "@/assets/images/Ellipse 169.svg"
 import down from "@/assets/icons/Alt Arrow Down.svg"
+import download from "@/assets/images/fi-br-download (1).svg"
+import penResume from "@/assets/images/Pen.svg"
+import penEdit from "@/assets/images/Vector.svg"
+
+
+
 
 
 
@@ -36,7 +42,8 @@ export const IMAGES = {
   hamburger,
   close,
   profile,
-  down
+  down,
+  download
 };
 
 export const ICONS = {
@@ -45,4 +52,6 @@ export const ICONS = {
   crossPrimary,
   application,
   share,
+  penResume,
+  penEdit
 };
