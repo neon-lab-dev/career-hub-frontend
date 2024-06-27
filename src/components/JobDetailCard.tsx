@@ -13,7 +13,7 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName }: Props) => {
   return (
     <div
       className={twMerge(
-        "flex flex-col gap-5 p-6 rounded-[20px] border border-neutral-100 bg-white",
+        "flex flex-col gap-4 xl:gap-5 p-4 xl:p-6 rounded-[20px] border border-neutral-100 bg-white",
         wrapperClassName
       )}
     >
@@ -23,13 +23,13 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName }: Props) => {
           alt="Company Logo"
           height={64}
           width={64}
-          className="h-16 w-16"
+          className="h-9 w-9 xl:h-16 xl:w-16"
         />
         <div className="flex flex-col gap-0.5">
-          <h3 className="text-[22px] -tracking-[0.44px] font-600 text-neutral-900">
+          <h3 className="text-base xl:text-[22px] -tracking-[0.44px] font-600 text-neutral-900">
             Frontend Developer Job
           </h3>
-          <div className="flex items-center gap-2 body-large text-neutral-400">
+          <div className="flex items-center text-xs gap-2 xl:text-[18px] text-neutral-400">
             <span>Talkwisely Platforms</span>
             <div className="w-[5px] h-[5px] bg-neutral-400 rounded-full" />
             <span>Ahmedabad, India</span>
@@ -41,17 +41,19 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName }: Props) => {
         {["Full Time", "Onsite", "Entry Level"].map((tag) => (
           <div
             key={tag}
-            className="py-2.5 font-500 rounded-md px-[18px] bg-white border border-secondary-200 text-sm text-secondary-400"
+            className=" py-2 xl:py-2.5 font-500 rounded-md px-3 xl:px-[18px] bg-white border border-secondary-200 text-xs xl:text-sm text-secondary-400"
           >
             {tag}
           </div>
         ))}
       </div>
       <hr />
-      <div className="flex justify-between items-center gap-36">
+      <div className="flex justify-between items-center gap-16 xl:gap-36">
         <div className="flex flex-col gap-1 ">
-          <span className="body-medium text-neutral-400">Job Offer</span>
-          <span className="body-large !font-600 text-primary-500">
+          <span className="text-xs xl:text-base text-neutral-400">
+            Job Offer
+          </span>
+          <span className="text-x xl:text-base !font-600 text-primary-500">
             ₹ 7 LPA - 12 LPA
           </span>
         </div>
