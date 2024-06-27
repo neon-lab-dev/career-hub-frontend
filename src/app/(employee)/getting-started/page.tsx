@@ -11,7 +11,6 @@ import ProjectDetails from './_components/ProjectDetails';
 import WorkExp from './_components/WorkExp';
 import Link from 'next/link';
 
-
 const Page = () => {
   const [Step, setStep] = useState(1);
   const [FirstName, setFirstName] = useState('');
@@ -19,6 +18,23 @@ const Page = () => {
   const [Dob, setDob] = useState('');
   const [Gender, setGender] = useState('');
   const [Loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  
+  const handleFileClick = () => {
+    const fileUpload = document.getElementById('file-upload');
+    if (fileUpload) {
+      fileUpload.click();
+    }
+  };
+  
+  
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+  
 
   const handleContinue = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
@@ -94,8 +110,8 @@ const Page = () => {
                     </button>
                   </div>
                 </div>
-                <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-5 '>
-                  <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[230px]'>
+                <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-5 '>
+                  <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[230px] max-lg:w-[400px]'>
                     {Loading ? 'Loading...' : 'Continue'}
                   </Button>
                 </div>
@@ -126,13 +142,21 @@ const Page = () => {
                 </div>
                 <div className="flex gap-10 max-md:gap-4 mt-4">
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="city">Select City</label>
-                    <Input
-                      id="city"
-                      placeholder="Enter city"
-                      className=' max-md:w-[140px] max-md:placeholder:text-xs max-sm:w-[110px]'
-
-                    />
+                    <label htmlFor="city">City, State</label>
+                    <div className=' px-2 border  text-neutral-400 rounded-lg w-[200px] max-md:w-full'>
+                      <select
+                        id="city"
+                        className=" py-4 px-2 border-none text-sm w-full border-neutral-300 max-md:text-xs  "
+                      >
+                        <option value="" disabled selected className=''>
+                          Select Here
+                        </option>
+                        <option value="city1">City 1</option>
+                        <option value="city2">City 2</option>
+                        <option value="city3">City 3</option>
+                        {/* Add more options as needed */}
+                      </select>
+                    </div>
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="pinCode">Pin Code</label>
@@ -143,8 +167,8 @@ const Page = () => {
                     />
                   </div>
                 </div>
-                <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-10 mt-5 '>
-                  <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[230px]'>
+                 <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-5 '>
+                  <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[230px] max-lg:w-[400px]'>
                     {Loading ? 'Loading...' : 'Continue'}
                   </Button>
                 </div>
@@ -171,8 +195,8 @@ const Page = () => {
                 </div>
               </div>
               <EducationModel />
-              <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-10 mt-5 '>
-                <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[230px] ' onClick={handleContinue}>
+              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5 '>
+                <Button variant="primary" type="submit" disabled={Loading} className='max-md:w-[230px] max-lg:w-[400px]' onClick={handleContinue}>
                   {Loading ? 'Loading...' : 'Continue'}
                 </Button>
               </div>
@@ -195,8 +219,8 @@ const Page = () => {
                 </div>
               </div>
               <ProjectDetails />
-              <div className='flex gap-8 max-md:flex-col max-md:gap-2 items-center text-xl max-md:mt-32'>
-                <Button variant="primary" type="submit" className='mt-4 max-md:w-[250px] ' disabled={Loading} onClick={handleContinue}>
+              <div className='flex gap-8 max-lg:flex-col max-md:gap-2 items-center text-xl max-lg:mt-32'>
+                <Button variant="primary" type="submit" className='mt-4 max-md:w-[230px] max-lg:w-[400px] ' disabled={Loading} onClick={handleContinue}>
                   {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
@@ -221,8 +245,8 @@ const Page = () => {
                 </div>
               </div>
               <WorkExp />
-              <div className='flex gap-8 max-md:flex-col max-md:gap-2 items-center text-xl max-md:mt-32'>
-                <Button variant="primary" type="submit" className='mt-4 max-md:w-[200px] ' disabled={Loading} onClick={handleContinue}>
+              <div className='flex gap-8 max-lg:flex-col max-md:gap-2 items-center text-xl max-lg:mt-32'>
+                <Button variant="primary" type="submit" className='mt-4 max-md:w-[230px] max-lg:w-[400px]' disabled={Loading} onClick={handleContinue}>
                   {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
@@ -245,13 +269,9 @@ const Page = () => {
                   <Image src={IMAGES.bin} className='mt-1' alt='bin' />
                 </div>
               </div>
-              {/* <div className=' flex justify-end gap-2 cursor-pointer' htmlFor="my_modal_7">
-                <span className=' text-primary-500 text-[16px] font-600'>Add More</span>
-                <Image src={IMAGES.circle} />
-              </div> */}
               <CertificateModel />
-              <div className='flex gap-8 max-md:flex-col max-md:gap-2 items-center text-xl max-md:mt-32'>
-                <Button variant="primary" type="submit" className='mt-4 max-md:w-[250px] ' disabled={Loading} onClick={handleContinue}>
+              <div className='flex gap-8 max-lg:flex-col max-md:gap-2 items-center text-xl max-lg:mt-32'>
+                <Button variant="primary" type="submit" className='mt-4 max-md:w-[230px] max-lg:w-[400px]' disabled={Loading} onClick={handleContinue}>
                   {Loading ? 'Loading...' : 'contiune'}
                 </Button>
                 <button className=' text-primary-500 mt-4 text-[16px]' onClick={handleContinue}>skip</button>
@@ -273,39 +293,52 @@ const Page = () => {
                   </div>
                 </div>
               </div>
-              <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-5 '>
-                <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[250px]' onClick={handleContinue}>
+              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-5 '>
+                <Button variant="primary" type="submit" disabled={Loading} className='max-md:w-[230px] max-lg:w-[400px]' onClick={handleContinue}>
                   {Loading ? 'Loading...' : 'Continue'}
                 </Button>
               </div>
             </div>
           )}
           {Step === 8 && (
-            <div>
-              <div className="flex  jus font-plus-jakarta-sans py-6 max-md:text-xl  font-900 text-3xl pr-4">
-                <span>Upload your resume</span>
-              </div>
-              {/* Add education form fields here */}
-              <div className=' py-4'>
-                <div className="relative border-2 border-dashed border-gray-400 rounded-lg p-8 bg-white shadow-md w-[600px] max-md:w-[250px] h-[200px]">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <Image src={IMAGES.papperclip} alt='bin' />
-                    <span className="text-lg text-gray-400">Drag & Drop your file here</span>
-                    <input
-                      id="file-upload"
-                      type='file'
-                      className='hidden'
-                      accept=".pdf,.doc,.docx,.txt" // Specify accepted file types if needed
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className='flex max-md:justify-center justify-start max-md:mt-32 mb-5 '>
-                <Button variant="primary" type="submit" disabled={Loading} className=' max-md:w-[250px]' onClick={handleContinue}>
-                  {Loading ? 'Loading...' : 'Continue'}
-                </Button>
-              </div>
-            </div>
+           <div className=''>
+           <div className="flex jus font-plus-jakarta-sans py-6 max-md:text-xl font-900 text-3xl pr-4">
+             <span>Upload your resume</span>
+           </div>
+           {/* Add education form fields here */}
+           <div className='py-4'>
+             <div
+               className="relative border-2 border-dashed border-gray-400 rounded-lg p-8 bg-white shadow-md w-[600px] max-md:w-[250px] max-lg:w-[400px] h-[200px]"
+               onClick={handleFileClick}
+             >
+               <div className="absolute inset-0 flex flex-col items-center justify-center">
+                 <Image src={IMAGES.papperclip} alt='bin' />
+                 {selectedFile ? (
+                   <span className="text-lg text-gray-600">{selectedFile.name}</span>
+                 ) : (
+                   <span className="text-lg text-gray-400">Drag & Drop your file here</span>
+                 )}
+                 <input
+                   id="file-upload"
+                   type='file'
+                   className='hidden'
+                   accept=".pdf,.doc,.docx,.txt"
+                   onChange={handleFileChange}
+                 />
+               </div>
+             </div>
+           </div>
+           <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-5'>
+             <Button
+               variant="primary"
+               type="submit"
+               className='max-md:w-[230px] max-lg:w-[400px]'
+               onClick={handleContinue}
+             >
+               {Loading ? 'Loading...' : 'Continue'}
+             </Button>
+           </div>
+         </div>
           )}
           {Step === 9 && (
             <div className=''>
@@ -316,8 +349,8 @@ const Page = () => {
               <div className='flex justify-center'>
                 <Image src={IMAGES.sucess} alt='bin' />
               </div>
-              <div className='flex justify-center max-md:mt-32'>
-                <Button variant="primary" type="submit" className='mt-4 max-md:w-[250px]' disabled={Loading} onClick={handleContinue}>
+              <div className='flex justify-center max-lg:mt-32'>
+                <Button variant="primary" type="submit" className='mt-4 mb-10 max-md:w-[230px] max-lg:w-[400px]' disabled={Loading} onClick={handleContinue}>
                   <Link href="/">
                     {Loading ? 'Loading...' : 'Back to home'}
                   </Link>

@@ -66,7 +66,7 @@ const Page = () => {
                 <span>Company Information</span>
               </div>
               <form onSubmit={handleContinue}>
-              <div className="flex gap-10 max-md:flex-col max-md:gap-4 mt-4">
+                <div className="flex gap-10 max-md:flex-col max-md:gap-4 mt-4">
                   <div className="flex flex-col gap-2">
                     <label htmlFor="Company Name">Company Name</label>
                     <Input
@@ -77,12 +77,21 @@ const Page = () => {
                     />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <label htmlFor="pinCode">Pin Code</label>
-                    <Input
-                      id="pinCode"
-                      placeholder="Enter Pin Code"
-                      className='  max-md:placeholder:text-xs'
-                    />
+                    <label htmlFor="pinCode">Industry type</label>
+                    <div className=' px-2 border  text-neutral-400 rounded-lg w-[200px] max-md:w-full'>
+                      <select
+                        id="city"
+                        className=" py-4 px-2 border-none text-sm w-full border-neutral-300 max-md:text-xs  "
+                      >
+                        <option value="" disabled selected className=''>
+                          Select Here
+                        </option>
+                        <option value="city1">City 1</option>
+                        <option value="city2">City 2</option>
+                        <option value="city3">City 3</option>
+                        {/* Add more options as needed */}
+                      </select>
+                    </div>
                   </div>
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
@@ -96,12 +105,20 @@ const Page = () => {
                 <div className="flex max-md:flex-col max-md:gap-4 gap-10 mt-4">
                   <div className="flex flex-col gap-2">
                     <label htmlFor="city">City, State</label>
-                    <Input
-                      id="city"
-                      placeholder="Enter city"
-                      className='  max-md:placeholder:text-xs'
-
-                    />
+                    <div className=' px-2 border  text-neutral-400 rounded-lg w-[200px] max-md:w-full'>
+                      <select
+                        id="city"
+                        className=" py-4 px-2 border-none text-sm w-full border-neutral-300 max-md:text-xs  "
+                      >
+                        <option value="" disabled selected className=''>
+                          Select Here
+                        </option>
+                        <option value="city1">City 1</option>
+                        <option value="city2">City 2</option>
+                        <option value="city3">City 3</option>
+                        {/* Add more options as needed */}
+                      </select>
+                    </div>
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="Website Link">Website Link</label>
@@ -126,7 +143,7 @@ const Page = () => {
                 <span>Company Contact Information</span>
               </div>
               <form onSubmit={handleContinue}>
-              <div className="flex gap-10  max-md:flex-col max-md:gap-5 mt-4">
+                <div className="flex gap-10  max-md:flex-col max-md:gap-5 mt-4">
                   <div className="flex flex-col gap-2">
                     <label htmlFor="email id">Company Email</label>
                     <Input
