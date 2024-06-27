@@ -20,6 +20,7 @@ import hamburger from "@/assets/images/Hamburger Menu.svg";
 import close from "@/assets/icons/Close Circle.svg";
 import profile from "@/assets/images/Ellipse 169.svg";
 import down from "@/assets/icons/Alt Arrow Down.svg";
+import arrowDown from "@/assets/icons/arrow-down.svg";
 
 export const IMAGES = {
   companyLogo,
@@ -41,6 +42,7 @@ export const IMAGES = {
   hero2,
   hero3,
   hero4,
+  arrowDown
 };
 
 export const ICONS = {
