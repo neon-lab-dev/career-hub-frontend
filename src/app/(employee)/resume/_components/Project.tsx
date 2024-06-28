@@ -1,7 +1,7 @@
 import React from 'react';
 import { ICONS, IMAGES } from '@/assets';
-import Chip from '@/components/Chip';
 import Image from 'next/image';
+import ResumeProjectDetailsModel from './ResumeProjectDetailsModel';
 
 const Project = () => {
     const points = [
@@ -19,9 +19,7 @@ const Project = () => {
                         <div className="flex gap-4 items-center">
                             <span className="text-4xl text-secondary-700 font-600 max-md:text-base">Project Details</span>
                         </div>
-                        <Chip variant="add" className="w-[140px] items-center">
-                            <span>Add New</span>
-                        </Chip>
+                        <ResumeProjectDetailsModel/>
                     </div>
                     <hr className='pb-10 mx-4' />
                     <div className="flex max-md:flex-col max-md:justify-end justify-between items-start border-2 border-neutral-100 p-6 rounded-xl">
