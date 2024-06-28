@@ -81,15 +81,15 @@ input {
 }
 
 .wrapper-left {
-  @apply pl-[23px] xl:pl-32;
+  @apply pl-[23px] md:pl-[64px] xl:pl-32;
 }
 
 .wrapper-right {
-  @apply pr-[23px] xl:pr-32;
+  @apply pr-[23px] md:pr-[64px] xl:pr-32;
 }
 
 .wrapper {
-  @apply px-[23px] xl:px-32;
+  @apply px-[23px] md:px-[64px] xl:px-32;
 }
 
 .highlight {
