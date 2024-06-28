@@ -11,6 +11,7 @@ import SimilarJobsForYou from "./_components/SimilarJobsForYouComponent";
 import TrendingCourseToday from "@/components/TrendingCourseToday";
 import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
 import WhatWeDo from "@/components/WhatWeDo";
+import SkillsAndExtraBenefits from "./_components/SkillsAndExtraBenefits";
 
 type Props = {
   params: {
@@ -24,7 +25,7 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
 
   return (
     <div>
-      <div className="wrapper flex flex-col gap-16">
+      <div className="wrapper flex flex-col xl:gap-16">
         {/* job titles and cta */}
         <div className="py-16 flex items-end justify-between">
           <div className="flex gap-5 items-center">
@@ -33,32 +34,32 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
               alt="Company Logo"
               height={99}
               width={99}
-              className="h-[99px] w-[99px]"
+              className="h-[62px] w-[62px] xl:h-[99px] xl:w-[99px] rounded-lg"
             />
             <div className="flex flex-col gap-0.5">
-              <h3 className="text-[32px] -tracking-[0.44px] font-600 text-neutral-900">
+              <h3 className="text-[20px] lg:text-[32px] -tracking-[0.44px] font-600 text-neutral-900">
                 Frontend Developer Job
               </h3>
-              <div className="flex items-center gap-2 text-[22px] text-neutral-400">
+              <div className="flex items-center gap-2 text-sm lg:text-[22px] text-neutral-400">
                 <span>Talkwisely Platforms</span>
                 <div className="w-[5px] h-[5px] bg-neutral-400 rounded-full" />
                 <span>Ahmedabad, India</span>
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="xl:flex items-center gap-5 hidden">
             <JobShareButton jobTitle="Test Title" />
             <Button>Apply Now</Button>
           </div>
         </div>
         {/* job details */}
         <div className="flex gap-6">
-          <div className="flex-grow flex flex-col gap-6">
-            <div className="p-6 rounded-[22px] border border-secondary-200 text-xl flex flex-col gap-3">
+          <div className="flex-grow flex flex-col gap-4 xl:gap-6">
+            <div className="p-6 rounded-[22px] border border-secondary-200 text-base lg:text-xl flex flex-col gap-3 lg:gap-3">
               <h3 className="capitalize font-600 text-neutral-800">
                 About {jobType.substring(0, jobType.length - 1)}
               </h3>
-              <p className="font-400 text-neutral-700 flex flex-col gap-6">
+              <p className="font-400 text-neutral-700 flex flex-col gap-3 lg:gap-6">
                 {sampleJob.about
                   .split("\n")
                   .filter((res) => res)
@@ -67,7 +68,7 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
                   ))}
                 <span>Job Role: Frontend Developer</span>
               </p>{" "}
-              <h3 className="capitalize font-600 text-neutral-800 mt-6">
+              <h3 className="capitalize font-600 text-neutral-800 mt-2 lg:mt-6">
                 Roles and Responsibilities
               </h3>
               <ul className="font-400 text-neutral-700 flex flex-col gap-1 list-disc">
@@ -85,17 +86,18 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
                 <span>Location: Ahmedabad, India</span>
               </div>
             </div>
-            <div className="p-6 rounded-[22px] border border-secondary-200 text-xl flex flex-col gap-6">
+            <SkillsAndExtraBenefits className="xl:hidden" />
+            <div className="p-4 lg:p-6 rounded-[22px] border border-secondary-200 text-xl flex flex-col gap-6">
               <h3 className="capitalize font-600 text-neutral-800 text-2xl">
                 About the Company
               </h3>
               <hr />
               <div className="flex justify-between items-center">
                 <div className="flex flex-col gap-1">
-                  <span className="font-700 text-xl text-neutral-800">
+                  <span className="font-700 text-lg lg:text-xl text-neutral-800">
                     Talkwisely Platforms
                   </span>
-                  <div className="flex gap-6 items-center text-base font-500 text-primary-500">
+                  <div className="flex gap-3 lg:gap-6 items-center text-sm lg:text-base font-500 text-primary-500">
                     <Link href="#" target="_blank">
                       Website
                     </Link>
@@ -129,20 +131,11 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
               </p>
             </div>
           </div>
-          <div className="min-w-[447px] flex flex-col gap-6">
-            <SkillsContainerComponent
-              title="Skills"
-              labels={sampleJob.skills}
-            />
-            <SkillsContainerComponent
-              title="Extra Benefits"
-              labels={sampleJob.extraBenefits}
-            />
-          </div>
+          <SkillsAndExtraBenefits className="hidden xl:flex" />
         </div>
       </div>
       <SimilarJobsForYou />
-      <TrendingCourseToday />
+      {/* <TrendingCourseToday /> */}
       <OurValuableHiringPartners />
       <WhatWeDo />
     </div>
