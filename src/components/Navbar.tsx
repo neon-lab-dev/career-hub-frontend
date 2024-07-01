@@ -18,12 +18,12 @@ const Navbar = () => {
   const [userType, setUserType] = useState<"Student" | "Employer">("Student");
 
   const navItems = [
-    { text: "Home", href: "#" },
-    { text: "Internships", href: "" },
-    { text: "Jobs", href: "" },
-    { text: "Programs", href: "" },
-    { text: "Courses", href: "" },
-    { text: "Contact Us", href: "" },
+    { text: "Home", href: "/" },
+    { text: "Internships", href: "/jobs" },
+    { text: "Jobs", href: "/" },
+    { text: "Programs", href: "/" },
+    { text: "Courses", href: "/" },
+    { text: "Contact Us", href: "/" },
   ];
 
   const pfileItems = [
@@ -145,7 +145,7 @@ const Navbar = () => {
           </div>
 
           <div
-            className={`fixed bg-white w-full h-screen overflow-hidden transition-transform flex flex-col gap-4 top-0 right-0 z-50 lg:hidden pt-4 px-6 ${
+            className={`fixed bg-white w-[400px] max-md:w-[350px] h-screen overflow-hidden transition-transform flex flex-col gap-4 top-0 right-0 z-50 lg:hidden pt-4 px-6 ${
               isOpen ? "translate-x-0" : "translate-x-full"
             }`}
           >

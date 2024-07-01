@@ -15,7 +15,7 @@ const Footer = () => {
       <div className="py-10 max-width m-auto">
         <div className="flex justify-between max-lg:flex-col mx-[40px] max-lg:mx-10  max-lg:gap-12 ">
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">
-            <span className="font-bold text-5xl">Logo</span>
+            <span className="font-bold text-5xl"><Link href="/">Logo</Link></span>
             <p className="text-[20px] max-lg:text-[16px]">
               Lorem ipsum dolor sit amet consectetur. Accumsan sed dolor
               scelerisque massa amet convallis bibendum. Feugiat egestas euismod
