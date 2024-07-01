@@ -1,7 +1,8 @@
 import React from 'react';
 import { ICONS, IMAGES } from '@/assets';
-import Chip from '@/components/Chip';
+
 import Image from 'next/image';
+import ResumeWorkExpModel from './ResumeWorkExpModel';
 
 const WorkExp = () => {
     const points = [
@@ -19,9 +20,7 @@ const WorkExp = () => {
                         <div className="flex gap-4 items-center">
                             <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Work Experience</span>
                         </div>
-                        <Chip variant="add" className="w-[140px] items-center">
-                            <span>Add New</span>
-                        </Chip>
+                        <ResumeWorkExpModel />
                     </div>
                     <hr className='pb-10 mx-4' />
                     <div className="flex justify-between max-md:flex-col items-start border-2 border-neutral-100 p-6 rounded-xl">
