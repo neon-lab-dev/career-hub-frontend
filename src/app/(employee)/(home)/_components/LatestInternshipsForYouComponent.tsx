@@ -1,38 +1,10 @@
 import { ICONS } from "@/assets";
 import Button from "@/components/Button";
 import JobDetailCard from "@/components/JobDetailCard";
+import { jobDetails } from "@/mockData/jobCard";
 import React from "react";
 
 const LatestInternshipsForYouComponent = () => {
-  const jobDetails = [
-    {
-      _id: "1",
-      companyLogo: ICONS.application,
-      jobTitle: "Frontend Developer Job",
-      companyName: "Talkwisely Platforms",
-      location: "Ahmedabad, India",
-      employmentType: ["Fulltime", "Onsite", "Entry level"],
-      salary: "₹7 LPA - 12 LPA"
-    },
-    {
-      _id: "2",
-      companyLogo: ICONS.application,
-      jobTitle: "Frontend Developer Job",
-      companyName: "Talkwisely Platforms",
-      location: "Ahmedabad, India",
-      employmentType: ["Fulltime", "Onsite", "Entry level"],
-      salary: "₹7 LPA - 12 LPA"
-    },
-    {
-      _id: "3",
-      companyLogo: ICONS.application,
-      jobTitle: "Frontend Developer Job",
-      companyName: "Talkwisely Platforms",
-      location: "Ahmedabad, India",
-      employmentType: ["Fulltime", "Onsite", "Entry level"],
-      salary: "₹7 LPA - 12 LPA"
-    },
-  ];
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
       <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
@@ -46,22 +18,20 @@ const LatestInternshipsForYouComponent = () => {
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
             <div key={index} className="carousel-item">
-                  {
-      jobDetails.map((details, index) => 
-        <JobDetailCard 
-      wrapperClassName="xl:min-w-[500px]"
-        key={index}
-        _id={details._id}
-        companyLogo={details.companyLogo}
-        jobTitle={details.jobTitle}
-        companyName={details.companyName}
-        location={details.location}
-        employmentType={details.employmentType}
-        salary={details.salary}
-        showApplyButton
-        />
-      )
-    }
+              {jobDetails.map((details, index) => (
+                <JobDetailCard
+                  wrapperClassName="xl:min-w-[500px]"
+                  key={index}
+                  _id={details._id}
+                  companyLogo={details.companyLogo}
+                  jobTitle={details.jobTitle}
+                  companyName={details.companyName}
+                  location={details.location}
+                  employmentType={details.employmentType}
+                  salary={details.salary}
+                  showApplyButton
+                />
+              ))}
             </div>
           ))}
         </div>

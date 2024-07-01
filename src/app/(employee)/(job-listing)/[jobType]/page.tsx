@@ -4,6 +4,7 @@ import ApplyFilter from "../_components/ApplyFilter";
 import { ICONS } from "@/assets";
 import Image from "next/image";
 import JobDetailCard from "@/components/JobDetailCard";
+import { jobDetails } from "@/mockData/jobCard";
 
 type Props = {
   params: {
@@ -11,36 +12,6 @@ type Props = {
   };
 };
 
-
-const jobDetails = [
-  {
-    _id: "1",
-    companyLogo: ICONS.application,
-    jobTitle: "Frontend Developer Job",
-    companyName: "Talkwisely Platforms",
-    location: "Ahmedabad, India",
-    employmentType: ["Fulltime", "Onsite", "Entry level"],
-    salary: "₹7 LPA - 12 LPA"
-  },
-  {
-    _id: "2",
-    companyLogo: ICONS.application,
-    jobTitle: "Frontend Developer Job",
-    companyName: "Talkwisely Platforms",
-    location: "Ahmedabad, India",
-    employmentType: ["Fulltime", "Onsite", "Entry level"],
-    salary: "₹7 LPA - 12 LPA"
-  },
-  {
-    _id: "3",
-    companyLogo: ICONS.application,
-    jobTitle: "Frontend Developer Job",
-    companyName: "Talkwisely Platforms",
-    location: "Ahmedabad, India",
-    employmentType: ["Fulltime", "Onsite", "Entry level"],
-    salary: "₹7 LPA - 12 LPA"
-  },
-];
 
 
 export default function Page({ params: { jobType } }: Props) {
