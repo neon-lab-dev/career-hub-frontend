@@ -3,13 +3,22 @@ import Image from "next/image";
 import React from "react";
 import Button from "./Button";
 import { twMerge } from "tailwind-merge";
+import Link from "next/link";
 
 type Props = {
   showApplyButton?: boolean;
   wrapperClassName?: string;
+  _id: string;
+  companyLogo: any;
+    jobTitle: string;
+    companyName: string;
+    location: string;
+    employmentType: string[],
+    salary: string;
+
 };
 
-const JobDetailCard = ({ showApplyButton, wrapperClassName }: Props) => {
+const JobDetailCard = ({ showApplyButton, wrapperClassName, _id, companyLogo, jobTitle, companyName, location, employmentType, salary }: Props) => {
   return (
     <div
       className={twMerge(
@@ -19,26 +28,26 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName }: Props) => {
     >
       <div className="flex gap-3 items-center">
         <Image
-          src={IMAGES.companyLogo}
+          src={companyLogo}
           alt="Company Logo"
           height={64}
           width={64}
           className="h-9 w-9 xl:h-16 xl:w-16"
         />
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col gap-1">
           <h3 className="text-base xl:text-[22px] -tracking-[0.44px] font-600 text-neutral-900">
-            Frontend Developer Job
+            {jobTitle}
           </h3>
           <div className="flex items-center text-xs gap-2 xl:text-[18px] text-neutral-400">
-            <span>Talkwisely Platforms</span>
+            <span>{companyName}</span>
             <div className="w-[5px] h-[5px] bg-neutral-400 rounded-full" />
-            <span>Ahmedabad, India</span>
+            <span>{location}</span>
           </div>
         </div>
       </div>
 
       <div className="flex items-center gap-3">
-        {["Full Time", "Onsite", "Entry Level"].map((tag) => (
+        {employmentType?.map((tag) => (
           <div
             key={tag}
             className=" py-2 xl:py-2.5 font-500 rounded-md px-3 xl:px-[18px] bg-white border border-secondary-200 text-xs xl:text-sm text-secondary-400"
@@ -54,13 +63,15 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName }: Props) => {
             Job Offer
           </span>
           <span className="text-x xl:text-base !font-600 text-primary-500">
-            ₹ 7 LPA - 12 LPA
+            {salary}
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="muted" className="px-4 py-4">
+         <Link href={`/${_id}`}>
+         <Button variant="muted" className="px-4 py-4">
             View full details
           </Button>
+         </Link>
           {showApplyButton && (
             <Button variant="primary" className="px-6 py-4">
               Apply Now
