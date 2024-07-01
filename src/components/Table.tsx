@@ -12,7 +12,7 @@ type TableProps<T> = {
 
 const Table = <T,>({ headers, data, renderCustomCell, className }: TableProps<T>) => {
   return (
-    <div className={twMerge(`w-[full] overflow-x-auto max-w-[1153px] mx-auto ${className}`)}>
+    <div className={twMerge(`w-full overflow-x-auto max-w-[1153px] mx-auto px-4 ${className}`)}>
     <div className="rounded-[14px]">
       <table className="table w-full">
         <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500">

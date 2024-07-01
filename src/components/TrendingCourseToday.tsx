@@ -8,7 +8,7 @@ const TrendingCourseToday = () => {
       <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
         <span className="highlight">Trending</span> Today⚡
       </h3>
-      <div className="w-full overflow-hidden wrapper-left">
+      <div className="w-full overflow-x-scroll wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
           {COURSE_DETAILS.map((details, index) => (
             <div key={index} className="carousel-item">

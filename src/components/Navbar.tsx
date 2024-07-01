@@ -18,16 +18,16 @@ const Navbar = () => {
   const [userType, setUserType] = useState<"Student" | "Employer">("Student");
 
   const navItems = [
-    { text: "Home", href: "#" },
-    { text: "Internships", href: "" },
-    { text: "Jobs", href: "" },
+    { text: "Home", href: "/" },
+    { text: "Internships", href: "/jobs" },
+    { text: "Jobs", href: "/jobs" },
     { text: "Programs", href: "" },
     { text: "Courses", href: "" },
     { text: "Contact Us", href: "" },
   ];
 
   const pfileItems = [
-    { text: "My Applications", href: "#" },
+    { text: "My Applications", href: "/applications" },
     { text: "Edit Resume", href: "" },
     { text: "Edit Preferences", href: "" },
   ];
