@@ -6,12 +6,10 @@ import LatestInternshipsForYou from "./_components/LatestInternshipsForYouCompon
 import TrendingToday from "../../../components/TrendingCourseToday";
 import WhatWeDoComponent from "../../../components/WhatWeDo";
 import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
-import ApplyFilter from "../(job-listing)/_components/ApplyFilter";
 
 const HomePage = () => {
   return (
     <div className="flex flex-col">
-      <ApplyFilter/>
       <HeroComponent />
       <LatestJobYouMightLikeComponent />
       <LatestInternshipsForYou />

@@ -21,6 +21,7 @@ import close from "@/assets/icons/Close Circle.svg";
 import profile from "@/assets/images/Ellipse 169.svg";
 import down from "@/assets/icons/Alt Arrow Down.svg";
 import arrowDown from "@/assets/icons/arrow-down.svg";
+import magnifer from "@/assets/icons/Magnifer.svg";
 
 export const IMAGES = {
   companyLogo,
@@ -42,7 +43,8 @@ export const IMAGES = {
   hero2,
   hero3,
   hero4,
-  arrowDown
+  arrowDown,
+  
 };
 
 export const ICONS = {
@@ -51,4 +53,5 @@ export const ICONS = {
   crossPrimary,
   application,
   share,
+  magnifer
 };
