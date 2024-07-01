@@ -19,12 +19,11 @@ export default function EmployeeRootLayout({ children }: any) {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-
   const navlinks = [
     {
       label: "Home",
       path: "/employer/home",
-      icon:home
+      icon: home
     },
   ];
 
@@ -36,7 +35,7 @@ export default function EmployeeRootLayout({ children }: any) {
         </div>
       ) : (
         <>
-          <Sidebar navlinks={navlinks}/>
+          <Sidebar navlinks={navlinks} />
           <div className="w-full h-full">
             <Header />
             {children}

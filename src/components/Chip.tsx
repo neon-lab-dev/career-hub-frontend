@@ -10,7 +10,7 @@ interface ChipProps {
 }
 
 const Chip: React.FC<ChipProps> = ({ variant, children , className}) => {
-    const baseStyles = 'px-4 pb-[10px] pt-2 rounded-[5px] font-semibold';
+    const baseStyles = ' pb-[10px] pt-2 rounded-[10px] px-4 font-semibold max-md:px-2';
     
     const variantStyles = {
         add: `bg-secondary-50 text-secondary-600 border border-secondary-200 ${baseStyles}`,
@@ -33,11 +33,11 @@ const Chip: React.FC<ChipProps> = ({ variant, children , className}) => {
     };
 
     return (
-        <div className={`w-[170px] flex gap-2 m-2 py-[20px] ${buttonClass}`}>
+        <div className={`flex justify-center gap-1 m-2 py-[20px] ${buttonClass}`}>
             <button className='text-[16px] font-semibold font-plus-jakarta-sans'>
                 {children}
             </button>
-            <Image src={getImageSource()} alt="Button Icon" width={24} height={24} />
+            <Image src={getImageSource()} alt="Button Icon" width={24} height={24} className=' cursor-pointer' />
         </div>
     );
 };

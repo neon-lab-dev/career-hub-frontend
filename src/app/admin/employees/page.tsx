@@ -11,11 +11,7 @@ import download from "@/assets/icons/download.svg";
 import Table from '@/components/Table';
 import DownloadCSVBtn from '../_reusableComponents/DownloadCSVBtn';
 import SearchInput from '../_reusableComponents/SearchInput';
-
-export type Header = {
-    header: string;
-    accessor: keyof DataItem;
-  };
+import { Header } from '../tableTypes';
   
   export type DataItem = {
     userName: string;
@@ -27,7 +23,7 @@ export type Header = {
 const Employees = () => {
 
     // Table data
-    const headers: Header[] = [
+    const headers: Header<DataItem>[] = [
         { header: "Name", accessor: "userName" },
         { header: "Email ID", accessor: "email" },
         { header: "Phone Number", accessor: "phone"},
@@ -43,7 +39,7 @@ const Employees = () => {
         },
       ];
     
-      const renderCustomCell = (column: Header, item: DataItem) => {
+      const renderCustomCell = (column: Header<DataItem>, item: DataItem) => {
         if (column.accessor === "actions") {
           return (
             <div key="actions">

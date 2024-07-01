@@ -20,7 +20,7 @@ const CertificateModel = () => {
             {/* Put this part before </body> tag */}
             <input type="checkbox" id="my_modal_7" className="modal-toggle" />
             <div className="modal" role="dialog" >
-                <div className=" max-w-xl max-md:w-[350px] modal-box">
+                <div className=" max-w-xl max-md:w-[350px]  modal-box">
                     <div className="flex max-md:flex-col gap-6 mt-4">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="Institute Name">Institute Name</label>
@@ -39,7 +39,7 @@ const CertificateModel = () => {
                             />
                         </div>
                     </div>
-                    <div className="flex gap-6 mt-4">
+                    <div className="flex   gap-6 mt-4">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="Course">Course</label>
                             <Input

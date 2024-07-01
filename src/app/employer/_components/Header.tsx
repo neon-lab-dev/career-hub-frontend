@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
-import profileImg from "@/assets/icons/profileImg.svg";
-import arrowDown from "@/assets/icons/Alt Arrow Down.svg";
+// import profileImg from "@/assets/icons/profileImg.svg";
+import { IMAGES } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -51,7 +51,7 @@ const Header = () => {
           <div className="flex items-center gap-[6px]">
             {/* Profile image */}
             <div className="w-8 h-8 rounded-full">
-              <Image src={profileImg} alt="user-profile-img" />
+              <Image src={IMAGES.profile} alt="user-profile-img" />
             </div>
 
             {/* User name */}
@@ -61,7 +61,7 @@ const Header = () => {
           </div>
 
           {/* Dropdown icon/arrow */}
-          <Image src={arrowDown} alt="arrow-down" />
+          <Image src={IMAGES.down} alt="arrow-down" />
         </div>
 
         {/* Dropdown Menues */}
