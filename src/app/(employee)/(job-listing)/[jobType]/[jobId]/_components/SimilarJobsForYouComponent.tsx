@@ -11,12 +11,10 @@ const SimilarJobsForYouComponent = () => {
       </h3>
       <div className="w-full overflow-hidden wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
-            <div key={index} className="carousel-item">
-              {jobDetails.map((details, index) => (
+            {jobDetails.map((details, index) => (
+              <div key={index} className="carousel-item">
                 <JobDetailCard
                   wrapperClassName="xl:min-w-[500px]"
-                  key={index}
                   _id={details._id}
                   companyLogo={details.companyLogo}
                   jobTitle={details.jobTitle}
@@ -26,9 +24,8 @@ const SimilarJobsForYouComponent = () => {
                   salary={details.salary}
                   showApplyButton
                 />
-              ))}
-            </div>
-          ))}
+              </div>
+            ))}
         </div>
       </div>
       <Button variant="outline" className="px-12 py-5">

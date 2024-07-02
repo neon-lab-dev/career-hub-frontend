@@ -15,10 +15,10 @@ const AuthModal: React.FC<TModalTypes> = ({
   setUserType,
 }) => {
   return (
-    <div className="mx-auto  flex items-center justify-center">
+    <div className="mx-auto  flex items-center justify-center m-10">
       <div
         onClick={() => setOpenModal(false)}
-        className={`fixed z-[100] flex items-center justify-center ${
+        className={`fixed z-[100] flex items-center justify-center p-10 ${
           openModal ? "opacity-1 visible" : "invisible opacity-0"
         } inset-0 bg-black/20 backdrop-blur-sm duration-100 `}
       >
@@ -28,7 +28,7 @@ const AuthModal: React.FC<TModalTypes> = ({
             scrollbarColor: "rgba(107, 114, 128, 0.5) rgba(255, 255, 255, 0.1)",
           }}
           onClick={(e_) => e_.stopPropagation()}
-          className={`font-plus-jakarta-sans w-[529px] ${
+          className={`font-plus-jakarta-sans w-full max-w-[529px] ${
             modalType === "OTP"
               ? "h-[375px] overflow-hidden"
               : "h-[550px]"
