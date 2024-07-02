@@ -13,7 +13,7 @@ const HomePage = () => {
       <HeroComponent />
       <LatestJobYouMightLikeComponent />
       <LatestInternshipsForYou />
-      {/* <TrendingToday /> */}
+      <TrendingToday />
       <OurValuableHiringPartners />
       <WhatWeDoComponent />
     </div>

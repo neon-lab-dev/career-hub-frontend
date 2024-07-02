@@ -72,7 +72,7 @@ const Applications = () => {
             </h1>
           </div>
 
-          <div className="flex items-center justify-center gap-5">
+          <div className="flex items-center justify-start lg:justify-center gap-5 overflow-x-scroll w-full px-4 md:px-0">
 
 
           <StatusCard
