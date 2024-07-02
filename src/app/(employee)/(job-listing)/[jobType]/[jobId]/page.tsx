@@ -135,7 +135,7 @@ const JobIdPage = ({ params: { jobType, jobId } }: Props) => {
         </div>
       </div>
       <SimilarJobsForYou />
-      {/* <TrendingCourseToday /> */}
+      <TrendingCourseToday /> 
       <OurValuableHiringPartners />
       <WhatWeDo />
     </div>
