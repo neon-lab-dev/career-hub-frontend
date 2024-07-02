@@ -3,6 +3,8 @@ import Button from '@/components/Button'
 import Chip from '@/components/Chip'
 import Image from 'next/image'
 import React from 'react'
+import ResumeEducationModel from './ResumeEducationModel'
+
 
 const EducationComponent = () => {
     return (
@@ -13,7 +15,7 @@ const EducationComponent = () => {
                         <div className='flex gap-4 max-md:gap-1 items-center '>
                             <span className=' text-4xl text-secondary-700 font-600 max-md:text-lg '>Education Details</span>
                         </div>
-                        <Chip  variant='add' className='w-[140px] max-md:text-md items-center'><span>Add New</span></Chip>
+                    <ResumeEducationModel/>
                     </div>
                     <hr className=' pb-10  mx-2'/>
                     <div className='flex max-md:flex-col justify-between border-2 border-neutral-100 p-6 rounded-xl '>
