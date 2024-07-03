@@ -1,4 +1,3 @@
-"use client"
 import React from "react";
 import HeroComponent from "./_components/HeroComponent";
 import LatestJobYouMightLikeComponent from "./_components/LatestJobYouMightLikeComponent";

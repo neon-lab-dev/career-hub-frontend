@@ -1,10 +1,12 @@
-import { ICONS } from "@/assets";
 import Button from "@/components/Button";
 import JobDetailCard from "@/components/JobDetailCard";
-import { jobDetails } from "@/mockData/jobCard";
+import { getLatestInternships } from "@/api/jobs";
+import Link from "next/link";
 import React from "react";
 
-const LatestInternshipsForYouComponent = () => {
+const LatestInternshipsForYouComponent = async () => {
+  const internships = await getLatestInternships();
+  if (!internships || internships.length === 0) return null;
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
       <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
@@ -16,26 +18,21 @@ const LatestInternshipsForYouComponent = () => {
       </h3>
       <div className="w-full overflow-hidden wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
-            {jobDetails.map((details, index) => (
-              <div key={index} className="carousel-item">
-                <JobDetailCard
-                  wrapperClassName="xl:min-w-[500px]"
-                  _id={details._id}
-                  companyLogo={details.companyLogo}
-                  jobTitle={details.jobTitle}
-                  companyName={details.companyName}
-                  location={details.location}
-                  employmentType={details.employmentType}
-                  salary={details.salary}
-                  showApplyButton
-                />
-              </div>
-            ))}
+          {internships.map((details, index) => (
+            <div key={index} className="carousel-item">
+              <JobDetailCard
+                wrapperClassName="xl:min-w-[500px]"
+                job={details}
+              />
+            </div>
+          ))}
         </div>
       </div>
-      <Button variant="outline" className="px-12 py-5">
-        View all openings
-      </Button>
+      <Link href="/internships">
+        <Button variant="outline" className="px-12 py-5">
+          View all openings
+        </Button>
+      </Link>
     </div>
   );
 };
