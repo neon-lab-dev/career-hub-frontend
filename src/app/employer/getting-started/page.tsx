@@ -1,10 +1,14 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import GetStartedLayout from '../../(employee)/getting-started/_components/getStartedLayout';
+import Image from 'next/image';
+import { IMAGES } from '@/assets';
+import Link from 'next/link';
+
 
 const Page = () => {
   const { handleSubmit, control } = useForm();
@@ -22,14 +26,11 @@ const Page = () => {
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      // Assuming you have different endpoints for POST and PUT
-      // Modify the URL and method as per your API
       await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data);
-      // await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data);
-      setStep(step + 1); // Move to next step after successful submission
+      setStep(4); // Move to step 4 after successful submission
     } catch (error) {
       setError(error.message);
     } finally {
@@ -37,6 +38,7 @@ const Page = () => {
     }
   };
 
+  
   return (
     <GetStartedLayout progress={step * 25} goToPreviousStep={goToPreviousStep}>
       <div className="flex justify-center w-full">
@@ -292,16 +294,34 @@ const Page = () => {
                 </div>
               </>
             )}
+            {step === 4 && (
+               <div className=''>
+               <div className="flex  justify-center jus font-plus-jakarta-sans py-6  max-md:text-xl font-900 text-3xl max-md:text-center pr-4 max-md:pr-0">
+                 <span>Your Profile is created successfully</span>
+               </div>
+               {/* Add education form fields here */}
+               <div className='flex justify-center'>
+                 <Image src={IMAGES.sucess} alt='bin' />
+               </div>
+               <div className='flex justify-center max-lg:mt-32'>
+                 <Button variant="primary" type="submit" className='mt-4 mb-10 max-md:w-[230px] max-lg:w-[400px]' disabled={loading} onClick={handleContinue}>
+                   <Link href="/">
+                     {loading ? 'Loading...' : 'Back to home'}
+                   </Link>
+                 </Button>
+               </div>
+             </div>
+            )}
             <div className="flex justify-center mt-8">
               {step === 3 ? (
                 <Button type="submit" loading={loading} disabled={loading}>
                   Submit
                 </Button>
-              ) : (
+              ) : step !== 4 ? (
                 <Button type="button" onClick={handleContinue} disabled={loading}>
                   Continue
                 </Button>
-              )}
+              ) : null}
             </div>
           </form>
         </div>

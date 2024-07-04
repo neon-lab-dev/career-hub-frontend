@@ -1,9 +1,9 @@
 import React from 'react';
 import { ICONS, IMAGES } from '@/assets';
 import Image from 'next/image';
-import ResumeCertificationModel from './ResumeCertificationModel';
 
-const Certifcation = () => {
+
+const Certifcations = () => {
   return (
     <div className="pt-2 pb-10 bg-secondary-50 font-plus-jakarta-sans">
             <div className="max-width flex">
@@ -12,7 +12,6 @@ const Certifcation = () => {
                         <div className="flex gap-4 items-center">
                             <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Certifications</span>
                         </div>
-                        <ResumeCertificationModel/>
                     </div>
                     <hr className='pb-10 mx-4' />
                     <div className="flex justify-between items-start max-md:items-center border-2 border-neutral-100 p-6 max-md:p-3 rounded-xl">
@@ -37,4 +36,4 @@ const Certifcation = () => {
   )
 }
 
-export default Certifcation
+export default Certifcations
