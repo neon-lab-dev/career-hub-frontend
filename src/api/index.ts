@@ -2,6 +2,7 @@ const baseUrl = process.env.BASE_URL + '/api/v1';
 
 const api = {
     jobs : baseUrl + '/jobs',
+    job: baseUrl + '/job',
     createJob : baseUrl + '/createjob',
 
     // for employees
@@ -28,6 +29,7 @@ const api = {
     employerProfile : baseUrl + '/employeer/me',
     updateEmployerPRofile : baseUrl + '/employeer/me/update',
     updateEmployerPassword : baseUrl + '/employeer/password/update',
+    applyForJob: baseUrl + '/apply/job', // :jobId
 };
 
 export default api;
