@@ -1,89 +1,132 @@
-
+import React, { useState } from 'react';
 import { IMAGES } from '@/assets';
 import Image from 'next/image';
 import Input from "@/components/Input";
 import Button from '@/components/Button';
 
+const WorkExperienceModel = ({ formData, setFormData }) => {
+    const [title, setTitle] = useState('');
+    const [company, setCompany] = useState('');
+    const [location, setLocation] = useState('');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [description, setDescription] = useState('');
 
+    const handleAddExperience = () => {
+        const newExperience = {
+            title: title,
+            company: company,
+            location: location,
+            startDate: startDate,
+            endDate: endDate,
+            description: description
+        };
 
-const WorkExp = () => {
+        setFormData({
+            ...formData,
+            experience: [...formData.experience, newExperience] // Updated from workExperience to experience
+        });
+
+        setTitle('');
+        setCompany('');
+        setLocation('');
+        setStartDate('');
+        setEndDate('');
+        setDescription('');
+    };
+
     return (
-        <div>{/* The button to open modal */}
-            <div className=' flex justify-end'>
-                <label htmlFor="my_modal_7" className=" bg-white">
-                    <div className=' flex justify-end gap-2 cursor-pointer'>
-                        <span className=' text-primary-500 text-[16px] font-600'>Add More</span>
-                        <Image src={IMAGES.circle} alt='circle' />
+        <div>
+            <div className='flex justify-end'>
+                <label htmlFor="work_experience_modal" className="bg-white">
+                    <div className='flex justify-end gap-2 cursor-pointer max-md:mx-4'>
+                        <span className='text-primary-500 text-[16px] font-600'>Add More</span>
+                        <Image src={IMAGES.circle} alt="circle" />
                     </div>
                 </label>
             </div>
-            {/* Put this part before </body> tag */}
-            <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-            <div className="modal" role="dialog" >
-                <div className=" max-w-3xl max-md:w-[350px] modal-box">
-                    <div className="flex gap-6 mt-4">
-                        <div className="flex flex-col gap-2">
-                            <label htmlFor="Company Name">Company Name</label>
-                            <Input
-                                id="Company Name"
-                                placeholder="eg., Google"
-                                className='w-[350px]  max-md:w-[140px] max-md:placeholder:text-xs'
-                            />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <label htmlFor="City, State">City, State</label>
-                            <Input
-                                id="pinCode"
-                                placeholder="mm/yyyy"
-                                className='w-[350px]  max-md:w-[140px] max-md:placeholder:text-xs'
-                            />
-                        </div>
-                    </div>
-                    <div className="flex gap-6 mt-4">
-                        <div className="flex flex-col gap-2">
-                            <label htmlFor="From">From</label>
-                            <Input
-                                id="From"
-                                placeholder=""
-                                type='month'
-                                className='w-[350px]  max-md:w-[140px] max-md:placeholder:text-xs'
 
+            <input type="checkbox" id="work_experience_modal" className="modal-toggle" />
+            <div className="modal" role="dialog">
+                <div className="max-w-2xl max-md:w-[350px] modal-box">
+                    <div className="flex max-md:flex-col gap-6 mt-4">
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="title">Title</label>
+                            <Input
+                                id="title"
+                                placeholder="e.g., Software Developer"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className='w-[310px]'
                             />
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label htmlFor="to">to</label>
+                            <label htmlFor="company">Company</label>
                             <Input
-                                id="to"
-                                placeholder=""
-                                type='month'
-                                className='w-[350px]  max-md:w-[140px] max-md:placeholder:text-xs   '
+                                id="company"
+                                placeholder="Company Name"
+                                value={company}
+                                onChange={(e) => setCompany(e.target.value)}
+                                className='w-[310px]'
                             />
                         </div>
                     </div>
-                    <div className="flex flex-col mt-4 gap-2">
-                        <label htmlFor="Work Description">Work Description</label>
-                        <textarea
-                            id="Work Description"
-                            placeholder="You can write about what was the goal of this project? How did you develop this project? and What are some important features of the project?"
-                            className='border p-4 rounded-xl'
-                        />
+                    <div className="flex gap-6 mt-4">
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="location">Location</label>
+                            <Input
+                                id="location"
+                                placeholder="City, State"
+                                value={location}
+                                onChange={(e) => setLocation(e.target.value)}
+                                className='w-[310px]'
+                            />
+                        </div>
                     </div>
-                    <div className="flex flex-col mt-4 gap-2">
-                        <label htmlFor="Project Links">Project Links</label>
-                        <Input
-                            id="Project Links"
-                            type="text"
-                            placeholder="Link Here"
-                        />
+                    <div className="flex gap-6 mt-4">
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="startDate">Start Date</label>
+                            <Input
+                                id="startDate"
+                                placeholder="Start Date"
+                                type='date'
+                                value={startDate}
+                                onChange={(e) => setStartDate(e.target.value)}
+                                className='w-[310px]'
+                            />
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="endDate">End Date</label>
+                            <Input
+                                id="endDate"
+                                placeholder="End Date"
+                                type='date'
+                                value={endDate}
+                                onChange={(e) => setEndDate(e.target.value)}
+                                className='w-[310px]'
+                            />
+                        </div>
                     </div>
-                    <Button variant="primary" className='mt-4'>
-                        {"Add Work Experience"}
+                    <div className="flex gap-6 mt-4">
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="description">Description</label>
+                            <textarea
+                                id="description"
+                                placeholder="Describe your role and responsibilities"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                className='border p-4 rounded-xl w-[310px]'
+                            />
+                        </div>
+                    </div>
+                    <Button variant="primary" className='mt-4' onClick={handleAddExperience}>
+                        {"Add Experience"}
                     </Button>
                 </div>
-                <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>
+                <label className="modal-backdrop" htmlFor="work_experience_modal">Close</label>
             </div>
         </div>
-    )
+    );
 }
 
-export default WorkExp
+export default WorkExperienceModel;
