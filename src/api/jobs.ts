@@ -28,3 +28,8 @@ export const getJobById = async (id: string) => {
   }>(`${api.job}/${id}`);
   return job?.jobs ?? null;
 };
+
+export const getJobsByTitle = async (title: string) => {
+  const jobs = await fetchData<IJobResponse>(`${api.jobs}?keyword=${title}`);
+  return jobs?.jobs ?? [];
+};
