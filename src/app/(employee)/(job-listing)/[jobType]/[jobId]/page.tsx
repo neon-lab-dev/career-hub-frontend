@@ -153,7 +153,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
         </div>
       </div>
       <SimilarJobsForYou />
-      {/* <TrendingCourseToday /> */}
+      <TrendingCourseToday /> 
       <OurValuableHiringPartners />
       <WhatWeDo />
     </div>
