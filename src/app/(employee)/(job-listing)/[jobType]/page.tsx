@@ -56,11 +56,13 @@ const Page = ({ params: { jobType } }: Props) => {
 
     setSearchResult(
       jobs.filter((job) => {
+        // @ts-ignore
         const jobTitleWords = job.title
           .toLowerCase()
           .trim()
           .split(/[\s-]+/);
         return searchWords.every((word) =>
+          // @ts-ignore
           jobTitleWords.some((jobWord) => jobWord.includes(word))
         );
       })
