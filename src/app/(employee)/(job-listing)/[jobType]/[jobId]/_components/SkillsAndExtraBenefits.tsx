@@ -14,7 +14,7 @@ const SkillsAndExtraBenefits = ({
   skills,
 }: Props) => {
   return (
-    <div className={twMerge("min-w-[447px] flex flex-col gap-6", className)}>
+    <div className={twMerge("sm:min-w-[447px] flex flex-col gap-6", className)}>
       <SkillsContainerComponent title="Skills" labels={skills} />
       <SkillsContainerComponent
         title="Extra Benefits"

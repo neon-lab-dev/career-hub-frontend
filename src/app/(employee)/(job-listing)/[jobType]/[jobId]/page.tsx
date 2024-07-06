@@ -25,7 +25,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
   if (!job) return <NotFound />;
   return (
     <div>
-      <div className="wrapper flex flex-col xl:gap-16">
+      <div className="wrapper flex flex-col xl:gap-16 pb-6">
         {/* job titles and cta */}
         <div className="py-16 flex items-end justify-between">
           <div className="flex gap-5 items-center">
@@ -47,9 +47,9 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
               </div>
             </div>
           </div>
-          <div className="xl:flex items-center gap-5 hidden">
+          <div className="fixed z-30 sm:z-auto bottom-0 left-0 w-full sm:w-auto sm:static flex-row-reverse sm:flex-row flex items-center gap-5 bg-white py-3 px-6 sm:px-0 sm:py-0">
             <JobShareButton jobTitle="Test Title" />
-            <Button>Apply Now</Button>
+            <Button className="w-full sm:w-auto">Apply Now</Button>
           </div>
         </div>
         {/* job details */}
@@ -152,7 +152,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
           />
         </div>
       </div>
-      <SimilarJobsForYou />
+      <SimilarJobsForYou title={job.title} type={jobType} ignore={jobId} />
       {/* <TrendingCourseToday /> */}
       <OurValuableHiringPartners />
       <WhatWeDo />
