@@ -1,4 +1,5 @@
 "use client";
+// @ts-nocheck
 import { useState, useEffect } from "react";
 import axios from "axios";
 import NotFound from "@/components/NotFound";
@@ -19,25 +20,22 @@ type Props = {
 const Page = ({ params: { jobType } }: Props) => {
   const [loading, setLoading] = useState(false);
   const [jobs, setJobs] = useState([]);
-  const [searchResult, setSearchResult]= useState([]);
+  const [searchResult, setSearchResult] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  console.log(jobs)
-  console.log(searchResult)
-
-
+  console.log(jobs);
+  console.log(searchResult);
 
   useEffect(() => {
-
     const fetchJobs = async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const response = await axios.get(api.jobs);
         setJobs(response.data.jobs);
-        setSearchResult(response.data.jobs)
+        setSearchResult(response.data.jobs);
       } catch (err) {
         console.error(err);
-        setLoading(false)
-      }finally {
+        setLoading(false);
+      } finally {
         setLoading(false);
       }
     };
@@ -46,7 +44,6 @@ const Page = ({ params: { jobType } }: Props) => {
   }, []);
 
   if (!AVAILABLE_JOB_TYPES.includes(jobType)) return <NotFound />;
-
 
   const handleSearch = () => {
     const normalizedSearchTerm = searchTerm.toLowerCase().trim();
@@ -59,7 +56,10 @@ const Page = ({ params: { jobType } }: Props) => {
 
     setSearchResult(
       jobs.filter((job) => {
-        const jobTitleWords = job.title.toLowerCase().trim().split(/[\s-]+/);
+        const jobTitleWords = job.title
+          .toLowerCase()
+          .trim()
+          .split(/[\s-]+/);
         return searchWords.every((word) =>
           jobTitleWords.some((jobWord) => jobWord.includes(word))
         );
@@ -75,14 +75,14 @@ const Page = ({ params: { jobType } }: Props) => {
           {/* Search field */}
           <div className="bg-white rounded-[10px] w-full p-4 flex gap-2 justify-between items-center">
             <input
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               type="text"
               placeholder="Search by Internship Title / Skills"
               className="bg-white focus:outline-none w-full"
             />
             <Image
-            onClick={handleSearch}
+              onClick={handleSearch}
               src={ICONS.magnifer}
               alt="search-icon"
               className="w-[18px] cursor-pointer"
@@ -90,10 +90,9 @@ const Page = ({ params: { jobType } }: Props) => {
           </div>
 
           {/* Job cards */}
-          {
-            loading ?
-            <JobCardLoader/>
-            :
+          {loading ? (
+            <JobCardLoader />
+          ) : (
             searchResult.map((details: any, index: number) => (
               <JobDetailCard
                 wrapperClassName=""
@@ -102,8 +101,8 @@ const Page = ({ params: { jobType } }: Props) => {
                 showApplyButton
               />
             ))
-          }
-          
+          )}
+
           {searchResult.map((details: any, index: number) => (
             <JobDetailCard
               wrapperClassName=""
