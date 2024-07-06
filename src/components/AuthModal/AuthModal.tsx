@@ -1,19 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 // import Image from "next/image";
 // import closeIcon from "../../assets/icons/Close-Circle-modal.svg";
 import Login from "./Login";
 import Signup from "./Signup";
 import OTP from "./OTP";
 import { TModalTypes } from "./AuthModal.types";
+import { useAuth } from "@/providers/AuthProvider";
 
 const AuthModal: React.FC<TModalTypes> = ({
   openModal,
   setOpenModal,
   modalType,
   setModalType,
-  userType,
-  setUserType,
+  // userType,
+  // setUserType,
 }) => {
+  const { userType, setUserType } = useAuth();
+
+  const [email, setEmail] = useState<string>('');
   return (
     <div className="mx-auto  flex items-center justify-center m-10">
       <div
@@ -58,7 +62,7 @@ const AuthModal: React.FC<TModalTypes> = ({
                   ? "Signup"
                   : modalType === "OTP" && "Verify"}
               </span>
-              {modalType === "OTP" ? "Your Number" : "to Career Hub"}
+              {modalType === "OTP" ? "Your Email" : "to Career Hub"}
             </h1>
           </div>
 
@@ -94,12 +98,12 @@ const AuthModal: React.FC<TModalTypes> = ({
             )}
 
             {modalType === "Login" ? (
-              <Login setModalType={setModalType} />
+              <Login setOpenModal={setOpenModal} setModalType={setModalType} />
             ) : modalType === "Signup" ? (
-              <Signup setModalType={setModalType} />
+              <Signup setEmail={setEmail} setModalType={setModalType} />
             ) : (
-              <OTP setModalType={setModalType} />
-            )}
+              <OTP setOpenModal={setOpenModal} email={email} setModalType={setModalType} />
+            )} 
           </div>
         </div>
       </div>

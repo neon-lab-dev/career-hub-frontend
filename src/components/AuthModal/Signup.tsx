@@ -6,11 +6,22 @@ import downArrow from "../../assets/icons/down-arrow.svg";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
-import { TSignupLoginModalTypes } from "./AuthModal.types";
+import api from "@/api";
+import axios from "axios";
+import { toast } from "sonner";
+import { useAuth } from "@/providers/AuthProvider";
 
-const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
+type TSignupModalTypes = {
+  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP">>;
+  setEmail: Dispatch<SetStateAction<string>>;
+};
+
+const Signup: React.FC<TSignupModalTypes> = ({ setModalType, setEmail }) => {
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
+
+  const {userType} = useAuth();
 
   const countryCodes: string[] = [
     "+91", // India
@@ -250,9 +261,8 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
-  // This userInfo state holds all the user inputs
-  // const [userInfo, setUserInfo] = useState();
   const [countryCode, setCountryCode] = useState("+91");
+
   const {
     register,
     handleSubmit,
@@ -260,24 +270,42 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
     watch,
   } = useForm();
 
-  const handleSignup = (data: any) => {
-    const { email, phoneNumber, password, confirmPassword } = data;
+  const handleSignup = async (data: any) => {
+    const { full_name, email, mobilenumber, password, confirm_password } = data;
 
-    const phoneNumberWithCountryCode = `${countryCode}${phoneNumber}`;
+    const phoneNumberWithCountryCode = `${countryCode}${mobilenumber}`;
 
     const userSignupData = {
+      full_name,
       email,
-      phoneNumber: phoneNumberWithCountryCode,
+      mobilenumber: phoneNumberWithCountryCode,
       password,
-      confirmPassword,
+      confirm_password,
     };
 
-    // setUserInfo(userData);
+    setEmail(email);
 
-    console.log(userSignupData);
-    setModalType("OTP");
+    setLoading(true);
+
+    
+    try {
+      const apiEndpoint = userType === "Student" ? api.employeeRegister : api.employerRegistration;
+      const response = await axios.post(apiEndpoint, userSignupData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      console.log(response.data);
+      if (response.data.success) {
+        setModalType("OTP");
+      }
+      setLoading(false);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
+      setLoading(false);
+    }
   };
-  // console.log(userInfo);
   const password = watch("password");
 
   return (
@@ -287,6 +315,27 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
         className="font-plus-jakarta-sans"
       >
         <div className="flex flex-col gap-5">
+          {/* Full Name */}
+          <div className="flex flex-col gap-[6px]">
+            <label
+              htmlFor="full_name"
+              className="text-neutral-700 text-base font-500 text-start"
+            >
+              Full Name*
+            </label>
+            <input
+              {...register("full_name", { required: "Name is required" })}
+              placeholder="John Doe"
+              type="text"
+              className="p-4 rounded-xl border-[1px] border-neutral-300 focus:outline-none"
+            />
+            {errors.full_name && (
+              <span className="text-primary-500 text-start">
+                {errors.full_name.message as string}
+              </span>
+            )}
+          </div>
+
           {/* Email */}
           <div className="flex flex-col gap-[6px]">
             <label
@@ -311,7 +360,7 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
           {/* Mobile Number */}
           <div className="flex flex-col gap-[6px]">
             <label
-              htmlFor="phoneNumber"
+              htmlFor="mobilenumber"
               className="text-neutral-700 text-base font-500 text-start"
             >
               Mobile Number*
@@ -320,7 +369,7 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
               <div ref={dropDownRef} className="relative">
                 <div
                   onClick={() => setOpen((prev) => !prev)}
-                  className="flex cursor-pointer"
+                  className="flex cursor-pointer border"
                 >
                   {countryCode}
                   <Image src={downArrow} alt="down-arrow" />
@@ -332,7 +381,7 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
                     scrollbarColor:
                       "rgba(107, 114, 128, 0.5) rgba(255, 255, 255, 0.1)",
                   }}
-                  className={`cursor-pointer bg-white flex flex-col gap-4 w-28 h-56 rounded ${
+                  className={`cursor-pointer bg-white flex flex-col gap-4 w-6 h-56 ml-2 rounded ${
                     open ? "visible shadow-2xl" : "invisible"
                   } absolute -left-6 top-10 z-50 w-full space-y-1 py-2`}
                 >
@@ -360,7 +409,7 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
                 </ul>
               </div>
               <input
-                {...register("phoneNumber", {
+                {...register("mobilenumber", {
                   required: "Phone number is required",
                 })}
                 placeholder="Enter Mobile Number"
@@ -368,9 +417,9 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
                 className="focus:outline-none w-full"
               />
             </div>
-            {errors.phoneNumber && (
+            {errors.mobilenumber && (
               <span className="text-primary-500 text-start">
-                {errors.phoneNumber.message as string}
+                {errors.mobilenumber.message as string}
               </span>
             )}
           </div>
@@ -388,10 +437,10 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
                 required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: "Password must be at least 6 characters",
+                  message: "Password must be greater than 8 characters",
                 },
               })}
-              placeholder="Must be at least 6 Characters"
+              placeholder="Password must be greater than 8 characters"
               type="password"
               className="p-4 rounded-xl border-[1px] border-neutral-300 focus:outline-none"
             />
@@ -411,22 +460,23 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
               Confirm Password*
             </label>
             <input
-              {...register("confirmPassword", {
+              {...register("confirm_password", {
                 required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: "Password must be at least 6 characters",
+                  message:
+                    "Password Password must be greater than 8 characters",
                 },
                 validate: (value) =>
                   value === password || "Passwords do not match",
               })}
-              placeholder="Must be at least 6 Characters"
+              placeholder="Password must be greater than 8 characters"
               type="password"
               className="p-4 rounded-xl border-[1px] border-neutral-300 focus:outline-none"
             />
-            {errors.confirmPassword && (
+            {errors.confirm_password && (
               <span className="text-primary-500 text-start">
-                {errors.confirmPassword.message as string}
+                {errors.confirm_password.message as string}
               </span>
             )}
           </div>
@@ -440,7 +490,8 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
         </p>
 
         <Button className="w-full mt-5" variant="primary">
-          Get OTP
+          {loading ? "Loading..." : "Get OTP"}
+          {/* Get OTP */}
         </Button>
 
         <p className="text-neutral-700 text-sm font-400 text-center mt-8">

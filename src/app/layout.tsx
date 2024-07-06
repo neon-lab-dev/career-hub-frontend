@@ -1,5 +1,7 @@
 import { Toaster } from "sonner";
 import "./globals.css";
+import { AuthProvider } from "@/providers/AuthProvider";
+// import { ReactQueryClientProvider } from "@/providers/QueryClientProvider";
 
 export const metadata = {
   title: "Career Hub",
@@ -12,11 +14,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-white text-black">
+    // <ReactQueryClientProvider>
+    <AuthProvider>
+<html lang="en" className="bg-white text-black">
+      
       <body>
         {children}
-        <Toaster />
+        <Toaster position="top-center" />
       </body>
     </html>
+    </AuthProvider>
+    
+      // </ReactQueryClientProvider>
   );
 }

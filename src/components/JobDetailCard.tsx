@@ -56,7 +56,13 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName, job }: Props) => {
         <div className="flex flex-col gap-1 ">
           <span className="text-xs xl:text-base text-neutral-400">Salary</span>
           <span className="text-x xl:text-base !font-600 text-primary-500">
-            {job.salary}
+            {
+              job.salary === "Unpaid" ?
+              ""
+              : 
+              "₹"
+            }
+          {job.salary}
           </span>
         </div>
         <div className="flex items-center gap-3">

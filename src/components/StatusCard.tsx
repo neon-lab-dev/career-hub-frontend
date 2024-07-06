@@ -8,7 +8,7 @@ import closeCircle from '@/assets/icons/close-circle.svg';
 
 type TStatusCardProps ={
     icon?: any
-    title: string
+    title: string | number
     label: string
     variant: 'Applications' | 'Review' | 'Selected' | 'Rejected';
 }

@@ -2,15 +2,12 @@
 import React, { ChangeEventHandler, useEffect, useState } from "react";
 import { IMAGES } from "@/assets";
 import Image from "next/image";
-import InterhshipType from "./InterhshipType";
 import ExperiencedLevel from "./ExperiencedLevel";
 import InternshipMode from "./InternshipMode";
 import MonthlyStipend from "./MonthlyStipend";
 import MaxDuration from "./MaxDuration";
 
 const ApplyFilter = () => {
-  const [selectedInternshipType, setSelectedInternshipType] =
-    useState<string>("");
   const [experienceLevel, setExperienceLevel] = useState<string>("");
   const [selectedMode, setSelectedMode] = useState<string>("");
   const [monthlyStipend, setMonthlyStipend] = useState<number>(0);
@@ -18,7 +15,6 @@ const ApplyFilter = () => {
 
   // Clear all the states
   const clearFilters = () => {
-    setSelectedInternshipType("");
     setMonthlyStipend(0);
     setDuration(0);
     setSelectedMode("");
@@ -44,11 +40,7 @@ const ApplyFilter = () => {
         <hr className="border border-neutral-650" />
       </div>
 
-      {/* Internship Type Dropdown */}
-      <InterhshipType
-        selectedInternshipType={selectedInternshipType}
-        setSelectedInternshipType={setSelectedInternshipType}
-      />
+      
 
       {/* Experience Level Dropdown */}
       <ExperiencedLevel

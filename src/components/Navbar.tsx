@@ -1,21 +1,53 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { IMAGES } from "@/assets";
 import Button from "./Button";
 import AuthModal from "./AuthModal/AuthModal";
+import { deleteUser, getUserDataFromLocalStorage } from "@/api/authentication";
+import api from './../api/index';
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useAuth } from "@/providers/AuthProvider";
+
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false); // State to manage menu open/close
-  const [loggedIn, setLoggedIn] = useState(false); // State to manage login status
+    // For opening the modal
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    // Modal types
+    const [modalType, setModalType] = useState<"Login" | "Signup" | "OTP">("OTP");
+    // User type
+    // const [userType, setUserType] = useState<"Student" | "Employer">("Student");
+  const router = useRouter()
+  const [isOpen, setIsOpen] = useState<boolean>(false); // State to manage menu open/close
+  // const [loggedIn, setLoggedIn] = useState(false);
+  
+  const {user, logout,fetchProfile, userType, setUserType  } = useAuth();
+  
 
-  // For opening the modal
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  // Modal types
-  const [modalType, setModalType] = useState<"Login" | "Signup" | "OTP">("OTP");
-  // User type
-  const [userType, setUserType] = useState<"Student" | "Employer">("Student");
+
+  
+  console.log(user?.full_name)
+
+  // const user = getUserDataFromLocalStorage();
+
+  const handleEmployeeLogout = async () => {
+    try {
+      await logout();
+      toast.success('Logged out successfully!');
+      setIsOpen(!isOpen);
+      
+      // localStorage.setItem('userType', null)
+      console.log(user);
+    } catch (error) {
+      toast.error('Log out failed! Please try again.');
+    }
+  };
+
+
+
 
   const navItems = [
     { text: "Home", href: "/" },
@@ -37,15 +69,15 @@ const Navbar = () => {
     setIsOpen(!isOpen); // Toggle menu state
   };
 
-  // Function to handle login click
-  const handleLoginClick = () => {
-    setLoggedIn(true); // Set logged-in state to true
-  };
+  // // Function to handle login click
+  // const handleLoginClick = () => {
+  //   setLoggedIn(true); // Set logged-in state to true
+  // };
 
-  // Function to handle logout click
-  const handleLogoutClick = () => {
-    setLoggedIn(false); // Set logged-in state to false
-  };
+  // // Function to handle logout click
+  // const handleLogoutClick = () => {
+  //   setLoggedIn(false); // Set logged-in state to false
+  // };
 
   return (
     <>
@@ -56,14 +88,14 @@ const Navbar = () => {
           </span>
           <ul className="flex gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold max-lg:hidden font-poppins">
             {navItems.map((item, index) => (
-              <li key={index} className="hover:text-primary-500 max-xl:text-[13px]">
+              <li key={index} className="hover:text-primary-500 transition duration-300 max-xl:text-[13px]">
                 <Link href={item.href}>{item.text}</Link>
               </li>
             ))}
           </ul>
         </div>
         <div className="flex gap-4  font-plus-jakarta-sans max-lg:hidden">
-          {!loggedIn ? (
+          {!user ? (
             <>
               <Button
                 onClick={() => {
@@ -89,7 +121,15 @@ const Navbar = () => {
             <>
               <div className="dropdown dropdown-bottom dropdown-end dropdown-hover">
                 <div tabIndex={0} role="button" className="  flex gap-1">
-                  <Image src={IMAGES.profile} alt={""} />
+                  <div className="size-10 rounded-full border border-primary-500 text-primary-500 font-bold flex justify-center items-center">
+                    <p>
+                    {user?.full_name
+                          .split(" ")
+                          .map((letter : string) => letter.charAt(0))
+                          .join("")}
+                    </p>
+                  </div>
+                  {/* <Image src={IMAGES.profile} alt={""} /> */}
 
                   <Image
                     src={IMAGES.down}
@@ -102,25 +142,32 @@ const Navbar = () => {
                   className="dropdown-content z-[1] mt-4 menu  shadow bg-base-100 rounded-box w-80"
                 >
                   <div className="flex flex-col px-2 py-2">
-                    <span className=" font-bold">John Doe</span>
-                    <span>wedontgojim@gmail.com</span>
+                    <span className=" font-bold">{user?.full_name}</span>
+                    <span>{user?.email}</span>
                   </div>
                   <hr />
-                  {pfileItems.map((item, index) => (
-                    <li
-                      key={index}
-                      className="hover:text-primary-500 py-1 font-bold"
-                    >
-                      <Link href={item.href}>
-                        <div>{item.text}</div>
-                      </Link>
-                    </li>
-                  ))}
+                  {
+                    userType === "Student" ?
+                    pfileItems.map((item, index) => (
+                      <li
+                        key={index}
+                        className="hover:text-primary-500 py-1 font-bold"
+                      >
+                        <Link href={item.href}>
+                          <div>{item.text}</div>
+                        </Link>
+                      </li>
+                    ))
+                    : 
+                    ""
+                  }
+                  
                   <hr />
                   <div className="flex justify-center">
                     <button
+                    onClick={() => handleEmployeeLogout()}
                       className=" text-center text-primary-500 text-xl flex justify-center  py-2"
-                      onClick={handleLogoutClick}
+                      // onClick={handleLogoutClick}
                     >
                       <span className=" text-center font-bold">Logout</span>
                     </button>
@@ -132,7 +179,7 @@ const Navbar = () => {
         </div>
         <div className="relative lg:hidden">
           <div className="flex items-center gap-4">
-            <Button variant="normal" onClick={handleLoginClick}>
+            <Button variant="normal">
               Register
             </Button>
             <button
@@ -151,7 +198,7 @@ const Navbar = () => {
           >
             <button
               onClick={toggleMenu}
-              className=" m-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+              className=" mx-2 text-gray-600 hover:text-gray-900 focus:outline-none"
               aria-label="Close menu"
             >
               <Image src={IMAGES.close} alt="Close" width={24} height={24} />
@@ -175,17 +222,27 @@ const Navbar = () => {
             </ul>
             <hr />
             <ul className="text-[20px] text-neutral-600 font-semibold">
-              {pfileItems.map((item, index) => (
-                <li key={index} className="hover:text-primary-500 px-2 py-1">
-                  <Link href={item.href}>
-                    <div>{item.text}</div>
-                  </Link>
-                </li>
-              ))}
+            {
+                    userType === "Student" ?
+                    pfileItems.map((item, index) => (
+                      <li
+                        key={index}
+                        className="hover:text-primary-500 py-1 font-bold"
+                      >
+                        <Link href={item.href}>
+                          <div>{item.text}</div>
+                        </Link>
+                      </li>
+                    ))
+                    : 
+                    ""
+                  }
             </ul>
             <div className=" absolute bottom-0 w-full">
               <hr />
-              <button className=" text-center text-primary-500 text-xl flex justify-center pl-36 py-4">
+              <button onClick={() => {
+                console.log('hello')
+              }} className=" text-center text-primary-500 text-xl flex justify-center pl-36 py-4">
                 <span className=" text-center font-bold">Logout</span>
               </button>
             </div>
@@ -198,8 +255,6 @@ const Navbar = () => {
           setOpenModal={setOpenModal}
           modalType={modalType}
           setModalType={setModalType}
-          userType={userType}
-          setUserType={setUserType}
         />
       )}
     </>

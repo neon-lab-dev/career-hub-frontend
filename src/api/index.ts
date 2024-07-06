@@ -1,15 +1,15 @@
-const baseUrl = process.env.BASE_URL + '/api/v1';
+const baseUrl = 'https://carrerhub-backend.vercel.app/api/v1';
 
 const api = {
     jobs : baseUrl + '/jobs',
-    job: baseUrl + '/job',
     createJob : baseUrl + '/createjob',
+    getEmployeeApplications : baseUrl + '/employee/job',
 
     // for employees
     employeeRegister : baseUrl + '/register',
     employeeLogin  : baseUrl + '/login',
     employeeOTPVerify : baseUrl + '/verify',
-    employeeLogout : baseUrl + '/employee/logout',
+    employeeLogout : baseUrl + '/logout',
     employeeForgotPassword : baseUrl + '/password/forgot',
     employeeChangePassword : baseUrl + '/password/update',
     employeeResetPassword: baseUrl + '/password/reset',
@@ -23,13 +23,13 @@ const api = {
     employerRegistration : baseUrl + '/register/employeer',
     employerOTPVerify : baseUrl + '/verify/employeer',
     employerLogin  : baseUrl + '/login/employeer',
+    employerOtpVerify : baseUrl + '/verify/employeer',
     employerLogout : baseUrl + '/employeer/logout',
     employerForgotPassword : baseUrl + '/password/forgot/employeer',
     updateEmployerCompanyDetails : baseUrl + 'employeer/details',
     employerProfile : baseUrl + '/employeer/me',
     updateEmployerPRofile : baseUrl + '/employeer/me/update',
     updateEmployerPassword : baseUrl + '/employeer/password/update',
-    applyForJob: baseUrl + '/apply/job', // :jobId
 };
 
 export default api;

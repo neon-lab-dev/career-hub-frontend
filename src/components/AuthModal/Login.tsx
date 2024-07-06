@@ -1,22 +1,78 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../Button";
 import { TSignupLoginModalTypes } from "./AuthModal.types";
+import axios from "axios";
+import api from "@/api";
+import { setToLocalStorage } from "@/api/authentication";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useAuth } from "@/providers/AuthProvider";
 
-const Login: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
+
+type TLoginModalTypes = {
+  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP">>;
+  setOpenModal : Dispatch<SetStateAction<boolean>>;
+};
+
+const Login: React.FC<TLoginModalTypes> = ({ setModalType, setOpenModal }) => {
+  const [loading, setLoading] = useState(false);
+  const { login, fetchProfile, userType } = useAuth();
+  console.log(userType)
+
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handleLogin = (data: any) => {
-    const { email, password } = data;
-    const userLoginData = {
-      email,
-      password,
-    };
-    console.log(userLoginData);
+  const handleLogin = async (loginData: any) => {
+  
+    setLoading(true)
+    try{
+      const apiEndpoint = userType === "Student" ? api.employeeLogin : api.employerLogin;
+      const {data} = await axios.post(apiEndpoint, loginData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+      console.log(data)
+      if(data.success){
+        toast.success(`Welcome back ${data.user.full_name}`)
+        // login(data.user);
+        setToLocalStorage(data.user.email)
+        setLoading(false)
+        setOpenModal(false)
+        if(userType === "Student"){
+          router.push('/');
+        }else{
+          router.push('/employer/home');
+        }
+        localStorage.setItem('userType', userType);
+        await fetchProfile();
+
+
+        // try {
+        //   const response = await axios.get(api.employeeProfile, {
+        //     headers: {
+        //       "Content-Type": "application/json",
+        //     },
+        //     withCredentials: true,
+        //   })
+        //   setUserData(response.data.user);
+          
+        // } catch (error) {
+        //   console.error("Error fetching /me:", error);
+        //   toast.error("Failed to fetch user details");
+        // }
+
+      }
+    }catch(error : any){
+      toast.error(error.response?.data?.message || 'Login failed');
+      setLoading(false);
+    }
   };
 
   return (
@@ -81,7 +137,13 @@ const Login: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
         </div>
 
         <Button className="w-full mt-5" variant="primary">
-          Login
+        {
+            loading ? 
+            "Login In..."
+            :
+            "Login"
+          }
+          
         </Button>
 
         <p className="text-neutral-700 text-sm font-400 text-center mt-8">

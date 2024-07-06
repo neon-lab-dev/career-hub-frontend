@@ -5,8 +5,11 @@ import { IMAGES } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/providers/AuthProvider";
 
 const Header = () => {
+  const {user} = useAuth();
+  console.log(user?.full_name);
   const pathname = usePathname();
   const getTitle = (path: string) => {
     const knownPrefixes = ['/admin/', '/employer/'];
@@ -49,15 +52,19 @@ const Header = () => {
       >
         <div className="flex justify-between gap-1 items-center">
           <div className="flex items-center gap-[6px]">
-            {/* Profile image */}
-            <div className="w-8 h-8 rounded-full">
-              <Image src={IMAGES.profile} alt="user-profile-img" />
-            </div>
 
             {/* User name */}
-            <p className="text-neutral-975 text-base font-500 ">
-              Rahul Sutradhar
-            </p>
+            <div className="size-10 rounded-full border border-primary-500 text-primary-500 font-bold flex justify-center items-center">
+                    <p>
+                    {user?.full_name
+                          .split(" ")
+                          .map((letter) => letter.charAt(0))
+                          .join("")}
+                    </p>
+                  </div>
+                  {
+                    user?.full_name
+                  }
           </div>
 
           {/* Dropdown icon/arrow */}
