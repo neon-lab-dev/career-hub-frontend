@@ -152,8 +152,8 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
           />
         </div>
       </div>
-      <SimilarJobsForYou title={job.title} type={jobType} ignore={jobId} />
-      {/* <TrendingCourseToday /> */}
+      <SimilarJobsForYou />
+      <TrendingCourseToday /> 
       <OurValuableHiringPartners />
       <WhatWeDo />
     </div>
