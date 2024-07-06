@@ -22,7 +22,7 @@ const EducationForm = ({ formData, setFormData, handleContinue }) => {
                 <form onSubmit={handleContinue}>
                     <div className="flex flex-col mt-4 gap-2 max">
                         <label htmlFor="street">Street</label>
-                        <Input id="street" type="text" placeholder="" value={formData.address.street} onChange={handleInputChange} />
+                        <Input id="street" type="text" placeholder="Enter Street" value={formData.address.street} onChange={handleInputChange} />
                     </div>
                     <div className="flex flex-col mt-4 gap-2">
                         <label htmlFor="city">City</label>
@@ -46,10 +46,10 @@ const EducationForm = ({ formData, setFormData, handleContinue }) => {
                         </div>
                         <div className="flex flex-col gap-2">
                             <label htmlFor="postalCode">Postal Code</label>
-                            <Input id="postalCode" placeholder="Enter Postal Code" className=' max-md:w-[140px] max-md:placeholder:text-[10px] max-sm:w-[120px]' value={formData.address.postalCode} onChange={handleInputChange} />
+                            <Input id="postalCode" type='number' placeholder="Enter Postal Code" className=' max-md:w-[140px] max-md:placeholder:text-[10px] max-sm:w-[120px]' value={formData.address.postalCode} onChange={handleInputChange} />
                         </div>
                     </div>
-                    <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mt-5 '>
+                    <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mt-5 max-lg:mb-5 '>
                         <Button variant="primary" type="submit" className=' max-md:w-[230px] max-lg:w-[400px]'>
                             Continue
                         </Button>
@@ -59,5 +59,4 @@ const EducationForm = ({ formData, setFormData, handleContinue }) => {
         </div>
     );
 };
-
 export default EducationForm;

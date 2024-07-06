@@ -1,11 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IMAGES } from '@/assets';
 import Image from 'next/image';
 import Input from "@/components/Input";
 import Button from '@/components/Button';
 
-const CertificateModel = ({ addCertification }) => {
-  const [certification, setCertification] = useState({
+interface Certification {
+  name: string;
+  issuingOrganization: string;
+  issueDate: string;
+  expirationDate: string;
+  credentialID: string;
+  credentialURL: string;
+}
+
+interface CertificateModelProps {
+  addCertification: (certification: Certification) => void;
+  showOnMount: boolean;
+}
+
+const CertificateModel: React.FC<CertificateModelProps> = ({ addCertification, showOnMount }) => {
+  const [certification, setCertification] = useState<Certification>({
     name: '',
     issuingOrganization: '',
     issueDate: '',
@@ -14,12 +28,29 @@ const CertificateModel = ({ addCertification }) => {
     credentialURL: '',
   });
 
-  const handleChange = (e) => {
+  const [validationError, setValidationError] = useState<string>('');
+
+  useEffect(() => {
+    if (showOnMount) {
+      const modalElement = document.getElementById('my_modal_7');
+      if (modalElement instanceof HTMLInputElement) {
+        modalElement.checked = true;
+      }
+    }
+  }, [showOnMount]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setCertification((prev) => ({ ...prev, [id]: value }));
   };
 
   const handleAdd = () => {
+    // Simple validation
+    if (!certification.name || !certification.issuingOrganization || !certification.issueDate || !certification.expirationDate) {
+      setValidationError('Please fill out all required fields.');
+      return;
+    }
+
     addCertification(certification);
     setCertification({
       name: '',
@@ -29,23 +60,30 @@ const CertificateModel = ({ addCertification }) => {
       credentialID: '',
       credentialURL: '',
     });
+
+    // Clear validation error
+    setValidationError('');
+
+    // Close modal after adding
+    document.getElementById('my_modal_7').checked = false;
   };
 
   return (
     <div>
-      {/* The button to open modal */}
+      {/* Modal Trigger Button */}
       <div className='flex justify-end'>
         <label htmlFor="my_modal_7" className="bg-white">
           <div className='flex justify-end gap-2 cursor-pointer'>
-            <span className='text-primary-500 text-[16px] font-600'>Add More</span>
+            <span className='text-primary-500 text-[16px] font-600'>Add More </span>
             <Image src={IMAGES.circle} alt='circle' />
           </div>
         </label>
       </div>
-      {/* Put this part before </body> tag */}
+
+      {/* Modal Structure */}
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
-        <div className="modal-box w-[700px] max-md:w-[349px]">
+        <div className="modal-box max-w-xl max-md:w-[349px]">
           <div className="flex flex-col mt-4 gap-2">
             <label htmlFor="name">Certificate Name</label>
             <Input
@@ -68,25 +106,27 @@ const CertificateModel = ({ addCertification }) => {
               className='max-md:placeholder:text-xs'
             />
           </div>
-          <div className="flex flex-col mt-4 gap-2">
-            <label htmlFor="issueDate">Issue Date</label>
-            <Input
-              id="issueDate"
-              type="date"
-              value={certification.issueDate}
-              onChange={handleChange}
-              className='max-md:placeholder:text-xs'
-            />
-          </div>
-          <div className="flex flex-col mt-4 gap-2">
-            <label htmlFor="expirationDate">Expiration Date</label>
-            <Input
-              id="expirationDate"
-              type="date"
-              value={certification.expirationDate}
-              onChange={handleChange}
-              className='max-md:placeholder:text-xs'
-            />
+          <div className='flex gap-10 items-center'>
+            <div className="flex flex-col mt-4 gap-2">
+              <label htmlFor="issueDate">Issue Date</label>
+              <Input
+                id="issueDate"
+                type="date"
+                value={certification.issueDate}
+                onChange={handleChange}
+                className='max-md:placeholder:text-xs'
+              />
+            </div>
+            <div className="flex flex-col mt-4 gap-2">
+              <label htmlFor="expirationDate">Expiration Date</label>
+              <Input
+                id="expirationDate"
+                type="date"
+                value={certification.expirationDate}
+                onChange={handleChange}
+                className='max-md:placeholder:text-xs'
+              />
+            </div>
           </div>
           <div className="flex flex-col mt-4 gap-2">
             <label htmlFor="credentialID">Credential ID</label>
@@ -110,6 +150,7 @@ const CertificateModel = ({ addCertification }) => {
               className='max-md:placeholder:text-xs'
             />
           </div>
+          {validationError && <p className="text-red-500">{validationError}</p>}
           <Button variant="primary" className='mt-4' onClick={handleAdd}>
             {"Add Certificate"}
           </Button>
