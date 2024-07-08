@@ -10,6 +10,7 @@ import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
 import WhatWeDo from "@/components/WhatWeDo";
 import SkillsAndExtraBenefits from "./_components/SkillsAndExtraBenefits";
 import { getJobById } from "@/api/jobs";
+import TrendingCourseToday from "@/components/TrendingCourseToday";
 
 type Props = {
   params: {
@@ -153,7 +154,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
         </div>
       </div>
       <SimilarJobsForYou title={job.title} type={jobType} ignore={jobId} />
-      {/* <TrendingCourseToday /> */}
+      <TrendingCourseToday />
       <OurValuableHiringPartners />
       <WhatWeDo />
     </div>
