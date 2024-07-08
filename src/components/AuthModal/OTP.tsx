@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/providers/AuthProvider';
 
 type TLoginModalTypes = {
-  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP">>;
+  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP" | "ForgotPassword" | "ChangePassword">>;
   setOpenModal: Dispatch<SetStateAction<boolean>>;
   email : string
 };

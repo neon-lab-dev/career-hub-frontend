@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/providers/AuthProvider";
 
 type TSignupModalTypes = {
-  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP">>;
+  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP" | "ForgotPassword" | "ChangePassword" | "ConfirmationEmail">>;
   setEmail: Dispatch<SetStateAction<string>>;
 };
 

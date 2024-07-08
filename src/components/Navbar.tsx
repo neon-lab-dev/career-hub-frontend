@@ -17,7 +17,7 @@ const Navbar = () => {
     // For opening the modal
     const [openModal, setOpenModal] = useState<boolean>(false);
     // Modal types
-    const [modalType, setModalType] = useState<"Login" | "Signup" | "OTP">("OTP");
+    const [modalType, setModalType] = useState<"Login" | "Signup" | "OTP" | "ForgotPassword" | "ChangePassword" | "ConfirmationEmail">("OTP");
     // User type
     // const [userType, setUserType] = useState<"Student" | "Employer">("Student");
   const router = useRouter()
@@ -100,7 +100,8 @@ const Navbar = () => {
               <Button
                 onClick={() => {
                   setOpenModal(true);
-                  setModalType("Login");
+                  setModalType("ForgotPassword");
+                  // setModalType("Login");
                 }}
                 variant="natural"
                 className="text-base bg-neutral-100 rounded-lg px-6 font-semibold py-2"

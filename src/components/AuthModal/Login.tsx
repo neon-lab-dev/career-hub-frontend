@@ -11,7 +11,7 @@ import { useAuth } from "@/providers/AuthProvider";
 
 
 type TLoginModalTypes = {
-  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP">>;
+  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP" | "ForgotPassword" | "ChangePassword" | "ConfirmationEmail">>;
   setOpenModal : Dispatch<SetStateAction<boolean>>;
 };
 
@@ -131,7 +131,7 @@ const Login: React.FC<TLoginModalTypes> = ({ setModalType, setOpenModal }) => {
         </div>
 
         <div className="flex justify-end mt-[6px]">
-          <p className="text-primary-500 text-sm font-500 cursor-pointer">
+          <p onClick={() => setModalType("ForgotPassword")} className="text-primary-500 text-sm font-500 cursor-pointer">
             Forgot Password?
           </p>
         </div>

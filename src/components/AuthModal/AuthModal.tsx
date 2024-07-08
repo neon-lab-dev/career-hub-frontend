@@ -6,6 +6,9 @@ import Signup from "./Signup";
 import OTP from "./OTP";
 import { TModalTypes } from "./AuthModal.types";
 import { useAuth } from "@/providers/AuthProvider";
+import ChangePassword from "./ChangePassword";
+import ForgotPassword from "./ForgotPassword";
+import ConfirmationEmail from "./ConfirmationEmail";
 
 const AuthModal: React.FC<TModalTypes> = ({
   openModal,
@@ -18,6 +21,7 @@ const AuthModal: React.FC<TModalTypes> = ({
   const { userType, setUserType } = useAuth();
 
   const [email, setEmail] = useState<string>('');
+  const [confirmationEmail, setConfirmationEmail] = useState<string>('');
   return (
     <div className="mx-auto  flex items-center justify-center m-10">
       <div
@@ -33,10 +37,17 @@ const AuthModal: React.FC<TModalTypes> = ({
           }}
           onClick={(e_) => e_.stopPropagation()}
           className={`font-plus-jakarta-sans w-full max-w-[529px] ${
-            modalType === "OTP"
+              modalType === "OTP"
               ? "h-[375px] overflow-hidden"
+              : modalType === "ForgotPassword"
+              ? "h-[300px]"
+              : modalType === "ChangePassword"
+              ? "h-[400px]"
+              : modalType === "ConfirmationEmail"
+              ? "h-[200px]"
               : "h-[550px]"
-          } absolute rounded-2xl bg-white p-6 text-center drop-shadow-2xl overflow-y-auto ${
+          }
+           absolute rounded-2xl bg-white p-6 text-center drop-shadow-2xl overflow-y-auto ${
             openModal
               ? "opacity-1 translate-y-0 duration-300"
               : "translate-y-20 opacity-0 duration-150"
@@ -56,13 +67,44 @@ const AuthModal: React.FC<TModalTypes> = ({
           <div>
             <h1 className=" text-secondary-800 text-[28px] font-700 text-center">
               <span className="bg-primary-500 px-2 text-white mr-3">
-                {modalType === "Login"
+                {
+                   modalType === "Login"
                   ? "Login"
-                  : modalType === "Signup"
+                  :
+                   modalType === "Signup"
                   ? "Signup"
-                  : modalType === "OTP" && "Verify"}
+                  :
+                   modalType === "OTP"
+                  ? "OTP"
+                  : modalType === "ForgotPassword"
+                  ? "Forgot"
+                  : modalType === "ConfirmationEmail"
+                  ? "Forgot"
+                  : modalType === "ChangePassword"
+                  ? "Change" : ""
+                }
+                {/* {
+               modalType === "Login"
+                ? "Login"
+                : modalType === "Signup"
+                ? "Signup"
+                : modalType === "ForgotPassword"
+                ? "Forgot"
+                : modalType === "OTP" && "Verify"
+                } */}
               </span>
-              {modalType === "OTP" ? "Your Email" : "to Career Hub"}
+              {
+                modalType === "OTP"
+                  ? "Your Email"
+                  : modalType === "ForgotPassword"
+                  ? "Password?"
+                  : modalType === "ConfirmationEmail"
+                  ? "Password?"
+                  : modalType === "ChangePassword"
+                  ? "Password" : "to Career Hub"
+
+              // modalType === "OTP" ? "Your Email" : "to Career Hub"
+              }
             </h1>
           </div>
 
@@ -97,13 +139,22 @@ const AuthModal: React.FC<TModalTypes> = ({
               ""
             )}
 
-            {modalType === "Login" ? (
-              <Login setOpenModal={setOpenModal} setModalType={setModalType} />
-            ) : modalType === "Signup" ? (
-              <Signup setEmail={setEmail} setModalType={setModalType} />
-            ) : (
-              <OTP setOpenModal={setOpenModal} email={email} setModalType={setModalType} />
-            )} 
+{
+  modalType === "Login" ? (
+    <Login setOpenModal={setOpenModal} setModalType={setModalType} />
+  ) : modalType === "Signup" ? (
+    <Signup setEmail={setEmail} setModalType={setModalType} />
+  ) : modalType === "ForgotPassword" ? (
+    <ForgotPassword setOpenModal={setOpenModal} setModalType={setModalType} setConfirmationEmail={setConfirmationEmail} />
+  ) : modalType === "ChangePassword" ? (
+    <ChangePassword setOpenModal={setOpenModal} setModalType={setModalType} />
+  ) : modalType === "ConfirmationEmail" ? (
+    <ConfirmationEmail setOpenModal={setOpenModal} setModalType={setModalType} confirmationEmail={confirmationEmail} />
+  ) : (
+    <OTP setOpenModal={setOpenModal} email={email} setModalType={setModalType} />
+  )
+}
+
           </div>
         </div>
       </div>
