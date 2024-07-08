@@ -131,9 +131,9 @@ const Login: React.FC<TLoginModalTypes> = ({ setModalType, setOpenModal }) => {
         </div>
 
         <div className="flex justify-end mt-[6px]">
-          <button className="text-primary-500 text-sm font-500">
+          <p className="text-primary-500 text-sm font-500 cursor-pointer">
             Forgot Password?
-          </button>
+          </p>
         </div>
 
         <Button className="w-full mt-5" variant="primary">
