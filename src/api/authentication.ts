@@ -64,3 +64,35 @@ export const handleAdminLogoutService = async (): Promise<string> => {
       });
   });
 };
+
+export const handleSendResetPasswordEmailService = async (data: {
+  email: string;
+}): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(api.employeeForgotPassword, data)
+      .then((res) => {
+        resolve(res.data?.message ?? "Email sent successfully");
+      })
+      .catch((err) => {
+        reject(err.response?.data?.message ?? "Failed to send email");
+      });
+  });
+};
+
+export const handleResetPasswordService = async (data: {
+  password: string;
+  confirmPassword: string;
+  token: string;
+}): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${api.employeeResetPassword}/${data.token}`, data)
+      .then((res) => {
+        resolve(res.data?.message ?? "Password reset successful");
+      })
+      .catch((err) => {
+        reject(err.response?.data?.message ?? "Failed to reset password");
+      });
+  });
+};

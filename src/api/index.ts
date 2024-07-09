@@ -40,6 +40,7 @@ const api = {
   allEmployers: baseUrl + "/admin/allEmployers",
   adminEmployer: baseUrl + "/admin/employer", //:id
   job: baseUrl + "/job",
+  applyJob: baseUrl + "/apply/job", //:id
 };
 
 export default api;

@@ -1,39 +1,52 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { useForm } from "react-hook-form";
 import Button from "../Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { handleResetPasswordService } from "@/api/authentication";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-type TForgotPasswordTypes = {
-    setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP" | "ForgotPassword" | "ChangePassword" | "ConfirmationEmail">>;
-    setOpenModal: Dispatch<SetStateAction<boolean>>;
-    // email : string
+const ChangePassword = ({ token }: { token: string }) => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: handleResetPasswordService,
+    onSuccess: (msg) => {
+      toast.success(msg);
+      queryClient.invalidateQueries({
+        queryKey: ["user"],
+      });
+      router.push("/");
+    },
+    onError: (err: string) => {
+      toast.error(err);
+    },
+  });
+
+  const handleChangePassword = async (data: any) => {
+    mutate({
+      ...data,
+      token,
+    });
   };
 
-const ChangePassword : React.FC<TForgotPasswordTypes> = ({setModalType, setOpenModal}) => {
-    const [loading, setLoading] = useState(false);
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-      } = useForm();
+  const password = watch("password");
 
-      const handleChangePassword = async (data : any) => {
-        const changePasswordData = {
-          password: data.password,
-          confirmPassword: data.confirmPassword,
-        };
-        console.log(changePasswordData)
-    };
-
-    const password = watch("password");
-
-
-    return (
-        <div>
-            <form onSubmit={handleSubmit(handleChangePassword)} className="">
+  return (
+    <div className="mt-32">
+      <form
+        onSubmit={handleSubmit(handleChangePassword)}
+        className="bg-white shadow-lg rounded-lg p-6"
+      >
         <div className="flex flex-col gap-5">
           {/* New Password */}
-          
 
           {/* New Password* */}
           <div className="flex flex-col gap-[6px]">
@@ -41,7 +54,7 @@ const ChangePassword : React.FC<TForgotPasswordTypes> = ({setModalType, setOpenM
               htmlFor="password"
               className="text-neutral-700 text-base font-500 text-start"
             >
-             New Password*
+              New Password*
             </label>
             <input
               {...register("password", {
@@ -94,17 +107,11 @@ const ChangePassword : React.FC<TForgotPasswordTypes> = ({setModalType, setOpenM
         </div>
 
         <Button className="w-full mt-5" variant="primary">
-        {
-            loading ? 
-            "Changing Password..."
-            :
-            "Change Password"
-          }
-          
+          {isPending ? "Changing Password..." : "Change Password"}
         </Button>
       </form>
-        </div>
-    );
+    </div>
+  );
 };
 
 export default ChangePassword;

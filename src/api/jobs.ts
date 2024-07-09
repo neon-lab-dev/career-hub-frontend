@@ -86,3 +86,16 @@ export const handleGetJobByIdForAdminService = async (
       });
   });
 };
+
+export const handleApplyJobService = async (id: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${api.applyJob}/${id}`, {}, { withCredentials: true })
+      .then((res) => {
+        resolve(res.data?.message ?? "Applied successfully");
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Failed to apply");
+      });
+  });
+};
