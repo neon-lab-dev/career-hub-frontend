@@ -1,17 +1,44 @@
-"use client"
+"use client";
 import { ICONS, IMAGES } from '@/assets';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
 import StatusLabel from "@/components/StatusLabel";
 import Link from 'next/link';
+import axios from 'axios';
+import Skeleton from 'react-loading-skeleton'; // Import react-loading-skeleton
 
 const Table = ({ className }) => {
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [dropdownOpenId, setDropdownOpenId] = useState(null);
+    const [jobs, setJobs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const handleMenuClick = () => {
-        setDropdownOpen(!dropdownOpen);
+    const handleMenuClick = (id) => {
+        setDropdownOpenId(dropdownOpenId === id ? null : id);
     };
+
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`https://carrerhub-backend.vercel.app/api/v1/job/${id}`);
+            setJobs(jobs.filter(job => job._id !== id));
+        } catch (error) {
+            console.error("Error deleting job:", error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchJobs = async () => {
+            try {
+                const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/jobs');
+                setJobs(response.data.jobs);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching jobs:", error);
+            }
+        };
+
+        fetchJobs();
+    }, []);
 
     return (
         <div className={twMerge(`w-full overflow-x-auto h-[700px] max-w-[1300px] mx-auto px-0 ${className}`)}>
@@ -21,7 +48,7 @@ const Table = ({ className }) => {
                         <tr>
                             <td>
                                 <div className='flex items-center gap-2 text-lg'>
-                                    <Image src={ICONS.rectangle} alt="Role Icon" />
+                                    <Image src={IMAGES.rectangle} alt="Role Icon" />
                                     <span>Role</span>
                                 </div>
                             </td>
@@ -53,65 +80,101 @@ const Table = ({ className }) => {
                         </tr>
                     </thead>
                     <tbody className="bg-white w-full">
-                        <tr>
-                            <td>
-                                <div className='flex items-center gap-2 text-lg'>
-                                    <Image src={ICONS.rectangle} alt="Role Icon" />
-                                    <span>Product Designer</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div className='flex items-center gap-2 text-lg'>
-                                    <span>15000</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div className='flex items-center gap-2 text-lg'>
-                                    <span>100 <span className='text-red-500 underline cursor-pointer'>View Applications</span></span>
-                                </div>
-                            </td>
-                            <td>
-                                <div className='flex items-center gap-2 text-lg'>
-                                    <span>Full-Time</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div className='flex items-center gap-2 text-lg'>
-                                    <StatusLabel key="status" variant='applied'>Under Review</StatusLabel>
-                                </div>
-                            </td>
-                            <td>
-                                <div className='relative flex items-center gap-2 text-lg'>
-                                    <div onClick={handleMenuClick} className='cursor-pointer'>
-                                        <Image src={IMAGES.menudots} alt="Menu Icon" />
-                                    </div>
-                                    {dropdownOpen && (
-                                        <div className="absolute right-0 mt-48 w-48 p-4 rounded-xl bg-white border  shadow-lg z-10">
-                                            <Link href="/employer/home/view-applcations" >
-                                                <div className='flex items-center gap-2 text-sm p-2'>
-                                                    <Image src={ICONS.doc} alt="Role Icon" />
-                                                    <span>View Applications</span>
-                                                </div>
-                                            </Link>
-                                            <Link href="/employer/home/view-applcations" >
-                                                <div className='flex items-center gap-2 text-sm p-2'>
-                                                    <Image src={IMAGES.view} alt="Role Icon" />
-                                                    <span>View</span>
-                                                </div>
-                                            </Link>
-                                            <div className='flex items-center gap-2 text-sm p-2'>
-                                                <Image src={IMAGES.bin} alt="Role Icon" />
-                                                <span className=' text-red-500'>delete</span>
-                                            </div>
+                        {loading ? (
+                            // Skeleton loading rows
+                            Array.from({ length: 5 }).map((_, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <div className='flex items-center gap-2 text-lg'>
+                                            <Skeleton width={40} height={40} circle={true} />
+                                            <Skeleton width={100} />
                                         </div>
-                                    )}
-                                </div>
-                            </td>
-                        </tr>
+                                    </td>
+                                    <td>
+                                        <Skeleton width={100} circle={true} />
+                                    </td>
+                                    <td>
+                                        <Skeleton width={120} />
+                                    </td>
+                                    <td>
+                                        <Skeleton width={80} />
+                                    </td>
+                                    <td>
+                                        <Skeleton width={80} />
+                                    </td>
+                                    <td>
+                                        <Skeleton width={80} />
+                                    </td>
+                                </tr>
+                            ))
+                        ) : jobs.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" className="py-4 text-center text-3xl">No data found.</td>
+                            </tr>
+                        ) : (
+                            jobs.map((job) => (
+                                <tr key={job._id}>
+                                    <td>
+                                        <div className='flex items-center gap-2 text-lg'>
+                                            <Image src={IMAGES.rectangle} alt="Role Icon" />
+                                            <span>{job.title}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className='flex items-center gap-2 text-lg'>
+                                            <span>{job.salary}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className='flex items-center gap-2 text-lg'>
+                                            <span>{job.applicants.length} <span className='text-red-500 underline cursor-pointer'>View Applications</span></span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className='flex items-center gap-2 text-lg'>
+                                            <span>{job.employmentType}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className='flex items-center gap-2 text-lg'>
+                                            <StatusLabel key="status" variant='applied'>{job.status}</StatusLabel>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className='relative flex items-center gap-2 text-lg'>
+                                            <div onClick={() => handleMenuClick(job._id)} className='cursor-pointer'>
+                                                <Image src={IMAGES.menudots} alt="Menu Icon" />
+                                            </div>
+                                            {dropdownOpenId === job._id && (
+                                                <div className="absolute right-0 mt-48 w-48 p-4 rounded-xl bg-white border shadow-lg z-10">
+                                                    <Link href={`/employer/home/dashboard/${job._id}`}>
+                                                        <div className='flex items-center gap-2 text-sm p-2'>
+                                                            <Image src={IMAGES.doc} alt="Role Icon" />
+                                                            <span>View Applications</span>
+                                                        </div>
+                                                    </Link>
+                                                    <Link href={`/employer/home/${job._id}`}>
+                                                        <div className='flex items-center gap-2 text-sm p-2'>
+                                                            <Image src={IMAGES.view} alt="Role Icon" />
+                                                            <span>View</span>
+                                                        </div>
+                                                    </Link>
+                                                    <div onClick={() => handleDelete(job._id)} className='flex items-center gap-2 text-sm p-2 cursor-pointer'>
+                                                        <Image src={IMAGES.bin} alt="Role Icon" />
+                                                        <span className='text-red-500'>Delete</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>
         </div>
     );
 };
+
 export default Table;
