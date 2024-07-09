@@ -23,12 +23,6 @@ const Dashboard = () => {
           alt="employers-icon"
         />
         <KPICard
-          image={connections}
-          title="Connections"
-          value="224"
-          alt="connections-icon"
-        />
-        <KPICard
           image={candidatesHired}
           title="Candidates Hired"
           value="224"

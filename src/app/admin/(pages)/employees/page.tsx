@@ -130,12 +130,6 @@ const Employees = () => {
           value={isLoading ? "..." : employees?.length || 0}
           alt="employees-icon"
         />
-        <KPICard
-          image={EmployeesHired}
-          title=" Employees Hired"
-          value="// Todo"
-          alt="employers-icon"
-        />
       </div>
 
       <div className="bg-white flex flex-col gap-3 pt-3 rounded-lg">
@@ -150,7 +144,12 @@ const Employees = () => {
           />
 
           {/* Download CSV button */}
-          <DownloadCSVBtn label="Export CSV" icon={download} data={employees} name="employees" />
+          <DownloadCSVBtn
+            label="Export CSV"
+            icon={download}
+            data={employees}
+            name="employees"
+          />
         </div>
 
         {isLoading ? (
