@@ -1,4 +1,4 @@
-"use mutation";
+"use client";
 
 import { handleApplyJobService } from "@/api/jobs";
 import Button from "@/components/Button";
