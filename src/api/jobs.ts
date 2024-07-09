@@ -82,7 +82,7 @@ export const handleGetJobByIdForAdminService = async (
         resolve(res.data?.jobs ?? null);
       })
       .catch((err) => {
-        reject(err?.response?.data?.message ?? "Something went wrong");
+        reject(err?.response?.message ?? "Something went wrong");
       });
   });
 };
@@ -90,7 +90,7 @@ export const handleGetJobByIdForAdminService = async (
 export const handleApplyJobService = async (id: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .post(`${api.applyJob}/${id}`, {}, { withCredentials: true })
+      .put(`${api.applyJob}/${id}`, {}, { withCredentials: true })
       .then((res) => {
         resolve(res.data?.message ?? "Applied successfully");
       })

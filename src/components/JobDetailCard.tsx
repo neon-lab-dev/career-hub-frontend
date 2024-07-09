@@ -5,6 +5,7 @@ import Button from "./Button";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import { IJob } from "@/types/job";
+import ApplyJob from "@/app/(employee)/(job-listing)/[jobType]/[jobId]/_components/ApplyJob";
 
 type Props = {
   showApplyButton?: boolean;
@@ -56,13 +57,8 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName, job }: Props) => {
         <div className="flex flex-col gap-1 ">
           <span className="text-xs xl:text-base text-neutral-400">Salary</span>
           <span className="text-x xl:text-base !font-600 text-primary-500">
-            {
-              job.salary === "Unpaid" ?
-              ""
-              : 
-              "₹"
-            }
-          {job.salary}
+            {job.salary === "Unpaid" ? "" : "₹"}
+            {job.salary}
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -71,15 +67,9 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName, job }: Props) => {
               job.employmentType === "Internship" ? "internships" : "jobs"
             }/${job._id}`}
           >
-            <Button variant="muted" className="px-4 py-4">
-              View full details
-            </Button>
+            <Button variant="muted">View full details</Button>
           </Link>
-          {showApplyButton && (
-            <Button variant="primary" className="px-6 py-4">
-              Apply Now
-            </Button>
-          )}
+          {showApplyButton && <ApplyJob jobId={job._id} />}
         </div>
       </div>
     </div>
