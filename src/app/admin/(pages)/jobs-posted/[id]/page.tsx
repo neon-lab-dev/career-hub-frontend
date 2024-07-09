@@ -1,57 +1,55 @@
+"use client";
+import back from "@/assets/icons/arrow_back.svg";
+import { handleGetJobByIdForAdminService } from "@/api/jobs";
+import SkillsAndExtraBenefits from "@/app/(employee)/(job-listing)/[jobType]/[jobId]/_components/SkillsAndExtraBenefits";
+import Loading from "@/components/Loading";
 import NotFound from "@/components/NotFound";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { IMAGES } from "@/assets";
-import JobShareButton from "./_components/JobShareButtonComponent";
-import Button from "@/components/Button";
 import Link from "next/link";
-import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
-import SimilarJobsForYou from "./_components/SimilarJobsForYouComponent";
-import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
-import WhatWeDo from "@/components/WhatWeDo";
-import SkillsAndExtraBenefits from "./_components/SkillsAndExtraBenefits";
-import { getJobById } from "@/api/jobs";
-import TrendingCourseToday from "@/components/TrendingCourseToday";
-import ApplyJob from "./_components/ApplyJob";
-
+import React from "react";
 type Props = {
   params: {
-    jobType: string;
-    jobId: string;
+    id: string;
   };
 };
 
-const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
-  if (!AVAILABLE_JOB_TYPES.includes(jobType)) return <NotFound />;
-
-  const job = await getJobById(jobId);
+const Job = ({ params: { id } }: Props) => {
+  const { isLoading, data: job } = useQuery({
+    queryKey: ["admin", "employee", id],
+    queryFn: () => handleGetJobByIdForAdminService(id),
+  });
+  if (isLoading) return <Loading className="h-[60vh] w-full" />;
   if (!job) return <NotFound />;
   return (
-    <div>
-      <div className="wrapper flex flex-col xl:gap-16 pb-6">
+    <div className="w-full p-6">
+      <div className="flex flex-col xl:gap-16 p-8 bg-white  rounded-xl">
         {/* job titles and cta */}
         <div className="py-16 flex items-end justify-between">
           <div className="flex gap-5 items-center">
+            <Link
+              href="/admin/jobs-posted"
+              className="text-neutral-950 font-700 text-xl flex gap-2 items-center"
+            >
+              <Image src={back} className="h-9 w-9" alt="" />
+            </Link>
             <Image
               src={job.companyDetails.logo}
               alt="Company Logo"
               height={99}
               width={99}
-              className="h-[62px] w-[62px] xl:h-[99px] xl:w-[99px] rounded-lg"
+              className="h-[62px] w-[62px] rounded-lg"
             />
             <div className="flex flex-col gap-0.5">
-              <h3 className="text-[20px] lg:text-[32px] -tracking-[0.44px] font-600 text-neutral-900">
+              <h3 className="text-[20px] lg:text-[24px] -tracking-[0.44px] font-600 text-neutral-900">
                 {job.title}
               </h3>
-              <div className="flex items-center gap-2 text-sm lg:text-[22px] text-neutral-400">
+              <div className="flex items-center gap-2 text-sm lg:text-base text-neutral-400">
                 <span>{job.companyDetails.companyName}</span>
                 <div className="w-[5px] h-[5px] bg-neutral-400 rounded-full" />
                 <span>{job.locationType}</span>
               </div>
             </div>
-          </div>
-          <div className="fixed z-30 sm:z-auto bottom-0 left-0 w-full sm:w-auto sm:static flex-row-reverse sm:flex-row flex items-center gap-5 bg-white py-3 px-6 sm:px-0 sm:py-0">
-            <JobShareButton jobTitle="Test Title" />
-            <ApplyJob jobId={jobId} />
           </div>
         </div>
         {/* job details */}
@@ -59,7 +57,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
           <div className="flex-grow flex flex-col gap-4 xl:gap-6">
             <div className="p-6 rounded-[22px] border border-secondary-200 text-base lg:text-xl flex flex-col gap-3 lg:gap-3">
               <h3 className="capitalize font-600 text-neutral-800">
-                About {jobType.substring(0, jobType.length - 1)}
+                About Job
               </h3>
               <p className="font-400 text-neutral-700 flex flex-col gap-3 lg:gap-6">
                 {job.description
@@ -103,7 +101,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
             <SkillsAndExtraBenefits
               extraBenefits={job.extraBenefits}
               skills={job.requiredSkills}
-              className="xl:hidden"
+              className="grid grid-cols-2 gap-6"
             />
             <div className="p-4 lg:p-6 rounded-[22px] border border-secondary-200 text-xl flex flex-col gap-6">
               <h3 className="capitalize font-600 text-neutral-800 text-2xl">
@@ -147,19 +145,10 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
               </p>
             </div>
           </div>
-          <SkillsAndExtraBenefits
-            extraBenefits={job.extraBenefits}
-            skills={job.requiredSkills}
-            className="hidden xl:flex"
-          />
         </div>
       </div>
-      <SimilarJobsForYou title={job.title} type={jobType} ignore={jobId} />
-      <TrendingCourseToday />
-      <OurValuableHiringPartners />
-      <WhatWeDo />
     </div>
   );
 };
 
-export default JobIdPage;
+export default Job;

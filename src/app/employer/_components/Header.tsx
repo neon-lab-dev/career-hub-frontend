@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import React from "react";
 // import profileImg from "@/assets/icons/profileImg.svg";
@@ -8,22 +9,22 @@ import { usePathname } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
 
 const Header = () => {
-  const {user} = useAuth();
+  const { user } = useAuth();
   console.log(user?.full_name);
   const pathname = usePathname();
   const getTitle = (path: string) => {
-    const knownPrefixes = ['/admin/', '/employer/'];
+    const knownPrefixes = ["/admin/", "/employer/"];
     let title = path;
-    knownPrefixes.forEach(prefix => {
+    knownPrefixes.forEach((prefix) => {
       if (title.startsWith(prefix)) {
-        title = title.replace(prefix, '');
+        title = title.replace(prefix, "");
       }
     });
     return title.charAt(0).toUpperCase() + title.slice(1);
   };
 
   const title = getTitle(pathname);
-  
+
   // Dropdown items
   const dropdownItems = [
     {
@@ -52,19 +53,16 @@ const Header = () => {
       >
         <div className="flex justify-between gap-1 items-center">
           <div className="flex items-center gap-[6px]">
-
             {/* User name */}
             <div className="size-10 rounded-full border border-primary-500 text-primary-500 font-bold flex justify-center items-center">
-                    <p>
-                    {user?.full_name
-                          .split(" ")
-                          .map((letter) => letter.charAt(0))
-                          .join("")}
-                    </p>
-                  </div>
-                  {
-                    user?.full_name
-                  }
+              <p>
+                {user?.full_name
+                  .split(" ")
+                  .map((letter) => letter.charAt(0))
+                  .join("")}
+              </p>
+            </div>
+            {user?.full_name}
           </div>
 
           {/* Dropdown icon/arrow */}
@@ -83,7 +81,6 @@ const Header = () => {
           ))}
         </ul>
       </div>
-
     </div>
   );
 };

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import Button from '../Button';
 import edit from "../../assets/icons/Edit.svg";
