@@ -26,7 +26,7 @@ export const getLatestJobs = async () => {
 export const getJobById = async (id: string) => {
   const job = await fetchData<{
     jobs: IJob;
-  }>(`${api.jobs}/${id}`);
+  }>(`${api.job}/${id}`);
   return job?.jobs ?? null;
 };
 
