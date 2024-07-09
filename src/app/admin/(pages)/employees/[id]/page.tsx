@@ -114,7 +114,7 @@ const EmployeeDetails = ({ params: { id } }: Props) => {
             <hr className="mb-4 mx-4" />
             <div className="flex flex-col gap-4">
               {data?.projects?.map((project, i) => (
-                <div className="flex max-md:flex-col max-md:justify-end justify-between items-start border-2 border-neutral-100 p-2 px-4 rounded-xl">
+                <div key={i} className="flex max-md:flex-col max-md:justify-end justify-between items-start border-2 border-neutral-100 p-2 px-4 rounded-xl">
                   <div className="flex gap-4 items-center">
                     <div className="font-plus-jakarta-sans">
                       <div className="flex gap-2">

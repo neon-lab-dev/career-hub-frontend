@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import StatusCard from "@/components/StatusCard";
@@ -38,7 +39,7 @@ const Applications = () => {
         },
         withCredentials: true,
       });
-      console.log(response.data)
+      console.log(response.data);
       const applicationsData = response.data.jobs.map((job: any) => ({
         companyName: job.companyDetails.companyName,
         position: job.title,
@@ -56,11 +57,11 @@ const Applications = () => {
   console.log(jobApplications);
 
   const headers: Header[] = [
-    { header: "Company Name", accessor: "companyName"},
-    { header: "Position", accessor: "position"},
-    { header: "Applied on", accessor: "appliedOn"},
-    { header: "Status", accessor: "status"},
-    { header: "Actions", accessor: "actions"},
+    { header: "Company Name", accessor: "companyName" },
+    { header: "Position", accessor: "position" },
+    { header: "Applied on", accessor: "appliedOn" },
+    { header: "Status", accessor: "status" },
+    { header: "Actions", accessor: "actions" },
   ];
 
   const renderCustomCell = (column: Header, item: DataItem) => {

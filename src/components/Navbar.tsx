@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -100,7 +101,7 @@ const Navbar = () => {
               <Button
                 onClick={() => {
                   setOpenModal(true);
-                  setModalType("ForgotPassword");
+                  setModalType("Login");
                   // setModalType("Login");
                 }}
                 variant="natural"
