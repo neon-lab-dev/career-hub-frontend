@@ -1,6 +1,5 @@
 "use client";
-// @ts-nocheck
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import NotFound from "@/components/NotFound";
 import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
@@ -10,6 +9,9 @@ import Image from "next/image";
 import JobDetailCard from "@/components/JobDetailCard";
 import api from "@/api";
 import JobCardLoader from "@/components/Loaders/JobCardLoader";
+import { useQuery } from "@tanstack/react-query";
+import { handleGetAllJobsByTypeService } from "@/api/jobs";
+import debounce from "@/helpers/debounce";
 
 type Props = {
   params: {
@@ -17,74 +19,65 @@ type Props = {
   };
 };
 
-const Page = ({ params: { jobType } }: Props) => {
-  const [loading, setLoading] = useState(false);
-  const [jobs, setJobs] = useState([]);
-  const [searchResult, setSearchResult] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  console.log(jobs);
-  console.log(searchResult);
+export type IDefaultQueryParams = {
+  keyword: string;
+  locationType: string;
+};
 
+export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
+  keyword: "",
+  locationType: "",
+};
+
+const PageComponent = ({ jobType }: { jobType: string }) => {
+  const [queryParams, setQueryParams] =
+    useState<IDefaultQueryParams>(DEFAULT_QUERY_PARAMS);
+  const [debouncedQueryParams, setDebouncedQueryParams] =
+    useState<IDefaultQueryParams>(DEFAULT_QUERY_PARAMS);
+
+  const debouncedSetParams = useCallback(
+    debounce((queryParams) => {
+      setDebouncedQueryParams(queryParams);
+    }),
+    [] // dependencies
+  );
+
+  // update debouncedQueryParams whenever queryParams changes
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(api.jobs);
-        setJobs(response.data.jobs);
-        setSearchResult(response.data.jobs);
-      } catch (err) {
-        console.error(err);
-        setLoading(false);
-      } finally {
-        setLoading(false);
-      }
-    };
+    debouncedSetParams(queryParams);
+  }, [queryParams]);
 
-    fetchJobs();
-  }, []);
-
-  if (!AVAILABLE_JOB_TYPES.includes(jobType)) return <NotFound />;
-
-  const handleSearch = () => {
-    const normalizedSearchTerm = searchTerm.toLowerCase().trim();
-    if (!normalizedSearchTerm) {
-      setSearchResult(jobs);
-      return;
-    }
-
-    const searchWords = normalizedSearchTerm.split(" ");
-
-    setSearchResult(
-      jobs.filter((job) => {
-        // @ts-ignore
-        const jobTitleWords = job.title
-          .toLowerCase()
-          .trim()
-          .split(/[\s-]+/);
-        return searchWords.every((word) =>
-          // @ts-ignore
-          jobTitleWords.some((jobWord) => jobWord.includes(word))
-        );
-      })
-    );
-  };
-
+  const { isLoading, data, isError } = useQuery({
+    queryKey: ["jobs", debouncedQueryParams, jobType],
+    queryFn: () =>
+      handleGetAllJobsByTypeService({
+        ...debouncedQueryParams,
+        type: jobType,
+      }),
+  });
   return (
     <div className="wrapper bg-[#f5f6fa] py-6">
       <div className="flex justify-between gap-10">
-        <ApplyFilter />
+        <ApplyFilter
+          setFilterParams={setQueryParams}
+          filterParams={queryParams}
+        />
         <div className="flex flex-1 flex-col gap-9">
           {/* Search field */}
           <div className="bg-white rounded-[10px] w-full p-4 flex gap-2 justify-between items-center">
             <input
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              value={queryParams.keyword}
+              onChange={(e) => {
+                setQueryParams({
+                  ...queryParams,
+                  keyword: e.target.value,
+                });
+              }}
               type="text"
-              placeholder="Search by Internship Title / Skills"
+              placeholder={`Search ${jobType} here...`}
               className="bg-white focus:outline-none w-full"
             />
             <Image
-              onClick={handleSearch}
               src={ICONS.magnifer}
               alt="search-icon"
               className="w-[18px] cursor-pointer"
@@ -92,10 +85,18 @@ const Page = ({ params: { jobType } }: Props) => {
           </div>
 
           {/* Job cards */}
-          {loading ? (
-            <JobCardLoader />
+          {isLoading ? (
+            <>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+              <div className="skeleton h-32 w-full"></div>
+            </>
+          ) : data?.length === 0 ? (
+            <div className="text-center text-neutral-500 flex items-center justify-center h-40">
+              <span>No {jobType} found</span>
+            </div>
           ) : (
-            searchResult.map((details: any, index: number) => (
+            data?.map((details: any, index: number) => (
               <JobDetailCard
                 wrapperClassName=""
                 key={index}
@@ -104,18 +105,19 @@ const Page = ({ params: { jobType } }: Props) => {
               />
             ))
           )}
-
-          {searchResult.map((details: any, index: number) => (
-            <JobDetailCard
-              wrapperClassName=""
-              key={index}
-              job={details}
-              showApplyButton
-            />
-          ))}
         </div>
       </div>
     </div>
+  );
+};
+
+const Page = ({ params: { jobType } }: Props) => {
+  if (!AVAILABLE_JOB_TYPES.includes(jobType)) return <NotFound />;
+  return (
+    <PageComponent
+      // @ts-ignore
+      jobType={jobType}
+    />
   );
 };
 

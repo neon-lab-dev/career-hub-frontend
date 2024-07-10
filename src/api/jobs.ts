@@ -2,6 +2,7 @@ import { IJob } from "@/types/job";
 import { fetchData } from "./fetch";
 import api from ".";
 import axios from "axios";
+import { IDefaultQueryParams } from "@/app/(employee)/(job-listing)/[jobType]/page";
 
 export interface IJobResponse {
   success: boolean;
@@ -96,6 +97,41 @@ export const handleApplyJobService = async (id: string): Promise<string> => {
       })
       .catch((err) => {
         reject(err?.response?.data?.message ?? "Failed to apply");
+      });
+  });
+};
+
+export const handleGetAllJobsByTypeService = async ({
+  type,
+  ...params
+}: IDefaultQueryParams & {
+  type: string;
+}): Promise<IJob[]> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${api.jobs}`, {
+        withCredentials: true,
+        params: {
+          ...Object.fromEntries(
+            Object.entries(params).filter(([_, value]) => value)
+          ),
+        },
+      })
+      .then((res) => {
+        let jobs = res.data?.jobs ?? [];
+        if (type) {
+          jobs = jobs.filter((job: IJob) => {
+            if (type === "internships") {
+              return job.employmentType === "Internship";
+            } else {
+              return job.employmentType !== "Internship";
+            }
+          });
+        }
+        resolve(jobs ?? []);
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Something went wrong");
       });
   });
 };
