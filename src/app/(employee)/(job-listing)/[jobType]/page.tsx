@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { handleGetAllJobsByTypeService } from "@/api/jobs";
 import debounce from "@/helpers/debounce";
 import { useSearchParams } from "next/navigation";
+import { useAppSelector } from "@/hooks/store";
 
 type Props = {
   params: {
@@ -28,6 +29,7 @@ export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
 };
 
 const PageComponent = ({ jobType }: { jobType: string }) => {
+  const { studentProfile } = useAppSelector((state) => state.auth);
   const searchParams = useSearchParams();
   const [queryParams, setQueryParams] = useState<IDefaultQueryParams>({
     ...DEFAULT_QUERY_PARAMS,
@@ -97,12 +99,17 @@ const PageComponent = ({ jobType }: { jobType: string }) => {
               <span>No {jobType} found</span>
             </div>
           ) : (
-            data?.map((details: any, index: number) => (
+            data?.map((details, index: number) => (
               <JobDetailCard
                 wrapperClassName=""
                 key={index}
                 job={details}
                 showApplyButton
+                isApplied={
+                  details?.applicants.findIndex((a) => {
+                    a.employee === studentProfile?._id;
+                  }) !== -1
+                }
               />
             ))
           )}

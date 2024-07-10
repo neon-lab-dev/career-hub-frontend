@@ -11,9 +11,15 @@ type Props = {
   showApplyButton?: boolean;
   wrapperClassName?: string;
   job: IJob;
+  isApplied?: boolean;
 };
 
-const JobDetailCard = ({ showApplyButton, wrapperClassName, job }: Props) => {
+const JobDetailCard = ({
+  showApplyButton,
+  wrapperClassName,
+  job,
+  isApplied,
+}: Props) => {
   if (!job) return null;
   return (
     <div
@@ -69,7 +75,9 @@ const JobDetailCard = ({ showApplyButton, wrapperClassName, job }: Props) => {
           >
             <Button variant="muted">View full details</Button>
           </Link>
-          {showApplyButton && <ApplyJob jobId={job._id} />}
+          {showApplyButton && (
+            <ApplyJob jobId={job._id} isApplied={isApplied!} />
+          )}
         </div>
       </div>
     </div>

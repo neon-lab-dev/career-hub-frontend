@@ -2,11 +2,19 @@
 
 import { handleApplyJobService } from "@/api/jobs";
 import Button from "@/components/Button";
+import { useAppSelector } from "@/hooks/store";
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
 import { toast } from "sonner";
 
-const ApplyJob = ({ jobId }: { jobId: string }) => {
+const ApplyJob = ({
+  jobId,
+  isApplied,
+}: {
+  jobId: string;
+  isApplied: boolean;
+}) => {
+  const { studentProfile } = useAppSelector((state) => state.auth);
   const { mutate, isPending } = useMutation({
     mutationFn: handleApplyJobService,
     onSuccess: (msg) => {
@@ -18,8 +26,18 @@ const ApplyJob = ({ jobId }: { jobId: string }) => {
   });
   return (
     <>
-      <Button onClick={() => mutate(jobId)} className="w-full sm:w-auto">
-        {isPending ? "Applying..." : "Apply Now"}
+      <Button
+        disabled={isApplied}
+        onClick={() => {
+          if (!studentProfile) {
+            toast.error("Login to apply for the job");
+            return;
+          }
+          mutate(jobId);
+        }}
+        className="w-full sm:w-auto"
+      >
+        {isApplied ? "Applied" : isPending ? "Applying..." : "Apply Now"}
       </Button>
     </>
   );
