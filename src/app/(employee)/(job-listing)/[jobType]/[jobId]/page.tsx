@@ -2,7 +2,6 @@ import NotFound from "@/components/NotFound";
 import Image from "next/image";
 import { IMAGES } from "@/assets";
 import JobShareButton from "./_components/JobShareButtonComponent";
-import Button from "@/components/Button";
 import Link from "next/link";
 import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
 import SimilarJobsForYou from "./_components/SimilarJobsForYouComponent";

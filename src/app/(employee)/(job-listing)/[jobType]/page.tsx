@@ -39,7 +39,6 @@ const Page = ({ params: { jobType } }: Props) => {
         setLoading(false);
       }
     };
-
     fetchJobs();
   }, []);
 

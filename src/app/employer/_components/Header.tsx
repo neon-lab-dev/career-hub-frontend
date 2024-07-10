@@ -43,7 +43,7 @@ const Header = () => {
   return (
     <div className="bg-white px-7 py-4 font-plus-jakarta-sans flex justify-between items-center">
       {/* Heading */}
-      <h1 className="text-2xl font-700 text-secondary-900">{title}</h1>
+      <h1 className="text-2xl font-700 text-secondary-900">Home</h1>
 
       {/* Profile Dropdown */}
       <div

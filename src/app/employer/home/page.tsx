@@ -1,5 +1,6 @@
+"use client";
 import KPICard from "@/components/KPICard";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import applicationIcon from "@/assets/icons/applications.svg";
 import hourglass from "@/assets/icons/hourglass.svg";
 import checkCircle from "@/assets/icons/check-circle.svg";
@@ -7,100 +8,116 @@ import closeCircle from "@/assets/icons/close-circle.svg";
 import Image from "next/image";
 import addCircle from "@/assets/icons/Add Circle.svg";
 import Button from "@/components/Button";
-import { Header } from "@/app/admin/tableTypes";
 import Tablel from "./_components/Tablel";
 import Link from "next/link";
 
-export type DataItem = {
-  userName: string;
-  appliedOn: string;
-  status: "applied" | "rejected" | "hired" | "interview";
-  actions: string;
+export type JobItem = {
+  title: string;
+  status: string;
 };
 
 const Dashboard = () => {
-  const headers: Header<DataItem>[] = [
-    { header: "Name", accessor: "userName" },
-    { header: "Applied on", accessor: "appliedOn" },
-    { header: "Status", accessor: "status" },
-    { header: "Actions", accessor: "actions" },
-  ];
+  const [jobsCount, setJobsCount] = useState(0);
+  const [internshipsPosted, setInternshipsPosted] = useState<number>(0);
+  const [internshipsHired, setInternshipsHired] = useState<number>(0);
+  const [internshipsRejected, setInternshipsRejected] = useState<number>(0);
+  const [openJobs, setOpenJobs] = useState<JobItem[]>([]);
 
-  const data: DataItem[] = [
-    {
-      userName: "Rahul Sutradhar",
-      appliedOn: "12 Dec 2024 - 11AM",
-      status: "applied",
-      actions: "edit",
-    },
-    {
-      userName: "Rahul Sutradhar",
-      appliedOn: "12 Dec 2024 - 11AM",
-      status: "applied",
-      actions: "edit",
-    },
-    {
-      userName: "Rahul Sutradhar",
-      appliedOn: "12 Dec 2024 - 11AM",
-      status: "applied",
-      actions: "edit",
-    },
-    {
-      userName: "Rahul Sutradhar",
-      appliedOn: "12 Dec 2024 - 11AM",
-      status: "applied",
-      actions: "edit",
-    },
-  ];
+  useEffect(() => {
+    fetchJobData();
+  }, []);
 
+  const fetchJobData = async () => {
+    try {
+      const response = await fetch('https://carrerhub-backend.vercel.app/api/v1/jobs');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      // Update state with fetched data
+      setJobsCount(data.jobsCount || 0);
+      
+      // Count internships posted, hired, and rejected
+      let internshipsPostedCount = 0;
+      let internshipsHiredCount = 0;
+      let internshipsRejectedCount = 0;
+
+      data.jobs.forEach(job => {
+        if (job.employmentType === "Internship") {
+          internshipsPostedCount++;
+          job.applicants.forEach(applicant => {
+            if (applicant.status === "hired") {
+              internshipsHiredCount++;
+            } else if (applicant.status === "rejected") {
+              internshipsRejectedCount++;
+            }
+          });
+        }
+      });
+
+      setInternshipsPosted(internshipsPostedCount);
+      setInternshipsHired(internshipsHiredCount);
+      setInternshipsRejected(internshipsRejectedCount);
+
+      // Filter open jobs
+      setOpenJobs(data.jobs.filter(job => job.status === "Open").map(job => ({
+        title: job.title,
+        status: job.status
+      })));
+    } catch (error) {
+      console.error('Error fetching job data:', error);
+    }
+  };
 
   return (
     <div className="bg-[#f5f6fa] p-6 flex flex-col gap-6">
-      <div className="flex items-center gap-4 overflow-x-auto ">
+      <div className="flex items-center gap-4 overflow-x-auto">
         <KPICard
-        classNames="w-full max-w-full"
+          classNames="w-full max-w-full"
           image={applicationIcon}
           title="Jobs Posted"
-          value="24"
+          value={jobsCount}
           alt="application-icon"
         />
         <KPICard
-        classNames="w-full max-w-full"
+          classNames="w-full max-w-full"
           image={hourglass}
           title="Internships Posted"
-          value="10 "
-          alt="application-icon"
+          value={internshipsPosted}
+          alt="hourglass-icon"
         />
         <KPICard
-        classNames="w-full max-w-full"
+          classNames="w-full max-w-full"
           image={checkCircle}
-          title="Hired"
-          value="4"
-          alt="application-icon"
+          title="Internships Hired"
+          value={internshipsHired}
+          alt="check-circle-icon"
         />
         <KPICard
-        classNames="w-full max-w-full"
+          classNames="w-full max-w-full"
           image={closeCircle}
-          title="Rejected"
-          value="10"
-          alt="application-icon"
+          title="Internships Rejected"
+          value={internshipsRejected}
+          alt="close-circle-icon"
         />
       </div>
 
       <div className="flex justify-end">
         <Link href="/employer/home/add-new-hiring">
-        <Button
-          className="flex items-center gap-[6px] max-w-[200px] justify-center"
-          variant="primary"
-        >
-          Add New Hiring
-          <Image src={addCircle} alt="addCircle" />
-        </Button>
+          <Button
+            className="flex items-center gap-[6px] max-w-[200px] justify-center"
+            variant="primary"
+          >
+            Add New Hiring
+            <Image src={addCircle} alt="addCircle" />
+          </Button>
         </Link>
       </div>
 
+      {/* Display open jobs in a table */}
       <Tablel
-      className="w-full max-w-full"
+        className="w-full max-w-full"
+        jobs={openJobs}
       />
     </div>
   );

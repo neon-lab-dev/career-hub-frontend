@@ -29,9 +29,6 @@ import view from "@/assets/icons/Eye.svg"
 import Edit from "@/assets/images/Vector.svg"
 
 
-
-
-
 import download from "@/assets/images/fi-br-download (1).svg"
 import penResume from "@/assets/images/Pen.svg"
 import penEdit from "@/assets/images/Vector.svg"
