@@ -1,17 +1,15 @@
 "use client";
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 import NotFound from "@/components/NotFound";
 import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
 import ApplyFilter from "../_components/ApplyFilter";
 import { ICONS } from "@/assets";
 import Image from "next/image";
 import JobDetailCard from "@/components/JobDetailCard";
-import api from "@/api";
-import JobCardLoader from "@/components/Loaders/JobCardLoader";
 import { useQuery } from "@tanstack/react-query";
 import { handleGetAllJobsByTypeService } from "@/api/jobs";
 import debounce from "@/helpers/debounce";
+import { useSearchParams } from "next/navigation";
 
 type Props = {
   params: {
@@ -30,8 +28,11 @@ export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
 };
 
 const PageComponent = ({ jobType }: { jobType: string }) => {
-  const [queryParams, setQueryParams] =
-    useState<IDefaultQueryParams>(DEFAULT_QUERY_PARAMS);
+  const searchParams = useSearchParams();
+  const [queryParams, setQueryParams] = useState<IDefaultQueryParams>({
+    ...DEFAULT_QUERY_PARAMS,
+    keyword: searchParams.get("search") || "",
+  });
   const [debouncedQueryParams, setDebouncedQueryParams] =
     useState<IDefaultQueryParams>(DEFAULT_QUERY_PARAMS);
 
