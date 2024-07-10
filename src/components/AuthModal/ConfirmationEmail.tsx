@@ -1,30 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React from "react";
 import edit from "../../assets/icons/Edit.svg";
+import { useAppDispatch } from "@/hooks/store";
+import { setAuthModalType } from "@/store/slices/authSlice";
 
-type TConfirmationEmailTypes = {
-  setModalType: Dispatch<
-    SetStateAction<
-      | "Login"
-      | "Signup"
-      | "OTP"
-      | "ForgotPassword"
-      | "ChangePassword"
-      | "ConfirmationEmail"
-    >
-  >;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
-  confirmationEmail: string;
-};
-
-const ConfirmationEmail: React.FC<TConfirmationEmailTypes> = ({
-  setModalType,
-  setOpenModal,
-  confirmationEmail,
-}) => {
-  console.log(confirmationEmail);
+const ConfirmationEmail = () => {
+  const dispatch = useAppDispatch();
   return (
     <div>
       <div className="flex flex-col gap-1 items-center justify-center">
@@ -34,10 +17,12 @@ const ConfirmationEmail: React.FC<TConfirmationEmailTypes> = ({
 
         {/* Edit phone button */}
         <button
-          onClick={() => setModalType("ForgotPassword")}
+          onClick={() => {
+            dispatch(setAuthModalType("LOGIN"));
+          }}
           className="flex items-center gap-[3px]"
         >
-          {confirmationEmail}
+          {/* {confirmationEmail} */}
           <Image src={edit} alt="edit-button" />
         </button>
       </div>

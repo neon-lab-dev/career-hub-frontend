@@ -5,26 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { handleSendResetPasswordEmailService } from "@/api/authentication";
 
-type TForgotPasswordTypes = {
-  setModalType: Dispatch<
-    SetStateAction<
-      | "Login"
-      | "Signup"
-      | "OTP"
-      | "ForgotPassword"
-      | "ChangePassword"
-      | "ConfirmationEmail"
-    >
-  >;
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
-  setConfirmationEmail: Dispatch<SetStateAction<string>>;
-};
-
-const ForgotPassword: React.FC<TForgotPasswordTypes> = ({
-  setModalType,
-  setOpenModal,
-  setConfirmationEmail,
-}) => {
+const ForgotPassword = () => {
   const {
     register,
     handleSubmit,
@@ -33,11 +14,11 @@ const ForgotPassword: React.FC<TForgotPasswordTypes> = ({
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: { email: string }) => {
-      setConfirmationEmail(data.email);
+      // setConfirmationEmail(data.email);
       return handleSendResetPasswordEmailService(data);
     },
     onSuccess: () => {
-      setModalType("ConfirmationEmail");
+      // setModalType("ConfirmationEmail");
     },
     onError: (error: string) => {
       toast.error(error);

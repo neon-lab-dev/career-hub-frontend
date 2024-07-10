@@ -1,29 +1,28 @@
-// @ts-nocheck
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Button from "../Button";
 import Link from "next/link";
 import downArrow from "../../assets/icons/down-arrow.svg";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import api from "@/api";
 import axios from "axios";
 import { toast } from "sonner";
-import { useAuth } from "@/providers/AuthProvider";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
+import { setAuthModalType } from "@/store/slices/authSlice";
+import { useMutation } from "@tanstack/react-query";
+import {
+  handleEmployeeSignupService,
+  handleEmployerSignupService,
+} from "@/api/authentication";
+import OTP from "./OTP";
 
-type TSignupModalTypes = {
-  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP" | "ForgotPassword" | "ChangePassword" | "ConfirmationEmail">>;
-  setEmail: Dispatch<SetStateAction<string>>;
-};
-
-const Signup: React.FC<TSignupModalTypes> = ({ setModalType, setEmail }) => {
-  const [loading, setLoading] = useState(false);
+const Signup = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const [data, setData] = useState<any>({}); // This is the mail on which the otp will be sent
+  const { activeTab, authModalType } = useAppSelector((state) => state.auth);
   const dropDownRef = useRef<HTMLDivElement>(null);
-
-  const {userType} = useAuth();
-
+  const dispatch = useAppDispatch();
   const countryCodes: string[] = [
     "+91", // India
     "+93", // Afghanistan
@@ -271,48 +270,54 @@ const Signup: React.FC<TSignupModalTypes> = ({ setModalType, setEmail }) => {
     watch,
   } = useForm();
 
-  const handleSignup = async (data: any) => {
-    const { full_name, email, mobilenumber, password, confirm_password } = data;
-
-    const phoneNumberWithCountryCode = `${countryCode}${mobilenumber}`;
-
-    const userSignupData = {
-      full_name,
-      email,
-      mobilenumber: phoneNumberWithCountryCode,
-      password,
-      confirm_password,
-    };
-
-    setEmail(email);
-
-    setLoading(true);
-
-    
-    try {
-      const apiEndpoint = userType === "Student" ? api.employeeRegister : api.employerRegistration;
-      const response = await axios.post(apiEndpoint, userSignupData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
-      console.log(response.data);
-      if (response.data.success) {
-        setModalType("OTP");
-      }
-      setLoading(false);
-    } catch (error: any) {
-      toast.error(error.response.data.message);
-      setLoading(false);
-    }
-  };
   const password = watch("password");
 
+  const employee = useMutation({
+    mutationFn: handleEmployeeSignupService,
+    onSuccess: (msg) => {
+      toast.success(msg);
+      dispatch(setAuthModalType("OTP"));
+    },
+    onError: (err: string) => {
+      toast.error(err);
+    },
+  });
+
+  const employer = useMutation({
+    mutationFn: handleEmployerSignupService,
+    onSuccess: (msg) => {
+      toast.success(msg);
+      dispatch(setAuthModalType("OTP"));
+    },
+    onError: (err: string) => {
+      toast.error(err);
+    },
+  });
+
+  const onSubmit = async (data: any) => {
+    setData(data);
+    if (activeTab === "STUDENT") {
+      employee.mutate(data);
+    } else {
+      employer.mutate(data);
+    }
+  };
+
+  if (authModalType === "OTP") {
+    return (
+      <OTP
+        mail={data.email}
+        handleResendOTP={() => {
+          onSubmit(data);
+        }}
+        isResendLoading={employee.isPending || employer.isPending}
+      />
+    );
+  }
   return (
     <div>
       <form
-        onSubmit={handleSubmit(handleSignup)}
+        onSubmit={handleSubmit(onSubmit)}
         className="font-plus-jakarta-sans"
       >
         <div className="flex flex-col gap-5">
@@ -491,14 +496,16 @@ const Signup: React.FC<TSignupModalTypes> = ({ setModalType, setEmail }) => {
         </p>
 
         <Button className="w-full mt-5" variant="primary">
-          {loading ? "Loading..." : "Get OTP"}
+          {employee.isPending || employer.isPending ? "Loading..." : "Get OTP"}
           {/* Get OTP */}
         </Button>
 
         <p className="text-neutral-700 text-sm font-400 text-center mt-8">
           Already registered?{" "}
           <button
-            onClick={() => setModalType("Login")}
+            onClick={() => {
+              dispatch(setAuthModalType("LOGIN"));
+            }}
             className="text-primary-500"
           >
             Login

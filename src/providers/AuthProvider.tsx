@@ -1,111 +1,49 @@
-// @ts-nocheck
 "use client";
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import axios from 'axios';
-import api from '@/api';
-import { deleteUser, getUserDataFromLocalStorage } from '@/api/authentication';
 
-type TType = {
-  userType : "Student" | "Employer";
-}
+import {
+  handleGetEmployeeProfileService,
+  handleGetEmployerProfileService,
+} from "@/api/authentication";
+import Loading from "@/components/Loading";
+import { useAppDispatch } from "@/hooks/store";
+import {
+  setEmployeeProfile,
+  setEmployerProfile,
+} from "@/store/slices/authSlice";
+import { useQuery } from "@tanstack/react-query";
+import React, { useEffect } from "react";
 
-interface AuthContextType {
-  user: any;
-  login: (userData: any) => void;
-  logout: () => void;
-  fetchProfile: () => void;
-  userType: TType;
-  setUserType: (type: "Student" | "Employer") => void;
-}
-
-
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [userType, setUserType] = useState<"Student" | "Employer">("");
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    localStorage.getItem('userType')
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('userType', userType)
-  }, [userType])
+const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const dispatch = useAppDispatch();
+  const student = useQuery({
+    queryKey: ["student-profile"],
+    queryFn: handleGetEmployeeProfileService,
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
+  const employer = useQuery({
+    queryKey: ["employer-profile"],
+    queryFn: handleGetEmployerProfileService,
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
 
   useEffect(() => {
-   const type : TType= localStorage.getItem('userType');
-   console.log(type)
-    setUserType(type)
-  }, []);
-
-
-
-  
-
-  const login = (userData: any) => {
-    setUser(userData);
-  };
-
-  const logout = async () => {
-    try {
-      const apiEndpoint = userType === "Student" ? api.employeeLogout : userType === "Employer"? api.employerLogout : null;
-     const res=  await axios.get(apiEndpoint, {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    });
-     console.log(res.data);
-      if(res.data.success){
-        setUser(null);
-        deleteUser();
-        // location.reload();
-        console.log(user);
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
+    if (student.isSuccess) {
+      dispatch(setEmployeeProfile(student.data!));
     }
-  };
-
-
-
-
-  const fetchProfile = async () => {
-    const userData = getUserDataFromLocalStorage()
-    if(!userData){
-      return
-    }
-    try {
-      console.log("object");
-      const apiEndpoint = userType === "Student" ? api.employeeProfile : userType === "Employer" ? api.employerProfile : null
-      console.log(userType)
-      const response = await axios.get(apiEndpoint, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
-      });
-      console.log(response.data.user)
-      setUser(response.data.user);
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-      setUser(null);
-    }
-  };
+  }, [student.isLoading, student.isFetching, student.isSuccess]);
 
   useEffect(() => {
-    fetchProfile();
-  }, []);
+    if (employer.isSuccess) {
+      dispatch(setEmployerProfile(employer.data!));
+    }
+  }, [employer.isLoading, employer.isFetching, employer.isSuccess]);
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout, fetchProfile, userType, setUserType }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  if (student.isLoading) return <Loading className="h-screen w-screen" />;
+  return <div>{children}</div>;
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export default AuthProvider;

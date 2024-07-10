@@ -1,84 +1,68 @@
-// @ts-nocheck
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import Button from "../Button";
-import { TSignupLoginModalTypes } from "./AuthModal.types";
-import axios from "axios";
-import api from "@/api";
-import { setToLocalStorage } from "@/api/authentication";
 import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
+import { closeAuthModal, setAuthModalType } from "@/store/slices/authSlice";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  handleEmployeeLoginService,
+  handleEmployerLoginService,
+} from "@/api/authentication";
 import { toast } from "sonner";
-import { useAuth } from "@/providers/AuthProvider";
 
-
-type TLoginModalTypes = {
-  setModalType: Dispatch<SetStateAction<"Login" | "Signup" | "OTP" | "ForgotPassword" | "ChangePassword" | "ConfirmationEmail">>;
-  setOpenModal : Dispatch<SetStateAction<boolean>>;
-};
-
-const Login: React.FC<TLoginModalTypes> = ({ setModalType, setOpenModal }) => {
-  const [loading, setLoading] = useState(false);
-  const { login, fetchProfile, userType } = useAuth();
-  console.log(userType)
-
-  const router = useRouter()
+const Login = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
+  const { activeTab } = useAppSelector((state) => state.auth);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { mutate: employeeMutate, isPending: isEmployeePending } = useMutation({
+    mutationFn: handleEmployeeLoginService,
+    onSuccess: (msg) => {
+      toast.success(msg);
+      queryClient.invalidateQueries({
+        queryKey: ["student-profile"],
+      });
+      dispatch(closeAuthModal());
+    },
+    onError: (err: string) => {
+      toast.error(err);
+    },
+  });
+  const { mutate: employerMutate, isPending: isEmployerPending } = useMutation({
+    mutationFn: handleEmployerLoginService,
+    onSuccess: (msg) => {
+      toast.success(msg);
+      queryClient
+        .invalidateQueries({
+          queryKey: ["employer-profile"],
+        })
+        .then(() => {
+          router.push("/employer/dashboard");
+        });
+      dispatch(closeAuthModal());
+    },
+    onError: (err: string) => {
+      toast.error(err);
+    },
+  });
 
-  const handleLogin = async (loginData: any) => {
-  
-    setLoading(true)
-    try{
-      const apiEndpoint = userType === "Student" ? api.employeeLogin : api.employerLogin;
-      const {data} = await axios.post(apiEndpoint, loginData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      })
-      console.log(data)
-      if(data.success){
-        toast.success(`Welcome back ${data.user.full_name}`)
-        // login(data.user);
-        setToLocalStorage(data.user.email)
-        setLoading(false)
-        setOpenModal(false)
-        if(userType === "Student"){
-          router.push('/');
-        }else{
-          router.push('/employer/home');
-        }
-        localStorage.setItem('userType', userType);
-        await fetchProfile();
-
-
-        // try {
-        //   const response = await axios.get(api.employeeProfile, {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //     withCredentials: true,
-        //   })
-        //   setUserData(response.data.user);
-          
-        // } catch (error) {
-        //   console.error("Error fetching /me:", error);
-        //   toast.error("Failed to fetch user details");
-        // }
-
-      }
-    }catch(error : any){
-      toast.error(error.response?.data?.message || 'Login failed');
-      setLoading(false);
+  const onSubmit = async (data: any) => {
+    if (activeTab === "STUDENT") {
+      employeeMutate(data);
+    } else {
+      employerMutate(data);
     }
   };
 
   return (
     <div className="">
-      <form onSubmit={handleSubmit(handleLogin)} className="">
+      <form onSubmit={handleSubmit(onSubmit)} className="">
         <div className="flex flex-col gap-5">
           {/* Email */}
           <div className="flex flex-col gap-[6px]">
@@ -132,25 +116,30 @@ const Login: React.FC<TLoginModalTypes> = ({ setModalType, setOpenModal }) => {
         </div>
 
         <div className="flex justify-end mt-[6px]">
-          <p onClick={() => setModalType("ForgotPassword")} className="text-primary-500 text-sm font-500 cursor-pointer">
+          <p
+            onClick={() => {
+              dispatch(setAuthModalType("FORGOT_PASSWORD"));
+            }}
+            className="text-primary-500 text-sm font-500 cursor-pointer"
+          >
             Forgot Password?
           </p>
         </div>
 
-        <Button className="w-full mt-5" variant="primary">
-        {
-            loading ? 
-            "Login In..."
-            :
-            "Login"
-          }
-          
+        <Button
+          disabled={isEmployeePending || isEmployerPending}
+          className="w-full mt-5"
+          variant="primary"
+        >
+          {isEmployeePending || isEmployerPending ? "Loading..." : "Login"}
         </Button>
 
         <p className="text-neutral-700 text-sm font-400 text-center mt-8">
           New to Career Hub?{" "}
           <button
-            onClick={() => setModalType("Signup")}
+            onClick={() => {
+              dispatch(setAuthModalType("SIGNUP"));
+            }}
             className="text-primary-500"
           >
             Signup

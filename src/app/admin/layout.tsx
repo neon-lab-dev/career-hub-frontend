@@ -23,7 +23,7 @@ export default function EmployeeRootLayout({
 
   useEffect(() => {
     if (isError) {
-      // router.push("/admin/login");
+      router.push("/admin/login");
     }
   }, [isError, isLoading]);
 

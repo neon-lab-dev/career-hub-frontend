@@ -1,34 +1,27 @@
-// @ts-nocheck
 import React, { useState } from "react";
-// import Image from "next/image";
-// import closeIcon from "../../assets/icons/Close-Circle-modal.svg";
 import Login from "./Login";
 import Signup from "./Signup";
 import OTP from "./OTP";
 import { TModalTypes } from "./AuthModal.types";
-import { useAuth } from "@/providers/AuthProvider";
 import ChangePassword from "./ChangePassword";
 import ForgotPassword from "./ForgotPassword";
 import ConfirmationEmail from "./ConfirmationEmail";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
+import { closeAuthModal, setActiveTab } from "@/store/slices/authSlice";
 
-const AuthModal: React.FC<TModalTypes> = ({
-  openModal,
-  setOpenModal,
-  modalType,
-  setModalType,
-  // userType,
-  // setUserType,
-}) => {
-  const { userType, setUserType } = useAuth();
-
-  const [email, setEmail] = useState<string>('');
-  const [confirmationEmail, setConfirmationEmail] = useState<string>('');
+const AuthModal = () => {
+  const [email, setEmail] = useState<string>("");
+  const { isAuthModalOpen, authModalType, activeTab } = useAppSelector(
+    (state) => state.auth
+  );
+  const dispatch = useAppDispatch();
+  const [confirmationEmail, setConfirmationEmail] = useState<string>("");
   return (
     <div className="mx-auto  flex items-center justify-center m-10">
       <div
-        onClick={() => setOpenModal(false)}
+        onClick={() => dispatch(closeAuthModal())}
         className={`fixed z-[100] flex items-center justify-center p-10 ${
-          openModal ? "opacity-1 visible" : "invisible opacity-0"
+          isAuthModalOpen ? "opacity-1 visible" : "invisible opacity-0"
         } inset-0 bg-black/20 backdrop-blur-sm duration-100 `}
       >
         <div
@@ -38,86 +31,66 @@ const AuthModal: React.FC<TModalTypes> = ({
           }}
           onClick={(e_) => e_.stopPropagation()}
           className={`font-plus-jakarta-sans w-full max-w-[529px] ${
-              modalType === "OTP"
+            authModalType === "OTP"
               ? "h-[375px] overflow-hidden"
-              : modalType === "ForgotPassword"
+              : authModalType === "FORGOT_PASSWORD"
               ? "h-[300px]"
-              : modalType === "ChangePassword"
+              : authModalType === "CHANGE_PASSWORD"
               ? "h-[400px]"
-              : modalType === "ConfirmationEmail"
+              : authModalType === "CONFIRMATION_EMAIL"
               ? "h-[200px]"
               : "h-[550px]"
           }
            absolute rounded-2xl bg-white p-6 text-center drop-shadow-2xl overflow-y-auto ${
-            openModal
-              ? "opacity-1 translate-y-0 duration-300"
-              : "translate-y-20 opacity-0 duration-150"
-          }`}
+             isAuthModalOpen
+               ? "opacity-1 translate-y-0 duration-300"
+               : "translate-y-20 opacity-0 duration-150"
+           }`}
         >
-
-          {/* Close button */}
-          {/* <div
-            onClick={() => setOpenModal(false)}
-            className="flex justify-end cursor-pointer"
-          >
-            <Image src={closeIcon} alt="close-btn" className="w-6 h-6" />
-          </div> */}
-
-
-          {/* Auth modal heading */}
           <div>
             <h1 className=" text-secondary-800 text-[28px] font-700 text-center">
               <span className="bg-primary-500 px-2 text-white mr-3">
-                {
-                   modalType === "Login"
+                {authModalType === "LOGIN"
                   ? "Login"
-                  :
-                   modalType === "Signup"
+                  : authModalType === "SIGNUP"
                   ? "Signup"
-                  :
-                   modalType === "OTP"
+                  : authModalType === "OTP"
                   ? "OTP"
-                  : modalType === "ForgotPassword"
+                  : authModalType === "FORGOT_PASSWORD"
                   ? "Forgot"
-                  : modalType === "ConfirmationEmail"
+                  : authModalType === "CONFIRMATION_EMAIL"
                   ? "Forgot"
-                  : modalType === "ChangePassword"
-                  ? "Change" : ""
-                }
-                {/* {
-               modalType === "Login"
-                ? "Login"
-                : modalType === "Signup"
-                ? "Signup"
-                : modalType === "ForgotPassword"
-                ? "Forgot"
-                : modalType === "OTP" && "Verify"
-                } */}
+                  : authModalType === "CHANGE_PASSWORD"
+                  ? "Change"
+                  : ""}
               </span>
               {
-                modalType === "OTP"
+                authModalType === "OTP"
                   ? "Your Email"
-                  : modalType === "ForgotPassword"
+                  : authModalType === "FORGOT_PASSWORD"
                   ? "Password?"
-                  : modalType === "ConfirmationEmail"
+                  : authModalType === "CONFIRMATION_EMAIL"
                   ? "Password?"
-                  : modalType === "ChangePassword"
-                  ? "Password" : "to Career Hub"
+                  : authModalType === "CHANGE_PASSWORD"
+                  ? "Password"
+                  : "to Career Hub"
 
-              // modalType === "OTP" ? "Your Email" : "to Career Hub"
+                // modalType === "OTP" ? "Your Email" : "to Career Hub"
               }
             </h1>
           </div>
 
           <div className="flex flex-col gap-8 mt-8">
-            {modalType === "Login" || modalType === "Signup" ? (
+            {authModalType === "LOGIN" || authModalType === "SIGNUP" ? (
               <div>
                 {/* Tab btn */}
                 <div className="py-3 flex justify-center gap-8 rounded-lg border-[1px] border-secondary-100">
                   <button
-                    onClick={() => setUserType("Student")}
+                    onClick={() => {
+                      dispatch(setActiveTab("STUDENT"));
+                    }}
                     className={`text-base font-500 text-center flex-1 ${
-                      userType === "Student"
+                      activeTab === "STUDENT"
                         ? "text-primary-500"
                         : "text-secondary-400"
                     }`}
@@ -125,9 +98,11 @@ const AuthModal: React.FC<TModalTypes> = ({
                     Student
                   </button>
                   <button
-                    onClick={() => setUserType("Employer")}
+                    onClick={() => {
+                      dispatch(setActiveTab("EMPLOYER"));
+                    }}
                     className={`text-base font-500 text-center flex-1 ${
-                      userType === "Employer"
+                      activeTab === "EMPLOYER"
                         ? "text-primary-500"
                         : "text-secondary-400"
                     }`}
@@ -139,23 +114,12 @@ const AuthModal: React.FC<TModalTypes> = ({
             ) : (
               ""
             )}
-
-{
-  modalType === "Login" ? (
-    <Login setOpenModal={setOpenModal} setModalType={setModalType} />
-  ) : modalType === "Signup" ? (
-    <Signup setEmail={setEmail} setModalType={setModalType} />
-  ) : modalType === "ForgotPassword" ? (
-    <ForgotPassword setOpenModal={setOpenModal} setModalType={setModalType} setConfirmationEmail={setConfirmationEmail} />
-  ) : modalType === "ChangePassword" ? (
-    <ChangePassword setOpenModal={setOpenModal} setModalType={setModalType} />
-  ) : modalType === "ConfirmationEmail" ? (
-    <ConfirmationEmail setOpenModal={setOpenModal} setModalType={setModalType} confirmationEmail={confirmationEmail} />
-  ) : (
-    <OTP setOpenModal={setOpenModal} email={email} setModalType={setModalType} />
-  )
-}
-
+            {authModalType === "LOGIN" && <Login />}
+            {(authModalType === "SIGNUP" || authModalType === "OTP") && (
+              <Signup />
+            )}
+            {authModalType === "FORGOT_PASSWORD" && <ForgotPassword />}
+            {authModalType === "CONFIRMATION_EMAIL" && <ConfirmationEmail />}
           </div>
         </div>
       </div>
