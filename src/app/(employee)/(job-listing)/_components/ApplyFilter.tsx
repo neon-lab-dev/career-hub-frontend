@@ -1,25 +1,28 @@
 "use client";
-import React, { ChangeEventHandler, useEffect, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { IMAGES } from "@/assets";
 import Image from "next/image";
 import ExperiencedLevel from "./ExperiencedLevel";
 import InternshipMode from "./InternshipMode";
 import MonthlyStipend from "./MonthlyStipend";
 import MaxDuration from "./MaxDuration";
+import { DEFAULT_QUERY_PARAMS, IDefaultQueryParams } from "../[jobType]/page";
 
-const ApplyFilter = () => {
+type Props = {
+  setFilterParams: Dispatch<SetStateAction<IDefaultQueryParams>>;
+  filterParams: IDefaultQueryParams;
+};
+
+const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
   const [experienceLevel, setExperienceLevel] = useState<string>("");
-  const [selectedMode, setSelectedMode] = useState<string>("");
   const [monthlyStipend, setMonthlyStipend] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
-
-  // Clear all the states
-  const clearFilters = () => {
-    setMonthlyStipend(0);
-    setDuration(0);
-    setSelectedMode("");
-    setExperienceLevel("");
-  };
 
   return (
     <div className="font-plus-jakarta-sans h-full w-full max-w-[401px] p-6 rounded-3xl bg-white border border-neutral-550 flex flex-col gap-8">
@@ -31,7 +34,9 @@ const ApplyFilter = () => {
           </h1>
 
           <button
-            onClick={clearFilters}
+            onClick={() => {
+              setFilterParams(DEFAULT_QUERY_PARAMS);
+            }}
             className="text-primary-550 text-[18px] font-500"
           >
             Clear
@@ -39,8 +44,6 @@ const ApplyFilter = () => {
         </div>
         <hr className="border border-neutral-650" />
       </div>
-
-      
 
       {/* Experience Level Dropdown */}
       <ExperiencedLevel
@@ -50,8 +53,12 @@ const ApplyFilter = () => {
 
       {/* Internship Mode */}
       <InternshipMode
-        selectedMode={selectedMode}
-        setSelectedMode={setSelectedMode}
+        selectedMode={filterParams.locationType}
+        setSelectedMode={(mode) => {
+          setFilterParams((prev) => {
+            return { ...prev, locationType: mode as string };
+          });
+        }}
       />
 
       {/* Monthly Stipend*/}
@@ -61,9 +68,7 @@ const ApplyFilter = () => {
       />
 
       {/* Max Duration */}
-      <MaxDuration 
-       duration={duration} 
-       setDuration={setDuration} />
+      <MaxDuration duration={duration} setDuration={setDuration} />
     </div>
   );
 };
