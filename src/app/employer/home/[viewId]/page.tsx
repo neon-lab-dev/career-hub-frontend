@@ -7,7 +7,6 @@ import Button from "@/components/Button";
 import { IMAGES } from "@/assets";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import ClipLoader from "react-spinners/ClipLoader";
 import { Oval } from 'react-loader-spinner';
 
 
