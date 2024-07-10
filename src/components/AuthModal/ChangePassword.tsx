@@ -21,8 +21,12 @@ const ChangePassword = ({ token }: { token: string }) => {
     onSuccess: (msg) => {
       toast.success(msg);
       queryClient.invalidateQueries({
-        queryKey: ["user"],
+        queryKey: ["student-profile"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["employer-profile"],
+      });
+
       router.push("/");
     },
     onError: (err: string) => {

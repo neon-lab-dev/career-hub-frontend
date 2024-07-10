@@ -74,7 +74,7 @@ export const handleResetPasswordService = async (data: {
 }): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .post(`${api.employeeResetPassword}/${data.token}`, data)
+      .put(`${api.employeeResetPassword}/${data.token}`, data)
       .then((res) => {
         resolve(res.data?.message ?? "Password reset successful");
       })

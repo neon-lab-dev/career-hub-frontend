@@ -118,8 +118,8 @@ const AuthModal = () => {
             {(authModalType === "SIGNUP" || authModalType === "OTP") && (
               <Signup />
             )}
-            {authModalType === "FORGOT_PASSWORD" && <ForgotPassword />}
-            {authModalType === "CONFIRMATION_EMAIL" && <ConfirmationEmail />}
+            {(authModalType === "FORGOT_PASSWORD" ||
+              authModalType === "CONFIRMATION_EMAIL") && <ForgotPassword />}
           </div>
         </div>
       </div>

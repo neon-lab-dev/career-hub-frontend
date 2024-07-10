@@ -1,9 +1,12 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../Button";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { handleSendResetPasswordEmailService } from "@/api/authentication";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
+import ConfirmationEmail from "./ConfirmationEmail";
+import { setAuthModalType } from "@/store/slices/authSlice";
 
 const ForgotPassword = () => {
   const {
@@ -11,14 +14,17 @@ const ForgotPassword = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const { authModalType } = useAppSelector((state) => state.auth);
+  const [confirmationEmail, setConfirmationEmail] = useState<string>(
+    "" as string
+  );
+  const dispatch = useAppDispatch();
   const { mutate, isPending } = useMutation({
     mutationFn: (data: { email: string }) => {
-      // setConfirmationEmail(data.email);
       return handleSendResetPasswordEmailService(data);
     },
     onSuccess: () => {
-      // setModalType("ConfirmationEmail");
+      dispatch(setAuthModalType("CONFIRMATION_EMAIL"));
     },
     onError: (error: string) => {
       toast.error(error);
@@ -27,9 +33,13 @@ const ForgotPassword = () => {
   });
 
   const onSubmit = async (data: any) => {
+    setConfirmationEmail(data.email);
     mutate(data);
   };
 
+  if (authModalType === "CONFIRMATION_EMAIL") {
+    return <ConfirmationEmail mail={confirmationEmail} />;
+  }
   return (
     <div>
       <form
