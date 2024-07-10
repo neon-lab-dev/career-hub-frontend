@@ -6,7 +6,9 @@ import Image from 'next/image';
 import StatusLabel from "@/components/StatusLabel";
 import Link from 'next/link';
 import axios from 'axios';
-import Skeleton from 'react-loading-skeleton'; // Import react-loading-skeleton
+import { Oval } from 'react-loader-spinner';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Table = ({ className }) => {
     const [dropdownOpenId, setDropdownOpenId] = useState(null);
@@ -21,8 +23,11 @@ const Table = ({ className }) => {
         try {
             await axios.delete(`https://carrerhub-backend.vercel.app/api/v1/job/${id}`);
             setJobs(jobs.filter(job => job._id !== id));
+            toast.success("Job deleted successfully");
         } catch (error) {
-            console.error("Error deleting job:", error);
+            const errorMessage = error.response?.data?.message || error.message || "Failed to delete job";
+            console.error("Error deleting job:", errorMessage);
+            toast.error(`Error: ${errorMessage}`);
         }
     };
 
@@ -33,15 +38,17 @@ const Table = ({ className }) => {
                 setJobs(response.data.jobs);
                 setLoading(false);
             } catch (error) {
-                console.error("Error fetching jobs:", error);
+                const errorMessage = error.response?.data?.message || error.message || "Failed to fetch jobs";
+                console.error("Error fetching jobs:", errorMessage);
+                toast.error(`Error: ${errorMessage}`);
             }
         };
-
         fetchJobs();
     }, []);
 
     return (
         <div className={twMerge(`w-full overflow-x-auto h-[700px] max-w-[1300px] mx-auto px-0 ${className}`)}>
+            <ToastContainer />
             <div className="rounded-[124px]">
                 <table className="table w-full">
                     <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500">
@@ -81,32 +88,22 @@ const Table = ({ className }) => {
                     </thead>
                     <tbody className="bg-white w-full">
                         {loading ? (
-                            // Skeleton loading rows
-                            Array.from({ length: 5 }).map((_, index) => (
-                                <tr key={index}>
-                                    <td>
-                                        <div className='flex items-center gap-2 text-lg'>
-                                            <Skeleton width={40} height={40} circle={true} />
-                                            <Skeleton width={100} />
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <Skeleton width={100} circle={true} />
-                                    </td>
-                                    <td>
-                                        <Skeleton width={120} />
-                                    </td>
-                                    <td>
-                                        <Skeleton width={80} />
-                                    </td>
-                                    <td>
-                                        <Skeleton width={80} />
-                                    </td>
-                                    <td>
-                                        <Skeleton width={80} />
-                                    </td>
-                                </tr>
-                            ))
+                            <tr>
+                                <td colSpan="6" className="py-4">
+                                    <div className="flex justify-center items-center h-96">
+                                        <Oval
+                                            height={40}
+                                            width={40}
+                                            color="#F9533A"
+                                            visible={true}
+                                            ariaLabel='oval-loading'
+                                            secondaryColor="#f4f4f4"
+                                            strokeWidth={2}
+                                            strokeWidthSecondary={2}
+                                        />
+                                    </div>
+                                </td>
+                            </tr>
                         ) : jobs.length === 0 ? (
                             <tr>
                                 <td colSpan="6" className="py-4 text-center text-3xl">No data found.</td>
