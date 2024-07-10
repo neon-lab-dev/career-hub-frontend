@@ -40,20 +40,33 @@ const EmployerDetails = ({ params: { id } }: Props) => {
           <div className="flex justify-between items-center">
             <div className="flex flex-col gap-1">
               <span className="font-700 text-lg lg:text-xl text-neutral-800">
-                {data.companyDetails[0].companyName}
+                {data.companyDetails?.length > 0 &&
+                  data.companyDetails[0].companyName}
               </span>
               <div className="flex gap-3 lg:gap-6 items-center text-sm lg:text-base font-500 text-primary-500">
-                <Link href={data.companyDetails[0].websiteLink} target="_blank">
+                <Link
+                  href={
+                    data.companyDetails?.length > 0
+                      ? data.companyDetails[0].websiteLink
+                      : "#"
+                  }
+                  target="_blank"
+                >
                   Website
                 </Link>
                 <div className="h-2 w-2 rounded-full bg-secondary-100" />
-                <Link href="#" target="_blank">
-                  {data.address[0].country}, {data.address[0].state},{" "}
-                  {data.address[0].city} {data.address[0].street}
-                </Link>
+                {data.address?.length > 0 && (
+                  <Link href="#" target="_blank">
+                    {data.address[0].country}, {data.address[0].state},{" "}
+                    {data.address[0].city} {data.address[0].street}
+                  </Link>
+                )}
               </div>
               <div className="flex gap-6 items-center text-base font-500 text-secondary-400">
-                <span>{data.companyDetails[0].industryType}</span>
+                <span>
+                  {data.companyDetails?.length > 0 &&
+                    data.companyDetails[0].industryType}
+                </span>
               </div>
             </div>
             {/* <Image //todo
@@ -66,12 +79,11 @@ const EmployerDetails = ({ params: { id } }: Props) => {
           </div>
           <hr />
           <p className="font-400 text-neutral-700 flex flex-col gap-6">
-            {data.companyDetails[0].bio
-              .split("\n")
-              .filter((res) => res)
-              .map((para, index) => (
-                <span key={index}>{para}</span>
-              ))}
+            {data.companyDetails?.length > 0 &&
+              data.companyDetails[0].bio
+                .split("\n")
+                .filter((res) => res)
+                .map((para, index) => <span key={index}>{para}</span>)}
           </p>
         </div>
       </div>

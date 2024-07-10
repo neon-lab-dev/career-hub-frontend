@@ -2,6 +2,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { ReactQueryClientProvider } from "@/providers/QueryClientProvider";
+import TopLoader from "@/components/TopLoader";
 
 export const metadata = {
   title: "Career Hub",
@@ -20,6 +21,7 @@ export default function RootLayout({
           <body>
             {children}
             <Toaster position="top-right" richColors />
+            <TopLoader />
           </body>
         </html>
       </AuthProvider>
