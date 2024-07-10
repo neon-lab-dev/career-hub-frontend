@@ -23,7 +23,7 @@ const Page = () => {
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     try {
       setLoading(true);
       // Assuming you have different endpoints for POST and PUT

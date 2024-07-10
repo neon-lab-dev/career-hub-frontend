@@ -4,13 +4,12 @@ import applicationIcon from "@/assets/icons/applications.svg";
 import hourglass from "@/assets/icons/hourglass.svg";
 import checkCircle from "@/assets/icons/check-circle.svg";
 import closeCircle from "@/assets/icons/close-circle.svg";
-import Table from "@/components/Table";
-import StatusLabel from "@/components/StatusLabel";
 import Image from "next/image";
-import menuDots from "@/assets/icons/menu-dots.svg";
 import addCircle from "@/assets/icons/Add Circle.svg";
 import Button from "@/components/Button";
 import { Header } from "@/app/admin/tableTypes";
+import Tablel from "./_components/Tablel";
+import Link from "next/link";
 
 export type DataItem = {
   userName: string;
@@ -54,23 +53,6 @@ const Dashboard = () => {
     },
   ];
 
-  const renderCustomCell = (column: Header<DataItem>, item: DataItem) => {
-    if (column.accessor === "status") {
-      return (
-        <StatusLabel key="status" variant={item.status}>
-          Under Review
-        </StatusLabel>
-      );
-    }
-    if (column.accessor === "actions") {
-      return (
-        <div key="actions">
-          <Image src={menuDots} alt="menu-dots-icon" />
-        </div>
-      );
-    }
-    return item[column.accessor];
-  };
 
   return (
     <div className="bg-[#f5f6fa] p-6 flex flex-col gap-6">
@@ -106,6 +88,7 @@ const Dashboard = () => {
       </div>
 
       <div className="flex justify-end">
+        <Link href="/employer/home/add-new-hiring">
         <Button
           className="flex items-center gap-[6px] max-w-[200px] justify-center"
           variant="primary"
@@ -113,13 +96,11 @@ const Dashboard = () => {
           Add New Hiring
           <Image src={addCircle} alt="addCircle" />
         </Button>
+        </Link>
       </div>
 
-      <Table
+      <Tablel
       className="w-full max-w-full"
-        headers={headers}
-        data={data}
-        renderCustomCell={renderCustomCell}
       />
     </div>
   );

@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client"
 import { ICONS, IMAGES } from '@/assets';
 import React, { useState } from 'react';

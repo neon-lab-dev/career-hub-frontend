@@ -22,6 +22,15 @@ import profile from "@/assets/images/Ellipse 169.svg";
 import down from "@/assets/icons/Alt Arrow Down.svg";
 import arrowDown from "@/assets/icons/arrow-down.svg";
 import magnifer from "@/assets/icons/Magnifer.svg";
+import rectangle from "@/assets/icons/Rectangle 8827.svg"
+import menudots from "@/assets/icons/menu-dots.svg"
+import doc from "@/assets/icons/Documents.svg"
+import view from "@/assets/icons/Eye.svg"
+import Edit from "@/assets/images/Vector.svg"
+
+
+
+
 
 import download from "@/assets/images/fi-br-download (1).svg"
 import penResume from "@/assets/images/Pen.svg"
@@ -51,6 +60,12 @@ export const IMAGES = {
   hero3,
   hero4,
   arrowDown,
+  rectangle,
+  menudots,
+  doc,
+  view,
+  Edit
+
   
 };
 
