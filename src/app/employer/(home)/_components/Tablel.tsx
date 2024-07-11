@@ -15,11 +15,11 @@ const Table = ({ className }) => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const handleMenuClick = (id) => {
+    const handleMenuClick = (id: React.SetStateAction<null>) => {
         setDropdownOpenId(dropdownOpenId === id ? null : id);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id: any) => {
         try {
             await axios.delete(`https://carrerhub-backend.vercel.app/api/v1/job/${id}`);
             setJobs(jobs.filter(job => job._id !== id));
@@ -144,13 +144,13 @@ const Table = ({ className }) => {
                                             </div>
                                             {dropdownOpenId === job._id && (
                                                 <div className="absolute right-0 mt-48 w-48 p-4 rounded-xl bg-white border shadow-lg z-10">
-                                                    <Link href={`/employer/home/dashboard/${job._id}`}>
+                                                    <Link href={`/employer/dashboard/${job._id}`}>
                                                         <div className='flex items-center gap-2 text-sm p-2'>
                                                             <Image src={IMAGES.doc} alt="Role Icon" />
                                                             <span>View Applications</span>
                                                         </div>
                                                     </Link>
-                                                    <Link href={`/employer/home/${job._id}`}>
+                                                    <Link href={`/employer/${job._id}`}>
                                                         <div className='flex items-center gap-2 text-sm p-2'>
                                                             <Image src={IMAGES.view} alt="Role Icon" />
                                                             <span>View</span>

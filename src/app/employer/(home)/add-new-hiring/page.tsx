@@ -65,23 +65,23 @@ const Page = () => {
             <div className='bg-white p-6 rounded-xl'>
                 <div className='flex justify-between'>
                     <div className='flex gap-6 items-center'>
-                        <Link href="/employer/home"><Image src={IMAGES.arrow} alt={''} /></Link>
+                        <Link href="/employer/"><Image src={IMAGES.arrow} alt={''} /></Link>
                         <h1 className='text-neutral-950 text-[28px] font-700'>Add New Hiring</h1>
                     </div>
                 </div>
                 {isLoading ? (
-                     <div className="flex justify-center items-center h-96">
-                     <Oval
-                         height={40}
-                         width={40}
-                         color="#F9533A"
-                         visible={true}
-                         ariaLabel='oval-loading'
-                         secondaryColor="#f4f4f4"
-                         strokeWidth={2}
-                         strokeWidthSecondary={2}
-                     />
-                 </div>
+                    <div className="flex justify-center items-center h-96">
+                        <Oval
+                            height={40}
+                            width={40}
+                            color="#F9533A"
+                            visible={true}
+                            ariaLabel='oval-loading'
+                            secondaryColor="#f4f4f4"
+                            strokeWidth={2}
+                            strokeWidthSecondary={2}
+                        />
+                    </div>
                 ) : (
                     <form onSubmit={handleSubmit}>
                         <div className='flex justify-center mt-16 gap-6'>
@@ -113,13 +113,19 @@ const Page = () => {
                             </div>
                             <div className='flex flex-col gap-2'>
                                 <label htmlFor="employmentDuration"><span className='text-lg'>Employment Duration</span></label>
-                                <input type="text" name="employmentDuration" placeholder='eg., 2 years' className='p-3 border rounded-xl w-[370px]' onChange={handleChange} />
+                                <input type="number" name="employmentDuration" placeholder='eg., 2 years' className='p-3 border rounded-xl w-[370px]' onChange={handleChange} />
                             </div>
                         </div>
-                        <div className='flex justify-center mt-8 gap-6'>
+                        <div className='flex justify-center items-center mt-8 gap-6'>
                             <div className='flex flex-col gap-2'>
                                 <label htmlFor="salary"><span className='text-lg'>Salary</span></label>
-                                <input type="text" name="salary" className='p-3 border rounded-xl w-[750px]' onChange={handleChange} />
+                                <input type="number" placeholder='eg.,10000' name="salary" className='p-3 border rounded-xl w-[380px]' onChange={handleChange} />
+                            </div>
+                            <div className='flex justify-center  gap-6'>
+                                <div className='flex flex-col gap-2'>
+                                    <label htmlFor="locationType"><span className='text-lg'>Location Type</span></label>
+                                    <input type="text" name="locationType" placeholder='eg., Onsite' className='p-3 border rounded-xl w-[370px]' onChange={handleChange} />
+                                </div>
                             </div>
                         </div>
                         <div className='flex justify-center mt-8 gap-6'>
@@ -140,21 +146,30 @@ const Page = () => {
                         </div>
                         <div className='flex justify-center mt-8 gap-6'>
                             <div className='flex flex-col gap-2'>
-                                <label htmlFor="experience"><span className='text-lg'>Experience</span></label>
-                                <input type="text" name="experience" placeholder='eg., 5+ years' className='p-3 border rounded-xl w-[370px]' onChange={handleChange} />
+                                <label htmlFor="experience">
+                                    <span className='text-lg'>Experience</span>
+                                </label>
+                                <select
+                                    name="experience"
+                                    className='p-3 border rounded-xl w-[370px]'
+                                    onChange={handleChange}
+                                >
+                                    <option value="" disabled selected>Select your experience</option>
+                                    
+                                    {[...Array(11).keys()].map(year => (
+                                        <option key={year + 1} value={`${year + 1} year${year + 1 > 1 ? 's' : ''}`}>
+                                            {year } year{year + 1 > 1 ? 's' : ''}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
+
                             <div className='flex flex-col gap-2'>
                                 <label htmlFor="location"><span className='text-lg'>Location</span></label>
                                 <input type="text" name="location" placeholder='eg., 505 Data Center, Koregaon Park, Pune, Maharashtra, India, 411001' className='p-3 border rounded-xl w-[370px]' onChange={handleChange} />
                             </div>
                         </div>
-                        <div className='flex justify-center mt-8 gap-6'>
-                            <div className='flex flex-col gap-2'>
-                                <label htmlFor="locationType"><span className='text-lg'>Location Type</span></label>
-                                <input type="text" name="locationType" placeholder='eg., Onsite' className='p-3 border rounded-xl w-[370px]' onChange={handleChange} />
-                            </div>
-                        </div>
-                        <div className='flex justify-center w-[600px]'>
+                        <div className='flex justify-center w-[750px]'>
                             <Button variant='primary' className='mt-4'>Submit</Button>
                         </div>
                     </form>

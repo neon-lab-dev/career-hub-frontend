@@ -43,7 +43,7 @@ const Login = () => {
           queryKey: ["employer-profile"],
         })
         .then(() => {
-          router.push("/employer/dashboard");
+          router.push("/employer/");
         });
       dispatch(closeAuthModal());
     },

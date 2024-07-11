@@ -6,10 +6,10 @@ import { IMAGES } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAuth } from "@/providers/AuthProvider";
+import { useAppSelector } from "@/hooks/store";
 
 const Header = () => {
-  const { user } = useAuth();
+  const user = useAppSelector((state) => state.user);
   console.log(user?.full_name);
   const pathname = usePathname();
   const getTitle = (path: string) => {

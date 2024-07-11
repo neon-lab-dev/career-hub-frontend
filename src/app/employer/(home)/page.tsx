@@ -103,7 +103,7 @@ const Dashboard = () => {
       </div>
 
       <div className="flex justify-end">
-        <Link href="/employer/home/add-new-hiring">
+        <Link href="/employer/add-new-hiring">
           <Button
             className="flex items-center gap-[6px] max-w-[200px] justify-center"
             variant="primary"
