@@ -64,7 +64,7 @@ const Table = ({ className, formdata , jobId }) => {
                                     </td>
                                     <td>
                                         <div className='relative flex items-center gap-2 text-lg'>
-                                            <Link href={`/employer/home/dashboard/${jobId}/application/${applicant.employee}`}>
+                                            <Link href={`/employer/dashboard/${jobId}/application/${applicant.employee}`}>
                                                 <div className='cursor-pointer'>
                                                     <Image src={IMAGES.view} alt="View Icon" className='w-6' />
                                                 </div>

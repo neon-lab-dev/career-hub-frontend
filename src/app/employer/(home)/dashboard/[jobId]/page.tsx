@@ -6,7 +6,7 @@ import applicationIcon from "@/assets/icons/applications.svg";
 import hourglass from "@/assets/icons/hourglass.svg";
 import checkCircle from "@/assets/icons/check-circle.svg";
 import closeCircle from "@/assets/icons/close-circle.svg";
-import Table from "@/app/employer/home/dashboard/[jobId]/_components/ViewApplicaitonTable"; // Corrected import
+import Table from "@/app/employer/(home)/dashboard/[jobId]/_components/ViewApplicaitonTable"; // Corrected import
 import { useRouter } from "next/router";
 
 const Dashboard = ({ params: { jobId } }) => {
