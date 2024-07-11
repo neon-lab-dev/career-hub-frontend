@@ -2,7 +2,10 @@
 import { useState, useEffect, useCallback } from "react";
 import NotFound from "@/components/NotFound";
 import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
-import ApplyFilter from "../_components/ApplyFilter";
+import ApplyFilter, {
+  DEFAULT_QUERY_PARAMS,
+  IDefaultQueryParams,
+} from "../_components/ApplyFilter";
 import { ICONS } from "@/assets";
 import Image from "next/image";
 import JobDetailCard from "@/components/JobDetailCard";
@@ -16,20 +19,6 @@ type Props = {
   params: {
     jobType: string;
   };
-};
-
-export type IDefaultQueryParams = {
-  keyword: string;
-  locationType: string;
-  salary: number;
-  duration: number;
-};
-
-export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
-  keyword: "",
-  locationType: "",
-  salary: 0,
-  duration: 0,
 };
 
 const PageComponent = ({ jobType }: { jobType: string }) => {

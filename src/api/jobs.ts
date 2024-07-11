@@ -2,7 +2,7 @@ import { IJob } from "@/types/job";
 import { fetchData } from "./fetch";
 import api from ".";
 import axios from "axios";
-import { IDefaultQueryParams } from "@/app/(employee)/(job-listing)/[jobType]/page";
+import { IDefaultQueryParams } from "@/app/(employee)/(job-listing)/_components/ApplyFilter";
 
 export interface IJobResponse {
   success: boolean;

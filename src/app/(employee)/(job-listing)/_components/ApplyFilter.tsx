@@ -12,7 +12,20 @@ import ExperiencedLevel from "./ExperiencedLevel";
 import InternshipMode from "./InternshipMode";
 import MonthlyStipend from "./MonthlyStipend";
 import MaxDuration from "./MaxDuration";
-import { DEFAULT_QUERY_PARAMS, IDefaultQueryParams } from "../[jobType]/page";
+
+export type IDefaultQueryParams = {
+  keyword: string;
+  locationType: string;
+  salary: number;
+  duration: number;
+};
+
+export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
+  keyword: "",
+  locationType: "",
+  salary: 0,
+  duration: 0,
+};
 
 type Props = {
   setFilterParams: Dispatch<SetStateAction<IDefaultQueryParams>>;
