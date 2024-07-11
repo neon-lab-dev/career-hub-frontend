@@ -4,14 +4,25 @@ import Button from "../Button";
 import Link from "next/link";
 import downArrow from "../../assets/icons/down-arrow.svg";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
-import { TSignupLoginModalTypes } from "./AuthModal.types";
+import api from "@/api";
+import axios from "axios";
+import { toast } from "sonner";
+import { useAppDispatch, useAppSelector } from "@/hooks/store";
+import { setAuthModalType } from "@/store/slices/authSlice";
+import { useMutation } from "@tanstack/react-query";
+import {
+  handleEmployeeSignupService,
+  handleEmployerSignupService,
+} from "@/api/authentication";
+import OTP from "./OTP";
 
-const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
+const Signup = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const [data, setData] = useState<any>({}); // This is the mail on which the otp will be sent
+  const { activeTab, authModalType } = useAppSelector((state) => state.auth);
   const dropDownRef = useRef<HTMLDivElement>(null);
-
+  const dispatch = useAppDispatch();
   const countryCodes: string[] = [
     "+91", // India
     "+93", // Afghanistan
@@ -250,9 +261,8 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
     return () => document.removeEventListener("mousedown", close);
   }, []);
 
-  // This userInfo state holds all the user inputs
-  // const [userInfo, setUserInfo] = useState();
   const [countryCode, setCountryCode] = useState("+91");
+
   const {
     register,
     handleSubmit,
@@ -260,33 +270,78 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
     watch,
   } = useForm();
 
-  const handleSignup = (data: any) => {
-    const { email, phoneNumber, password, confirmPassword } = data;
-
-    const phoneNumberWithCountryCode = `${countryCode}${phoneNumber}`;
-
-    const userSignupData = {
-      email,
-      phoneNumber: phoneNumberWithCountryCode,
-      password,
-      confirmPassword,
-    };
-
-    // setUserInfo(userData);
-
-    console.log(userSignupData);
-    setModalType("OTP");
-  };
-  // console.log(userInfo);
   const password = watch("password");
 
+  const employee = useMutation({
+    mutationFn: handleEmployeeSignupService,
+    onSuccess: (msg) => {
+      toast.success(msg);
+      dispatch(setAuthModalType("OTP"));
+    },
+    onError: (err: string) => {
+      toast.error(err);
+    },
+  });
+
+  const employer = useMutation({
+    mutationFn: handleEmployerSignupService,
+    onSuccess: (msg) => {
+      toast.success(msg);
+      dispatch(setAuthModalType("OTP"));
+    },
+    onError: (err: string) => {
+      toast.error(err);
+    },
+  });
+
+  const onSubmit = async (data: any) => {
+    setData(data);
+    if (activeTab === "STUDENT") {
+      employee.mutate(data);
+    } else {
+      employer.mutate(data);
+    }
+  };
+
+  if (authModalType === "OTP") {
+    return (
+      <OTP
+        mail={data.email}
+        handleResendOTP={() => {
+          onSubmit(data);
+        }}
+        isResendLoading={employee.isPending || employer.isPending}
+      />
+    );
+  }
   return (
     <div>
       <form
-        onSubmit={handleSubmit(handleSignup)}
+        onSubmit={handleSubmit(onSubmit)}
         className="font-plus-jakarta-sans"
       >
         <div className="flex flex-col gap-5">
+          {/* Full Name */}
+          <div className="flex flex-col gap-[6px]">
+            <label
+              htmlFor="full_name"
+              className="text-neutral-700 text-base font-500 text-start"
+            >
+              Full Name*
+            </label>
+            <input
+              {...register("full_name", { required: "Name is required" })}
+              placeholder="John Doe"
+              type="text"
+              className="p-4 rounded-xl border-[1px] border-neutral-300 focus:outline-none"
+            />
+            {errors.full_name && (
+              <span className="text-primary-500 text-start">
+                {errors.full_name.message as string}
+              </span>
+            )}
+          </div>
+
           {/* Email */}
           <div className="flex flex-col gap-[6px]">
             <label
@@ -311,7 +366,7 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
           {/* Mobile Number */}
           <div className="flex flex-col gap-[6px]">
             <label
-              htmlFor="phoneNumber"
+              htmlFor="mobilenumber"
               className="text-neutral-700 text-base font-500 text-start"
             >
               Mobile Number*
@@ -320,7 +375,7 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
               <div ref={dropDownRef} className="relative">
                 <div
                   onClick={() => setOpen((prev) => !prev)}
-                  className="flex cursor-pointer"
+                  className="flex cursor-pointer border"
                 >
                   {countryCode}
                   <Image src={downArrow} alt="down-arrow" />
@@ -332,7 +387,7 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
                     scrollbarColor:
                       "rgba(107, 114, 128, 0.5) rgba(255, 255, 255, 0.1)",
                   }}
-                  className={`cursor-pointer bg-white flex flex-col gap-4 w-28 h-56 rounded ${
+                  className={`cursor-pointer bg-white flex flex-col gap-4 w-6 h-56 ml-2 rounded ${
                     open ? "visible shadow-2xl" : "invisible"
                   } absolute -left-6 top-10 z-50 w-full space-y-1 py-2`}
                 >
@@ -360,7 +415,7 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
                 </ul>
               </div>
               <input
-                {...register("phoneNumber", {
+                {...register("mobilenumber", {
                   required: "Phone number is required",
                 })}
                 placeholder="Enter Mobile Number"
@@ -368,9 +423,9 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
                 className="focus:outline-none w-full"
               />
             </div>
-            {errors.phoneNumber && (
+            {errors.mobilenumber && (
               <span className="text-primary-500 text-start">
-                {errors.phoneNumber.message as string}
+                {errors.mobilenumber.message as string}
               </span>
             )}
           </div>
@@ -388,10 +443,10 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
                 required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: "Password must be at least 6 characters",
+                  message: "Password must be greater than 8 characters",
                 },
               })}
-              placeholder="Must be at least 6 Characters"
+              placeholder="Password must be greater than 8 characters"
               type="password"
               className="p-4 rounded-xl border-[1px] border-neutral-300 focus:outline-none"
             />
@@ -411,22 +466,23 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
               Confirm Password*
             </label>
             <input
-              {...register("confirmPassword", {
+              {...register("confirm_password", {
                 required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: "Password must be at least 6 characters",
+                  message:
+                    "Password Password must be greater than 8 characters",
                 },
                 validate: (value) =>
                   value === password || "Passwords do not match",
               })}
-              placeholder="Must be at least 6 Characters"
+              placeholder="Password must be greater than 8 characters"
               type="password"
               className="p-4 rounded-xl border-[1px] border-neutral-300 focus:outline-none"
             />
-            {errors.confirmPassword && (
+            {errors.confirm_password && (
               <span className="text-primary-500 text-start">
-                {errors.confirmPassword.message as string}
+                {errors.confirm_password.message as string}
               </span>
             )}
           </div>
@@ -440,13 +496,16 @@ const Signup: React.FC<TSignupLoginModalTypes> = ({ setModalType }) => {
         </p>
 
         <Button className="w-full mt-5" variant="primary">
-          Get OTP
+          {employee.isPending || employer.isPending ? "Loading..." : "Get OTP"}
+          {/* Get OTP */}
         </Button>
 
         <p className="text-neutral-700 text-sm font-400 text-center mt-8">
           Already registered?{" "}
           <button
-            onClick={() => setModalType("Login")}
+            onClick={() => {
+              dispatch(setAuthModalType("LOGIN"));
+            }}
             className="text-primary-500"
           >
             Login

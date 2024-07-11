@@ -35,7 +35,7 @@ const JobShareButtonComponent = ({ jobTitle }: Props) => {
     <Button
       variant="muted"
       onClick={shareUrl}
-      className="rounded-full h-[54px] w-[54px] !p-0 flex items-center justify-center"
+      className="rounded-full h-9 min-w-9 sm:h-[54px] sm:w-[54px] !p-0 flex items-center justify-center aspect-square"
     >
       <Image src={ICONS.share} alt="Share" className="h-[24px] w-[24px]" />
     </Button>

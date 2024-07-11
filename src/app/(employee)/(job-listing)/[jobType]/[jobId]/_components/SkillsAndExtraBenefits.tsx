@@ -1,15 +1,27 @@
 import React from "react";
 import SkillsContainerComponent from "./SkillsContainerComponent";
-import { sampleJob } from "@/mockData/jobs";
 import { twMerge } from "tailwind-merge";
 
-const SkillsAndExtraBenefits = ({ className }: { className: string }) => {
+type Props = {
+  className: string;
+  skills: string[];
+  extraBenefits: string;
+};
+
+const SkillsAndExtraBenefits = ({
+  className,
+  extraBenefits,
+  skills,
+}: Props) => {
   return (
-    <div className={twMerge("min-w-[447px] flex flex-col gap-6", className)}>
-      <SkillsContainerComponent title="Skills" labels={sampleJob.skills} />
+    <div className={twMerge("sm:min-w-[447px] flex flex-col gap-6", className)}>
+      <SkillsContainerComponent title="Skills" labels={skills} />
       <SkillsContainerComponent
         title="Extra Benefits"
-        labels={sampleJob.extraBenefits}
+        labels={extraBenefits
+          .split(",")
+          .filter((label) => label !== "")
+          .map((label) => label.trim())}
       />
     </div>
   );

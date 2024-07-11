@@ -1,4 +1,3 @@
-"use client"
 import React from "react";
 import HeroComponent from "./_components/HeroComponent";
 import LatestJobYouMightLikeComponent from "./_components/LatestJobYouMightLikeComponent";
@@ -13,7 +12,7 @@ const HomePage = () => {
       <HeroComponent />
       <LatestJobYouMightLikeComponent />
       <LatestInternshipsForYou />
-      {/* <TrendingToday /> */}
+      <TrendingToday />
       <OurValuableHiringPartners />
       <WhatWeDoComponent />
     </div>
