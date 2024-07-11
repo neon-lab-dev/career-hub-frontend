@@ -103,18 +103,24 @@ export const handleApplyJobService = async (id: string): Promise<string> => {
 
 export const handleGetAllJobsByTypeService = async ({
   type,
+  salary,
+  duration,
   ...params
 }: IDefaultQueryParams & {
   type: string;
 }): Promise<IJob[]> => {
+  const truthyParams = Object.fromEntries(
+    Object.entries(params).filter(([_, value]) => value)
+  );
+
   return new Promise((resolve, reject) => {
     axios
       .get(`${api.jobs}`, {
         withCredentials: true,
         params: {
-          ...Object.fromEntries(
-            Object.entries(params).filter(([_, value]) => value)
-          ),
+          ...truthyParams,
+          "salary[gte]": salary,
+          "employmentDuration[gte]": duration,
         },
       })
       .then((res) => {

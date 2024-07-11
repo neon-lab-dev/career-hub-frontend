@@ -1,26 +1,27 @@
-import React from 'react';
+import React from "react";
 
 type TMaxDurationProps = {
-    duration: number;
-    setDuration: React.Dispatch<React.SetStateAction<number>>;
+  duration: number;
+  setDuration: (duration: number) => void;
 };
 
-const MaxDuration: React.FC<TMaxDurationProps> = ({duration, setDuration}) => {
+const MaxDuration: React.FC<TMaxDurationProps> = ({
+  duration,
+  setDuration,
+}) => {
+  // Max duration slider
 
-      // Max duration slider
-    
-      const maxStep = 6
+  const maxStep = 6;
 
-      const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const stepValue = Number(e.target.value);
-        setDuration(stepValue + 1);
-      };
+  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const stepValue = Number(e.target.value);
+    setDuration(stepValue + 1);
+  };
 
-      
-    return (
-        <div className="flex flex-col gap-3">
+  return (
+    <div className="flex flex-col gap-3">
       <label className="text-neutral-960 text-base font-500">
-        Max Duration 
+        Max Duration
       </label>
       <div className="relative w-full">
         <input
@@ -41,7 +42,7 @@ const MaxDuration: React.FC<TMaxDurationProps> = ({duration, setDuration}) => {
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default MaxDuration;

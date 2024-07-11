@@ -21,8 +21,6 @@ type Props = {
 
 const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
   const [experienceLevel, setExperienceLevel] = useState<string>("");
-  const [monthlyStipend, setMonthlyStipend] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(0);
 
   return (
     <div className="font-plus-jakarta-sans h-full w-full max-w-[401px] p-6 rounded-3xl bg-white border border-neutral-550 flex flex-col gap-8">
@@ -63,12 +61,23 @@ const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
 
       {/* Monthly Stipend*/}
       <MonthlyStipend
-        monthlyStipend={monthlyStipend}
-        setMonthlyStipend={setMonthlyStipend}
+        monthlyStipend={filterParams.salary}
+        setMonthlyStipend={(stipend: number) => {
+          setFilterParams((prev) => {
+            return { ...prev, salary: stipend };
+          });
+        }}
       />
 
       {/* Max Duration */}
-      <MaxDuration duration={duration} setDuration={setDuration} />
+      <MaxDuration
+        duration={filterParams.duration}
+        setDuration={(duration: number) => {
+          setFilterParams((prev) => {
+            return { ...prev, duration };
+          });
+        }}
+      />
     </div>
   );
 };

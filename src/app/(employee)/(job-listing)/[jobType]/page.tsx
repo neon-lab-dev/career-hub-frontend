@@ -21,11 +21,15 @@ type Props = {
 export type IDefaultQueryParams = {
   keyword: string;
   locationType: string;
+  salary: number;
+  duration: number;
 };
 
 export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
   keyword: "",
   locationType: "",
+  salary: 0,
+  duration: 0,
 };
 
 const PageComponent = ({ jobType }: { jobType: string }) => {
