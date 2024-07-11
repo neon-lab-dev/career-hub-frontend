@@ -10,7 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Oval } from 'react-loader-spinner';
 
 
-const JobDetailsPage = ({ params: { viewId } }) => {
+const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) => {
+    // Your existing code...
     const [formData, setFormData] = useState({
         title: "",
         employmentType: "",
@@ -59,7 +60,7 @@ const JobDetailsPage = ({ params: { viewId } }) => {
                     location: jobData.location,
                     locationType: jobData.locationType,
                 });
-            } catch (error) {
+            } catch (error:any) {
                 const errorMessage = error.response?.data?.message || error.message || "Failed to fetch job details";
                 console.error("Error fetching job details:", errorMessage);
                 toast.error(`Error: ${errorMessage}`);
@@ -73,7 +74,7 @@ const JobDetailsPage = ({ params: { viewId } }) => {
         }
     }, [viewId]);
 
-    const handleChange = (e) => {
+    const handleChange = (e:any) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -85,7 +86,7 @@ const JobDetailsPage = ({ params: { viewId } }) => {
         setIsEditable(true);
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e:any) => {
         e.preventDefault();
         const { requiredSkills, ...restData } = formData;
         const payload = {
@@ -102,7 +103,7 @@ const JobDetailsPage = ({ params: { viewId } }) => {
                 setIsEditable(false);
                 toast.success("Job details updated successfully");
             }
-        } catch (error) {
+        } catch (error:any) {
             const errorMessage = error.response?.data?.message || error.message || "Failed to update job details";
             console.error("Error updating job:", errorMessage);
             toast.error(`Error: ${errorMessage}`);

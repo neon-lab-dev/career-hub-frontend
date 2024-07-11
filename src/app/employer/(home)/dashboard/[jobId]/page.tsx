@@ -7,9 +7,14 @@ import hourglass from "@/assets/icons/hourglass.svg";
 import checkCircle from "@/assets/icons/check-circle.svg";
 import closeCircle from "@/assets/icons/close-circle.svg";
 import Table from "@/app/employer/(home)/dashboard/[jobId]/_components/ViewApplicaitonTable"; // Corrected import
-import { useRouter } from "next/router";
 
-const Dashboard = ({ params: { jobId } }) => {
+interface DashboardProps {
+  params: {
+    jobId: string; // Explicitly typing jobId as string
+  };
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ params: { jobId } }) => {
   const [formData, setFormData] = useState({
     title: "",
     employmentType: "",
@@ -24,11 +29,11 @@ const Dashboard = ({ params: { jobId } }) => {
     experience: "",
     location: "",
     locationType: "",
-    companyDetails: {},
+    companyDetails: {} as any, // Adjust type as per your data structure
     status: "",
-    applicants: [],
+    applicants: [] as { status: string }[], // Ensure applicants array has status field
   });
-
+  
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
@@ -39,7 +44,27 @@ const Dashboard = ({ params: { jobId } }) => {
         if (response.status !== 200) {
           throw new Error(`Failed to fetch job details. Status: ${response.status}`);
         }
-        const jobData = response.data.jobs;
+        const jobData = response.data.jobs as {
+          title: string;
+          employmentType: string;
+          responsibilities: string;
+          description: string;
+          applicationDeadline: string;
+          employmentDuration: string;
+          salary: string;
+          requiredSkills: string[];
+          extraBenefits: string;
+          requirements: string;
+          experience: string;
+          location: string;
+          locationType: string;
+          companyDetails: any; // Adjust type as per your data structure
+          status: string;
+          applicants: {
+            status: string; // Ensure status is correctly typed
+            // other applicant fields
+          }[];
+        };
 
         // Update formData with fetched job details
         setFormData({

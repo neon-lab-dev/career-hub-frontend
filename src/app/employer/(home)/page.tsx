@@ -8,7 +8,7 @@ import closeCircle from "@/assets/icons/close-circle.svg";
 import Image from "next/image";
 import addCircle from "@/assets/icons/Add Circle.svg";
 import Button from "@/components/Button";
-import Tablel from "./_components/Tablel";
+import Tablel from "./_components/Tablel"; // Ensure correct import path
 import Link from "next/link";
 
 export type JobItem = {
@@ -17,7 +17,7 @@ export type JobItem = {
 };
 
 const Dashboard = () => {
-  const [jobsCount, setJobsCount] = useState(0);
+  const [jobsCount, setJobsCount] = useState<number>(0);
   const [internshipsPosted, setInternshipsPosted] = useState<number>(0);
   const [internshipsHired, setInternshipsHired] = useState<number>(0);
   const [internshipsRejected, setInternshipsRejected] = useState<number>(0);
@@ -42,10 +42,10 @@ const Dashboard = () => {
       let internshipsHiredCount = 0;
       let internshipsRejectedCount = 0;
 
-      data.jobs.forEach(job => {
+      data.jobs.forEach((job: any) => { // Replace `any` with actual type if known
         if (job.employmentType === "Internship") {
           internshipsPostedCount++;
-          job.applicants.forEach(applicant => {
+          job.applicants.forEach((applicant: any) => { // Replace `any` with actual type if known
             if (applicant.status === "hired") {
               internshipsHiredCount++;
             } else if (applicant.status === "rejected") {
@@ -60,7 +60,7 @@ const Dashboard = () => {
       setInternshipsRejected(internshipsRejectedCount);
 
       // Filter open jobs
-      setOpenJobs(data.jobs.filter(job => job.status === "Open").map(job => ({
+      setOpenJobs(data.jobs.filter((job: any) => job.status === "Open").map((job: any) => ({
         title: job.title,
         status: job.status
       })));
@@ -117,7 +117,6 @@ const Dashboard = () => {
       {/* Display open jobs in a table */}
       <Tablel
         className="w-full max-w-full"
-        jobs={openJobs}
       />
     </div>
   );

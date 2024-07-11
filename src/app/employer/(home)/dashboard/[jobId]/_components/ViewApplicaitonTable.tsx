@@ -5,10 +5,7 @@ import Image from 'next/image';
 import StatusLabel from "@/components/StatusLabel";
 import Link from 'next/link';
 
-const Table = ({ className, formdata , jobId }) => {
-    const applicants = formdata || []; // Ensure applicants array exists and handle empty case
-
-
+const Table = ({ className, formdata, jobId }: { className: string; formdata: { applicants: Array<any> }; jobId: string },) => {
     return (
         <div className={twMerge(`w-full overflow-x-auto h-[700px] max-w-[1300px] mx-auto px-0 ${className}`)}>
             <div className="rounded-[124px]">
@@ -41,10 +38,12 @@ const Table = ({ className, formdata , jobId }) => {
                     <tbody className="bg-white w-full">
                         {formdata.applicants.length === 0 ? (
                             <tr>
-                                <td colSpan="4" className="py-4 text-center text-gray-500">No applicants found.</td>
+                                <td colSpan={4} className="py-4 text-center text-gray-500">No applicants found.</td>
                             </tr>
                         ) : (
-                            formdata.applicants.map((applicant: { _id: React.Key | null | undefined; status: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | Promise<React.AwaitedReactNode> | null | undefined; appliedDate: string | number | Date; employer: any; }) => (
+                            formdata.applicants.map((applicant: {
+                                [x: string]: any; _id: React.Key | null | undefined; status: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | Promise<React.AwaitedReactNode> | null | undefined; appliedDate: string | number | Date; employer: any;
+                            }) => (
                                 <tr key={applicant._id}>
                                     <td>
                                         <div className='flex items-center gap-2 text-lg'>

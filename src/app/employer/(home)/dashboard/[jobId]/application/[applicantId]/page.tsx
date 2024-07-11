@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { ICONS, IMAGES } from '@/assets';
 import Button from '@/components/Button';
 import Image from 'next/image';
@@ -11,8 +11,41 @@ import 'react-toastify/dist/ReactToastify.css';
 import { TailSpin } from 'react-loader-spinner';
 import Chip from '@/components/Chip';
 
-const Profile = ({ params: { applicantId, jobId } }) => {
-    const [profileData, setProfileData] = useState(null);
+interface ProfileProps {
+    params: {
+        applicantId: string;
+        jobId: string;
+    };
+}
+
+interface Project {
+    _id: string;
+    title: string;
+    description: string;
+    link: string;
+}
+
+interface Experience {
+    _id: string;
+    title: string;
+    company: string;
+    location: string;
+    startDate: string;
+    endDate: string;
+    description: string;
+}
+
+interface Certification {
+    _id: string;
+    name: string;
+    issuingOrganization: string;
+    issueDate: string;
+    expirationDate: string;
+    credentialURL: string;
+}
+
+const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
+    const [profileData, setProfileData] = useState < any > (null);
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(false);
 
@@ -41,7 +74,7 @@ const Profile = ({ params: { applicantId, jobId } }) => {
                 status: 'HIRED'
             });
             toast.success('Applicant approved successfully.');
-        } catch (error) {
+        } catch (error:any) {
             toast.error(`Error: ${error.message}`);
         } finally {
             setActionLoading(false);
@@ -57,7 +90,7 @@ const Profile = ({ params: { applicantId, jobId } }) => {
                 status: 'REJECTED'
             });
             toast.success('Applicant rejected successfully.');
-        } catch (error) {
+        } catch (error:any) {
             toast.error(`Error: ${error.message}`);
         } finally {
             setActionLoading(false);
@@ -116,13 +149,13 @@ const Profile = ({ params: { applicantId, jobId } }) => {
                                     <span className='text-neutral-950 text-2xl max-md:text-lg font-600'>{full_name}</span>
                                     <Image src={ICONS.penResume} alt='pen' />
                                 </div>
-                                <span className='text-neutral-600 text-lg max-md:text-xs'>{education[0].institutionName}</span>
+                                <span className='text-neutral-600 text-lg max-md:text-xs'>{education[0]?.institutionName}</span>
                             </div>
                         </div>
                         <Button variant='normal'>
                             <div className='flex gap-2 p-2'>
                                 <span className='text-xl'>Download Resume</span>
-                                <a href={resumes.url} download target="_blank" rel="noopener noreferrer">
+                                <a href={resumes?.url} download target="_blank" rel="noopener noreferrer">
                                     <Image src={IMAGES.download} alt='download' />
                                 </a>
                             </div>
@@ -138,7 +171,7 @@ const Profile = ({ params: { applicantId, jobId } }) => {
                                 </div>
                             </div>
                             <hr className='pb-10 mx-4' />
-                            {projects.map((project) => (
+                            {projects.map((project: Project) => (
                                 <div key={project._id} className="flex max-md:flex-col max-md:justify-end justify-between items-start border-2 border-neutral-100 p-6 rounded-xl">
                                     <div className="flex gap-4 items-center">
                                         <div className="font-plus-jakarta-sans">
@@ -165,7 +198,7 @@ const Profile = ({ params: { applicantId, jobId } }) => {
                                 </div>
                             </div>
                             <hr className='pb-10 mx-4' />
-                            {experience.map((exp) => (
+                            {experience.map((exp: Experience) => (
                                 <div key={exp._id} className="flex justify-between max-md:flex-col items-start border-2 border-neutral-100 p-6 rounded-xl">
                                     <div className="flex gap-4 items-center">
                                         <div className="font-plus-jakarta-sans">
@@ -185,28 +218,28 @@ const Profile = ({ params: { applicantId, jobId } }) => {
                         </div>
                     </div>
                 </div>
-                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                <div className="pt-2 pb-10 mt-8 font-plus-jakarta-sans">
                     <div className="max-width flex">
-                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 max-md:mx-4 mx-16 text-center">
+                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
                             <div className="flex justify-between px-2 py-3 rounded-xl">
                                 <div className="flex gap-4 items-center">
                                     <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Certifications</span>
                                 </div>
                             </div>
                             <hr className='pb-10 mx-4' />
-                            {certifications.map((cert) => (
+                            {certifications.map((cert: Certification) => (
                                 <div key={cert._id} className="flex justify-between max-md:flex-col items-start border-2 border-neutral-100 p-6 rounded-xl">
                                     <div className="flex gap-4 items-center">
                                         <div className="font-plus-jakarta-sans">
                                             <div className="flex gap-2">
                                                 <div className='flex flex-col items-start'>
                                                     <span className="text-neutral-950 text-xl font-600 max-md:text-sm">{cert.name}</span>
-                                                    <span className='text-sm text-neutral-500 max-md:text-xs'>{cert.issuingOrganization}</span>
-                                                    <span className='text-sm text-neutral-500 max-md:text-xs'>{cert.issueDate.split('T')[0]} - {cert.expirationDate.split('T')[0]}</span>
+                                                    <span className='text-sm text-neutral-500 max-md:text-xs'>Issued by: {cert.issuingOrganization}</span>
+                                                    <span className='text-sm text-neutral-500 max-md:text-xs'>Valid until: {cert.expirationDate.split('T')[0]}</span>
                                                 </div>
                                             </div>
                                             <ul className='flex flex-col gap-1 justify-start text-start list-disc text-md max-md:text-sm px-4 py-2'>
-                                                <li className="text-neutral-600"><a href={cert.credentialURL} target="_blank" rel="noopener noreferrer">{cert.credentialURL}</a></li>
+                                                <li className="text-neutral-600">Issued on: {cert.issueDate.split('T')[0]}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -215,18 +248,20 @@ const Profile = ({ params: { applicantId, jobId } }) => {
                         </div>
                     </div>
                 </div>
-                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                <div className="pt-2 pb-10 mt-8 font-plus-jakarta-sans">
                     <div className="max-width flex">
-                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 max-md:mx-4 mx-16 text-center">
+                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
                             <div className="flex justify-between px-2 py-3 rounded-xl">
                                 <div className="flex gap-4 items-center">
                                     <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Skills</span>
                                 </div>
                             </div>
                             <hr className='pb-10 mx-4' />
-                            <div className='flex flex-wrap gap-2'>
-                                {skills.map((skill, index) => (
-                                    <Chip key={index} className='max-md:text-sm text-neutral-700' text={skill} />
+                            <div className="flex flex-wrap gap-2 max-md:gap-1">
+                                {skills.map((skill: string, index: number) => (
+                                    <Chip key={index} className='max-md:text-sm text-neutral-700' variant="close" >
+                                        {skill}
+                                    </Chip>
                                 ))}
                             </div>
                         </div>
@@ -235,6 +270,6 @@ const Profile = ({ params: { applicantId, jobId } }) => {
             </div>
         </div>
     );
-}
+};
 
 export default Profile;

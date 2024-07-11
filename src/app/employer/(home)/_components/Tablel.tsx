@@ -1,30 +1,43 @@
-"use client";
-import { ICONS, IMAGES } from '@/assets';
 import React, { useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
-import StatusLabel from "@/components/StatusLabel";
-import Link from 'next/link';
 import axios from 'axios';
 import { Oval } from 'react-loader-spinner';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { IMAGES } from '@/assets';
+import StatusLabel from '@/components/StatusLabel';
+import Link from 'next/link';
 
-const Table = ({ className }) => {
-    const [dropdownOpenId, setDropdownOpenId] = useState(null);
-    const [jobs, setJobs] = useState([]);
+interface Job {
+    _id: string;
+    title: string;
+    salary: string;
+    applicants: any[]; // Adjust the type as per your data structure
+    employmentType: string;
+    status: string;
+    // Add other fields as per your job object structure
+}
+
+interface Props {
+    className: string;
+}
+
+const Table: React.FC<Props> = ({ className }) => {
+    const [dropdownOpenId, setDropdownOpenId] = useState<string | null>(null);
+    const [jobs, setJobs] = useState<Job[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const handleMenuClick = (id: React.SetStateAction<null>) => {
+    const handleMenuClick = (id: string) => {
         setDropdownOpenId(dropdownOpenId === id ? null : id);
     };
 
-    const handleDelete = async (id: any) => {
+    const handleDelete = async (id: string) => {
         try {
             await axios.delete(`https://carrerhub-backend.vercel.app/api/v1/job/${id}`);
             setJobs(jobs.filter(job => job._id !== id));
             toast.success("Job deleted successfully");
-        } catch (error) {
+        } catch (error :any) {
             const errorMessage = error.response?.data?.message || error.message || "Failed to delete job";
             console.error("Error deleting job:", errorMessage);
             toast.error(`Error: ${errorMessage}`);
@@ -37,7 +50,7 @@ const Table = ({ className }) => {
                 const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/jobs');
                 setJobs(response.data.jobs);
                 setLoading(false);
-            } catch (error) {
+            } catch (error : any) {
                 const errorMessage = error.response?.data?.message || error.message || "Failed to fetch jobs";
                 console.error("Error fetching jobs:", errorMessage);
                 toast.error(`Error: ${errorMessage}`);
@@ -89,7 +102,7 @@ const Table = ({ className }) => {
                     <tbody className="bg-white w-full">
                         {loading ? (
                             <tr>
-                                <td colSpan="6" className="py-4">
+                                <td colSpan={6} className="py-4">
                                     <div className="flex justify-center items-center h-96">
                                         <Oval
                                             height={40}
@@ -106,7 +119,7 @@ const Table = ({ className }) => {
                             </tr>
                         ) : jobs.length === 0 ? (
                             <tr>
-                                <td colSpan="6" className="py-4 text-center text-3xl">No data found.</td>
+                                <td colSpan={6} className="py-4 text-center text-3xl">No data found.</td>
                             </tr>
                         ) : (
                             jobs.map((job) => (

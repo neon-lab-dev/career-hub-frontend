@@ -51,7 +51,7 @@ const Page = () => {
             if (response.status === 200) {
                 toast.success('Job created successfully');
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error creating job:', error);
             toast.error(error.response?.data?.message || 'Failed to create job');
         } finally {
@@ -154,16 +154,20 @@ const Page = () => {
                                     className='p-3 border rounded-xl w-[370px]'
                                     onChange={handleChange}
                                 >
-                                    <option value="" disabled selected>Select your experience</option>
-                                    
-                                    {[...Array(11).keys()].map(year => (
-                                        <option key={year + 1} value={`${year + 1} year${year + 1 > 1 ? 's' : ''}`}>
-                                            {year } year{year + 1 > 1 ? 's' : ''}
-                                        </option>
-                                    ))}
+                                    <option value="" disabled>Select your experience</option>
+                                    <option value="1 year">1 year</option>
+                                    <option value="2 years">2 years</option>
+                                    <option value="3 years">3 years</option>
+                                    <option value="4 years">4 years</option>
+                                    <option value="5 years">5 years</option>
+                                    <option value="6 years">6 years</option>
+                                    <option value="7 years">7 years</option>
+                                    <option value="8 years">8 years</option>
+                                    <option value="9 years">9 years</option>
+                                    <option value="10 years">10 years</option>
+                                    <option value="10+ years">10+ years</option>
                                 </select>
                             </div>
-
                             <div className='flex flex-col gap-2'>
                                 <label htmlFor="location"><span className='text-lg'>Location</span></label>
                                 <input type="text" name="location" placeholder='eg., 505 Data Center, Koregaon Park, Pune, Maharashtra, India, 411001' className='p-3 border rounded-xl w-[370px]' onChange={handleChange} />
