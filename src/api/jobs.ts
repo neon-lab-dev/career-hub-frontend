@@ -59,7 +59,7 @@ export const handleGetAllJobsForAdminService = async ({
 export const handleDeleteJobService = async (id: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .delete(`${api.job}/${id}`, {
+      .delete(`${api.adminJob}/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
