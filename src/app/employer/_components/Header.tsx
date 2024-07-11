@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 import React from "react";
 // import profileImg from "@/assets/icons/profileImg.svg";
@@ -5,22 +6,25 @@ import { IMAGES } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAppSelector } from "@/hooks/store";
 
 const Header = () => {
+  const user = useAppSelector((state) => state.user);
+  console.log(user?.full_name);
   const pathname = usePathname();
   const getTitle = (path: string) => {
-    const knownPrefixes = ['/admin/', '/employer/'];
+    const knownPrefixes = ["/admin/", "/employer/"];
     let title = path;
-    knownPrefixes.forEach(prefix => {
+    knownPrefixes.forEach((prefix) => {
       if (title.startsWith(prefix)) {
-        title = title.replace(prefix, '');
+        title = title.replace(prefix, "");
       }
     });
     return title.charAt(0).toUpperCase() + title.slice(1);
   };
 
   const title = getTitle(pathname);
-  
+
   // Dropdown items
   const dropdownItems = [
     {
@@ -39,7 +43,7 @@ const Header = () => {
   return (
     <div className="bg-white px-7 py-4 font-plus-jakarta-sans flex justify-between items-center">
       {/* Heading */}
-      <h1 className="text-2xl font-700 text-secondary-900">{title}</h1>
+      <h1 className="text-2xl font-700 text-secondary-900">Home</h1>
 
       {/* Profile Dropdown */}
       <div
@@ -49,15 +53,16 @@ const Header = () => {
       >
         <div className="flex justify-between gap-1 items-center">
           <div className="flex items-center gap-[6px]">
-            {/* Profile image */}
-            <div className="w-8 h-8 rounded-full">
-              <Image src={IMAGES.profile} alt="user-profile-img" />
-            </div>
-
             {/* User name */}
-            <p className="text-neutral-975 text-base font-500 ">
-              Rahul Sutradhar
-            </p>
+            <div className="size-10 rounded-full border border-primary-500 text-primary-500 font-bold flex justify-center items-center">
+              <p>
+                {user?.full_name
+                  .split(" ")
+                  .map((letter) => letter.charAt(0))
+                  .join("")}
+              </p>
+            </div>
+            {user?.full_name}
           </div>
 
           {/* Dropdown icon/arrow */}
@@ -76,7 +81,6 @@ const Header = () => {
           ))}
         </ul>
       </div>
-
     </div>
   );
 };

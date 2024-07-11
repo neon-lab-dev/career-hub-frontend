@@ -9,11 +9,6 @@ const InternshipMode: React.FC<TInternshipModeProps> = ({
   selectedMode,
   setSelectedMode,
 }) => {
-  // Internship Mode
-  const handleInternshipMode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedMode(e.target.value);
-  };
-
   return (
     <div className="flex flex-col gap-3">
       <label htmlFor="" className="text-neutral-960 text-base font-500">
@@ -29,8 +24,10 @@ const InternshipMode: React.FC<TInternshipModeProps> = ({
             id="remote-internship"
             value="Remote Internship"
             className="radio radio-error border-[2px] border-neutral-970"
-            checked={selectedMode === "Remote Internship"}
-            onChange={handleInternshipMode}
+            checked={selectedMode === "Remote"}
+            onChange={() => {
+              setSelectedMode("Remote");
+            }}
           />
           <label
             htmlFor="remote-internship"
@@ -48,8 +45,10 @@ const InternshipMode: React.FC<TInternshipModeProps> = ({
             id="on-field-internship"
             value="On-Field Internship"
             className="radio radio-error border-[2px] border-neutral-970"
-            checked={selectedMode === "On-Field Internship"}
-            onChange={handleInternshipMode}
+            checked={selectedMode === "Onsite"}
+            onChange={() => {
+              setSelectedMode("Onsite");
+            }}
           />
           <label
             htmlFor="on-field-internship"

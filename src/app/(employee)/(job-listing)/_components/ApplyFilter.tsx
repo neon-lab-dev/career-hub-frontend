@@ -1,29 +1,39 @@
 "use client";
-import React, { ChangeEventHandler, useEffect, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { IMAGES } from "@/assets";
 import Image from "next/image";
-import InterhshipType from "./InterhshipType";
 import ExperiencedLevel from "./ExperiencedLevel";
 import InternshipMode from "./InternshipMode";
 import MonthlyStipend from "./MonthlyStipend";
 import MaxDuration from "./MaxDuration";
 
-const ApplyFilter = () => {
-  const [selectedInternshipType, setSelectedInternshipType] =
-    useState<string>("");
-  const [experienceLevel, setExperienceLevel] = useState<string>("");
-  const [selectedMode, setSelectedMode] = useState<string>("");
-  const [monthlyStipend, setMonthlyStipend] = useState<number>(0);
-  const [duration, setDuration] = useState<number>(0);
+export type IDefaultQueryParams = {
+  keyword: string;
+  locationType: string;
+  salary: number;
+  duration: number;
+};
 
-  // Clear all the states
-  const clearFilters = () => {
-    setSelectedInternshipType("");
-    setMonthlyStipend(0);
-    setDuration(0);
-    setSelectedMode("");
-    setExperienceLevel("");
-  };
+export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
+  keyword: "",
+  locationType: "",
+  salary: 0,
+  duration: 0,
+};
+
+type Props = {
+  setFilterParams: Dispatch<SetStateAction<IDefaultQueryParams>>;
+  filterParams: IDefaultQueryParams;
+};
+
+const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
+  const [experienceLevel, setExperienceLevel] = useState<string>("");
 
   return (
     <div className="font-plus-jakarta-sans h-full w-full max-w-[401px] p-6 rounded-3xl bg-white border border-neutral-550 flex flex-col gap-8">
@@ -35,7 +45,9 @@ const ApplyFilter = () => {
           </h1>
 
           <button
-            onClick={clearFilters}
+            onClick={() => {
+              setFilterParams(DEFAULT_QUERY_PARAMS);
+            }}
             className="text-primary-550 text-[18px] font-500"
           >
             Clear
@@ -43,12 +55,6 @@ const ApplyFilter = () => {
         </div>
         <hr className="border border-neutral-650" />
       </div>
-
-      {/* Internship Type Dropdown */}
-      <InterhshipType
-        selectedInternshipType={selectedInternshipType}
-        setSelectedInternshipType={setSelectedInternshipType}
-      />
 
       {/* Experience Level Dropdown */}
       <ExperiencedLevel
@@ -58,20 +64,33 @@ const ApplyFilter = () => {
 
       {/* Internship Mode */}
       <InternshipMode
-        selectedMode={selectedMode}
-        setSelectedMode={setSelectedMode}
+        selectedMode={filterParams.locationType}
+        setSelectedMode={(mode) => {
+          setFilterParams((prev) => {
+            return { ...prev, locationType: mode as string };
+          });
+        }}
       />
 
       {/* Monthly Stipend*/}
       <MonthlyStipend
-        monthlyStipend={monthlyStipend}
-        setMonthlyStipend={setMonthlyStipend}
+        monthlyStipend={filterParams.salary}
+        setMonthlyStipend={(stipend: number) => {
+          setFilterParams((prev) => {
+            return { ...prev, salary: stipend };
+          });
+        }}
       />
 
       {/* Max Duration */}
-      <MaxDuration 
-       duration={duration} 
-       setDuration={setDuration} />
+      <MaxDuration
+        duration={filterParams.duration}
+        setDuration={(duration: number) => {
+          setFilterParams((prev) => {
+            return { ...prev, duration };
+          });
+        }}
+      />
     </div>
   );
 };

@@ -1,58 +1,39 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import "../globals.css";
-import ScreenWarning from '@/components/ScreenWarning';
-import Sidebar from '../employer/_components/Sidebar';
-import Header from '../employer/_components/Header';
+"use client";
+import React, { useEffect } from "react";
+import ScreenWarning from "@/components/ScreenWarning";
+import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { handleGetAminProfileService } from "@/api/authentication";
+import Loading from "@/components/Loading";
 
-export default function EmployeeRootLayout({ children }: any) {
-  const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
+export default function EmployeeRootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+
+  const { isLoading, isError } = useQuery({
+    queryKey: ["admin-profile"],
+    queryFn: handleGetAminProfileService,
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
 
   useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      setIsSmallScreen(width <= 1300);
-    };
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    if (isError) {
+      router.push("/admin/login");
+    }
+  }, [isError, isLoading]);
 
-  const navlinks = [
-    {
-      label: "Dashboard",
-      path: "/admin/dashboard",
-    },
-    {
-      label: "Employees",
-      path: "/admin/employees",
-    },
-    {
-      label: "Employers",
-      path: "/admin/employers",
-    },
-    {
-      label: "Jobs Posted",
-      path: "/admin/jobs-posted",
-    },
-  ];
-  
-
+  if (isLoading) return <Loading className="h-screen w-screen" />;
   return (
-    <div className="flex">
-      {isSmallScreen ? (
-        <div className='flex justify-center w-full h-screen'>
-          <ScreenWarning/>
-        </div>
-      ) : (
-        <>
-          <Sidebar navlinks={navlinks}/>
-          <div className="w-full h-full">
-            <Header />
-            {children}
-          </div>
-        </>
-      )}
+    <div className="flex h-screen w-screen">
+      <div className="flex justify-center w-full h-screen xl:hidden">
+        <ScreenWarning />
+      </div>
+      <div className="hidden xl:flex w-full bg-[#f5f6fa]">{children}</div>
     </div>
   );
 }
