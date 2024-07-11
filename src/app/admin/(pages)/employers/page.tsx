@@ -61,6 +61,9 @@ const Employers = () => {
     onError: (error: string) => {
       toast.error(error);
     },
+    onSettled: () => {
+      setEmployeeThatIsBeingDeleted("");
+    },
   });
   const headers: Header<DataItem>[] = [
     { header: "Name", accessor: "userName" },
@@ -98,6 +101,7 @@ const Employers = () => {
               <li>
                 <button
                   onClick={() => {
+                    setEmployeeThatIsBeingDeleted(item.actions);
                     mutate(item.actions);
                   }}
                   className="flex gap-2 text-red-500"
@@ -137,7 +141,12 @@ const Employers = () => {
           />
 
           {/* Download CSV button */}
-          <DownloadCSVBtn label="Export CSV" icon={download} data={employees} name="employers"/>
+          <DownloadCSVBtn
+            label="Export CSV"
+            icon={download}
+            data={employees}
+            name="employers"
+          />
         </div>
         {isLoading ? (
           <Loading className="h-32" />
