@@ -36,6 +36,7 @@ const pfileItems = [
 ];
 
 const Navbar = () => {
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = React.useState(false);
   const pathname = usePathname();
   const { isAuthModalOpen, activeTab, employerProfile, studentProfile } =
     useAppSelector((state) => state.auth);
@@ -229,7 +230,9 @@ const Navbar = () => {
           <div className="flex items-center gap-4">
             <Button variant="normal">Register</Button>
             <button
-              onClick={() => dispatch(closeAuthModal())}
+              onClick={() => {
+                setIsMobileSidebarOpen((prev) => !prev);
+              }}
               className="block lg:hidden text-gray-600 hover:text-gray-900 focus:outline-none"
               aria-label="Toggle menu"
             >
@@ -239,11 +242,13 @@ const Navbar = () => {
 
           <div
             className={`fixed bg-white w-full h-screen overflow-hidden transition-transform flex flex-col gap-4 top-0 right-0 z-50 lg:hidden pt-4 px-6 ${
-              isAuthModalOpen ? "translate-x-0" : "translate-x-full"
+              isMobileSidebarOpen ? "translate-x-0" : "translate-x-full"
             }`}
           >
             <button
-              onClick={() => dispatch(closeAuthModal())}
+              onClick={() => {
+                setIsMobileSidebarOpen(false);
+              }}
               className=" mx-2 text-gray-600 hover:text-gray-900 focus:outline-none"
               aria-label="Close menu"
             >
