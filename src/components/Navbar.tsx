@@ -32,7 +32,6 @@ const navItems = [
 const pfileItems = [
   { text: "My Applications", href: "/applications" },
   { text: "Edit Resume", href: "/resume" },
-  { text: "Edit Preferences", href: "" },
 ];
 
 const Navbar = () => {

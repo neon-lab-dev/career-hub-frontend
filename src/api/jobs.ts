@@ -149,3 +149,18 @@ export const handleGetAllJobsByTypeService = async ({
       });
   });
 };
+
+export const handleWithdrawApplicationService = async (
+  id: string
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${api.withDrawApplication}/${id}`, {}, { withCredentials: true })
+      .then((res) => {
+        resolve(res.data?.message ?? "Application withdrawn successfully");
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Something went wrong");
+      });
+  });
+};
