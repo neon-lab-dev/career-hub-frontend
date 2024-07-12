@@ -85,7 +85,7 @@ const JobDetailCard = ({
           </Link>
           {showApplyButton && (
             <div className="hidden sm:block">
-              <ApplyJob jobId={job._id} isApplied={isApplied!} />
+              <ApplyJob jobId={job._id} />
             </div>
           )}
         </div>

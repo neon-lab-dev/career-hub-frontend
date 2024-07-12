@@ -53,7 +53,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
           </div>
           <div className="fixed z-30 sm:z-auto bottom-0 left-0 w-full sm:w-auto sm:static flex-row-reverse sm:flex-row flex items-center gap-5 bg-white py-3 px-6 sm:px-0 sm:py-0">
             <JobShareButton jobTitle="Test Title" />
-            <ApplyJob jobId={jobId} isApplied={false} disabled={isClosed} />
+            <ApplyJob jobId={jobId} disabled={isClosed} />
           </div>
         </div>
         {/* job details */}

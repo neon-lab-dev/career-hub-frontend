@@ -114,6 +114,7 @@ const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
           filter?.classList.add("left-full");
         }}
         variant="secondary"
+        className="md:hidden"
       >
         Close
       </Button>

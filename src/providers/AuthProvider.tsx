@@ -9,6 +9,7 @@ import { useAppDispatch } from "@/hooks/store";
 import {
   setEmployeeProfile,
   setEmployerProfile,
+  setIsAuthenticating,
 } from "@/store/slices/authSlice";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
@@ -34,11 +35,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (student.isSuccess) {
       dispatch(setEmployeeProfile(student.data!));
     }
+    if (!student.isLoading) {
+      dispatch(setIsAuthenticating(false));
+    }
   }, [student.isLoading, student.isFetching, student.isSuccess]);
 
   useEffect(() => {
     if (employer.isSuccess) {
       dispatch(setEmployerProfile(employer.data!));
+    }
+    if (!employer.isLoading) {
+      dispatch(setIsAuthenticating(false));
     }
   }, [employer.isLoading, employer.isFetching, employer.isSuccess]);
 

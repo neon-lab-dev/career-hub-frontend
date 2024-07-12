@@ -12,6 +12,7 @@ import { useAppSelector } from "@/hooks/store";
 import Link from "next/link";
 import { handleWithdrawApplicationService } from "@/api/jobs";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export type Header = {
   header: string;
@@ -27,7 +28,11 @@ export type DataItem = {
 };
 
 const Applications = () => {
-  const { studentProfile } = useAppSelector((state) => state.auth);
+  const { studentProfile, isAuthenticating } = useAppSelector(
+    (state) => state.auth
+  );
+  const router = useRouter();
+
   const [jobThatIsBeingWithdrawn, setJobThatIsBeingWithdrawn] = useState("");
   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
@@ -111,6 +116,13 @@ const Applications = () => {
     }
     return item[column.accessor];
   };
+
+  useEffect(() => {
+    if (isAuthenticating) return;
+    if (!studentProfile) {
+      router.push("/");
+    }
+  }, [studentProfile, isAuthenticating]);
 
   return (
     <div className="bg-neutral-100 py-16 flex flex-col gap-[51px]">
