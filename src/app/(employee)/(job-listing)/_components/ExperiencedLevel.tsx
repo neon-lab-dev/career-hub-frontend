@@ -4,7 +4,7 @@ import Image from "next/image";
 
 type TExperiencedLevelProps = {
   experienceLevel: string;
-  setExperienceLevel: React.Dispatch<React.SetStateAction<string>>;
+  setExperienceLevel: (level: string) => void;
 };
 
 const ExperiencedLevel: React.FC<TExperiencedLevelProps> = ({
@@ -33,26 +33,29 @@ const ExperiencedLevel: React.FC<TExperiencedLevelProps> = ({
         </div>
         <ul
           tabIndex={0}
-          className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-4 shadow flex flex-col gap-4"
+          className="dropdown-content menu bg-base-100 rounded-box z-[1] w-full p-4 shadow flex flex-col gap-4 h-60 "
         >
-          <li
-            onClick={() => handleExperienceLevel("Fresher")}
-            className="cursor-pointer"
-          >
-            Fresher
-          </li>
-          <li
-            onClick={() => handleExperienceLevel("Entry Level")}
-            className="cursor-pointer"
-          >
-            Entry Level
-          </li>
-          <li
-            onClick={() => handleExperienceLevel("Experienced")}
-            className="cursor-pointer"
-          >
-            Experienced
-          </li>
+          {[
+            "1 Year",
+            "2 Years",
+            "3 Years",
+            "4 Years",
+            "5 Years",
+            "6 Years",
+            "7 Years",
+            "8 Years",
+            "9 Years",
+            "10 Years",
+            "10+ Years",
+          ].map((level, index) => (
+            <li
+              key={index}
+              onClick={() => handleExperienceLevel(level)}
+              className="cursor-pointer hover:bg-neutral-100 p-2 rounded-lg"
+            >
+              {level}
+            </li>
+          ))}
         </ul>
       </div>
     </div>

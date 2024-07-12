@@ -12,12 +12,14 @@ import ExperiencedLevel from "./ExperiencedLevel";
 import InternshipMode from "./InternshipMode";
 import MonthlyStipend from "./MonthlyStipend";
 import MaxDuration from "./MaxDuration";
+import { useParams } from "next/navigation";
 
 export type IDefaultQueryParams = {
   keyword: string;
   locationType: string;
   salary: number;
   duration: number;
+  experienceLevel?: string;
 };
 
 export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
@@ -25,6 +27,7 @@ export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
   locationType: "",
   salary: 0,
   duration: 0,
+  experienceLevel: "",
 };
 
 type Props = {
@@ -33,7 +36,7 @@ type Props = {
 };
 
 const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
-  const [experienceLevel, setExperienceLevel] = useState<string>("");
+  const { jobType } = useParams();
 
   return (
     <div className="font-plus-jakarta-sans h-full w-full max-w-[401px] p-6 rounded-3xl bg-white border border-neutral-550 flex flex-col gap-8">
@@ -57,10 +60,16 @@ const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
       </div>
 
       {/* Experience Level Dropdown */}
-      <ExperiencedLevel
-        experienceLevel={experienceLevel}
-        setExperienceLevel={setExperienceLevel}
-      />
+      {!(jobType === "internships") && (
+        <ExperiencedLevel
+          experienceLevel={filterParams.experienceLevel!}
+          setExperienceLevel={(level: string) => {
+            setFilterParams((prev) => {
+              return { ...prev, experienceLevel: level };
+            });
+          }}
+        />
+      )}
 
       {/* Internship Mode */}
       <InternshipMode
@@ -83,14 +92,16 @@ const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
       />
 
       {/* Max Duration */}
-      <MaxDuration
-        duration={filterParams.duration}
-        setDuration={(duration: number) => {
-          setFilterParams((prev) => {
-            return { ...prev, duration };
-          });
-        }}
-      />
+      {jobType === "internships" && (
+        <MaxDuration
+          duration={filterParams.duration}
+          setDuration={(duration: number) => {
+            setFilterParams((prev) => {
+              return { ...prev, duration };
+            });
+          }}
+        />
+      )}
     </div>
   );
 };

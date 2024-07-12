@@ -105,6 +105,7 @@ export const handleGetAllJobsByTypeService = async ({
   type,
   salary,
   duration,
+  experienceLevel,
   ...params
 }: IDefaultQueryParams & {
   type: string;
@@ -132,6 +133,13 @@ export const handleGetAllJobsByTypeService = async ({
             } else {
               return job.employmentType !== "Internship";
             }
+          });
+        }
+        if (experienceLevel) {
+          jobs = jobs.filter((job: IJob) => {
+            return (
+              job.experience.toLowerCase() === experienceLevel.toLowerCase()
+            );
           });
         }
         resolve(jobs ?? []);
