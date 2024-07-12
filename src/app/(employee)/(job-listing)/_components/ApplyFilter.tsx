@@ -13,6 +13,7 @@ import InternshipMode from "./InternshipMode";
 import MonthlyStipend from "./MonthlyStipend";
 import MaxDuration from "./MaxDuration";
 import { useParams } from "next/navigation";
+import Button from "@/components/Button";
 
 export type IDefaultQueryParams = {
   keyword: string;
@@ -39,7 +40,10 @@ const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
   const { jobType } = useParams();
 
   return (
-    <div className="font-plus-jakarta-sans h-full w-full max-w-[401px] p-6 rounded-3xl bg-white border border-neutral-550 flex flex-col gap-8">
+    <div
+      id="filter"
+      className="font-plus-jakarta-sans lg:static top-52 h-fit left-full transition-all fixed w-fit sm:w-full max-w-[401px] p-6 rounded-3xl bg-white border border-neutral-550 flex flex-col gap-8"
+    >
       {/* Heading & HR */}
       <div className="flex flex-col gap-8">
         <div className="flex items-center justify-between">
@@ -102,6 +106,17 @@ const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
           }}
         />
       )}
+
+      <Button
+        onClick={() => {
+          const filter = document.getElementById("filter");
+          filter?.classList.remove("left-8");
+          filter?.classList.add("left-full");
+        }}
+        variant="secondary"
+      >
+        Close
+      </Button>
     </div>
   );
 };

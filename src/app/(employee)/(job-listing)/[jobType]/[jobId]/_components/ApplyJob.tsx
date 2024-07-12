@@ -10,9 +10,11 @@ import { toast } from "sonner";
 const ApplyJob = ({
   jobId,
   isApplied,
+  disabled = false,
 }: {
   jobId: string;
   isApplied: boolean;
+  disabled?: boolean;
 }) => {
   const { studentProfile } = useAppSelector((state) => state.auth);
   const { mutate, isPending } = useMutation({
@@ -27,7 +29,7 @@ const ApplyJob = ({
   return (
     <>
       <Button
-        disabled={isApplied}
+        disabled={isApplied || disabled}
         onClick={() => {
           if (!studentProfile) {
             toast.error("Login to apply for the job");
