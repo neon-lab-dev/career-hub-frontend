@@ -1,6 +1,7 @@
 import axios from "axios";
 import api from ".";
 import { IEmployee } from "@/types/employee";
+import { IJob } from "@/types/job";
 
 export const handleGetAllEmployeesForAdminService = async ({
   keyword,
@@ -51,6 +52,23 @@ export const handleGetSingleEmployeeByAdminService = async (
       })
       .then((res) => {
         resolve(res.data?.employee ?? {});
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Something went wrong");
+      });
+  });
+};
+
+export const handleGetAppliedJobsByEmployeeService = async (): Promise<
+  IJob[]
+> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(api.getEmployeeApplications, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        resolve(res.data?.jobs ?? []);
       })
       .catch((err) => {
         reject(err?.response?.data?.message ?? "Something went wrong");

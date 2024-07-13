@@ -11,6 +11,7 @@ interface AuthState {
   activeTab: IAuthTabs;
   isAuthModalOpen: boolean;
   authModalType: IAuthModalTypes;
+  isAuthenticating: boolean;
 }
 
 // Define the initial state using that type
@@ -20,6 +21,7 @@ const initialState: AuthState = {
   isAuthModalOpen: false,
   authModalType: "LOGIN",
   employerProfile: null,
+  isAuthenticating: true,
 };
 
 export const counterSlice = createSlice({
@@ -47,6 +49,9 @@ export const counterSlice = createSlice({
     setEmployerProfile: (state, action: PayloadAction<IEmployer | null>) => {
       state.employerProfile = action.payload;
     },
+    setIsAuthenticating: (state, action: PayloadAction<boolean>) => {
+      state.isAuthenticating = action.payload;
+    },
   },
 });
 
@@ -57,5 +62,6 @@ export const {
   setAuthModalType,
   setEmployeeProfile,
   setEmployerProfile,
+  setIsAuthenticating,
 } = counterSlice.actions;
 export default counterSlice.reducer;

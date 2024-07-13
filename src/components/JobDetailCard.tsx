@@ -49,22 +49,30 @@ const JobDetailCard = ({
       </div>
 
       <div className="flex items-center gap-3">
-        {[job.employmentType, job.locationType, job.experience]?.map((tag) => (
-          <div
-            key={tag}
-            className=" py-2 xl:py-2.5 font-500 rounded-md px-3 xl:px-[18px] bg-white border border-secondary-200 text-xs xl:text-sm text-secondary-400"
-          >
-            {tag}
-          </div>
-        ))}
+        {[
+          job.employmentType,
+          job.locationType,
+          `Exp: ${job.experience}`,
+          job.employmentType === "Internship"
+            ? `${job.employmentDuration} months`
+            : "",
+        ]
+          ?.filter((item) => item !== "")
+          ?.map((tag) => (
+            <div
+              key={tag}
+              className=" py-2 xl:py-2.5 font-500 rounded-md px-3 xl:px-[18px] bg-white border border-secondary-200 text-xs xl:text-sm text-secondary-400"
+            >
+              {tag}
+            </div>
+          ))}
       </div>
       <hr />
-      <div className="flex justify-between items-center gap-16 xl:gap-36">
+      <div className="flex justify-between items-center gap-6 sm:gap-16 xl:gap-36">
         <div className="flex flex-col gap-1 ">
           <span className="text-xs xl:text-base text-neutral-400">Salary</span>
           <span className="text-x xl:text-base !font-600 text-primary-500">
-            {job.salary === "Unpaid" ? "" : "₹"}
-            {job.salary}
+            {job.salary === "Unpaid" ? "" : `₹ ${job.salary}/month`}
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -76,7 +84,9 @@ const JobDetailCard = ({
             <Button variant="muted">View full details</Button>
           </Link>
           {showApplyButton && (
-            <ApplyJob jobId={job._id} isApplied={isApplied!} />
+            <div className="hidden sm:block">
+              <ApplyJob jobId={job._id} />
+            </div>
           )}
         </div>
       </div>

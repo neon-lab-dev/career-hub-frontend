@@ -105,6 +105,7 @@ export const handleGetAllJobsByTypeService = async ({
   type,
   salary,
   duration,
+  experienceLevel,
   ...params
 }: IDefaultQueryParams & {
   type: string;
@@ -134,7 +135,29 @@ export const handleGetAllJobsByTypeService = async ({
             }
           });
         }
+        if (experienceLevel) {
+          jobs = jobs.filter((job: IJob) => {
+            return (
+              job.experience.toLowerCase() === experienceLevel.toLowerCase()
+            );
+          });
+        }
         resolve(jobs ?? []);
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Something went wrong");
+      });
+  });
+};
+
+export const handleWithdrawApplicationService = async (
+  id: string
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(`${api.withDrawApplication}/${id}`, {}, { withCredentials: true })
+      .then((res) => {
+        resolve(res.data?.message ?? "Application withdrawn successfully");
       })
       .catch((err) => {
         reject(err?.response?.data?.message ?? "Something went wrong");
