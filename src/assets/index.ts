@@ -25,7 +25,7 @@ import magnifer from "@/assets/icons/Magnifer.svg";
 import rectangle from "@/assets/icons/Rectangle 8827.svg";
 import menudots from "@/assets/icons/menu-dots.svg";
 import doc from "@/assets/icons/Documents.svg";
-import view from "@/assets/icons/Eye.svg";
+import view from "@/assets/icons/eye.svg";
 import Edit from "@/assets/images/Vector.svg";
 import filter from "@/assets/icons/filter.svg";
 
