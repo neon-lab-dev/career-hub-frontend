@@ -1,3 +1,4 @@
+import { useParams } from "next/navigation";
 import React from "react";
 
 type TMonthlyStipendProps = {
@@ -17,10 +18,12 @@ const MonthlyStipend: React.FC<TMonthlyStipendProps> = ({
     setMonthlyStipend(Number(e.target.value));
   };
 
+  const { jobType } = useParams();
+
   return (
     <div className="flex flex-col gap-3">
       <label className="text-neutral-960 text-base font-500">
-        Monthly Stipend
+        Monthly {jobType === "jobs" ? "Salary" : "Stipend"}
       </label>
       <div className="relative w-full">
         <input

@@ -21,7 +21,10 @@ const MaxDuration: React.FC<TMaxDurationProps> = ({
   return (
     <div className="flex flex-col gap-3">
       <label className="text-neutral-960 text-base font-500">
-        Max Duration
+        Duration
+        <span className="text-secondary-400 text-xs font-400 ml-2">
+          (in months)
+        </span>
       </label>
       <div className="relative w-full">
         <input

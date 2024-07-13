@@ -1,15 +1,18 @@
-// @ts-nocheck
 "use client";
 
 import StatusCard from "@/components/StatusCard";
 import React, { useState, useEffect } from "react";
-import applicationIcon from "@/assets/icons/applications.svg";
 import Table from "@/components/Table";
 import StatusLabel from "@/components/StatusLabel";
 import Image from "next/image";
 import menuDots from "@/assets/icons/menu-dots.svg";
-import api from "@/api";
-import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { handleGetAppliedJobsByEmployeeService } from "@/api/employee";
+import { useAppSelector } from "@/hooks/store";
+import Link from "next/link";
+import { handleWithdrawApplicationService } from "@/api/jobs";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export type Header = {
   header: string;
@@ -25,36 +28,33 @@ export type DataItem = {
 };
 
 const Applications = () => {
-  const [jobApplications, setJobApplications] = useState([]);
+  const { studentProfile, isAuthenticating } = useAppSelector(
+    (state) => state.auth
+  );
+  const router = useRouter();
 
-  useEffect(() => {
-    fetchJobApplications();
-  }, []);
+  const [jobThatIsBeingWithdrawn, setJobThatIsBeingWithdrawn] = useState("");
+  const queryClient = useQueryClient();
+  const { data, isLoading } = useQuery({
+    queryFn: handleGetAppliedJobsByEmployeeService,
+    queryKey: ["applications"],
+  });
 
-  const fetchJobApplications = async () => {
-    try {
-      const response = await axios.get(api.getEmployeeApplications, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+  const { mutate, isPending } = useMutation({
+    mutationFn: handleWithdrawApplicationService,
+    onSuccess: (msg) => {
+      queryClient.invalidateQueries({
+        queryKey: ["applications"],
       });
-      console.log(response.data);
-      const applicationsData = response.data.jobs.map((job: any) => ({
-        companyName: job.companyDetails.companyName,
-        position: job.title,
-        appliedOn: 0,
-        status: "Applied",
-        actions: "edit",
-      }));
-
-      setJobApplications(applicationsData);
-    } catch (error) {
-      console.error("Error", error);
-    }
-  };
-
-  console.log(jobApplications);
+      toast.success(msg);
+    },
+    onError: (err: string) => {
+      toast.error(err);
+    },
+    onSettled: () => {
+      setJobThatIsBeingWithdrawn("");
+    },
+  });
 
   const headers: Header[] = [
     { header: "Company Name", accessor: "companyName" },
@@ -67,6 +67,7 @@ const Applications = () => {
   const renderCustomCell = (column: Header, item: DataItem) => {
     if (column.accessor === "status") {
       return (
+        // @ts-ignore
         <StatusLabel key="status" variant={item.status.toLocaleLowerCase()}>
           {item.status}
         </StatusLabel>
@@ -76,30 +77,52 @@ const Applications = () => {
       return (
         <div key="actions">
           <div className="dropdown relative">
-            <Image
-              tabIndex={0}
-              role="button"
-              src={menuDots}
-              alt="menu-dots-icon"
-              className="cursor-pointer"
-            />
-            <ul
-              tabIndex={0}
-              className="menu dropdown-content right-0 flex flex-col gap-3 bg-white z-[1] w-[220px] absolute shadow rounded-xl p-4"
-            >
-              <li>
-                <a>View Application</a>
-              </li>
-              <li>
-                <a>Withdraw Application</a>
-              </li>
-            </ul>
+            {isPending && jobThatIsBeingWithdrawn === item.actions ? (
+              <span className="loading loading-spinner loading-md"></span>
+            ) : (
+              <>
+                <Image
+                  tabIndex={0}
+                  role="button"
+                  src={menuDots}
+                  alt="menu-dots-icon"
+                  className="cursor-pointer"
+                />
+                <ul
+                  tabIndex={0}
+                  className="menu dropdown-content right-0 flex flex-col gap-3 bg-white z-[1] w-[220px] absolute shadow rounded-xl p-4"
+                >
+                  <li>
+                    <Link href={`/jobs/${item.actions}`}>View Job</Link>
+                  </li>
+                  {item?.status?.toLowerCase() === "applied" && (
+                    <li>
+                      <button
+                        onClick={() => {
+                          setJobThatIsBeingWithdrawn(item.actions);
+                          mutate(item.actions);
+                        }}
+                      >
+                        Withdraw Application
+                      </button>
+                    </li>
+                  )}
+                </ul>
+              </>
+            )}
           </div>
         </div>
       );
     }
     return item[column.accessor];
   };
+
+  useEffect(() => {
+    if (isAuthenticating) return;
+    if (!studentProfile) {
+      router.push("/");
+    }
+  }, [studentProfile, isAuthenticating]);
 
   return (
     <div className="bg-neutral-100 py-16 flex flex-col gap-[51px]">
@@ -116,20 +139,43 @@ const Applications = () => {
         <StatusCard
           // icon={menuDots}
           variant="Applications"
-          title={jobApplications.length}
+          title={isLoading ? "..." : data?.length ?? 0}
           label="Total Applications"
         />
-
         <StatusCard variant="Review" title="0" label="Resume Viewed" />
         <StatusCard variant="Selected" title="0 " label="Selected" />
         <StatusCard variant="Rejected" title="0 " label="Rejected" />
       </div>
 
-      <Table
-        headers={headers}
-        data={jobApplications}
-        renderCustomCell={renderCustomCell}
-      />
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[400px]">
+          <span className="loading loading-spinner loading-md"></span>
+        </div>
+      ) : (
+        <Table
+          headers={headers}
+          // @ts-ignore
+          data={
+            data?.map((item) => {
+              return {
+                companyName: item.companyDetails.companyName,
+                position: item.title,
+                appliedOn: new Date(
+                  item.applicants.find(
+                    (app) => app.employee === studentProfile?._id
+                  )?.appliedDate ?? ""
+                ).toDateString(),
+                status: item.applicants.find(
+                  (app) => app.employee === studentProfile?._id
+                )?.status,
+                actions: item._id,
+              };
+            }) ?? []
+          }
+          renderCustomCell={renderCustomCell}
+          className="pb-32"
+        />
+      )}
     </div>
   );
 };

@@ -12,12 +12,15 @@ import ExperiencedLevel from "./ExperiencedLevel";
 import InternshipMode from "./InternshipMode";
 import MonthlyStipend from "./MonthlyStipend";
 import MaxDuration from "./MaxDuration";
+import { useParams } from "next/navigation";
+import Button from "@/components/Button";
 
 export type IDefaultQueryParams = {
   keyword: string;
   locationType: string;
   salary: number;
   duration: number;
+  experienceLevel?: string;
 };
 
 export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
@@ -25,6 +28,7 @@ export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
   locationType: "",
   salary: 0,
   duration: 0,
+  experienceLevel: "",
 };
 
 type Props = {
@@ -33,10 +37,13 @@ type Props = {
 };
 
 const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
-  const [experienceLevel, setExperienceLevel] = useState<string>("");
+  const { jobType } = useParams();
 
   return (
-    <div className="font-plus-jakarta-sans h-full w-full max-w-[401px] p-6 rounded-3xl bg-white border border-neutral-550 flex flex-col gap-8">
+    <div
+      id="filter"
+      className="font-plus-jakarta-sans lg:static top-52 h-fit left-full transition-all fixed w-fit sm:w-full max-w-[401px] p-6 rounded-3xl bg-white border border-neutral-550 flex flex-col gap-8"
+    >
       {/* Heading & HR */}
       <div className="flex flex-col gap-8">
         <div className="flex items-center justify-between">
@@ -57,10 +64,16 @@ const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
       </div>
 
       {/* Experience Level Dropdown */}
-      <ExperiencedLevel
-        experienceLevel={experienceLevel}
-        setExperienceLevel={setExperienceLevel}
-      />
+      {!(jobType === "internships") && (
+        <ExperiencedLevel
+          experienceLevel={filterParams.experienceLevel!}
+          setExperienceLevel={(level: string) => {
+            setFilterParams((prev) => {
+              return { ...prev, experienceLevel: level };
+            });
+          }}
+        />
+      )}
 
       {/* Internship Mode */}
       <InternshipMode
@@ -83,14 +96,28 @@ const ApplyFilter = ({ setFilterParams, filterParams }: Props) => {
       />
 
       {/* Max Duration */}
-      <MaxDuration
-        duration={filterParams.duration}
-        setDuration={(duration: number) => {
-          setFilterParams((prev) => {
-            return { ...prev, duration };
-          });
+      {jobType === "internships" && (
+        <MaxDuration
+          duration={filterParams.duration}
+          setDuration={(duration: number) => {
+            setFilterParams((prev) => {
+              return { ...prev, duration };
+            });
+          }}
+        />
+      )}
+
+      <Button
+        onClick={() => {
+          const filter = document.getElementById("filter");
+          filter?.classList.remove("left-8");
+          filter?.classList.add("left-full");
         }}
-      />
+        variant="secondary"
+        className="md:hidden"
+      >
+        Close
+      </Button>
     </div>
   );
 };

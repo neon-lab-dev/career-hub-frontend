@@ -14,6 +14,7 @@ import { handleGetAllJobsByTypeService } from "@/api/jobs";
 import debounce from "@/helpers/debounce";
 import { useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/hooks/store";
+import Button from "@/components/Button";
 
 type Props = {
   params: {
@@ -60,24 +61,41 @@ const PageComponent = ({ jobType }: { jobType: string }) => {
         />
         <div className="flex flex-1 flex-col gap-9">
           {/* Search field */}
-          <div className="bg-white rounded-[10px] w-full p-4 flex gap-2 justify-between items-center">
-            <input
-              value={queryParams.keyword}
-              onChange={(e) => {
-                setQueryParams({
-                  ...queryParams,
-                  keyword: e.target.value,
-                });
+          <div className="flex gap-4">
+            <div className="bg-white rounded-[10px] w-full p-4 flex gap-2 justify-between items-center">
+              <input
+                value={queryParams.keyword}
+                onChange={(e) => {
+                  setQueryParams({
+                    ...queryParams,
+                    keyword: e.target.value,
+                  });
+                }}
+                type="text"
+                placeholder={`Search ${jobType} here...`}
+                className="bg-white focus:outline-none w-full"
+              />
+              <Image
+                src={ICONS.magnifer}
+                alt="search-icon"
+                className="w-[18px] cursor-pointer"
+              />
+            </div>
+            <Button
+              onClick={() => {
+                const filter = document.getElementById("filter");
+                filter?.classList.remove("left-full");
+                filter?.classList.add("left-8");
               }}
-              type="text"
-              placeholder={`Search ${jobType} here...`}
-              className="bg-white focus:outline-none w-full"
-            />
-            <Image
-              src={ICONS.magnifer}
-              alt="search-icon"
-              className="w-[18px] cursor-pointer"
-            />
+              variant="secondary"
+              className="p-2 px-4 lg:hidden"
+            >
+              <Image
+                src={ICONS.filter}
+                alt="filter-icon"
+                className="w-[18px] cursor-pointer"
+              />
+            </Button>
           </div>
 
           {/* Job cards */}

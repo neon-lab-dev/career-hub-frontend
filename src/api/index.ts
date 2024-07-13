@@ -17,6 +17,7 @@ const api = {
   employeeProfile: baseUrl + "/me",
   updateEmployeeProfile: baseUrl + "/me/update",
   employeeUploadResume: baseUrl + "/resumes",
+  withDrawApplication: baseUrl + "/withdraw/job", //:id
 
   // for employers
   employerJob: baseUrl + "/employeer/job",

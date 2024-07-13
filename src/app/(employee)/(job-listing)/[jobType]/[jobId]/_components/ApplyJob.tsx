@@ -1,20 +1,28 @@
 "use client";
 
-import { handleApplyJobService } from "@/api/jobs";
+import {
+  handleApplyJobService,
+  handleGetJobByIdForAdminService,
+} from "@/api/jobs";
 import Button from "@/components/Button";
 import { useAppSelector } from "@/hooks/store";
-import { useMutation } from "@tanstack/react-query";
-import React from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import React, { useEffect } from "react";
 import { toast } from "sonner";
 
 const ApplyJob = ({
   jobId,
-  isApplied,
+  disabled = false,
 }: {
   jobId: string;
-  isApplied: boolean;
+  disabled?: boolean;
 }) => {
+  const [isApplied, setIsApplied] = React.useState(false);
   const { studentProfile } = useAppSelector((state) => state.auth);
+  const { data, isLoading } = useQuery({
+    queryFn: () => handleGetJobByIdForAdminService(jobId),
+    queryKey: ["job", jobId],
+  });
   const { mutate, isPending } = useMutation({
     mutationFn: handleApplyJobService,
     onSuccess: (msg) => {
@@ -24,10 +32,18 @@ const ApplyJob = ({
       toast.error(err);
     },
   });
+
+  useEffect(() => {
+    if (!data) return;
+    setIsApplied(
+      data.applicants.findIndex((a) => a.employee === studentProfile?._id) > -1
+    );
+  }, [data]);
+
   return (
     <>
       <Button
-        disabled={isApplied}
+        disabled={isLoading || disabled || isApplied || isPending}
         onClick={() => {
           if (!studentProfile) {
             toast.error("Login to apply for the job");
@@ -37,7 +53,13 @@ const ApplyJob = ({
         }}
         className="w-full sm:w-auto"
       >
-        {isApplied ? "Applied" : isPending ? "Applying..." : "Apply Now"}
+        {isLoading
+          ? "Loading"
+          : isApplied
+          ? "Applied"
+          : isPending
+          ? "Applying..."
+          : "Apply Now"}
       </Button>
     </>
   );
