@@ -1,18 +1,23 @@
 // @ts-nocheck
 "use client";
 import React from "react";
-// import profileImg from "@/assets/icons/profileImg.svg";
 import { IMAGES } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useAppSelector } from "@/hooks/store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { handleEmployerLogoutService } from "@/api/authentication";
+import { toast } from "sonner"; // Assuming 'sonner' is correctly imported and used
 
 const Header = () => {
-  const user = useAppSelector((state) => state.user);
-  console.log(user?.full_name);
+  const user = useAppSelector((state) => state.auth.employerProfile);
+  console.log("User object:", user); // Log the entire user object for debugging
   const pathname = usePathname();
-  const getTitle = (path: string) => {
+  const router = useRouter(); // Add useRouter hook
+  const queryClient = useQueryClient(); // Add useQueryClient hook
+
+  const getTitle = (path) => {
     const knownPrefixes = ["/admin/", "/employer/"];
     let title = path;
     knownPrefixes.forEach((prefix) => {
@@ -22,29 +27,41 @@ const Header = () => {
     });
     return title.charAt(0).toUpperCase() + title.slice(1);
   };
-
   const title = getTitle(pathname);
+
+  const { mutate } = useMutation({
+    mutationFn: handleEmployerLogoutService,
+    onSuccess: (msg) => {
+      toast.success(msg);
+      queryClient
+        .invalidateQueries({
+          queryKey: ["employer-logout"],
+        })
+        .finally(() => {
+          router.push("/");
+        });
+    },
+    onError: (err) => {
+      toast.error(err);
+    },
+  });
 
   // Dropdown items
   const dropdownItems = [
     {
       label: "Profile",
-      path: "",
-    },
-    {
-      label: "Setting",
-      path: "",
+      path: "profile",
     },
     {
       label: "Others",
-      path: "",
+      path: "others",
     },
   ];
+
   return (
     <div className="bg-white px-7 py-4 font-plus-jakarta-sans flex justify-between items-center">
       {/* Heading */}
       <h1 className="text-2xl font-700 text-secondary-900">Home</h1>
-
       {/* Profile Dropdown */}
       <div
         tabIndex={0}
@@ -57,28 +74,39 @@ const Header = () => {
             <div className="size-10 rounded-full border border-primary-500 text-primary-500 font-bold flex justify-center items-center">
               <p>
                 {user?.full_name
-                  .split(" ")
-                  .map((letter) => letter.charAt(0))
-                  .join("")}
+                  ? user.full_name
+                      .split(" ")
+                      .map((letter) => letter.charAt(0))
+                      .join("")
+                  : "?"}
               </p>
             </div>
-            {user?.full_name}
+            {user?.full_name || "Guest"}
           </div>
 
           {/* Dropdown icon/arrow */}
           <Image src={IMAGES.down} alt="arrow-down" />
         </div>
 
-        {/* Dropdown Menues */}
+        {/* Dropdown Menus */}
         <ul
           tabIndex={0}
-          className="dropdown-content menu bg-base-100 rounded z-[1] w-48 p-2 shadow absolute top-14 flex flex-col gap-4"
+          className="dropdown-content  menu bg-base-100  z-[1] w-48  shadow absolute top-[80px] right-3 rounded-xl flex flex-col gap-4"
         >
           {dropdownItems.map((item, index) => (
             <Link key={index} href={`/${item.path}`}>
-              {item.label}
+              <span className="">{item.label}</span>
             </Link>
           ))}
+          <hr />
+          <div
+            className="flex justify-center pt-0 hover:bg-neutral-200 cursor-pointer rounded-xl"
+            onClick={() => mutate()} // Correct mutate call
+          >
+            <span className="text-center text-red-500 text-lg font-900">
+              Logout
+            </span>
+          </div>
         </ul>
       </div>
     </div>

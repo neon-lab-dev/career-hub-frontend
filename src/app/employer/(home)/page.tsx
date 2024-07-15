@@ -76,7 +76,7 @@ const Dashboard = () => {
           classNames="w-full max-w-full"
           image={applicationIcon}
           title="Jobs Posted"
-          value={jobsCount}
+          value={jobsCount - internshipsPosted}
           alt="application-icon"
         />
         <KPICard

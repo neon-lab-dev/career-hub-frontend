@@ -12,8 +12,8 @@ const Footer = () => {
   ];
   return (
     <div className="bg-secondary-900">
-      <div className="py-10 max-width m-auto">
-        <div className="flex justify-between max-lg:flex-col mx-[40px] max-lg:mx-10  max-lg:gap-12 ">
+      <div className="pb-2 pt-6 max-width m-auto">
+        <div className="flex justify-between max-lg:flex-col mx-[120px] max-lg:mx-10  max-lg:gap-12 ">
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">
             <span className="font-bold text-5xl">Logo</span>
             <p className="text-[20px] max-lg:text-[16px]">
@@ -35,23 +35,11 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-          <div className="flex flex-col gap-1 font-Poppins">
-            <span className="text-white font-semibold text-[22px]">
-              Other Links
-            </span>
-            <ul className="text-secondary-400 text-[22px] font-semibold flex flex-col gap-2">
-              {otherLinks.map((link, index) => (
-                <li key={index}>
-                  <Link href={""}>{link}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-        <div className="flex flex-col mx-[50px] my-10">
+        <div className="flex flex-col mx-[130px] max-lg:mx-10 my-10">
           <div className="bg-secondary-700 h-[2px]" />
         </div>
-        <div className="flex flex-col mx-[50px] my-10">
+        <div className="flex flex-col mx-[130px] max-lg:mx-10 mb-3">
           <span className="text-[20px] text-white max-lg:text-center max-lg:text-[15px]">
             Lorem ipsum dolor sit amet consectetu
           </span>

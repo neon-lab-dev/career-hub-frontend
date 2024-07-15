@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import Image from 'next/image';
 import axios from 'axios';
 import { Oval } from 'react-loader-spinner';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'sonner';
 import 'react-toastify/dist/ReactToastify.css';
 import { IMAGES } from '@/assets';
 import StatusLabel from '@/components/StatusLabel';
@@ -34,9 +34,15 @@ const Table: React.FC<Props> = ({ className }) => {
 
     const handleDelete = async (id: string) => {
         try {
-            await axios.delete(`https://carrerhub-backend.vercel.app/api/v1/job/${id}`);
-            setJobs(jobs.filter(job => job._id !== id));
-            toast.success("Job deleted successfully");
+            const response = await axios.delete(`https://carrerhub-backend.vercel.app/api/v1/job/${id}`, {
+                withCredentials: true
+            });
+            if (response.data.success) {
+                setJobs(jobs.filter(job => job._id !== id));
+                toast.success("Job deleted successfully");
+            } else {
+                toast.error(`Failed to delete job: ${response.data.message}`);
+            }
         } catch (error :any) {
             const errorMessage = error.response?.data?.message || error.message || "Failed to delete job";
             console.error("Error deleting job:", errorMessage);
@@ -50,7 +56,7 @@ const Table: React.FC<Props> = ({ className }) => {
                 const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/jobs');
                 setJobs(response.data.jobs);
                 setLoading(false);
-            } catch (error : any) {
+            } catch (error :any) {
                 const errorMessage = error.response?.data?.message || error.message || "Failed to fetch jobs";
                 console.error("Error fetching jobs:", errorMessage);
                 toast.error(`Error: ${errorMessage}`);
@@ -61,7 +67,6 @@ const Table: React.FC<Props> = ({ className }) => {
 
     return (
         <div className={twMerge(`w-full overflow-x-auto h-[700px] max-w-[1300px] mx-auto px-0 ${className}`)}>
-            <ToastContainer />
             <div className="rounded-[124px]">
                 <table className="table w-full">
                     <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500">
@@ -137,7 +142,7 @@ const Table: React.FC<Props> = ({ className }) => {
                                     </td>
                                     <td>
                                         <div className='flex items-center gap-2 text-lg'>
-                                            <span>{job.applicants.length} <span className='text-red-500 underline cursor-pointer'>View Applications</span></span>
+                                            <span>{job.applicants.length}  <Link href={`/employer/dashboard/${job._id}`}><span className='text-red-500 underline cursor-pointer'>View Applications</span></Link> </span>
                                         </div>
                                     </td>
                                     <td>

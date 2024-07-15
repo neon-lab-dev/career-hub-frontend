@@ -241,7 +241,7 @@ const Navbar = () => {
           </div>
 
           <div
-            className={`fixed bg-white w-full h-screen overflow-hidden transition-transform flex flex-col gap-4 top-0 right-0 z-50 lg:hidden pt-4 px-6 ${
+            className={`fixed bg-white w-[350px] h-screen overflow-hidden transition-transform flex flex-col gap-4 top-0 right-0 z-50 lg:hidden pt-4 px-6 ${
               isMobileSidebarOpen ? "translate-x-0" : "translate-x-full"
             }`}
           >

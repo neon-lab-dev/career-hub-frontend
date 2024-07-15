@@ -5,13 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { IMAGES } from "@/assets";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "sonner";
 import 'react-toastify/dist/ReactToastify.css';
 import { Oval } from 'react-loader-spinner';
 
 
 const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) => {
-    // Your existing code...
     const [formData, setFormData] = useState({
         title: "",
         employmentType: "",
@@ -35,7 +34,8 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
             setIsLoading(true);
             try {
                 const response = await axios.get(
-                    `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`
+                    `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`,
+                    { withCredentials: true } // Add withCredentials here
                 );
                 console.log("Job details response:", response.data);
                 const jobData = response.data.jobs; // Adjusted to match the response structure
@@ -60,7 +60,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                     location: jobData.location,
                     locationType: jobData.locationType,
                 });
-            } catch (error:any) {
+            } catch (error) {
                 const errorMessage = error.response?.data?.message || error.message || "Failed to fetch job details";
                 console.error("Error fetching job details:", errorMessage);
                 toast.error(`Error: ${errorMessage}`);
@@ -97,13 +97,14 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
         try {
             const response = await axios.put(
                 `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`,
-                payload
+                payload,
+                { withCredentials: true } // Add withCredentials here
             );
             if (response.status === 200) {
                 setIsEditable(false);
                 toast.success("Job details updated successfully");
             }
-        } catch (error:any) {
+        } catch (error) {
             const errorMessage = error.response?.data?.message || error.message || "Failed to update job details";
             console.error("Error updating job:", errorMessage);
             toast.error(`Error: ${errorMessage}`);
@@ -114,11 +115,10 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
 
     return (
         <div className="p-6 bg-[#f5f6fa]">
-            <ToastContainer />
             <div className="bg-white p-6 rounded-xl">
                 <div className="flex justify-between items-center">
                     <div className="flex gap-6 items-center">
-                        <Link href="/employer/home">
+                        <Link href="/employer/">
                             <Image src={IMAGES.arrow} alt="" />
                         </Link>
                         <h1 className="text-neutral-950 text-[28px] font-700">
@@ -128,7 +128,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                     <div className="flex items-center text-2xl gap-4 px-4 text-red-500 font-700 cursor-pointer">
                         {isEditable ? (
                             <Button variant="primary" onClick={handleSubmit}>
-                                Save
+                                Update
                             </Button>
                         ) : (
                             <Image src={IMAGES.Edit} alt="" />
@@ -290,11 +290,10 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                                 <label htmlFor="extraBenefits">
                                     <span className="text-lg">Extra Benefits</span>
                                 </label>
-                                <input
-                                    type="text"
+                                <textarea
                                     name="extraBenefits"
                                     value={formData.extraBenefits}
-                                    className="p-3 border rounded-xl w-[370px]"
+                                    className="p-3 border rounded-xl w-[770px]"
                                     onChange={handleChange}
                                     disabled={!isEditable}
                                 />
@@ -308,7 +307,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                                 <textarea
                                     name="requirements"
                                     value={formData.requirements}
-                                    className="p-3 border rounded-xl w-[750px]"
+                                    className="p-3 border rounded-xl w-[770px]"
                                     onChange={handleChange}
                                     disabled={!isEditable}
                                 />
@@ -319,15 +318,16 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                                 <label htmlFor="experience">
                                     <span className="text-lg">Experience</span>
                                 </label>
-                                <input
-                                    type="text"
+                                <textarea
                                     name="experience"
                                     value={formData.experience}
-                                    className="p-3 border rounded-xl w-[370px]"
+                                    className="p-3 border rounded-xl w-[770px]"
                                     onChange={handleChange}
                                     disabled={!isEditable}
                                 />
                             </div>
+                        </div>
+                        <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
                                 <label htmlFor="location">
                                     <span className="text-lg">Location</span>
@@ -336,7 +336,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                                     type="text"
                                     name="location"
                                     value={formData.location}
-                                    className="p-3 border rounded-xl w-[370px]"
+                                    className="p-3 border rounded-xl w-[770px]"
                                     onChange={handleChange}
                                     disabled={!isEditable}
                                 />
@@ -350,3 +350,4 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
 };
 
 export default JobDetailsPage;
+

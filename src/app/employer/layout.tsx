@@ -5,6 +5,8 @@ import Header from "./_components/Header";
 import Sidebar from "./_components/Sidebar";
 import ScreenWarning from '@/components/ScreenWarning';
 import home from "@/assets/icons/home.svg";
+import { useQuery } from '@tanstack/react-query';
+import { handleEmployeeLoginService } from '@/api/authentication';
 
 export default function EmployeeRootLayout({ children }: any) {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
@@ -26,6 +28,15 @@ export default function EmployeeRootLayout({ children }: any) {
       icon: home
     },
   ];
+
+  const { isLoading, isError } = useQuery({
+    queryKey: ["employer-profile"],
+    queryFn: handleEmployeeLoginService,
+    retry: false,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
+
 
   return (
     <div className="flex">
