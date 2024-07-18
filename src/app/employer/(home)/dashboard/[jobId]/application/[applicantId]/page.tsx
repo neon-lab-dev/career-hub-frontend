@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
@@ -16,7 +16,6 @@ interface ProfileProps {
         applicantId: string;
         jobId: string;
     };
-    authToken: string; // Assuming you have a prop for the authentication token
 }
 
 interface Project {
@@ -45,7 +44,7 @@ interface Certification {
     credentialURL: string;
 }
 
-const Profile = ({ params: { applicantId, jobId }, authToken }: ProfileProps) => {
+const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
     const [profileData, setProfileData] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [actionLoading, setActionLoading] = useState(false);
@@ -118,7 +117,7 @@ const Profile = ({ params: { applicantId, jobId }, authToken }: ProfileProps) =>
         };
 
         fetchProfileData();
-    }, [applicantId, authToken]);
+    }, [applicantId]);
 
     const handleApprove = async () => {
         setActionLoading(true);
@@ -228,82 +227,90 @@ const Profile = ({ params: { applicantId, jobId }, authToken }: ProfileProps) =>
                             </div>
                             <hr className='pb-10 mx-4' />
                             {projects.map((project: Project) => (
-                                <div key={project._id} className="flex max-md:flex-col max-md:justify-end justify-between items-start border-2 border-neutral-100 rounded-xl mx-6 my-4 p-4">
-                                    <div className="flex flex-col items-start gap-6">
-                                        <span className="text-2xl max-md:text-base font-600">{project.title}</span>
-                                        <p className="text-lg max-md:text-xs font-400 text-neutral-600 w-1/2 text-start">{project.description}</p>
+                                <div key={project._id} className="flex max-md:flex-col max-md:gap-3 justify-between items-center p-4 border border-neutral-100 rounded-xl my-2 text-left">
+                                    <div className='text-neutral-950 text-lg max-md:text-sm font-600'>
+                                        {project.title}
                                     </div>
-                                    <div className="flex gap-6 text-xl font-600">
-                                        <a href={project.link} target="_blank" rel="noopener noreferrer">
-                                            <Button variant="normal">View Project</Button>
-                                        </a>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs'>
+                                        {project.description}
+                                    </div>
+                                    <div className='flex gap-4 items-center'>
+                                        <Link href={project.link} target="_blank" className='text-blue-500 text-lg max-md:text-xs'>
+                                            View Project
+                                        </Link>
                                     </div>
                                 </div>
                             ))}
-                            <div className="pt-10 pb-10 mt-10 font-plus-jakarta-sans">
-                                <div className="max-width flex">
-                                    <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
-                                        <div className="flex justify-between px-2 py-3 rounded-xl">
-                                            <div className="flex gap-4 items-center">
-                                                <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Experience</span>
-                                            </div>
-                                        </div>
-                                        <hr className='pb-10 mx-4' />
-                                        {experience.map((exp: Experience) => (
-                                            <div key={exp._id} className="flex max-md:flex-col max-md:justify-end justify-between items-start border-2 border-neutral-100 rounded-xl mx-6 my-4 p-4">
-                                                <div className="flex flex-col items-start gap-6">
-                                                    <span className="text-2xl max-md:text-base font-600">{exp.title}</span>
-                                                    <p className="text-lg max-md:text-xs font-400 text-neutral-600 w-1/2 text-start">{exp.description}</p>
-                                                </div>
-                                                <div className="flex gap-6 text-xl font-600">
-                                                    <span>{exp.startDate} - {exp.endDate}</span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                        <div className="pt-10 pb-10 mt-10 font-plus-jakarta-sans">
-                                            <div className="max-width flex">
-                                                <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
-                                                    <div className="flex justify-between px-2 py-3 rounded-xl">
-                                                        <div className="flex gap-4 items-center">
-                                                            <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Certifications</span>
-                                                        </div>
-                                                    </div>
-                                                    <hr className='pb-10 mx-4' />
-                                                    {certifications.map((cert: Certification) => (
-                                                        <div key={cert._id} className="flex max-md:flex-col max-md:justify-end justify-between items-start border-2 border-neutral-100 rounded-xl mx-6 my-4 p-4">
-                                                            <div className="flex flex-col items-start gap-6">
-                                                                <span className="text-2xl max-md:text-base font-600">{cert.name}</span>
-                                                                <p className="text-lg max-md:text-xs font-400 text-neutral-600 w-1/2 text-start">{cert.issuingOrganization}</p>
-                                                            </div>
-                                                            <div className="flex gap-6 text-xl font-600">
-                                                                <a href={cert.credentialURL} target="_blank" rel="noopener noreferrer">
-                                                                    <Button variant="normal">View Credential</Button>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                    <div className="pt-10 pb-10 mt-10 font-plus-jakarta-sans">
-                                                        <div className="max-width flex">
-                                                            <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
-                                                                <div className="flex justify-between px-2 py-3 rounded-xl">
-                                                                    <div className="flex gap-4 items-center">
-                                                                        <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Skills</span>
-                                                                    </div>
-                                                                </div>
-                                                                <hr className='pb-10 mx-4' />
-                                                                <div className="flex gap-2">
-                                                                    {skills.map((skill: string, index: number) => (
-                                                                        <Chip key={index} label={skill} variant="filled" />
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                    <div className="max-width flex">
+                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
+                            <div className="flex justify-between px-2 py-3 rounded-xl">
+                                <div className="flex gap-4 items-center">
+                                    <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Experience</span>
+                                </div>
+                            </div>
+                            <hr className='pb-10 mx-4' />
+                            {experience.map((exp: Experience) => (
+                                <div key={exp._id} className="flex max-md:flex-col max-md:gap-3 justify-between items-center p-4 border border-neutral-100 rounded-xl my-2 text-left">
+                                    <div className='text-neutral-950 text-lg max-md:text-sm font-600'>
+                                        {exp.title} - {exp.company}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs'>
+                                        {exp.startDate} - {exp.endDate}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs'>
+                                        {exp.location}
                                     </div>
                                 </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                    <div className="max-width flex">
+                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
+                            <div className="flex justify-between px-2 py-3 rounded-xl">
+                                <div className="flex gap-4 items-center">
+                                    <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Certifications</span>
+                                </div>
+                            </div>
+                            <hr className='pb-10 mx-4' />
+                            {certifications.map((cert: Certification) => (
+                                <div key={cert._id} className="flex max-md:flex-col max-md:gap-3 justify-between items-center p-4 border border-neutral-100 rounded-xl my-2 text-left">
+                                    <div className='text-neutral-950 text-lg max-md:text-sm font-600'>
+                                        {cert.name} - {cert.issuingOrganization}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs'>
+                                        {cert.issueDate} - {cert.expirationDate}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs'>
+                                        <Link href={cert.credentialURL} target="_blank" className='text-blue-500 text-lg max-md:text-xs'>
+                                            View Credential
+                                        </Link>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                    <div className="max-width flex">
+                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
+                            <div className="flex justify-between px-2 py-3 rounded-xl">
+                                <div className="flex gap-4 items-center">
+                                    <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Skills</span>
+                                </div>
+                            </div>
+                            <hr className='pb-10 mx-4' />
+                            <div className="flex flex-wrap gap-4">
+                                {skills.map((skill: string, index: number) => (
+                                    <Chip key={index} variant='close'>
+                                        {skill}
+                                        </Chip>
+                                ))}
                             </div>
                         </div>
                     </div>

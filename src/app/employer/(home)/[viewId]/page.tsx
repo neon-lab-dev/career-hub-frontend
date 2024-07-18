@@ -60,7 +60,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                     location: jobData.location,
                     locationType: jobData.locationType,
                 });
-            } catch (error) {
+            } catch (error:any) {
                 const errorMessage = error.response?.data?.message || error.message || "Failed to fetch job details";
                 console.error("Error fetching job details:", errorMessage);
                 toast.error(`Error: ${errorMessage}`);
@@ -104,7 +104,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                 setIsEditable(false);
                 toast.success("Job details updated successfully");
             }
-        } catch (error) {
+        } catch (error:any) {
             const errorMessage = error.response?.data?.message || error.message || "Failed to update job details";
             console.error("Error updating job:", errorMessage);
             toast.error(`Error: ${errorMessage}`);

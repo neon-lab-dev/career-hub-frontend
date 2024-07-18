@@ -29,13 +29,6 @@ export default function EmployeeRootLayout({ children }: any) {
     },
   ];
 
-  const { isLoading, isError } = useQuery({
-    queryKey: ["employer-profile"],
-    queryFn: handleEmployeeLoginService,
-    retry: false,
-    refetchOnWindowFocus: false,
-    staleTime: Infinity,
-  });
 
 
   return (
