@@ -1,8 +1,6 @@
 import NotFound from "@/components/NotFound";
 import Image from "next/image";
-import { IMAGES } from "@/assets";
 import JobShareButton from "./_components/JobShareButtonComponent";
-import Button from "@/components/Button";
 import Link from "next/link";
 import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
 import SimilarJobsForYou from "./_components/SimilarJobsForYouComponent";
@@ -10,6 +8,8 @@ import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
 import WhatWeDo from "@/components/WhatWeDo";
 import SkillsAndExtraBenefits from "./_components/SkillsAndExtraBenefits";
 import { getJobById } from "@/api/jobs";
+import TrendingCourseToday from "@/components/TrendingCourseToday";
+import ApplyJob from "./_components/ApplyJob";
 
 type Props = {
   params: {
@@ -23,9 +23,13 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
 
   const job = await getJobById(jobId);
   if (!job) return <NotFound />;
+
+  const isClosed =
+    job.status.toLowerCase() !== "open" ||
+    new Date(job.applicationDeadline) < new Date();
   return (
     <div>
-      <div className="wrapper flex flex-col xl:gap-16">
+      <div className="wrapper flex flex-col xl:gap-16 pb-6">
         {/* job titles and cta */}
         <div className="py-16 flex items-end justify-between">
           <div className="flex gap-5 items-center">
@@ -47,9 +51,9 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
               </div>
             </div>
           </div>
-          <div className="xl:flex items-center gap-5 hidden">
+          <div className="fixed z-30 sm:z-auto bottom-0 left-0 w-full sm:w-auto sm:static flex-row-reverse sm:flex-row flex items-center gap-5 bg-white py-3 px-6 sm:px-0 sm:py-0">
             <JobShareButton jobTitle="Test Title" />
-            <Button>Apply Now</Button>
+            <ApplyJob jobId={jobId} disabled={isClosed} />
           </div>
         </div>
         {/* job details */}
@@ -57,7 +61,10 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
           <div className="flex-grow flex flex-col gap-4 xl:gap-6">
             <div className="p-6 rounded-[22px] border border-secondary-200 text-base lg:text-xl flex flex-col gap-3 lg:gap-3">
               <h3 className="capitalize font-600 text-neutral-800">
-                About {jobType.substring(0, jobType.length - 1)}
+                About {jobType.substring(0, jobType.length - 1)}{" "}
+                <span className="ml-2 text-sm text-red-500">
+                  {isClosed ? "(Status: Closed)" : null}
+                </span>
               </h3>
               <p className="font-400 text-neutral-700 flex flex-col gap-3 lg:gap-6">
                 {job.description
@@ -96,6 +103,27 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
               <div className="flex flex-col gap-1 font-400 mt-2 text-neutral-700">
                 <span>Job-Type: {job.employmentType}</span>
                 <span>Location: {job.location}</span>
+                <span>Location Type: {job.locationType}</span>
+                {job.employmentType === "Internship" ? (
+                  <span>Duration: {job.employmentDuration} months</span>
+                ) : null}
+                {
+                  <span>
+                    {job.employmentType === "Internship"
+                      ? "Stipend: "
+                      : "Salary: "}
+                    {job.salary ? `₹ ${job.salary}/month` : `Unpaid`}
+                  </span>
+                }
+                {job.applicationDeadline && (
+                  <span>
+                    Application Deadline:{" "}
+                    {new Date(job.applicationDeadline).toLocaleDateString()}
+                  </span>
+                )}
+                <span>
+                  Posted At: {new Date(job.postedAt).toLocaleDateString()}
+                </span>
               </div>
             </div>
             <SkillsAndExtraBenefits
@@ -152,8 +180,8 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
           />
         </div>
       </div>
-      <SimilarJobsForYou />
-      <TrendingCourseToday /> 
+      <SimilarJobsForYou title={job.title} type={jobType} ignore={jobId} />
+      <TrendingCourseToday />
       <OurValuableHiringPartners />
       <WhatWeDo />
     </div>

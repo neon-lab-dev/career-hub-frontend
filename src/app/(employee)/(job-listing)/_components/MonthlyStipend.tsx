@@ -1,24 +1,29 @@
-import React from 'react';
+import { useParams } from "next/navigation";
+import React from "react";
 
 type TMonthlyStipendProps = {
-    monthlyStipend: number;
-    setMonthlyStipend: React.Dispatch<React.SetStateAction<number>>;
+  monthlyStipend: number;
+  setMonthlyStipend: (stipend: number) => void;
 };
 
-const MonthlyStipend: React.FC<TMonthlyStipendProps> = ({monthlyStipend, setMonthlyStipend}) => {
-
-    // Monthly stipend slider
-    const maxRange = 20000;
-    const stepSize = 5000;
+const MonthlyStipend: React.FC<TMonthlyStipendProps> = ({
+  monthlyStipend,
+  setMonthlyStipend,
+}) => {
+  // Monthly stipend slider
+  const maxRange = 20000;
+  const stepSize = 5000;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMonthlyStipend(Number(e.target.value));
   };
 
-    return (
-        <div className="flex flex-col gap-3">
+  const { jobType } = useParams();
+
+  return (
+    <div className="flex flex-col gap-3">
       <label className="text-neutral-960 text-base font-500">
-      Monthly Stipend
+        Monthly {jobType === "jobs" ? "Salary" : "Stipend"}
       </label>
       <div className="relative w-full">
         <input
@@ -39,7 +44,7 @@ const MonthlyStipend: React.FC<TMonthlyStipendProps> = ({monthlyStipend, setMont
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default MonthlyStipend;

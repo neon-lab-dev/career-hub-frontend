@@ -1,3 +1,4 @@
+import { useParams } from "next/navigation";
 import React from "react";
 
 type TInternshipModeProps = {
@@ -9,15 +10,11 @@ const InternshipMode: React.FC<TInternshipModeProps> = ({
   selectedMode,
   setSelectedMode,
 }) => {
-  // Internship Mode
-  const handleInternshipMode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedMode(e.target.value);
-  };
-
+  const { jobType } = useParams();
   return (
     <div className="flex flex-col gap-3">
       <label htmlFor="" className="text-neutral-960 text-base font-500">
-        Internship Mode
+        {jobType === "jobs" ? "Job" : "Internship"} Mode
       </label>
 
       <div className="flex items-center gap-6">
@@ -29,14 +26,16 @@ const InternshipMode: React.FC<TInternshipModeProps> = ({
             id="remote-internship"
             value="Remote Internship"
             className="radio radio-error border-[2px] border-neutral-970"
-            checked={selectedMode === "Remote Internship"}
-            onChange={handleInternshipMode}
+            checked={selectedMode === "Remote"}
+            onChange={() => {
+              setSelectedMode("Remote");
+            }}
           />
           <label
             htmlFor="remote-internship"
             className="text-sm font-500 text-secondary-650 cursor-pointer"
           >
-            Remote Internship
+            Remote
           </label>
         </div>
 
@@ -48,14 +47,37 @@ const InternshipMode: React.FC<TInternshipModeProps> = ({
             id="on-field-internship"
             value="On-Field Internship"
             className="radio radio-error border-[2px] border-neutral-970"
-            checked={selectedMode === "On-Field Internship"}
-            onChange={handleInternshipMode}
+            checked={selectedMode === "Onsite"}
+            onChange={() => {
+              setSelectedMode("Onsite");
+            }}
           />
           <label
             htmlFor="on-field-internship"
             className="text-sm font-500 text-secondary-650 cursor-pointer"
           >
-            On-Field Internship
+            On-Field
+          </label>
+        </div>
+
+        {/* Hybrid */}
+        <div className="flex items-center gap-[6px]">
+          <input
+            type="radio"
+            name="internship-mode"
+            id="hybrid-internship"
+            value="Hybrid Internship"
+            className="radio radio-error border-[2px] border-neutral-970"
+            checked={selectedMode === "Hybrid"}
+            onChange={() => {
+              setSelectedMode("Hybrid");
+            }}
+          />
+          <label
+            htmlFor="hybrid-internship"
+            className="text-sm font-500 text-secondary-650 cursor-pointer"
+          >
+            Hybrid
           </label>
         </div>
       </div>

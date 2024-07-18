@@ -8,7 +8,13 @@ export interface IJob {
   };
   requiredSkills: string[];
   status: string;
-  applicants: string[];
+  applicants: {
+    employee: string;
+    appliedDate: string;
+    isViewed: boolean;
+    status: string;
+    _id: string;
+  }[];
   _id: string;
   title: string;
   description: string;
