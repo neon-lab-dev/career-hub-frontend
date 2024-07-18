@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IMAGES } from '@/assets';
 import Image from 'next/image';
 import Input from "@/components/Input";
 import Button from '@/components/Button';
 
-const WorkExperienceModel = ({ formData, setFormData }) => {
+const WorkExperienceModel = ({ formData, setFormData, showOnMount }) => {
     const [title, setTitle] = useState('');
     const [company, setCompany] = useState('');
     const [location, setLocation] = useState('');
@@ -14,33 +14,44 @@ const WorkExperienceModel = ({ formData, setFormData }) => {
 
     const handleAddExperience = () => {
         const newExperience = {
-            title: title,
-            company: company,
-            location: location,
-            startDate: startDate,
-            endDate: endDate,
-            description: description
+            title,
+            company,
+            location,
+            startDate,
+            endDate,
+            description
         };
 
-        setFormData({
-            ...formData,
-            experience: [...formData.experience, newExperience] // Updated from workExperience to experience
-        });
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            experience: [...prevFormData.experience, newExperience]
+        }));
 
+        // Clear input fields after adding
         setTitle('');
         setCompany('');
         setLocation('');
         setStartDate('');
         setEndDate('');
         setDescription('');
+
+        // Close modal after adding experience
+        document.getElementById('work_experience_modal').checked = false;
     };
+
+    // Effect to show modal on mount
+    useEffect(() => {
+        if (showOnMount) {
+            document.getElementById('work_experience_modal').checked = true;
+        }
+    }, [showOnMount]);
 
     return (
         <div>
             <div className='flex justify-end'>
                 <label htmlFor="work_experience_modal" className="bg-white">
                     <div className='flex justify-end gap-2 cursor-pointer max-md:mx-4'>
-                        <span className='text-primary-500 text-[16px] font-600'>Add More</span>
+                        <span className='text-primary-500 text-[16px] font-600'>Add More </span>
                         <Image src={IMAGES.circle} alt="circle" />
                     </div>
                 </label>

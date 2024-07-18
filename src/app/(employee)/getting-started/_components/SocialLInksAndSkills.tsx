@@ -4,15 +4,15 @@ import Button from '@/components/Button';
 import Input from '@/components/Input';
 
 const SocialLinksSkills = ({ formData, setFormData, handleContinue }) => {
-  const handleSocialLinkChange = (index, platform, value) => {
+  const handleSocialLinkChange = (index: any, platform: string, value: string) => {
     // Update specific social link field in formData
-    const updatedLinks = formData.socialLinks.map((link, i) =>
+    const updatedLinks = formData.socialLinks.map((link: any, i: any) =>
       i === index ? { ...link, [platform]: value } : link
     );
     setFormData({ ...formData, socialLinks: updatedLinks });
   };
 
-  const handleSkillsChange = (e) => {
+  const handleSkillsChange = (e: { target: { value: string; }; }) => {
     // Update skills array in formData
     const skillsArray = e.target.value.split(',').map(skill => skill.trim());
     setFormData({ ...formData, skills: skillsArray });
@@ -24,7 +24,7 @@ const SocialLinksSkills = ({ formData, setFormData, handleContinue }) => {
         <span>Social Links & Skills</span>
       </div>
       <div className="flex flex-col">
-        {formData.socialLinks.map((link, index) => (
+        {formData.socialLinks.map((link: { linkedin: string | number | readonly string[] | undefined; github: string | number | readonly string[] | undefined; }, index: React.Key | null | undefined) => (
           <div key={index} className="flex flex-col gap-2">
             <label htmlFor={`linkedin-${index}`}>LinkedIn</label>
             <Input

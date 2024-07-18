@@ -1,13 +1,14 @@
 // ResumeUpload.jsx
 import React, { useState } from 'react';
 import Button from '@/components/Button';
-import { IMAGES } from '@/assets';
+import { ICONS, IMAGES } from '@/assets';
 import axios from 'axios';
+import Image from 'next/image';
 
 const ResumeUpload = ({ handleContinue }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: { target: { files: any[]; }; }) => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
@@ -59,9 +60,13 @@ const ResumeUpload = ({ handleContinue }) => {
         <button
           className="border border-dashed border-gray-400 rounded-lg w-full h-48 flex flex-col justify-center items-center"
           onClick={handleFileClick}
-        >
-          <span className="text-gray-400 p-4">Drag & drop your file here or click to upload</span>
-          {selectedFile && <span className="mt-2 text-blue-500">{selectedFile.name}</span>}
+        ><div className='flex flex-col'>
+          <div className='flex justify-center'>
+          <Image src={IMAGES.papperclip} alt="reusme" />
+          </div>
+           <span className="text-gray-400 p-4">Drag & drop your file here or click to upload</span>
+           {selectedFile && <span className="mt-2 text-blue-500">{selectedFile.name}</span>}
+        </div>
         </button>
       </div>
       <div className="flex max-lg:justify-center justify-start max-lg:mt-32 mb-5 mt-5">

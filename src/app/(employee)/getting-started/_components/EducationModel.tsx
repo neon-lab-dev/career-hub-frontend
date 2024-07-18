@@ -1,31 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IMAGES } from '@/assets';
 import Image from 'next/image';
 import Input from "@/components/Input";
 import Button from '@/components/Button';
 
-const CertificateModel = ({ formData, setFormData }) => {
+const CertificateModel = ({ formData, setFormData, showOnMount }) => {
     const [institutionName, setInstitutionName] = useState('');
     const [degree, setDegree] = useState('');
     const [fieldOfStudy, setFieldOfStudy] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [validationError, setValidationError] = useState('');
 
+    // Function to handle adding a new certificate
     const handleAddCertificate = () => {
-        // Create a new certificate object
+        // Simple validation
+        if (!institutionName || !degree || !fieldOfStudy || !startDate || !endDate) {
+            setValidationError('Please fill out all fields.');
+            return;
+        }
+
         const newCertificate = {
-            institutionName: institutionName,
-            degree: degree,
-            fieldOfStudy: fieldOfStudy,
-            startDate: startDate,
-            endDate: endDate
+            institutionName,
+            degree,
+            fieldOfStudy,
+            startDate,
+            endDate
         };
 
-        // Update formData state with new certificate
-        setFormData({
-            ...formData,
-            education: [...formData.education, newCertificate]
-        });
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            education: [...prevFormData.education, newCertificate]
+        }));
 
         // Clear input fields after adding
         setInstitutionName('');
@@ -33,20 +39,32 @@ const CertificateModel = ({ formData, setFormData }) => {
         setFieldOfStudy('');
         setStartDate('');
         setEndDate('');
+        setValidationError('');
+
+        // Close modal after adding certificate
+        document.getElementById('my_modal_7').checked = false;
     };
+
+    // Effect to show modal on mount
+    useEffect(() => {
+        if (showOnMount) {
+            document.getElementById('my_modal_7').checked = true;
+        }
+    }, [showOnMount]);
 
     return (
         <div>
-            <div className='flex justify-end'>
-                <label htmlFor="my_modal_7" className="bg-white">
-                    <div className='flex justify-end gap-2 cursor-pointer max-md:mx-4'>
-                        <span className='text-primary-500 text-[16px] font-600'>Add More</span>
-                        <Image src={IMAGES.circle} alt="circle" />
-                    </div>
-                </label>
-            </div>
+            {/* Modal Trigger Button */}
+            <label htmlFor="my_modal_7" className="bg-white cursor-pointer">
+                <div className='flex justify-end gap-2'>
+                    <span className='text-primary-500 text-[16px] font-600'>Add More</span>
+                    <Image src={IMAGES.circle} alt="circle" />
+                </div>
+            </label>
+
+            {/* Modal Structure */}
             <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-            <div className="modal" role="dialog">
+            <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
                 <div className="max-w-2xl  max-md:w-[350px] modal-box">
                     <div className="flex max-md:flex-col gap-6 mt-4">
                         <div className="flex flex-col gap-2">
@@ -106,14 +124,21 @@ const CertificateModel = ({ formData, setFormData }) => {
                             />
                         </div>
                     </div>
-                    <Button variant="primary" className='mt-4' onClick={handleAddCertificate}>
-                        {"Add Certificate"}
+                    {validationError && <p className="text-red-500">{validationError}</p>}
+                    <Button
+                        variant="primary"
+                        type='button'
+                        className='mt-4'
+                        onClick={handleAddCertificate}
+                    >
+                        Add Certificate
                     </Button>
                 </div>
+                {/* Modal Close Button */}
                 <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>
             </div>
         </div>
     );
-}
+};
 
 export default CertificateModel;
