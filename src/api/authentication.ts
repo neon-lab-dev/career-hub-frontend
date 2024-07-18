@@ -57,7 +57,9 @@ export const handleSendResetPasswordEmailService = async (data: {
 }): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .post(api.employeeForgotPassword, data)
+      .post(api.employeeForgotPassword, data, {
+        withCredentials: true,
+      })
       .then((res) => {
         resolve(res.data?.message ?? "Email sent successfully");
       })
@@ -74,7 +76,9 @@ export const handleResetPasswordService = async (data: {
 }): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .put(`${api.employeeResetPassword}/${data.token}`, data)
+      .put(`${api.employeeResetPassword}/${data.token}`, data, {
+        withCredentials: true,
+      })
       .then((res) => {
         resolve(res.data?.message ?? "Password reset successful");
       })
@@ -185,7 +189,9 @@ export const handleEmployerSignupService = async (
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .post(api.employerRegistration, data)
+      .post(api.employerRegistration, data, {
+        withCredentials: true,
+      })
       .then((res) => {
         resolve(res.data?.message ?? "OPT sent successfully!");
       })
@@ -200,7 +206,9 @@ export const handleEmployeeSignupService = async (
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .post(api.employeeRegister, data)
+      .post(api.employeeRegister, data, {
+        withCredentials: true,
+      })
       .then((res) => {
         resolve(res.data?.message ?? "OTP sent successfully!");
       })
@@ -215,7 +223,9 @@ export const handleVerifyEmployeeOTPService = async (
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .post(api.employeeOTPVerify, data)
+      .post(api.employeeOTPVerify, data, {
+        withCredentials: true,
+      })
       .then((res) => {
         resolve(res.data?.message ?? "OTP verified successfully!");
       })
@@ -230,7 +240,9 @@ export const handleVerifyEmployerOTPService = async (
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .post(api.employerOTPVerify, data)
+      .post(api.employerOTPVerify, data, {
+        withCredentials: true,
+      })
       .then((res) => {
         resolve(res.data?.message ?? "OTP verified successfully!");
       })
