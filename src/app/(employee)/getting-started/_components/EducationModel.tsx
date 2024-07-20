@@ -131,7 +131,7 @@ const CertificateModel = ({ formData, setFormData, showOnMount }) => {
                         className='mt-4'
                         onClick={handleAddCertificate}
                     >
-                        Add Certificate
+                        Add 
                     </Button>
                 </div>
                 {/* Modal Close Button */}
