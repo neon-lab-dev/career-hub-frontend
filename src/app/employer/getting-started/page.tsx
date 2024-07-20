@@ -28,9 +28,11 @@ const Page = () => {
   const onSubmit = async (data: any) => {
     try {
       setLoading(true);
-      await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data);
+      await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data, {
+        withCredentials: true,
+      });
       setStep(4); // Move to step 4 after successful submission
-    } catch (error) {
+    } catch (error:any) {
       setError(error.message);
     } finally {
       setLoading(false);

@@ -14,6 +14,7 @@ import EducationForm from './_components/EducationForm';
 import ResumeUpload from './_components/ResumeUpload';
 import SocialLinksSkills from './_components/SocialLInksAndSkills';
 import Successfully from './_components/Successfully';
+import { toast } from 'sonner'; // Import toast from sonner
 
 // Define the Page component
 const Page: React.FC = () => {
@@ -34,6 +35,7 @@ const Page: React.FC = () => {
     certifications: [],
     skills: [],
     socialLinks: [{ linkedin: '', github: '' }],
+    interest:[]
   });
 
   // State to control showing the modal after Step 2
@@ -54,8 +56,10 @@ const Page: React.FC = () => {
     if (Step === 6) {
       try {
         await updateUserDetails(formData);
-      } catch (error) {
+        toast.success('User details updated successfully!');
+      } catch (error:any) {
         console.error('Error updating user details:', error);
+        toast.error(`Error updating user details: ${error.response?.data?.message || error.message}`);
       }
     }
 
@@ -67,12 +71,14 @@ const Page: React.FC = () => {
 
         await axios.put('https://carrerhub-backend.vercel.app/api/v1/resumes', fileData, {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'file',
           },
           withCredentials:true
         });
-      } catch (error) {
+        toast.success('File uploaded successfully!');
+      } catch (error:any) {
         console.error('Error uploading file:', error);
+        toast.error(`Error uploading file: ${error.response?.data?.message || error.message}`);
       }
     }
 
@@ -133,7 +139,6 @@ const Page: React.FC = () => {
       certifications: prevFormData.certifications.filter((_, i) => i !== index),
     }));
   };
-
   // JSX rendering
   return (
     <GetStartedLayout progress={Step * 12.5} goToPreviousStep={goToPreviousStep}>
@@ -228,7 +233,7 @@ const Page: React.FC = () => {
                     <div className='flex flex-col w-[240px]'>
                       <span className='text-xl text-neutral-900 font-bold'>{job.companyName}</span>
                       <div className='flex flex-col text-[16px] text-neutral-500'>
-                        <span>{`${job.title} | ${job.employmentType}`}</span>
+                        <span>{`${job.title} | ${job.location}`}</span>
                         <span>{`${job.startDate} - ${job.endDate}`}</span>
                       </div>
                     </div>
@@ -236,12 +241,7 @@ const Page: React.FC = () => {
                     <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteExperience(index)} className='cursor-pointer' />
                   </div>
                 ))}
-                <ExperienceModel addExperience={(experience: any) => {
-                  setFormData((prevFormData) => ({
-                    ...prevFormData,
-                    experience: [...prevFormData.experience, experience],
-                  }));
-                }} />
+                <ExperienceModel formData={formData} setFormData={setFormData} showOnMount={showProjectModal} />
                 <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
                   <Button
                     variant="primary"
@@ -269,15 +269,15 @@ const Page: React.FC = () => {
                     <div className='flex flex-col w-[240px]'>
                       <span className='text-xl text-neutral-900 font-bold'>{certification.name}</span>
                       <div className='flex flex-col text-[16px] text-neutral-500'>
-                        <span>{certification.issuingOrganization}</span>
-                        <span>{`${certification.issueDate} - ${certification.expirationDate}`}</span>
+                        <span>{`${certification.issuingOrganization} | ${certification.issueDate}`}</span>
+                        <span>{`Expires: ${certification.expirationDate}`}</span>
                       </div>
                     </div>
                     <Image src={IMAGES.pen} alt='Edit' onClick={() => editCertification(index)} className='cursor-pointer' />
                     <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteCertification(index)} className='cursor-pointer' />
                   </div>
                 ))}
-                <CertificateModel addCertification={addCertification} />
+                <CertificateModel formData={formData} setFormData={setFormData} showOnMount={showProjectModal} addCertification={addCertification} />
                 <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
                   <Button
                     variant="primary"
@@ -295,23 +295,15 @@ const Page: React.FC = () => {
 
           {/* Step 6: Social Links and Skills */}
           {Step === 6 && (
-            <SocialLinksSkills
-              formData={formData}
-              setFormData={setFormData}
-              handleContinue={handleContinue}
-            />
+            <SocialLinksSkills formData={formData} setFormData={setFormData} handleContinue={handleContinue} />
           )}
 
           {/* Step 7: Resume Upload */}
           {Step === 7 && (
-            <ResumeUpload
-              selectedFile={selectedFile}
-              setSelectedFile={setSelectedFile}
-              handleContinue={handleContinue}
-            />
+            <ResumeUpload selectedFile={selectedFile} setSelectedFile={setSelectedFile}  />
           )}
 
-          {/* Step 8: Successfully */}
+          {/* Step 8: Success Message */}
           {Step === 8 && (
             <Successfully />
           )}
@@ -319,6 +311,7 @@ const Page: React.FC = () => {
       </div>
     </GetStartedLayout>
   );
+
 };
 
 export default Page;

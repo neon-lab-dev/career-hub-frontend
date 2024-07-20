@@ -1,17 +1,19 @@
-// ResumeUpload.jsx
+"use client"
 import React, { useState } from 'react';
 import Button from '@/components/Button';
-import { ICONS, IMAGES } from '@/assets';
+import { IMAGES } from '@/assets';
 import axios from 'axios';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
-const ResumeUpload = ({ handleContinue }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
+const ResumeUpload = ({ setSelectedFile }) => {
+  const [selectedFile, setLocalSelectedFile] = useState(null);
 
-  const handleFileChange = (event: { target: { files: any[]; }; }) => {
+  const handleFileChange = (event) => {
     const file = event.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
+      setLocalSelectedFile(file);
+      setSelectedFile(file); // Update the parent state
     }
   };
 
@@ -26,21 +28,23 @@ const ResumeUpload = ({ handleContinue }) => {
     if (selectedFile) {
       try {
         const fileData = new FormData();
-        fileData.append('resume', selectedFile);
+        fileData.append('file', selectedFile); // Use 'file' as the field name
 
         await axios.put('https://carrerhub-backend.vercel.app/api/v1/resumes', fileData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
+          withCredentials: true,
         });
 
-        // Optionally handle success or display message
-        console.log('Resume uploaded successfully');
-        handleContinue(); // Proceed to the next step
-      } catch (error) {
+        toast.success('Resume uploaded successfully');
+
+      } catch (error:any) {
         console.error('Error uploading file:', error);
-        // Handle error condition (e.g., show error message)
+        toast.error(`Error uploading file: ${error.response?.data?.message || error.message}`);
       }
+    } else {
+      toast.error('Please select a file to upload');
     }
   };
 
@@ -60,13 +64,14 @@ const ResumeUpload = ({ handleContinue }) => {
         <button
           className="border border-dashed border-gray-400 rounded-lg w-full h-48 flex flex-col justify-center items-center"
           onClick={handleFileClick}
-        ><div className='flex flex-col'>
-          <div className='flex justify-center'>
-          <Image src={IMAGES.papperclip} alt="reusme" />
+        >
+          <div className="flex flex-col">
+            <div className="flex justify-center">
+              <Image src={IMAGES.papperclip} alt="resume" />
+            </div>
+            <span className="text-gray-400 p-4">Drag & drop your file here or click to upload</span>
+            {selectedFile && <span className="mt-2 text-blue-500">{selectedFile.name}</span>}
           </div>
-           <span className="text-gray-400 p-4">Drag & drop your file here or click to upload</span>
-           {selectedFile && <span className="mt-2 text-blue-500">{selectedFile.name}</span>}
-        </div>
         </button>
       </div>
       <div className="flex max-lg:justify-center justify-start max-lg:mt-32 mb-5 mt-5">
