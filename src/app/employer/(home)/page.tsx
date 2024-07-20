@@ -10,6 +10,8 @@ import addCircle from "@/assets/icons/Add Circle.svg";
 import Button from "@/components/Button";
 import Tablel from "./_components/Tablel"; // Ensure correct import path
 import Link from "next/link";
+import axios from 'axios';
+
 
 export type JobItem = {
   title: string;
@@ -17,26 +19,28 @@ export type JobItem = {
 };
 
 const Dashboard = () => {
-  const [jobsCount, setJobsCount] = useState<number>(0);
-  const [internshipsPosted, setInternshipsPosted] = useState<number>(0);
-  const [internshipsHired, setInternshipsHired] = useState<number>(0);
-  const [internshipsRejected, setInternshipsRejected] = useState<number>(0);
-  const [openJobs, setOpenJobs] = useState<JobItem[]>([]);
+  const [jobsCount, setJobsCount] = useState < number > (0);
+  const [internshipsPosted, setInternshipsPosted] = useState < number > (0);
+  const [internshipsHired, setInternshipsHired] = useState < number > (0);
+  const [internshipsRejected, setInternshipsRejected] = useState < number > (0);
+  const [openJobs, setOpenJobs] = useState < JobItem[] > ([]);
 
   useEffect(() => {
     fetchJobData();
   }, []);
 
+
   const fetchJobData = async () => {
     try {
-      const response = await fetch('https://carrerhub-backend.vercel.app/api/v1/jobs');
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      const data = await response.json();
+      const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/employeer/job', {
+        withCredentials: true, // Add this line to include credentials
+      });
+
+      const data = response.data;
+
       // Update state with fetched data
       setJobsCount(data.jobsCount || 0);
-      
+
       // Count internships posted, hired, and rejected
       let internshipsPostedCount = 0;
       let internshipsHiredCount = 0;
@@ -46,19 +50,17 @@ const Dashboard = () => {
         if (job.employmentType === "Internship") {
           internshipsPostedCount++;
           job.applicants.forEach((applicant: any) => { // Replace `any` with actual type if known
-            if (applicant.status === "hired") {
+            if (applicant.status === "HIRED") {
               internshipsHiredCount++;
-            } else if (applicant.status === "rejected") {
+            } else if (applicant.status === "REJECTED") {
               internshipsRejectedCount++;
             }
           });
         }
       });
-
       setInternshipsPosted(internshipsPostedCount);
       setInternshipsHired(internshipsHiredCount);
       setInternshipsRejected(internshipsRejectedCount);
-
       // Filter open jobs
       setOpenJobs(data.jobs.filter((job: any) => job.status === "Open").map((job: any) => ({
         title: job.title,
@@ -69,6 +71,8 @@ const Dashboard = () => {
     }
   };
 
+
+
   return (
     <div className="bg-[#f5f6fa] p-6 flex flex-col gap-6">
       <div className="flex items-center gap-4 overflow-x-auto">
@@ -76,7 +80,7 @@ const Dashboard = () => {
           classNames="w-full max-w-full"
           image={applicationIcon}
           title="Jobs Posted"
-          value={jobsCount - internshipsPosted}
+          value={jobsCount-internshipsPosted}
           alt="application-icon"
         />
         <KPICard

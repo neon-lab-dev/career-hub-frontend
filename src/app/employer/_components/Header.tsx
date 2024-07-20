@@ -52,10 +52,6 @@ const Header = () => {
       label: "Profile",
       path: "profile",
     },
-    {
-      label: "Others",
-      path: "others",
-    },
   ];
 
   return (

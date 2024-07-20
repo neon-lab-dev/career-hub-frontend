@@ -53,10 +53,12 @@ const Table: React.FC<Props> = ({ className }) => {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/jobs');
+                const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/employeer/job', {
+                    withCredentials: true // Include credentials with the request
+                });
                 setJobs(response.data.jobs);
                 setLoading(false);
-            } catch (error :any) {
+            } catch (error:any) {
                 const errorMessage = error.response?.data?.message || error.message || "Failed to fetch jobs";
                 console.error("Error fetching jobs:", errorMessage);
                 toast.error(`Error: ${errorMessage}`);
@@ -64,7 +66,7 @@ const Table: React.FC<Props> = ({ className }) => {
         };
         fetchJobs();
     }, []);
-
+    
     return (
         <div className={twMerge(`w-full overflow-x-auto h-[700px] max-w-[1300px] mx-auto px-0 ${className}`)}>
             <div className="rounded-[124px]">

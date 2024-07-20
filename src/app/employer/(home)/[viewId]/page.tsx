@@ -6,9 +6,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { IMAGES } from "@/assets";
 import { toast } from "sonner";
-import 'react-toastify/dist/ReactToastify.css';
 import { Oval } from 'react-loader-spinner';
-
 
 const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) => {
     const [formData, setFormData] = useState({
@@ -35,16 +33,14 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
             try {
                 const response = await axios.get(
                     `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`,
-                    { withCredentials: true } // Add withCredentials here
+                    { withCredentials: true }
                 );
                 console.log("Job details response:", response.data);
-                const jobData = response.data.jobs; // Adjusted to match the response structure
+                const jobData = response.data.jobs;
                 if (!jobData) {
                     console.error("Job data is undefined or null.");
                     return;
                 }
-
-                // Populate form data with fetched job details
                 setFormData({
                     title: jobData.title,
                     employmentType: jobData.employmentType,
@@ -60,7 +56,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                     location: jobData.location,
                     locationType: jobData.locationType,
                 });
-            } catch (error:any) {
+            } catch (error: any) {
                 const errorMessage = error.response?.data?.message || error.message || "Failed to fetch job details";
                 console.error("Error fetching job details:", errorMessage);
                 toast.error(`Error: ${errorMessage}`);
@@ -74,7 +70,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
         }
     }, [viewId]);
 
-    const handleChange = (e:any) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -86,7 +82,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
         setIsEditable(true);
     };
 
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const { requiredSkills, ...restData } = formData;
         const payload = {
@@ -98,13 +94,13 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
             const response = await axios.put(
                 `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`,
                 payload,
-                { withCredentials: true } // Add withCredentials here
+                { withCredentials: true }
             );
             if (response.status === 200) {
                 setIsEditable(false);
                 toast.success("Job details updated successfully");
             }
-        } catch (error:any) {
+        } catch (error: any) {
             const errorMessage = error.response?.data?.message || error.message || "Failed to update job details";
             console.error("Error updating job:", errorMessage);
             toast.error(`Error: ${errorMessage}`);
@@ -119,49 +115,53 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                 <div className="flex justify-between items-center">
                     <div className="flex gap-6 items-center">
                         <Link href="/employer/">
-                            <Image src={IMAGES.arrow} alt="" />
+                            <Image src={IMAGES.arrow} alt="Back" />
                         </Link>
                         <h1 className="text-neutral-950 text-[28px] font-700">
                             Job Application
                         </h1>
                     </div>
-                    <div className="flex items-center text-2xl gap-4 px-4 text-red-500 font-700 cursor-pointer">
+                    <div className="flex items-center text-2xl gap-4 px-4">
                         {isEditable ? (
-                            <Button variant="primary" onClick={handleSubmit}>
+                            <Button variant="primary" type="submit" form="job-form">
                                 Update
                             </Button>
                         ) : (
-                            <Image src={IMAGES.Edit} alt="" />
-                        )}
-                        {!isEditable && (
-                            <span onClick={handleEditClick} className="cursor-pointer">
-                                Edit
-                            </span>
+                            <>
+                                <Image
+                                    src={IMAGES.Edit}
+                                    alt="Edit"
+                                    onClick={handleEditClick}
+                                    className="cursor-pointer"
+                                />
+                                <span
+                                    onClick={handleEditClick}
+                                    className="cursor-pointer text-red-500 font-700"
+                                >
+                                    Edit
+                                </span>
+                            </>
                         )}
                     </div>
                 </div>
                 {isLoading ? (
                     <div className="flex justify-center items-center h-64">
-                        <div className="flex justify-center items-center h-96">
-                            <Oval
-                                height={40}
-                                width={40}
-                                color="#F9533A"
-                                visible={true}
-                                ariaLabel='oval-loading'
-                                secondaryColor="#f4f4f4"
-                                strokeWidth={2}
-                                strokeWidthSecondary={2}
-                            />
-                        </div>
+                        <Oval
+                            height={40}
+                            width={40}
+                            color="#F9533A"
+                            visible={true}
+                            ariaLabel='oval-loading'
+                            secondaryColor="#f4f4f4"
+                            strokeWidth={2}
+                            strokeWidthSecondary={2}
+                        />
                     </div>
                 ) : (
-                    <form onSubmit={handleSubmit}>
+                    <form id="job-form" onSubmit={handleSubmit}>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="title">
-                                    <span className="text-lg">Job Title</span>
-                                </label>
+                                <label htmlFor="title" className="text-lg">Job Title</label>
                                 <input
                                     type="text"
                                     name="title"
@@ -172,9 +172,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="employmentType">
-                                    <span className="text-lg">Job Type</span>
-                                </label>
+                                <label htmlFor="employmentType" className="text-lg">Job Type</label>
                                 <input
                                     type="text"
                                     name="employmentType"
@@ -187,10 +185,8 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="responsibilities">
-                                    <span className="text-lg">
-                                        Roles and Responsibilities - Job Description
-                                    </span>
+                                <label htmlFor="responsibilities" className="text-lg">
+                                    Roles and Responsibilities - Job Description
                                 </label>
                                 <textarea
                                     name="responsibilities"
@@ -203,9 +199,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="description">
-                                    <span className="text-lg">Job Description</span>
-                                </label>
+                                <label htmlFor="description" className="text-lg">Job Description</label>
                                 <textarea
                                     name="description"
                                     value={formData.description}
@@ -217,9 +211,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="applicationDeadline">
-                                    <span className="text-lg">Application Deadline</span>
-                                </label>
+                                <label htmlFor="applicationDeadline" className="text-lg">Application Deadline</label>
                                 <input
                                     type="date"
                                     name="applicationDeadline"
@@ -230,9 +222,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="employmentDuration">
-                                    <span className="text-lg">Employment Duration</span>
-                                </label>
+                                <label htmlFor="employmentDuration" className="text-lg">Employment Duration</label>
                                 <input
                                     type="text"
                                     name="employmentDuration"
@@ -245,9 +235,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="salary">
-                                    <span className="text-lg">Salary</span>
-                                </label>
+                                <label htmlFor="salary" className="text-lg">Salary</label>
                                 <input
                                     type="text"
                                     name="salary"
@@ -258,9 +246,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="locationType">
-                                    <span className="text-lg">Location Type</span>
-                                </label>
+                                <label htmlFor="locationType" className="text-lg">Location Type</label>
                                 <input
                                     type="text"
                                     name="locationType"
@@ -273,13 +259,12 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="requiredSkills">
-                                    <span className="text-lg">Required Skills</span>
-                                </label>
-                                <textarea
+                                <label htmlFor="requiredSkills" className="text-lg">Required Skills</label>
+                                <input
+                                    type="text"
                                     name="requiredSkills"
                                     value={formData.requiredSkills}
-                                    className="p-3 border rounded-xl w-[750px]"
+                                    className="p-3 border rounded-xl w-[770px]"
                                     onChange={handleChange}
                                     disabled={!isEditable}
                                 />
@@ -287,9 +272,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="extraBenefits">
-                                    <span className="text-lg">Extra Benefits</span>
-                                </label>
+                                <label htmlFor="extraBenefits" className="text-lg">Extra Benefits</label>
                                 <textarea
                                     name="extraBenefits"
                                     value={formData.extraBenefits}
@@ -301,9 +284,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="requirements">
-                                    <span className="text-lg">Requirements</span>
-                                </label>
+                                <label htmlFor="requirements" className="text-lg">Requirements</label>
                                 <textarea
                                     name="requirements"
                                     value={formData.requirements}
@@ -315,10 +296,9 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="experience">
-                                    <span className="text-lg">Experience</span>
-                                </label>
-                                <textarea
+                                <label htmlFor="experience" className="text-lg">Experience</label>
+                                <input
+                                    type="text"
                                     name="experience"
                                     value={formData.experience}
                                     className="p-3 border rounded-xl w-[770px]"
@@ -329,9 +309,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                         </div>
                         <div className="flex justify-center mt-8 gap-6">
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="location">
-                                    <span className="text-lg">Location</span>
-                                </label>
+                                <label htmlFor="location" className="text-lg">Location</label>
                                 <input
                                     type="text"
                                     name="location"
@@ -350,4 +328,3 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
 };
 
 export default JobDetailsPage;
-
