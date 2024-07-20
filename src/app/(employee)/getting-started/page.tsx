@@ -22,13 +22,13 @@ const Page: React.FC = () => {
   const [Step, setStep] = useState<number>(1);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
-    address: {
+    address: [{
       street: "",
       city: "",
       state: "",
       postalCode: "",
       country: "",
-    },
+    }],
     education: [],
     projects: [],
     experience: [],
@@ -138,6 +138,10 @@ const Page: React.FC = () => {
       ...prevFormData,
       certifications: prevFormData.certifications.filter((_, i) => i !== index),
     }));
+  };
+
+  const handleResumeUploadSuccess = () => {
+    setStep(8); // Move to Step 8
   };
   // JSX rendering
   return (
@@ -300,7 +304,7 @@ const Page: React.FC = () => {
 
           {/* Step 7: Resume Upload */}
           {Step === 7 && (
-            <ResumeUpload selectedFile={selectedFile} setSelectedFile={setSelectedFile}  />
+          <ResumeUpload setSelectedFile={setSelectedFile} onUploadSuccess={handleResumeUploadSuccess} />
           )}
 
           {/* Step 8: Success Message */}

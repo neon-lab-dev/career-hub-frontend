@@ -1,3 +1,4 @@
+// ResumeUpload Component
 "use client"
 import React, { useState } from 'react';
 import Button from '@/components/Button';
@@ -6,10 +7,10 @@ import axios from 'axios';
 import Image from 'next/image';
 import { toast } from 'sonner';
 
-const ResumeUpload = ({ setSelectedFile }) => {
+const ResumeUpload = ({ setSelectedFile, onUploadSuccess }) => {
   const [selectedFile, setLocalSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
+  const handleFileChange = (event: { target: { files: any[]; }; }) => {
     const file = event.target.files?.[0];
     if (file) {
       setLocalSelectedFile(file);
@@ -38,6 +39,7 @@ const ResumeUpload = ({ setSelectedFile }) => {
         });
 
         toast.success('Resume uploaded successfully');
+        onUploadSuccess(); // Notify parent component of success
 
       } catch (error:any) {
         console.error('Error uploading file:', error);

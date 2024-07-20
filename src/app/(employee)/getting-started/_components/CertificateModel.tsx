@@ -32,8 +32,8 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ addCertification, s
 
   useEffect(() => {
     if (showOnMount) {
-      const modalElement = document.getElementById('my_modal_7');
-      if (modalElement instanceof HTMLInputElement) {
+      const modalElement = document.getElementById('my_modal_7') as HTMLInputElement | null;
+      if (modalElement) {
         modalElement.checked = true;
       }
     }
@@ -65,7 +65,10 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ addCertification, s
     setValidationError('');
 
     // Close modal after adding
-    document.getElementById('my_modal_7').checked = false;
+    const modalElement = document.getElementById('my_modal_7') as HTMLInputElement | null;
+    if (modalElement) {
+      modalElement.checked = false;
+    }
   };
 
   return (
