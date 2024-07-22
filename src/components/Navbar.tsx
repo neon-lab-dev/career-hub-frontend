@@ -26,7 +26,7 @@ const navItems = [
   { text: "Jobs", href: "/jobs" },
   { text: "Programs", href: "" },
   { text: "Courses", href: "" },
-  { text: "Contact Us", href: "" },
+  { text: "Contact Us", href: "/contact-us" },
 ];
 
 const pfileItems = [
