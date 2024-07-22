@@ -9,7 +9,7 @@ const page = () => {
     <div>
       <div className="max-width-full h-[175px] md:h-[283px] lg:h-[310px] bg-[#F5F6FA] flex flex-col justify-center items-center">
         <div className="flex justify-center items-center gap-[17px] mt-[20px] h-[40px] w-[229px] md:h-[71px] md:w-[390px] lg:h-[81px] lg:w-[441px]">
-          <div className="bg-primary-500 gap-[10px] flex justify-center items-center">
+          <div className="highlight">
             <p className="text-white font-bold text-center text-[32px] md:text-[56px] lg:text-[64px] font-plus-jakarta-sans">
               Privacy
             </p>
