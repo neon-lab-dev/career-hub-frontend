@@ -273,7 +273,7 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                         {skills && skills.length > 0 ? (
                             <div className="flex flex-wrap gap-2">
                                 {skills.map((skill: string, index: number) => (
-                                    <Chip key={index} children={skill} variant='close' />
+                                    <Chip key={index}  variant='close'>{skill}</Chip>
                                 ))}
                             </div>
                         ) : (
@@ -289,7 +289,7 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                             {socialLinks ? (
                                 Object.keys(socialLinks).map((key) => (
                                     <a key={key} href={socialLinks[key]} target="_blank" rel="noopener noreferrer" className='text-blue-500'>
-                                        <Chip key={key} variant='close' children={key} />
+                                        <Chip key={key} variant='close'>{key}</Chip>
                                     </a>
                                 ))
                             ) : (
@@ -305,7 +305,7 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                         {interests && interests.length > 0 ? (
                             <div className="flex gap-2 flex-wrap justify-center">
                                 {interests.map((interest: string) => (
-                                    <Chip key={interest} children={interest} variant='close' />
+                                    <Chip key={interest}  variant='close'>{interest}</Chip>
                                 ))}
                             </div>
                         ) : (
