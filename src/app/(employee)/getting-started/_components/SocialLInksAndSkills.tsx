@@ -1,25 +1,54 @@
-// SocialLinksSkills.jsx
 import React from 'react';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
 
-const SocialLinksSkills = ({ formData, setFormData, handleContinue }) => {
-  const handleSocialLinkChange = (index: any, platform: string, value: string) => {
-    // Update specific social link field in formData
-    const updatedLinks = formData.socialLinks.map((link: any, i: any) =>
+// Define types for formData
+interface SocialLink {
+  linkedin: string;
+  github: string;
+}
+
+interface FormData {
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  }[];
+  education: any[];
+  projects: any[];
+  experience: any[];
+  certifications: any[];
+  skills: string[];
+  socialLinks: {
+    linkedin: string;
+    github: string;
+  }[];
+  interests: string[];
+}
+
+// Define types for component props
+interface SocialLinksSkillsProps {
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  handleContinue: (e:any) => void;
+}
+
+const SocialLinksSkills: React.FC<SocialLinksSkillsProps> = ({ formData, setFormData, handleContinue }) => {
+  const handleSocialLinkChange = (index: number, platform: keyof SocialLink, value: string) => {
+    const updatedLinks = formData.socialLinks.map((link, i) =>
       i === index ? { ...link, [platform]: value } : link
     );
     setFormData({ ...formData, socialLinks: updatedLinks });
   };
 
-  const handleSkillsChange = (e: { target: { value: string; }; }) => {
-    // Update skills array in formData
+  const handleSkillsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const skillsArray = e.target.value.split(',').map(skill => skill.trim());
     setFormData({ ...formData, skills: skillsArray });
   };
 
-  const handleInterestsChange = (e: { target: { value: string; }; }) => {
-    // Update interests array in formData
+  const handleInterestsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const interestsArray = e.target.value.split(',').map(interest => interest.trim());
     setFormData({ ...formData, interests: interestsArray });
   };
@@ -30,7 +59,7 @@ const SocialLinksSkills = ({ formData, setFormData, handleContinue }) => {
         <span>Social Links, Skills & Interests</span>
       </div>
       <div className="flex flex-col">
-        {formData.socialLinks.map((link: { linkedin: string | number | readonly string[] | undefined; github: string | number | readonly string[] | undefined; }, index: React.Key | null | undefined) => (
+        {formData.socialLinks.map((link, index) => (
           <div key={index} className="flex flex-col gap-2 mb-4">
             <label htmlFor={`linkedin-${index}`}>LinkedIn</label>
             <Input
@@ -63,7 +92,7 @@ const SocialLinksSkills = ({ formData, setFormData, handleContinue }) => {
           id="interests"
           type="text"
           placeholder="Enter interests separated by commas"
-          value={(formData.interests || []).join(', ')}  // Add a fallback to an empty array
+          value={formData.interests.join(', ')}  // Add a fallback to an empty array
           onChange={handleInterestsChange}
         />
       </div>

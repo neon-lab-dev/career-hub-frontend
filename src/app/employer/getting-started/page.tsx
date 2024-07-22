@@ -64,7 +64,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.address?.[0]?.street && <p className="text-red-500">Street is required</p>}
+                  
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="address.city">City</label>
@@ -80,7 +80,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.address?.[0]?.city && <p className="text-red-500">City is required</p>}
+                  
                   </div>
                 </div>
                 <div className="flex gap-10 max-md:flex-col max-md:gap-4 mt-4">
@@ -98,7 +98,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.address?.[0]?.state && <p className="text-red-500">State is required</p>}
+                   
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="address.postalCode">Postal Code</label>
@@ -114,7 +114,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.address?.[0]?.postalCode && <p className="text-red-500">Postal Code is required</p>}
+                    
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 mt-4">
@@ -131,7 +131,6 @@ const Page = () => {
                       />
                     )}
                   />
-                  {errors.address?.[0]?.country && <p className="text-red-500">Country is required</p>}
                 </div>
               </>
             )}
@@ -155,7 +154,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.companyDetails?.[0]?.companyName && <p className="text-red-500">Company Name is required</p>}
+                  
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="companyDetails.industryType">Industry Type</label>
@@ -177,7 +176,7 @@ const Page = () => {
                         )}
                       />
                     </div>
-                    {errors.companyDetails?.[0]?.industryType && <p className="text-red-500">Industry Type is required</p>}
+                  
                   </div>
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
@@ -194,7 +193,7 @@ const Page = () => {
                       />
                     )}
                   />
-                  {errors.companyDetails?.[0]?.bio && <p className="text-red-500">Bio is required</p>}
+                 
                 </div>
                 <div className="flex gap-10 max-md:flex-col max-md:gap-4 mt-4">
                   <div className="flex flex-col gap-2 mt-4">
@@ -211,7 +210,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.companyDetails?.[0]?.websiteLink && <p className="text-red-500">Website Link is required</p>}
+                  
                   </div>
                   <div className="flex flex-col gap-2 mt-4">
                     <label htmlFor="companyDetails.companyLocation">Location</label>
@@ -227,7 +226,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.companyDetails?.[0]?.companyLocation && <p className="text-red-500">Company Location is required</p>}
+                  
                   </div>
                 </div>
               </>
@@ -253,7 +252,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.companyDetails?.[0]?.contactEmail && <p className="text-red-500">Contact Email is required</p>}
+                 
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="companyDetails.contactPhone">Contact Phone</label>
@@ -269,7 +268,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.companyDetails?.[0]?.contactPhone && <p className="text-red-500">Contact Phone is required</p>}
+                 
                   </div>
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
@@ -287,7 +286,6 @@ const Page = () => {
                       />
                     )}
                   />
-                  {errors.companyDetails?.[0]?.socialLink?.linkedin && <p className="text-red-500">LinkedIn is required</p>}
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
                   <label htmlFor="companyDetails.socialLink.github">GitHub</label>
@@ -304,7 +302,6 @@ const Page = () => {
                       />
                     )}
                   />
-                  {errors.companyDetails?.[0]?.socialLink?.github && <p className="text-red-500">GitHub is required</p>}
                 </div>
               </>
             )}
@@ -328,7 +325,7 @@ const Page = () => {
             )}
             <div className="flex justify-center mt-8">
               {step === 3 ? (
-                <Button type="submit" loading={loading} disabled={loading}>
+                <Button   disabled={loading}>
                   Submit
                 </Button>
               ) : step !== 4 ? (

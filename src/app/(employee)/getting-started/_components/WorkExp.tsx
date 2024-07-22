@@ -4,7 +4,42 @@ import Image from 'next/image';
 import Input from "@/components/Input";
 import Button from '@/components/Button';
 
-const WorkExperienceModel = ({ formData, setFormData, showOnMount }) => {
+interface Experience {
+  title: string;
+  company: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+interface FormData {
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  }[];
+  education: any[];
+  projects: any[];
+  experience: Experience[];
+  certifications: any[];
+  skills: string[];
+  socialLinks: {
+    linkedin: string;
+    github: string;
+  }[];
+  interests: string[];
+}
+
+interface WorkExperienceModelProps {
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  showOnMount: any;
+}
+
+const WorkExperienceModel: React.FC<WorkExperienceModelProps> = ({ formData, setFormData, showOnMount }) => {
     const [title, setTitle] = useState('');
     const [company, setCompany] = useState('');
     const [location, setLocation] = useState('');
@@ -13,7 +48,7 @@ const WorkExperienceModel = ({ formData, setFormData, showOnMount }) => {
     const [description, setDescription] = useState('');
 
     const handleAddExperience = () => {
-        const newExperience = {
+        const newExperience: Experience = {
             title,
             company,
             location,
@@ -36,13 +71,19 @@ const WorkExperienceModel = ({ formData, setFormData, showOnMount }) => {
         setDescription('');
 
         // Close modal after adding experience
-        document.getElementById('work_experience_modal').checked = false;
+        const modal = document.getElementById('work_experience_modal') as HTMLInputElement | null;
+        if (modal) {
+            modal.checked = false;
+        }
     };
 
     // Effect to show modal on mount
     useEffect(() => {
         if (showOnMount) {
-            document.getElementById('work_experience_modal').checked = true;
+            const modal = document.getElementById('work_experience_modal') as HTMLInputElement | null;
+            if (modal) {
+                modal.checked = true;
+            }
         }
     }, [showOnMount]);
 

@@ -1,4 +1,3 @@
-// ResumeUpload Component
 "use client"
 import React, { useState } from 'react';
 import Button from '@/components/Button';
@@ -7,19 +6,23 @@ import axios from 'axios';
 import Image from 'next/image';
 import { toast } from 'sonner';
 
-const ResumeUpload = ({ setSelectedFile, onUploadSuccess }) => {
-  const [selectedFile, setLocalSelectedFile] = useState(null);
+// Define types for the props
+interface ResumeUploadProps {
+  setSelectedFile: (file: File | null) => void;
+  onUploadSuccess: () => void;
+}
 
-  const handleFileChange = (event: { target: { files: any[]; }; }) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setLocalSelectedFile(file);
-      setSelectedFile(file); // Update the parent state
-    }
+const ResumeUpload: React.FC<ResumeUploadProps> = ({ setSelectedFile, onUploadSuccess }) => {
+  const [selectedFile, setLocalSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    setLocalSelectedFile(file);
+    setSelectedFile(file); // Update the parent state
   };
 
   const handleFileClick = () => {
-    const fileUpload = document.getElementById('file-upload');
+    const fileUpload = document.getElementById('file-upload') as HTMLInputElement;
     if (fileUpload) {
       fileUpload.click();
     }
@@ -41,7 +44,7 @@ const ResumeUpload = ({ setSelectedFile, onUploadSuccess }) => {
         toast.success('Resume uploaded successfully');
         onUploadSuccess(); // Notify parent component of success
 
-      } catch (error:any) {
+      } catch (error: any) {
         console.error('Error uploading file:', error);
         toast.error(`Error uploading file: ${error.response?.data?.message || error.message}`);
       }

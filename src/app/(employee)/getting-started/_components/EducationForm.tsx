@@ -1,10 +1,43 @@
 import React from 'react';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
+interface Address {
+  street: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
 
-const EducationForm = ({ formData, setFormData, handleContinue }) => {
+interface FormData {
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  }[];
+  education: any[];
+  projects: any[];
+  experience: any[];
+  certifications: any[];
+  skills: string[];
+  socialLinks: {
+    linkedin: string;
+    github: string;
+  }[];
+  interests: string[];
+}
+
+interface EducationFormProps {
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  handleContinue: (e: React.FormEvent<HTMLFormElement>) => void;}
+
+
+const EducationForm: React.FC<EducationFormProps> = ({ formData, setFormData, handleContinue }) => {
   // Handle input changes for address
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
 
     setFormData((prevFormData) => ({

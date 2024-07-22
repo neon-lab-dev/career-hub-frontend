@@ -1,11 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { IMAGES } from '@/assets';
 import Image from 'next/image';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
 
-const ProjectDetails = ({ addProject, showOnMount }) => {
-  const [project, setProject] = useState({
+// Define the type for the project
+type Project = {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  link: string;
+};
+
+// Define the props type
+interface ProjectDetailsProps {
+  addProject: (project: Project) => void;
+  showOnMount: boolean;
+}
+
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({ addProject, showOnMount }) => {
+  const [project, setProject] = useState<Project>({
     title: '',
     description: '',
     startDate: '',
@@ -16,11 +31,14 @@ const ProjectDetails = ({ addProject, showOnMount }) => {
 
   useEffect(() => {
     if (showOnMount) {
-      document.getElementById('my_modal_7').checked = true;
+      const modalCheckbox = document.getElementById('my_modal_7') as HTMLInputElement;
+      if (modalCheckbox) {
+        modalCheckbox.checked = true;
+      }
     }
   }, [showOnMount]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setProject((prevProject) => ({
       ...prevProject,
@@ -28,7 +46,7 @@ const ProjectDetails = ({ addProject, showOnMount }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     // Simple validation
@@ -53,7 +71,10 @@ const ProjectDetails = ({ addProject, showOnMount }) => {
     setValidationError('');
 
     // Close modal after submitting
-    document.getElementById('my_modal_7').checked = false;
+    const modalCheckbox = document.getElementById('my_modal_7') as HTMLInputElement;
+    if (modalCheckbox) {
+      modalCheckbox.checked = false;
+    }
   };
 
   return (
