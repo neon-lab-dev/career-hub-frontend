@@ -232,7 +232,8 @@ const Page: React.FC = () => {
               <div className='flex flex-col justify-center py-4'>
                 {formData.experience.map((job: any, index: number) => (
                   <div key={index} className='flex border items-center m-2 gap-10 p-3 rounded-xl'>
-                    <div className='flex flex-col w-[240px]'>
+                    <div className='flex flex-col w-[340px]'>
+                      <span className='text-2xl font-900'>{job.title}</span>
                       <span className='text-xl text-neutral-900 font-bold'>{job.companyName}</span>
                       <div className='flex flex-col text-[16px] text-neutral-500'>
                         <span>{job.position}</span>

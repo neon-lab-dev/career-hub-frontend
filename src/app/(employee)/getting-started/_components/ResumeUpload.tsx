@@ -70,7 +70,7 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setSelectedFile, onUploadSu
           className="border border-dashed border-gray-400 rounded-lg w-full h-48 flex flex-col justify-center items-center"
           onClick={handleFileClick}
         >
-          <div className="flex flex-col">
+          <div className="flex flex-col p-10 max-lg:p-0 max-md:w-[250px]">
             <div className="flex justify-center">
               <Image src={IMAGES.papperclip} alt="resume" />
             </div>

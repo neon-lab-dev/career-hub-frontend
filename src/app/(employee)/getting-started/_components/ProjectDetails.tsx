@@ -148,7 +148,7 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ addProject, showOnMount
               />
             </div>
             {validationError && <p className="text-red-500">{validationError}</p>}
-            <div className="flex justify-end mt-6 gap-2">
+            <div className="flex justify-start mt-6 gap-2">
               <Button variant="primary" type="submit">
                 Add Project
               </Button>

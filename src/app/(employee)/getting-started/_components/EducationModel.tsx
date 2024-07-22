@@ -174,7 +174,7 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
             className='mt-4'
             onClick={handleAddCertificate}
           >
-            Add 
+            Add Education
           </Button>
         </div>
         {/* Modal Close Button */}
