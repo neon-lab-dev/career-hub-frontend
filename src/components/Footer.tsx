@@ -4,16 +4,17 @@ import React from "react";
 const Footer = () => {
   // Define the array of other links
   const otherLinks = [
-    "About us",
-    "Contact us",
-    "Privacy Policy",
-    "Terms of Use",
-    "Refund Policy",
+    { name: "About us", href: "/about-us" },
+    { name: "Contact us", href: "/contact-us" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Terms of Use", href: "/terms-and-conditions" },
+    { name: "Refund Policy", href: "/refund-policy" },
   ];
+
   return (
     <div className="bg-secondary-900">
-      <div className="pb-2 pt-6 max-width m-auto">
-        <div className="flex justify-between max-lg:flex-col mx-[120px] max-lg:mx-10  max-lg:gap-12 ">
+      <div className="py-10 max-width m-auto">
+        <div className="flex justify-between max-lg:flex-col mx-[40px] max-lg:mx-10 max-lg:gap-12">
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">
             <span className="font-bold text-5xl">Logo</span>
             <p className="text-[20px] max-lg:text-[16px]">
@@ -30,7 +31,20 @@ const Footer = () => {
               {/* Using map to render other links */}
               {otherLinks.map((link, index) => (
                 <li key={index}>
-                  <Link href={""}>{link}</Link>
+                  <Link href={link.href}>{link.name}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="flex flex-col gap-1 font-poppins">
+            <span className="text-white font-semibold text-[22px]">
+              Other Links
+            </span>
+            <ul className="text-secondary-400 text-[22px] font-semibold flex flex-col gap-2">
+              {/* Using map to render other links */}
+              {otherLinks.map((link, index) => (
+                <li key={index}>
+                  <Link href={link.href}>{link.name}</Link>
                 </li>
               ))}
             </ul>
@@ -48,4 +62,5 @@ const Footer = () => {
     </div>
   );
 };
+
 export default Footer;
