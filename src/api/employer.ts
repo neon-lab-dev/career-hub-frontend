@@ -1,6 +1,7 @@
 import axios from "axios";
 import api from ".";
 import { IEmployer } from "@/types/employer";
+import { JobData } from "@/app/employer/(home)/page";
 
 export const handleGetAllEmployersForAdminService = async ({
   keyword,
@@ -57,3 +58,26 @@ export const handleGEtEmployerByIdForAdminService = async (
       });
   });
 };
+
+
+export const fetchJobData = async (): Promise<JobData> => {
+  const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/employeer/job', {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const fetchJobs = async () => {
+  const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/employeer/job', {
+    withCredentials: true,
+  });
+  return response.data.jobs;
+};
+
+export const deleteJob = async (id: string) => {
+  const response = await axios.delete(`https://carrerhub-backend.vercel.app/api/v1/job/${id}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+

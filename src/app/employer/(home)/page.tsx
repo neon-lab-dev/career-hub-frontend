@@ -1,6 +1,6 @@
 "use client";
 import KPICard from "@/components/KPICard";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import applicationIcon from "@/assets/icons/applications.svg";
 import hourglass from "@/assets/icons/hourglass.svg";
 import checkCircle from "@/assets/icons/check-circle.svg";
@@ -10,68 +10,81 @@ import addCircle from "@/assets/icons/Add Circle.svg";
 import Button from "@/components/Button";
 import Tablel from "./_components/Tablel"; // Ensure correct import path
 import Link from "next/link";
-import axios from 'axios';
-
+import { useQuery } from '@tanstack/react-query';
+import { fetchJobData } from "@/api/employer";
+import { Oval } from "react-loader-spinner";
 
 export type JobItem = {
   title: string;
   status: string;
 };
 
+export type JobData = {
+  jobsCount: number;
+  jobs: {
+    title: string;
+    status: string;
+    employmentType: string;
+    applicants: {
+      status: string;
+    }[];
+  }[];
+};
+
 const Dashboard = () => {
-  const [jobsCount, setJobsCount] = useState < number > (0);
-  const [internshipsPosted, setInternshipsPosted] = useState < number > (0);
-  const [internshipsHired, setInternshipsHired] = useState < number > (0);
-  const [internshipsRejected, setInternshipsRejected] = useState < number > (0);
-  const [openJobs, setOpenJobs] = useState < JobItem[] > ([]);
+  const { data, error, isLoading } = useQuery<JobData>({
+    queryKey: ['jobs'],
+    queryFn: fetchJobData,
+  });
 
-  useEffect(() => {
-    fetchJobData();
-  }, []);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-96">
+        <Oval
+          height={40}
+          width={40}
+          color="#F9533A"
+          visible={true}
+          ariaLabel="oval-loading"
+          secondaryColor="#f4f4f4"
+          strokeWidth={2}
+          strokeWidthSecondary={2}
+        />
+      </div>
+    );
+  }
 
+  if (error) {
+    return <div>Error fetching job data: {error.message}</div>;
+  }
 
-  const fetchJobData = async () => {
-    try {
-      const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/employeer/job', {
-        withCredentials: true, // Add this line to include credentials
-      });
+  if (!data) {
+    return <div>No data available</div>;
+  }
 
-      const data = response.data;
+  const jobsCount = data.jobsCount || 0;
+  let internshipsPosted = 0;
+  let internshipsHired = 0;
+  let internshipsRejected = 0;
 
-      // Update state with fetched data
-      setJobsCount(data.jobsCount || 0);
-
-      // Count internships posted, hired, and rejected
-      let internshipsPostedCount = 0;
-      let internshipsHiredCount = 0;
-      let internshipsRejectedCount = 0;
-
-      data.jobs.forEach((job: any) => { // Replace `any` with actual type if known
-        if (job.employmentType === "Internship") {
-          internshipsPostedCount++;
-          job.applicants.forEach((applicant: any) => { // Replace `any` with actual type if known
-            if (applicant.status === "HIRED") {
-              internshipsHiredCount++;
-            } else if (applicant.status === "REJECTED") {
-              internshipsRejectedCount++;
-            }
-          });
-        }
-      });
-      setInternshipsPosted(internshipsPostedCount);
-      setInternshipsHired(internshipsHiredCount);
-      setInternshipsRejected(internshipsRejectedCount);
-      // Filter open jobs
-      setOpenJobs(data.jobs.filter((job: any) => job.status === "Open").map((job: any) => ({
+  const openJobs = data.jobs
+    .filter((job) => job.status === "Open")
+    .map((job) => {
+      if (job.employmentType === "Internship") {
+        internshipsPosted++;
+        job.applicants.forEach((applicant) => {
+          if (applicant.status === "HIRED") {
+            internshipsHired++;
+          } else if (applicant.status === "REJECTED") {
+            internshipsRejected++;
+          }
+        });
+      }
+      return {
         title: job.title,
-        status: job.status
-      })));
-    } catch (error) {
-      console.error('Error fetching job data:', error);
-    }
-  };
-
-
+        status: job.status,
+      };
+    });
 
   return (
     <div className="bg-[#f5f6fa] p-6 flex flex-col gap-6">
@@ -80,7 +93,7 @@ const Dashboard = () => {
           classNames="w-full max-w-full"
           image={applicationIcon}
           title="Jobs Posted"
-          value={jobsCount-internshipsPosted}
+          value={jobsCount - internshipsPosted}
           alt="application-icon"
         />
         <KPICard
