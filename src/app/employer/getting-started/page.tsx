@@ -6,6 +6,7 @@ import axios from 'axios';
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import GetStartedLayout from '../../(employee)/getting-started/_components/getStartedLayout';
+import { toast } from 'sonner';
 
 const Page = () => {
   const { handleSubmit, control } = useForm();
@@ -23,21 +24,21 @@ const Page = () => {
     }
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data) => {
     try {
       setLoading(true);
-      // Assuming you have different endpoints for POST and PUT
-      // Modify the URL and method as per your API
-      await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data);
-      // await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data);
+      await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data, {
+        withCredentials: true,
+      });
+      toast.success('Your details have been submitted successfully!');
       setStep(step + 1); // Move to next step after successful submission
     } catch (error) {
       setError(error.message);
+      toast.error('Failed to submit your details. Please try again.');
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <GetStartedLayout progress={step * 25} goToPreviousStep={goToPreviousStep}>
       <div className="flex justify-center w-full">
