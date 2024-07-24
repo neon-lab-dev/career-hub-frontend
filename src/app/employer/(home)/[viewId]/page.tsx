@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,9 +8,56 @@ import Button from "@/components/Button";
 import { IMAGES } from "@/assets";
 import { toast } from "sonner";
 import { Oval } from 'react-loader-spinner';
+import { fetchJobDetail } from "@/api/employer";
+
+export interface JobDetails {
+    title: string;
+    employmentType: string;
+    responsibilities: string;
+    description: string;
+    applicationDeadline: string;
+    employmentDuration: string;
+    salary: string;
+    requiredSkills: string[];
+    extraBenefits: string;
+    requirements: string;
+    experience: string;
+    location: string;
+    locationType: string;
+}
+
+// Fetch job details
+
+
+interface UpdateJobPayload {
+    title: string;
+    employmentType: string;
+    responsibilities: string;
+    description: string;
+    applicationDeadline: string;
+    employmentDuration: string;
+    salary: string;
+    requiredSkills: string[];
+    extraBenefits: string;
+    requirements: string;
+    experience: string;
+    location: string;
+    locationType: string;
+}
+
+// Update job details
+const updateJobDetails = async (viewId: string, payload: UpdateJobPayload) => {
+    const { data } = await axios.put(
+        `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`,
+        payload,
+        { withCredentials: true }
+    );
+    return data;
+};
 
 const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) => {
-    const [formData, setFormData] = useState({
+    const [isEditable, setIsEditable] = useState(false);
+    const [formData, setFormData] = useState<UpdateJobPayload>({
         title: "",
         employmentType: "",
         responsibilities: "",
@@ -17,64 +65,67 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
         applicationDeadline: "",
         employmentDuration: "",
         salary: "",
-        requiredSkills: "",
+        requiredSkills: [],
         extraBenefits: "",
         requirements: "",
         experience: "",
         location: "",
         locationType: "",
     });
-    const [isEditable, setIsEditable] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const queryClient = useQueryClient();
+
+    // Fetch job details using React Query
+    const { data: jobData, isLoading, error } = useQuery({
+        queryKey: ['job', viewId],
+        queryFn: () => fetchJobDetail(viewId),
+    });
+    
 
     useEffect(() => {
-        const fetchJobDetails = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get(
-                    `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`,
-                    { withCredentials: true }
-                );
-                console.log("Job details response:", response.data);
-                const jobData = response.data.jobs;
-                if (!jobData) {
-                    console.error("Job data is undefined or null.");
-                    return;
-                }
-                setFormData({
-                    title: jobData.title,
-                    employmentType: jobData.employmentType,
-                    responsibilities: jobData.responsibilities,
-                    description: jobData.description,
-                    applicationDeadline: jobData.applicationDeadline,
-                    employmentDuration: jobData.employmentDuration,
-                    salary: jobData.salary,
-                    requiredSkills: jobData.requiredSkills.join(", "),
-                    extraBenefits: jobData.extraBenefits,
-                    requirements: jobData.requirements,
-                    experience: jobData.experience,
-                    location: jobData.location,
-                    locationType: jobData.locationType,
-                });
-            } catch (error: any) {
-                const errorMessage = error.response?.data?.message || error.message || "Failed to fetch job details";
-                console.error("Error fetching job details:", errorMessage);
-                toast.error(`Error: ${errorMessage}`);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (viewId) {
-            fetchJobDetails();
+        if (jobData) {
+            setFormData({
+                title: jobData.title,
+                employmentType: jobData.employmentType,
+                responsibilities: jobData.responsibilities,
+                description: jobData.description,
+                applicationDeadline: jobData.applicationDeadline,
+                employmentDuration: jobData.employmentDuration,
+                salary: jobData.salary,
+                requiredSkills: jobData.requiredSkills,
+                extraBenefits: jobData.extraBenefits,
+                requirements: jobData.requirements,
+                experience: jobData.experience,
+                location: jobData.location,
+                locationType: jobData.locationType,
+            });
         }
-    }, [viewId]);
+    }, [jobData]);
+
+    // Update job details mutation
+    const mutation = useMutation({
+        mutationFn: (payload: UpdateJobPayload) => updateJobDetails(viewId, payload),
+        onSuccess: () => {
+            setIsEditable(false);
+            toast.success("Job details updated successfully");
+            // Use the correct query key
+            queryClient.invalidateQueries({
+                queryKey: ['job', viewId],
+            
+            });
+            queryClient.invalidateQueries({ queryKey: ['jobs'] });
+
+        },
+        onError: (error: any) => {
+            const errorMessage = error.response?.data?.message || error.message || "Failed to update job details";
+            toast.error(`Error: ${errorMessage}`);
+        }
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
-            [name]: value,
+            [name]: name === 'requiredSkills' ? value.split(",").map((skill) => skill.trim()) : value,
         }));
     };
 
@@ -84,30 +135,9 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { requiredSkills, ...restData } = formData;
-        const payload = {
-            ...restData,
-            requiredSkills: requiredSkills.split(",").map((skill) => skill.trim()),
-        };
-        setIsLoading(true);
-        try {
-            const response = await axios.put(
-                `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`,
-                payload,
-                { withCredentials: true }
-            );
-            if (response.status === 200) {
-                setIsEditable(false);
-                toast.success("Job details updated successfully");
-            }
-        } catch (error: any) {
-            const errorMessage = error.response?.data?.message || error.message || "Failed to update job details";
-            console.error("Error updating job:", errorMessage);
-            toast.error(`Error: ${errorMessage}`);
-        } finally {
-            setIsLoading(false);
-        }
+        mutation.mutate(formData);
     };
+
 
     return (
         <div className="p-6 bg-[#f5f6fa]">

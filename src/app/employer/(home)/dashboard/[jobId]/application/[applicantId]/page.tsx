@@ -1,15 +1,16 @@
-// components/Profile.tsx
-"use client"
-import React, { useState, useEffect } from 'react';
+"use client";
+import React from 'react';
 import axios from 'axios';
 import { toast } from 'sonner';
-import { TailSpin } from 'react-loader-spinner';
+import { Oval } from 'react-loader-spinner';
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/Button';
 import addCircle from "@/assets/icons/Add Circle.svg";
 import { ICONS, IMAGES } from '@/assets';
 import Chip from '@/components/Chip';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { approveApplicant, fetchProfileData, rejectApplicant } from '@/api/employer';
 
 // Card Component
 interface CardProps {
@@ -66,69 +67,47 @@ interface Certification {
     credentialURL: string;
 }
 
+
+
 const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
-    const [profileData, setProfileData] = useState < any > (null);
-    const [loading, setLoading] = useState(true);
-    const [actionLoading, setActionLoading] = useState(false);
+    const { data: profileData, isLoading, isError, error } = useQuery({
+        queryKey: ['profileData', applicantId],
+        queryFn: () => fetchProfileData(applicantId),
+    });
 
-    useEffect(() => {
-        const fetchProfileData = async () => {
-            try {
-                const response = await axios.get(`https://carrerhub-backend.vercel.app/api/v1/employeer/employee/${applicantId}`, {
-                    withCredentials: true,
-                });
-                setProfileData(response.data.emp);
-            } catch (error) {
-                console.error('Error fetching profile data:', error);
-                toast.error('Failed to fetch profile data');
-            } finally {
-                setLoading(false);
-            }
-        };
+    const approveMutation = useMutation({
+        mutationFn: () => approveApplicant({ jobId, applicantId, status: 'HIRED' }),
+        onSuccess: () => toast.success('Applicant approved successfully.'),
+        onError: (error: any) => toast.error(`Error: ${error.message}`),
+    });
 
-        fetchProfileData();
-    }, [applicantId]);
+    const rejectMutation = useMutation({
+        mutationFn: () => rejectApplicant({ jobId, applicantId, status: 'REJECTED' }),
+        onSuccess: () => toast.success('Applicant rejected successfully.'),
+        onError: (error: any) => toast.error(`Error: ${error.message}`),
+    });
 
-    const handleApprove = async () => {
-        setActionLoading(true);
-        try {
-            await axios.put('https://carrerhub-backend.vercel.app/api/v1/jobs/manage', {
-                jobId: jobId,
-                applicantId: applicantId,
-                status: 'HIRED'
-            }, {
-                withCredentials: true,
-            });
-            toast.success('Applicant approved successfully.');
-        } catch (error: any) {
-            toast.error(`Error: ${error.message}`);
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    const handleReject = async () => {
-        setActionLoading(true);
-        try {
-            await axios.put('https://carrerhub-backend.vercel.app/api/v1/jobs/manage', {
-                jobId: jobId,
-                applicantId: applicantId,
-                status: 'REJECTED'
-            }, {
-                withCredentials: true,
-            });
-            toast.success('Applicant rejected successfully.');
-        } catch (error: any) {
-            toast.error(`Error: ${error.message}`);
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    if (loading) {
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen">
-                <TailSpin color="#00BFFF" height={80} width={80} />
+                <Oval
+                    height={40}
+                    width={40}
+                    color="#F9533A"
+                    visible={true}
+                    ariaLabel="oval-loading"
+                    secondaryColor="#f4f4f4"
+                    strokeWidth={2}
+                    strokeWidthSecondary={2}
+                />
+            </div>
+        );
+    }
+
+    if (isError) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p>Error fetching profile data: {error.message}</p>
             </div>
         );
     }
@@ -154,10 +133,10 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                         <h1 className='text-neutral-950 text-[28px] font-700'>Application</h1>
                     </div>
                     <div className='flex gap-4'>
-                        <Button onClick={handleApprove} className="flex items-center gap-[6px] max-w-[150px] justify-center bg-green-500" variant="normal" disabled={actionLoading}>
+                        <Button onClick={() => approveMutation.mutate()} className="flex items-center gap-[6px] max-w-[150px] justify-center bg-green-500" variant="normal">
                             Approve
                         </Button>
-                        <Button onClick={handleReject} className="flex items-center gap-[6px] max-w-[200px] justify-center" variant="normal" disabled={actionLoading}>
+                        <Button onClick={() => rejectMutation.mutate()} className="flex items-center gap-[6px] max-w-[200px] justify-center" variant="normal" >
                             <Image src={addCircle} alt="addCircle" className='rotate-45' />
                             Reject
                         </Button>
@@ -273,13 +252,13 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                         {skills && skills.length > 0 ? (
                             <div className="flex flex-wrap gap-2">
                                 {skills.map((skill: string, index: number) => (
-                                    <Chip key={index}  variant='close'>{skill}</Chip>
+                                    <Chip key={index} variant='close'>{skill}</Chip>
                                 ))}
                             </div>
                         ) : (
                             <div className='flex  justify-center text-center'>
-                                    <p className='text-center'>No Skills links available</p>
-                                </div>
+                                <p className='text-center'>No Skills links available</p>
+                            </div>
                         )}
                     </Card>
                 </div>
@@ -305,7 +284,7 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                         {interests && interests.length > 0 ? (
                             <div className="flex gap-2 flex-wrap justify-center">
                                 {interests.map((interest: string) => (
-                                    <Chip key={interest}  variant='close'>{interest}</Chip>
+                                    <Chip key={interest} variant='close'>{interest}</Chip>
                                 ))}
                             </div>
                         ) : (
