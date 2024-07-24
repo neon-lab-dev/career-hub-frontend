@@ -18,23 +18,11 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
   const pathname = usePathname();
 
-  // const navlinks = [
-  //   {
-  //     label: "Home",
-  //     icon: home,
-  //     path: "home",
-  //   },
-  //   {
-  //     label: "Home",
-  //     icon: home,
-  //     path: "home",
-  //   },
-  // ];
 
   return (
     <div className="w-[177px] pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 h-full flex flex-col gap-16">
       <span className="text-3xl font-bold pr-6">
-        <Link href="/">Logo</Link>
+        <Link href="/employer">Logo</Link>
       </span>
 
       {/* Navlinks */}
@@ -42,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
         {navlinks.map((navlink, index) => (
           <div key={index} className="py-2 flex items-center justify-between">
             <Link
-              href={`${navlink?.path}`}
+              href="/employer/"
               className={`flex items-center gap-[6px] ${
                 pathname === navlink?.path
                   ? "text-primary-500"

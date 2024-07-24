@@ -1,23 +1,23 @@
 import axios from "axios";
-import api from "."; // Import the `api` object
-import { IEmployer } from "@/types/employer";
+import api from ".";
+import { IEmployee } from "@/types/employee";
+import { IJob } from "@/types/job";
 
-
-export const handleGetAllEmployersForAdminService = async ({
+export const handleGetAllEmployeesForAdminService = async ({
   keyword,
 }: {
   keyword?: string;
-}): Promise<IEmployer[]> => {
+}): Promise<IEmployee[]> => {
   const url = keyword
-    ? `${api.allEmployers}?full_name=${keyword}`
-    : api.allEmployers;
+    ? `${api.allEmployees}?full_name=${keyword}`
+    : api.allEmployees;
   return new Promise((resolve, reject) => {
     axios
       .get(url, {
         withCredentials: true,
       })
       .then((res) => {
-        resolve(res.data?.employers ?? []);
+        resolve(res.data?.employees ?? []);
       })
       .catch((err) => {
         reject(err?.response?.data?.message ?? "Something went wrong");
@@ -25,12 +25,12 @@ export const handleGetAllEmployersForAdminService = async ({
   });
 };
 
-export const handleDeleteEmployerService = async (
+export const handleDeleteEmployeeService = async (
   id: string
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .delete(`${api.adminEmployer}/${id}`, {
+      .delete(`${api.adminEmployee}/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -42,16 +42,16 @@ export const handleDeleteEmployerService = async (
   });
 };
 
-export const handleGEtEmployerByIdForAdminService = async (
+export const handleGetSingleEmployeeByAdminService = async (
   id: string
-): Promise<IEmployer> => {
+): Promise<IEmployee> => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${api.adminEmployer}/${id}`, {
+      .get(`${api.adminEmployee}/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
-        resolve(res.data?.employer);
+        resolve(res.data?.employee ?? {});
       })
       .catch((err) => {
         reject(err?.response?.data?.message ?? "Something went wrong");
@@ -59,37 +59,29 @@ export const handleGEtEmployerByIdForAdminService = async (
   });
 };
 
+export const handleGetAppliedJobsByEmployeeService = async (): Promise<
+  IJob[]
+> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(api.getEmployeeApplications, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        resolve(res.data?.jobs ?? []);
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Something went wrong");
+      });
+  });
+};
 
-export const updateUserDetails = async (data: any) => {
-  const response = await axios.put(api.updateEmployerCompanyDetails, data, {
+export const uploadResume = async (file: File) => {
+  const fileData = new FormData();
+  fileData.append('file', file);
+
+  await axios.put(api.employeeUploadResume, fileData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
     withCredentials: true,
   });
-  return response.data;
-};
-
-export const fetchProfileData = async (applicantId: string) => {
-  const response = await axios.get(`${api.employergetemploee}/${applicantId}`, {
-      withCredentials: true,
-  });
-  return response.data.emp;
-};
-
-export const approveApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
-  await axios.put(api.changeStatus, data, {
-      withCredentials: true,
-  });
-};
-
-export const rejectApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
-  await axios.put(api.changeStatus, data, {
-      withCredentials: true,
-  });
-};
-
-export const fetchJobDetails = async (jobId: string) => {
-  const response = await axios.get(`${api.job}/${jobId}`);
-  if (response.status !== 200) {
-    throw new Error(`Failed to fetch job details. Status: ${response.status}`);
-  }
-  return response.data.jobs;
 };

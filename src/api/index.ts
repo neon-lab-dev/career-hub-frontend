@@ -35,6 +35,8 @@ const api = {
   updateEmployerPRofile: baseUrl + "/employeer/me/update",
   updateEmployerPassword: baseUrl + "/employeer/password/update",
   employergetemploee:baseUrl + "//employeer/employee",
+  changeStatus:baseUrl + "/jobs/manage",
+  creatrjob:baseUrl+"/createjob",
 
   // for admin
   adminLogin: baseUrl + "/login/admin",
