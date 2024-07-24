@@ -8,7 +8,7 @@ import Button from "@/components/Button";
 import { IMAGES } from "@/assets";
 import { toast } from "sonner";
 import { Oval } from 'react-loader-spinner';
-import { fetchJobDetail } from "@/api/employer";
+import { fetchJobDetail, updateJobDetails } from "@/api/employer";
 
 export interface JobDetails {
     title: string;
@@ -46,14 +46,7 @@ export interface UpdateJobPayload {
 }
 
 // Update job details
-const updateJobDetails = async (viewId: string, payload: UpdateJobPayload) => {
-    const { data } = await axios.put(
-        `https://carrerhub-backend.vercel.app/api/v1/job/${viewId}`,
-        payload,
-        { withCredentials: true }
-    );
-    return data;
-};
+
 
 const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) => {
     const [isEditable, setIsEditable] = useState(false);

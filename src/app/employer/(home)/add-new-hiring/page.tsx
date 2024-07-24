@@ -8,6 +8,7 @@ import Image from "next/image";
 import { ICONS, IMAGES } from "@/assets";
 import Button from "@/components/Button";
 import Link from "next/link";
+import api from "@/api";
 
 type FormData = {
     title: string;
@@ -38,7 +39,7 @@ const formatFormData = (data: FormData) => {
 const createJobRequest = async (data: FormData) => {
     const payload = formatFormData(data);
     const response = await axios.post(
-        "https://carrerhub-backend.vercel.app/api/v1/createjob",
+        api.creatrjob,
         payload,
         { withCredentials: true }
     );
@@ -46,7 +47,6 @@ const createJobRequest = async (data: FormData) => {
     if (response.status !== 201) {
         throw new Error("Failed to create job");
     }
-
     return response.data;
 };
 
