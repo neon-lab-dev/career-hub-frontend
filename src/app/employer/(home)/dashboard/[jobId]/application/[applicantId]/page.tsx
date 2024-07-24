@@ -1,6 +1,5 @@
 "use client";
 import React from 'react';
-import axios from 'axios';
 import { toast } from 'sonner';
 import { Oval } from 'react-loader-spinner';
 import Image from 'next/image';
@@ -9,7 +8,7 @@ import Button from '@/components/Button';
 import addCircle from "@/assets/icons/Add Circle.svg";
 import { ICONS, IMAGES } from '@/assets';
 import Chip from '@/components/Chip';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, QueryClient, useQueryClient } from '@tanstack/react-query';
 import { approveApplicant, fetchProfileData, rejectApplicant } from '@/api/employer';
 
 // Card Component
@@ -70,6 +69,8 @@ interface Certification {
 
 
 const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
+    const queryClient = useQueryClient();
+
     const { data: profileData, isLoading, isError, error } = useQuery({
         queryKey: ['profileData', applicantId],
         queryFn: () => fetchProfileData(applicantId),
@@ -77,16 +78,16 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
 
     const approveMutation = useMutation({
         mutationFn: () => approveApplicant({ jobId, applicantId, status: 'HIRED' }),
-        onSuccess: () => toast.success('Applicant approved successfully.'),
+        onSuccess: () => {toast.success('Applicant approved successfully.'),queryClient.invalidateQueries({ queryKey: ['jobDetails', jobId]})},
         onError: (error: any) => toast.error(`Error: ${error.message}`),
     });
 
     const rejectMutation = useMutation({
         mutationFn: () => rejectApplicant({ jobId, applicantId, status: 'REJECTED' }),
-        onSuccess: () => toast.success('Applicant rejected successfully.'),
+        onSuccess: () => {toast.success('Applicant rejected successfully.'),queryClient.invalidateQueries({ queryKey: ['jobDetails', jobId]})},
         onError: (error: any) => toast.error(`Error: ${error.message}`),
     });
-
+    
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen">

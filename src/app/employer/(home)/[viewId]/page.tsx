@@ -112,7 +112,7 @@ const JobDetailsPage = ({ params: { viewId } }: { params: { viewId: string } }) 
                 queryKey: ['job', viewId],
             
             });
-            queryClient.invalidateQueries({ queryKey: ['jobs'] });
+            queryClient.invalidateQueries({ queryKey: ['jobs-employer-job'] });
 
         },
         onError: (error: any) => {

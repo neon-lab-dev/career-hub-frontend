@@ -82,20 +82,20 @@ export const deleteJob = async (id: string) => {
 };
 
 export const fetchProfileData = async (applicantId: string) => {
-  const response = await axios.get(`${api.employeeProfile}/${applicantId}`, {
+  const response = await axios.get(`${api.employergetemploee}/${applicantId}`, {
       withCredentials: true,
   });
   return response.data.emp;
 };
 
 export const approveApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
-  await axios.put(api.job, data, {
+  await axios.put(api.changeStatus, data, {
       withCredentials: true,
   });
 };
 
 export const rejectApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
-  await axios.put(api.job, data, {
+  await axios.put(api.changeStatus, data, {
       withCredentials: true,
   });
 };
