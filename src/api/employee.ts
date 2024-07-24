@@ -75,3 +75,13 @@ export const handleGetAppliedJobsByEmployeeService = async (): Promise<
       });
   });
 };
+
+export const uploadResume = async (file: File) => {
+  const fileData = new FormData();
+  fileData.append('file', file);
+
+  await axios.put(api.employeeUploadResume, fileData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    withCredentials: true,
+  });
+};

@@ -1,53 +1,55 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import Button from '@/components/Button';
 import { IMAGES } from '@/assets';
 import axios from 'axios';
 import Image from 'next/image';
 import { toast } from 'sonner';
+import { useMutation } from '@tanstack/react-query';
+import { uploadResume } from '@/api/employee';
 
 // Define types for the props
 interface ResumeUploadProps {
   setSelectedFile: (file: File | null) => void;
-  onUploadSuccess: () => void;
+  handleResumeUploadSuccess: () => void;
 }
 
-const ResumeUpload: React.FC<ResumeUploadProps> = ({ setSelectedFile, onUploadSuccess }) => {
+// Define a function to handle the resume upload
+
+
+// ResumeUpload component
+const ResumeUpload: React.FC<ResumeUploadProps> = ({ setSelectedFile, handleResumeUploadSuccess }) => {
   const [selectedFile, setLocalSelectedFile] = useState<File | null>(null);
 
+  // Define the mutation for uploading resume
+  const { mutate: uploadResumeMutation, isError, error } = useMutation({
+    mutationFn: uploadResume,
+    onSuccess: () => {
+      toast.success('Resume uploaded successfully');
+      handleResumeUploadSuccess();
+    },
+    onError: (error: any) => {
+      toast.error(`Error uploading file: ${error.response?.data?.message || error.message}`);
+    },
+  });
+
+  // Handle file selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     setLocalSelectedFile(file);
     setSelectedFile(file); // Update the parent state
   };
 
+  // Trigger file input click
   const handleFileClick = () => {
     const fileUpload = document.getElementById('file-upload') as HTMLInputElement;
-    if (fileUpload) {
-      fileUpload.click();
-    }
+    fileUpload?.click();
   };
 
-  const handleUpload = async () => {
+  // Handle file upload
+  const handleUpload = () => {
     if (selectedFile) {
-      try {
-        const fileData = new FormData();
-        fileData.append('file', selectedFile); // Use 'file' as the field name
-
-        await axios.put('https://carrerhub-backend.vercel.app/api/v1/resumes', fileData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          withCredentials: true,
-        });
-
-        toast.success('Resume uploaded successfully');
-        onUploadSuccess(); // Notify parent component of success
-
-      } catch (error: any) {
-        console.error('Error uploading file:', error);
-        toast.error(`Error uploading file: ${error.response?.data?.message || error.message}`);
-      }
+      uploadResumeMutation(selectedFile);
     } else {
       toast.error('Please select a file to upload');
     }

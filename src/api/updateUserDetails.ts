@@ -1,19 +1,46 @@
-// utils/updateUserDetails.js
-import axios from 'axios';
+import { useMutation, UseMutationResult } from "@tanstack/react-query";
+import axios from "axios";
+import api from ".";
 
-const updateUserDetails = async (formData: any) => {
-  try {
-    const response = await axios.put('https://carrerhub-backend.vercel.app/api/v1/user/details', formData, {
+
+interface CustomFormData {
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  }[];
+  education: any[];
+  projects: any[];
+  experience: any[];
+  certifications: any[];
+  skills: string[];
+  socialLinks: {
+    linkedin: string;
+    github: string;
+  }[];
+  interests: string[];
+}
+
+// Update User Details
+const updateUserDetails = (formData: CustomFormData): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    axios.put(api.employeedetails, formData, {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials:true
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error updating user details:', error);
-    throw error;
-  }
+      withCredentials: true,
+    })
+    .then(response => resolve(response.data))
+    .catch(error => reject(new Error(error?.response?.data?.message ?? 'Error updating user details')));
+  });
 };
 
-export default updateUserDetails;
+
+export const useUpdateUserDetails = (): UseMutationResult<any, Error, CustomFormData> => {
+  return useMutation({
+    mutationFn: updateUserDetails,
+  });
+};
+

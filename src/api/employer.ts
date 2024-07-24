@@ -57,3 +57,11 @@ export const handleGEtEmployerByIdForAdminService = async (
       });
   });
 };
+
+
+export const updateUserDetails = async (data: any) => {
+  const response = await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data, {
+    withCredentials: true,
+  });
+  return response.data;
+};

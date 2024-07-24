@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IMAGES } from '@/assets';
 import Image from 'next/image';
 import Input from "@/components/Input";
@@ -15,33 +15,33 @@ type Certificate = {
 
 // Define the FormData type
 interface FormData {
-    address: {
-      street: string;
-      city: string;
-      state: string;
-      postalCode: string;
-      country: string;
-    }[];
-    education: any[];
-    projects: any[];
-    experience: any[];
-    certifications: any[];
-    skills: string[];
-    socialLinks: {
-      linkedin: string;
-      github: string;
-    }[];
-    interests: string[];
-  }
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+  }[];
+  education: Certificate[];
+  projects: any[];
+  experience: any[];
+  certifications: any[];
+  skills: string[];
+  socialLinks: {
+    linkedin: string;
+    github: string;
+  }[];
+  interests: string[];
+}
 
 // Define the prop types
-interface CertificateModelProps {
+interface EducationModelProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   showOnMount: boolean;
 }
 
-const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormData, showOnMount }) => {
+const EducationModel: React.FC<EducationModelProps> = ({ formData, setFormData, showOnMount }) => {
   const [institutionName, setInstitutionName] = useState('');
   const [degree, setDegree] = useState('');
   const [fieldOfStudy, setFieldOfStudy] = useState('');
@@ -49,15 +49,15 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
   const [endDate, setEndDate] = useState('');
   const [validationError, setValidationError] = useState('');
 
-  // Function to handle adding a new certificate
-  const handleAddCertificate = () => {
+  // Function to handle adding a new education entry
+  const handleAddEducation = () => {
     // Simple validation
     if (!institutionName || !degree || !fieldOfStudy || !startDate || !endDate) {
       setValidationError('Please fill out all fields.');
       return;
     }
 
-    const newCertificate: Certificate = {
+    const newEducation: Certificate = {
       institutionName,
       degree,
       fieldOfStudy,
@@ -67,7 +67,7 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
 
     setFormData(prevFormData => ({
       ...prevFormData,
-      education: [...prevFormData.education, newCertificate]
+      education: [...prevFormData.education, newEducation]
     }));
 
     // Clear input fields after adding
@@ -78,8 +78,8 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
     setEndDate('');
     setValidationError('');
 
-    // Close modal after adding certificate
-    const modalCheckbox = document.getElementById('my_modal_7') as HTMLInputElement;
+    // Close modal after adding education
+    const modalCheckbox = document.getElementById('education-modal') as HTMLInputElement | null;
     if (modalCheckbox) {
       modalCheckbox.checked = false;
     }
@@ -88,7 +88,7 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
   // Effect to show modal on mount
   useEffect(() => {
     if (showOnMount) {
-      const modalCheckbox = document.getElementById('my_modal_7') as HTMLInputElement;
+      const modalCheckbox = document.getElementById('education-modal') as HTMLInputElement | null;
       if (modalCheckbox) {
         modalCheckbox.checked = true;
       }
@@ -98,7 +98,7 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
   return (
     <div>
       {/* Modal Trigger Button */}
-      <label htmlFor="my_modal_7" className="bg-white cursor-pointer">
+      <label htmlFor="education-modal" className="bg-white cursor-pointer">
         <div className='flex justify-end gap-2'>
           <span className='text-primary-500 text-[16px] font-600'>Add More</span>
           <Image src={IMAGES.circle} alt="circle" />
@@ -106,15 +106,15 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
       </label>
 
       {/* Modal Structure */}
-      <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+      <input type="checkbox" id="education-modal" className="modal-toggle" />
       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div className="max-w-2xl  max-md:w-[350px] modal-box">
+        <div className="max-w-2xl max-md:w-[350px] modal-box">
           <div className="flex max-md:flex-col gap-6 mt-4">
             <div className="flex flex-col gap-2">
-              <label htmlFor="institutionName">Institution Name</label>
+              <label htmlFor="institution-name">Institution Name</label>
               <Input
-                id="institutionName"
-                placeholder="eg., Meenakshi college of engineering"
+                id="institution-name"
+                placeholder="e.g., Meenakshi College of Engineering"
                 value={institutionName}
                 onChange={(e) => setInstitutionName(e.target.value)}
                 className='w-[310px]'
@@ -133,9 +133,9 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
           </div>
           <div className="flex gap-6 mt-4">
             <div className="flex flex-col gap-2">
-              <label htmlFor="fieldOfStudy">Field of Study</label>
+              <label htmlFor="field-of-study">Field of Study</label>
               <Input
-                id="fieldOfStudy"
+                id="field-of-study"
                 placeholder="Field of Study"
                 value={fieldOfStudy}
                 onChange={(e) => setFieldOfStudy(e.target.value)}
@@ -145,10 +145,9 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
           </div>
           <div className="flex gap-6 mt-4">
             <div className="flex flex-col gap-2">
-              <label htmlFor="startDate">Start Date</label>
+              <label htmlFor="start-date">Start Date</label>
               <Input
-                id="startDate"
-                placeholder="Start Date"
+                id="start-date"
                 type='date'
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
@@ -156,10 +155,9 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="endDate">End Date</label>
+              <label htmlFor="end-date">End Date</label>
               <Input
-                id="endDate"
-                placeholder="End Date"
+                id="end-date"
                 type='date'
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
@@ -172,16 +170,16 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ formData, setFormDa
             variant="primary"
             type='button'
             className='mt-4'
-            onClick={handleAddCertificate}
+            onClick={handleAddEducation}
           >
             Add Education
           </Button>
         </div>
         {/* Modal Close Button */}
-        <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>
+        <label className="modal-backdrop" htmlFor="education-modal">Close</label>
       </div>
     </div>
   );
 };
 
-export default CertificateModel;
+export default EducationModel;

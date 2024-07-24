@@ -1,19 +1,37 @@
 "use client";
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 import GetStartedLayout from '../../(employee)/getting-started/_components/getStartedLayout';
-import Image from 'next/image';
-import Link from 'next/link';
-import { IMAGES } from '@/assets';
+import Successfully from '@/app/(employee)/getting-started/_components/Successfully';
+import api from '@/api';
+import { toast } from 'sonner';
 
 const Page = () => {
   const { handleSubmit, control, formState: { errors } } = useForm();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+
+  const mutation = useMutation({
+    mutationFn: async (data: any) => {
+      await axios.put(api.updateEmployerCompanyDetails, data, {
+        withCredentials: true,
+      });
+    },
+    onError: (error: any) => {
+      toast.error(error.message); // Show error message using Sonner
+    },
+    onSuccess: () => {
+      toast.success('Your information has been successfully updated!');
+      setStep(4); // Move to step 4 after successful submission
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
+  });
 
   const handleContinue = () => {
     setStep(step + 1);
@@ -25,19 +43,11 @@ const Page = () => {
     }
   };
 
-  const onSubmit = async (data: any) => {
-    try {
-      setLoading(true);
-      await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data, {
-        withCredentials: true,
-      });
-      setStep(4); // Move to step 4 after successful submission
-    } catch (error:any) {
-      setError(error.message);
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = (data: any) => {
+    setLoading(true);
+    mutation.mutate(data);
   };
+
 
   return (
     <GetStartedLayout progress={step * 25} goToPreviousStep={goToPreviousStep}>
@@ -64,7 +74,7 @@ const Page = () => {
                         />
                       )}
                     />
-                  
+
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="address.city">City</label>
@@ -80,7 +90,7 @@ const Page = () => {
                         />
                       )}
                     />
-                  
+
                   </div>
                 </div>
                 <div className="flex gap-10 max-md:flex-col max-md:gap-4 mt-4">
@@ -98,7 +108,7 @@ const Page = () => {
                         />
                       )}
                     />
-                   
+
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="address.postalCode">Postal Code</label>
@@ -114,7 +124,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    
+
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 mt-4">
@@ -131,6 +141,11 @@ const Page = () => {
                       />
                     )}
                   />
+                </div>
+                <div className=' mt-8'>
+                  <Button onClick={handleContinue} >
+                    Contiune
+                  </Button>
                 </div>
               </>
             )}
@@ -154,7 +169,7 @@ const Page = () => {
                         />
                       )}
                     />
-                  
+
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="companyDetails.industryType">Industry Type</label>
@@ -176,7 +191,7 @@ const Page = () => {
                         )}
                       />
                     </div>
-                  
+
                   </div>
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
@@ -193,7 +208,6 @@ const Page = () => {
                       />
                     )}
                   />
-                 
                 </div>
                 <div className="flex gap-10 max-md:flex-col max-md:gap-4 mt-4">
                   <div className="flex flex-col gap-2 mt-4">
@@ -210,7 +224,7 @@ const Page = () => {
                         />
                       )}
                     />
-                  
+
                   </div>
                   <div className="flex flex-col gap-2 mt-4">
                     <label htmlFor="companyDetails.companyLocation">Location</label>
@@ -226,8 +240,13 @@ const Page = () => {
                         />
                       )}
                     />
-                  
+
                   </div>
+                </div>
+                <div className=' mt-8'>
+                  <Button onClick={handleContinue} >
+                    Contiune
+                  </Button>
                 </div>
               </>
             )}
@@ -252,7 +271,7 @@ const Page = () => {
                         />
                       )}
                     />
-                 
+
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="companyDetails.contactPhone">Contact Phone</label>
@@ -268,7 +287,7 @@ const Page = () => {
                         />
                       )}
                     />
-                 
+
                   </div>
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
@@ -303,37 +322,16 @@ const Page = () => {
                     )}
                   />
                 </div>
+                <div className=' mt-8'>
+                  <Button  type='submit' >
+                    Submit
+                  </Button>
+                </div>
               </>
             )}
             {step === 4 && (
-              <div className=''>
-                <div className="flex justify-center font-plus-jakarta-sans py-6 max-md:text-xl font-900 text-3xl max-md:text-center pr-4 max-md:pr-0">
-                  <span>Your Profile is created successfully</span>
-                </div>
-                {/* Add education form fields here */}
-                <div className='flex justify-center'>
-                  <Image src={IMAGES.sucess} alt='bin' />
-                </div>
-                <div className='flex justify-center max-lg:mt-32'>
-                  <Button variant="primary" type="submit" className='mt-4 mb-10 max-md:w-[230px] max-lg:w-[400px]' disabled={loading} onClick={handleContinue}>
-                    <Link href="/">
-                      {loading ? 'Loading...' : 'Back to home'}
-                    </Link>
-                  </Button>
-                </div>
-              </div>
+              <Successfully />
             )}
-            <div className="flex justify-center mt-8">
-              {step === 3 ? (
-                <Button   disabled={loading}>
-                  Submit
-                </Button>
-              ) : step !== 4 ? (
-                <Button type="button" onClick={handleContinue} disabled={loading}>
-                  Continue
-                </Button>
-              ) : null}
-            </div>
           </form>
         </div>
       </div>
