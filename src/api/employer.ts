@@ -1,7 +1,7 @@
 import axios from "axios";
 import api from "."; // Import the `api` object
 import { IEmployer } from "@/types/employer";
-import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
+
 
 export const handleGetAllEmployersForAdminService = async ({
   keyword,
@@ -92,21 +92,4 @@ export const fetchJobDetails = async (jobId: string) => {
     throw new Error(`Failed to fetch job details. Status: ${response.status}`);
   }
   return response.data.jobs;
-};
-
-export const fetchJobDetail = async (viewId: string): Promise<JobDetails> => {
-  const { data } = await axios.get(`${api.job}/${viewId}`, {
-      withCredentials: true,
-  });
-  return data.jobs;
-};
-
-
-export const updateJobDetails = async (viewId: string, payload: UpdateJobPayload) => {
-  const { data } = await axios.put(
-      `${api.job}/${viewId}`,
-      payload,
-      { withCredentials: true }
-  );
-  return data;
 };
