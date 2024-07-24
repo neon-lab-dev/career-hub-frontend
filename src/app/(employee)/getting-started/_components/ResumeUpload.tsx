@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import Button from '@/components/Button';
 import { IMAGES } from '@/assets';
-import axios from 'axios';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { useMutation } from '@tanstack/react-query';
@@ -13,9 +12,6 @@ interface ResumeUploadProps {
   setSelectedFile: (file: File | null) => void;
   handleResumeUploadSuccess: () => void;
 }
-
-// Define a function to handle the resume upload
-
 
 // ResumeUpload component
 const ResumeUpload: React.FC<ResumeUploadProps> = ({ setSelectedFile, handleResumeUploadSuccess }) => {

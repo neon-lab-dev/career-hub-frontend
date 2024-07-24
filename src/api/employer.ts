@@ -1,6 +1,7 @@
 import axios from "axios";
-import api from ".";
+import api from "."; // Import the `api` object
 import { IEmployer } from "@/types/employer";
+import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
 
 export const handleGetAllEmployersForAdminService = async ({
   keyword,
@@ -60,8 +61,52 @@ export const handleGEtEmployerByIdForAdminService = async (
 
 
 export const updateUserDetails = async (data: any) => {
-  const response = await axios.put('https://carrerhub-backend.vercel.app/api/v1/employeer/details', data, {
+  const response = await axios.put(api.updateEmployerCompanyDetails, data, {
     withCredentials: true,
   });
   return response.data;
+};
+
+export const fetchProfileData = async (applicantId: string) => {
+  const response = await axios.get(`${api.employergetemploee}/${applicantId}`, {
+      withCredentials: true,
+  });
+  return response.data.emp;
+};
+
+export const approveApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
+  await axios.put(api.changeStatus, data, {
+      withCredentials: true,
+  });
+};
+
+export const rejectApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
+  await axios.put(api.changeStatus, data, {
+      withCredentials: true,
+  });
+};
+
+export const fetchJobDetails = async (jobId: string) => {
+  const response = await axios.get(`${api.job}/${jobId}`);
+  if (response.status !== 200) {
+    throw new Error(`Failed to fetch job details. Status: ${response.status}`);
+  }
+  return response.data.jobs;
+};
+
+export const fetchJobDetail = async (viewId: string): Promise<JobDetails> => {
+  const { data } = await axios.get(`${api.job}/${viewId}`, {
+      withCredentials: true,
+  });
+  return data.jobs;
+};
+
+
+export const updateJobDetails = async (viewId: string, payload: UpdateJobPayload) => {
+  const { data } = await axios.put(
+      `${api.job}/${viewId}`,
+      payload,
+      { withCredentials: true }
+  );
+  return data;
 };

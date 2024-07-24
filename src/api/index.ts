@@ -21,6 +21,7 @@ const api = {
   employeedetails: baseUrl + "/user/details",
   RESUME_UPLOAD: baseUrl + "/resumes",
 
+
   // for employers
   employerJob: baseUrl + "/employeer/job",
   employerRegistration: baseUrl + "/register/employeer",
@@ -33,6 +34,7 @@ const api = {
   employerProfile: baseUrl + "/employeer/me",
   updateEmployerPRofile: baseUrl + "/employeer/me/update",
   updateEmployerPassword: baseUrl + "/employeer/password/update",
+  employergetemploee:baseUrl + "//employeer/employee",
 
   // for admin
   adminLogin: baseUrl + "/login/admin",
@@ -46,6 +48,8 @@ const api = {
   applyJob: baseUrl + "/apply/job", //:id
   adminStats: baseUrl + "/admin/counts",
   adminJob: baseUrl + "/admin/job", //:id
+  changeStatus:baseUrl + "/jobs/manage"
+
 };
 
 export default api;
