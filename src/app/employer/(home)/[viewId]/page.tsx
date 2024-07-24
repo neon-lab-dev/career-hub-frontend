@@ -29,7 +29,7 @@ export interface JobDetails {
 // Fetch job details
 
 
-interface UpdateJobPayload {
+export interface UpdateJobPayload {
     title: string;
     employmentType: string;
     responsibilities: string;

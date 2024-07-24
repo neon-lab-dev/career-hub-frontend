@@ -2,7 +2,7 @@ import axios from "axios";
 import api from "."; // Import the `api` object
 import { IEmployer } from "@/types/employer";
 import { JobData } from "@/app/employer/(home)/page";
-import { JobDetails } from "@/app/employer/(home)/[viewId]/page";
+import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
 
 export const handleGetAllEmployersForAdminService = async ({
   keyword,
@@ -113,4 +113,14 @@ export const fetchJobDetail = async (viewId: string): Promise<JobDetails> => {
       withCredentials: true,
   });
   return data.jobs;
+};
+
+
+export const updateJobDetails = async (viewId: string, payload: UpdateJobPayload) => {
+  const { data } = await axios.put(
+      `${api.job}/${viewId}`,
+      payload,
+      { withCredentials: true }
+  );
+  return data;
 };
