@@ -35,7 +35,7 @@ const useDeleteJob = () => {
   return useMutation({
     mutationFn: deleteJob,
     onSuccess: (data: { success: boolean; message: string }) => {
-      queryClient.invalidateQueries({ queryKey: ['jobs-employer-job'] }); // Invalidate the query for the job list
+      queryClient.invalidateQueries({ queryKey: ['jobs-employer-job'] }); 
       if (data.success) {
         toast.success('Job deleted successfully');
         queryClient.invalidateQueries({ queryKey: ['jobs'] });

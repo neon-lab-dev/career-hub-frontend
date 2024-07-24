@@ -11,6 +11,7 @@ import { Oval } from 'react-loader-spinner';
 import { fetchJobDetail, updateJobDetails } from "@/api/employer";
 
 export interface JobDetails {
+    [x: string]: {};
     title: string;
     employmentType: string;
     responsibilities: string;
