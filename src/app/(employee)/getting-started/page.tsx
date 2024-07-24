@@ -212,10 +212,11 @@ const Page: React.FC = () => {
               {formData.experience.map((exp: any, index: number) => (
                 <div key={index} className='flex border items-center m-2 gap-10 p-3 rounded-xl'>
                   <div className='flex flex-col w-[240px]'>
-                    <span className='text-xl text-neutral-900 font-bold'>{exp.companyName}</span>
+                    <span className='text-xl text-neutral-900 font-bold'>{exp.company}</span>
                     <div className='flex flex-col text-[16px] text-neutral-500'>
-                      <span>{exp.role}</span>
-                      <span>{exp.duration}</span>
+                      <span>{exp.title}</span>
+                      <span>{exp.description}</span>
+                      <span>{exp.startDate} - {exp.endDate}</span>
                     </div>
                   </div>
                   <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteExperience(index)} className='cursor-pointer' />
