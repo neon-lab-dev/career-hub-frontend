@@ -124,3 +124,12 @@ export const updateJobDetails = async (viewId: string, payload: UpdateJobPayload
   );
   return data;
 };
+export const uploadResume = async (file: File) => {
+  const fileData = new FormData();
+  fileData.append('file', file);
+
+  await axios.put(api.employeeUploadResume, fileData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+    withCredentials: true,
+  });
+};
