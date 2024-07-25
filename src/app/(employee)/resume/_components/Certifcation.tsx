@@ -1,18 +1,17 @@
 import React from 'react';
 import { ICONS, IMAGES } from '@/assets';
 import Image from 'next/image';
-import ResumeCertificationModel from './ResumeCertificationModel';
 
-const Certifcation = () => {
+
+const Certifcations = () => {
   return (
     <div className="pt-2 pb-10 bg-secondary-50 font-plus-jakarta-sans">
             <div className="max-width flex">
-                <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 max-md:mx-4 mx-16 text-center">
+                <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 max-md:mx-4 max-lg:mx-10 mx-[120px] text-center">
                     <div className="flex justify-between px-2 py-3  rounded-xl">
                         <div className="flex gap-4 items-center">
                             <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Certifications</span>
                         </div>
-                        <ResumeCertificationModel/>
                     </div>
                     <hr className='pb-10 mx-4' />
                     <div className="flex justify-between items-start max-md:items-center border-2 border-neutral-100 p-6 max-md:p-3 rounded-xl">
@@ -37,4 +36,4 @@ const Certifcation = () => {
   )
 }
 
-export default Certifcation
+export default Certifcations

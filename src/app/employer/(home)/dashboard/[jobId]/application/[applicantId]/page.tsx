@@ -1,16 +1,38 @@
-"use client"
-import { ICONS, IMAGES } from '@/assets';
-import Button from '@/components/Button';
+"use client";
+import React from 'react';
+import { toast } from 'sonner';
+import { Oval } from 'react-loader-spinner';
 import Image from 'next/image';
 import Link from 'next/link';
-import axios from 'axios';
+import Button from '@/components/Button';
 import addCircle from "@/assets/icons/Add Circle.svg";
-import { useState, useEffect } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { TailSpin } from 'react-loader-spinner';
+import { ICONS, IMAGES } from '@/assets';
 import Chip from '@/components/Chip';
+import { useQuery, useMutation, QueryClient, useQueryClient } from '@tanstack/react-query';
+import { approveApplicant, fetchProfileData, rejectApplicant } from '@/api/employer';
 
+// Card Component
+interface CardProps {
+    title: string;
+    children: React.ReactNode;
+    className?: string;
+}
+
+const Card: React.FC<CardProps> = ({ title, children, className = '' }) => {
+    return (
+        <div className={`w-full bg-white border border-neutral-100 p-6 rounded-2xl items-center gap-5 mx-10 text-center ${className}`}>
+            <div className="flex justify-between px-2 py-3 rounded-xl">
+                <div className="flex gap-4 items-center">
+                    <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">{title}</span>
+                </div>
+            </div>
+            <hr className='pb-10 mx-4' />
+            {children}
+        </div>
+    );
+};
+
+// Profile Component
 interface ProfileProps {
     params: {
         applicantId: string;
@@ -44,63 +66,49 @@ interface Certification {
     credentialURL: string;
 }
 
+
+
 const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
-    const [profileData, setProfileData] = useState < any > (null);
-    const [loading, setLoading] = useState(true);
-    const [actionLoading, setActionLoading] = useState(false);
+    const queryClient = useQueryClient();
 
-    useEffect(() => {
-        const fetchProfileData = async () => {
-            try {
-                const response = await axios.get(`https://carrerhub-backend.vercel.app/api/v1/employeer/employee/${applicantId}`);
-                setProfileData(response.data.employee);
-            } catch (err) {
-                console.error('Error fetching profile data:', err);
-                toast.error('Failed to fetch profile data');
-            } finally {
-                setLoading(false);
-            }
-        };
+    const { data: profileData, isLoading, isError, error } = useQuery({
+        queryKey: ['profileData', applicantId],
+        queryFn: () => fetchProfileData(applicantId),
+    });
 
-        fetchProfileData();
-    }, [applicantId]);
+    const approveMutation = useMutation({
+        mutationFn: () => approveApplicant({ jobId, applicantId, status: 'HIRED' }),
+        onSuccess: () => {toast.success('Applicant approved successfully.'),queryClient.invalidateQueries({ queryKey: ['jobDetails', jobId]})},
+        onError: (error: any) => toast.error(`Error: ${error.message}`),
+    });
 
-    const handleApprove = async () => {
-        setActionLoading(true);
-        try {
-            await axios.put('https://carrerhub-backend.vercel.app/api/v1/jobs/manage', {
-                jobId: jobId,
-                applicantId: applicantId,
-                status: 'HIRED'
-            });
-            toast.success('Applicant approved successfully.');
-        } catch (error:any) {
-            toast.error(`Error: ${error.message}`);
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    const handleReject = async () => {
-        setActionLoading(true);
-        try {
-            await axios.put('https://carrerhub-backend.vercel.app/api/v1/jobs/manage', {
-                jobId: jobId,
-                applicantId: applicantId,
-                status: 'REJECTED'
-            });
-            toast.success('Applicant rejected successfully.');
-        } catch (error:any) {
-            toast.error(`Error: ${error.message}`);
-        } finally {
-            setActionLoading(false);
-        }
-    };
-
-    if (loading) {
+    const rejectMutation = useMutation({
+        mutationFn: () => rejectApplicant({ jobId, applicantId, status: 'REJECTED' }),
+        onSuccess: () => {toast.success('Applicant rejected successfully.'),queryClient.invalidateQueries({ queryKey: ['jobDetails', jobId]})},
+        onError: (error: any) => toast.error(`Error: ${error.message}`),
+    });
+    
+    if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen">
-                <TailSpin color="#00BFFF" height={80} width={80} />
+                <Oval
+                    height={40}
+                    width={40}
+                    color="#F9533A"
+                    visible={true}
+                    ariaLabel="oval-loading"
+                    secondaryColor="#f4f4f4"
+                    strokeWidth={2}
+                    strokeWidthSecondary={2}
+                />
+            </div>
+        );
+    }
+
+    if (isError) {
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p>Error fetching profile data: {error.message}</p>
             </div>
         );
     }
@@ -113,11 +121,10 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
         );
     }
 
-    const { full_name, education, projects, avatar, experience, certifications, skills, resumes } = profileData;
+    const { full_name, education, projects, avatar, experience, certifications, skills, resumes, socialLinks, interests } = profileData;
 
     return (
         <div className="pt-10 pb-2 bg-secondary-50">
-            <ToastContainer />
             <div className='bg-white p-10 m-10'>
                 <div className='flex justify-between my-10 ml-10 items-center'>
                     <div className='flex gap-6 items-center'>
@@ -127,10 +134,10 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                         <h1 className='text-neutral-950 text-[28px] font-700'>Application</h1>
                     </div>
                     <div className='flex gap-4'>
-                        <Button onClick={handleApprove} className="flex items-center gap-[6px] max-w-[150px] justify-center bg-green-500" variant="normal" disabled={actionLoading}>
+                        <Button onClick={() => approveMutation.mutate()} className="flex items-center gap-[6px] max-w-[150px] justify-center bg-green-500" variant="normal">
                             Approve
                         </Button>
-                        <Button onClick={handleReject} className="flex items-center gap-[6px] max-w-[200px] justify-center" variant="normal" disabled={actionLoading}>
+                        <Button onClick={() => rejectMutation.mutate()} className="flex items-center gap-[6px] max-w-[200px] justify-center" variant="normal" >
                             <Image src={addCircle} alt="addCircle" className='rotate-45' />
                             Reject
                         </Button>
@@ -140,132 +147,151 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                     <div className="flex max-lg:flex-col w-full bg-secondary-200 border border-neutral-100 p-6 max-lg:px-2 max-md:py-4 justify-between rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
                         <div className='flex gap-4 items-center'>
                             <div>
-                                <div className='bg-neutral-100 border-[3px] border-white rounded-full w-[60px] h-[60px]'>
-                                    <Image src={avatar.url} alt="avatar" className='rounded-full' />
-                                </div>
+                                {avatar ? (
+                                    <Image src={avatar.url} alt="avatar" width={100} height={100} className="rounded-full" />
+                                ) : (
+                                    <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center">
+                                        No Avatar
+                                    </div>
+                                )}
                             </div>
                             <div className='font-plus-jakarta-sans'>
                                 <div className='flex gap-2'>
                                     <span className='text-neutral-950 text-2xl max-md:text-lg font-600'>{full_name}</span>
                                     <Image src={ICONS.penResume} alt='pen' />
                                 </div>
-                                <span className='text-neutral-600 text-lg max-md:text-xs'>{education[0]?.institutionName}</span>
+                                {education && education.length > 0 ? (
+                                    <span className='text-neutral-600 text-lg max-md:text-xs'>{education[0]?.institutionName}</span>
+                                ) : (
+                                    <span className='text-neutral-600 text-lg max-md:text-xs'>No education details available</span>
+                                )}
                             </div>
                         </div>
-                        <Button variant='normal'>
-                            <div className='flex gap-2 p-2'>
-                                <span className='text-xl'>Download Resume</span>
-                                <a href={resumes?.url} download target="_blank" rel="noopener noreferrer">
+                        {resumes ? (
+                            <a href={resumes.url} download target='blank' className='flex items-center justify-center gap-2'>
+                                <Button variant='primary' className="flex items-center gap-[6px] max-w-[150px] justify-center bg-blue-500">
+                                    <span className='text-xl'>Download</span>
                                     <Image src={IMAGES.download} alt='download' />
-                                </a>
-                            </div>
-                        </Button>
+                                </Button>
+                            </a>
+                        ) : (
+                            <p>No resume available</p>
+                        )}
                     </div>
                 </div>
                 <div className="pt-2 pb-10 mt-10 font-plus-jakarta-sans">
-                    <div className="max-width flex">
-                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
-                            <div className="flex justify-between px-2 py-3 rounded-xl">
-                                <div className="flex gap-4 items-center">
-                                    <span className="text-4xl text-secondary-700 font-600 max-md:text-base">Project Details</span>
-                                </div>
-                            </div>
-                            <hr className='pb-10 mx-4' />
-                            {projects.map((project: Project) => (
-                                <div key={project._id} className="flex max-md:flex-col max-md:justify-end justify-between items-start border-2 border-neutral-100 p-6 rounded-xl">
-                                    <div className="flex gap-4 items-center">
-                                        <div className="font-plus-jakarta-sans">
-                                            <div className="flex gap-2">
-                                                <span className="text-neutral-950 text-xl font-600">{project.title}</span>
-                                            </div>
-                                            <ul className='flex flex-col gap-1 justify-start text-start list-disc text-sm px-1 py-1'>
-                                                <li className="text-neutral-600">{project.description}</li>
-                                                <li className="text-neutral-600"><a href={project.link} target="_blank" rel="noopener noreferrer">{project.link}</a></li>
-                                            </ul>
-                                        </div>
+                    <Card title="Project Details">
+                        {projects && projects.length > 0 ? (
+                            projects.map((project: Project) => (
+                                <div key={project._id} className="flex flex-col max-md:gap-3 p-4 border border-neutral-100 rounded-xl my-2 text-left">
+                                    <div className='text-neutral-950 text-3xl max-md:text-sm font-900 mb-5'>
+                                        {project.title}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs mb-5'>
+                                        <li className='list-disc'>
+                                            {project.description}
+                                        </li>
+                                    </div>
+                                    <div className='flex gap-4 items-center'>
+                                        <Link href={project.link} target="_blank" className='text-blue-500 text-lg max-md:text-xs'>
+                                            View Project
+                                        </Link>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+                            ))
+                        ) : (
+                            <p>No project details available</p>
+                        )}
+                    </Card>
                 </div>
-                <div className="pt-2 pb-10 mt-8 font-plus-jakarta-sans">
-                    <div className="max-width flex">
-                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
-                            <div className="flex justify-between px-2 py-3 rounded-xl">
-                                <div className="flex gap-4 items-center">
-                                    <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Work Experience</span>
-                                </div>
-                            </div>
-                            <hr className='pb-10 mx-4' />
-                            {experience.map((exp: Experience) => (
-                                <div key={exp._id} className="flex justify-between max-md:flex-col items-start border-2 border-neutral-100 p-6 rounded-xl">
-                                    <div className="flex gap-4 items-center">
-                                        <div className="font-plus-jakarta-sans">
-                                            <div className="flex gap-2">
-                                                <div className='flex flex-col items-start'>
-                                                    <span className="text-neutral-950 text-xl font-600 max-md:text-sm">{exp.title} @ {exp.company}, {exp.location}</span>
-                                                    <span className='text-sm text-neutral-500 max-md:text-xs'>{exp.startDate.split('T')[0]} - {exp.endDate.split('T')[0]}</span>
-                                                </div>
-                                            </div>
-                                            <ul className='flex flex-col gap-1 justify-start text-start list-disc text-md max-md:text-sm px-4 py-2'>
-                                                <li className="text-neutral-600">{exp.description}</li>
-                                            </ul>
-                                        </div>
+                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                    <Card title="Experience">
+                        {experience && experience.length > 0 ? (
+                            experience.map((exp: Experience) => (
+                                <div key={exp._id} className="flex flex-col p-4 border border-neutral-100 rounded-xl my-2 text-left">
+                                    <div className='text-neutral-950 text-3xl max-md:text-sm font-600'>
+                                        {exp.title} @ {exp.company}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs'>
+                                        {exp.startDate} - {exp.endDate}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs mt-5'>
+                                        {exp.description}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+                            ))
+                        ) : (
+                            <p>No experience details available</p>
+                        )}
+                    </Card>
                 </div>
-                <div className="pt-2 pb-10 mt-8 font-plus-jakarta-sans">
-                    <div className="max-width flex">
-                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
-                            <div className="flex justify-between px-2 py-3 rounded-xl">
-                                <div className="flex gap-4 items-center">
-                                    <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Certifications</span>
-                                </div>
-                            </div>
-                            <hr className='pb-10 mx-4' />
-                            {certifications.map((cert: Certification) => (
-                                <div key={cert._id} className="flex justify-between max-md:flex-col items-start border-2 border-neutral-100 p-6 rounded-xl">
-                                    <div className="flex gap-4 items-center">
-                                        <div className="font-plus-jakarta-sans">
-                                            <div className="flex gap-2">
-                                                <div className='flex flex-col items-start'>
-                                                    <span className="text-neutral-950 text-xl font-600 max-md:text-sm">{cert.name}</span>
-                                                    <span className='text-sm text-neutral-500 max-md:text-xs'>Issued by: {cert.issuingOrganization}</span>
-                                                    <span className='text-sm text-neutral-500 max-md:text-xs'>Valid until: {cert.expirationDate.split('T')[0]}</span>
-                                                </div>
-                                            </div>
-                                            <ul className='flex flex-col gap-1 justify-start text-start list-disc text-md max-md:text-sm px-4 py-2'>
-                                                <li className="text-neutral-600">Issued on: {cert.issueDate.split('T')[0]}</li>
-                                            </ul>
-                                        </div>
+                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                    <Card title="Certifications">
+                        {certifications && certifications.length > 0 ? (
+                            certifications.map((cert: Certification) => (
+                                <div key={cert._id} className="flex flex-col p-4 border border-neutral-100 rounded-xl my-2 text-left">
+                                    <div className='text-neutral-950 text-3xl max-md:text-sm font-600'>
+                                        {cert.name} @ {cert.issuingOrganization}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs'>
+                                        {cert.issueDate} - {cert.expirationDate}
+                                    </div>
+                                    <div className='text-neutral-600 text-lg max-md:text-xs mt-5'>
+                                        <a href={cert.credentialURL} target="_blank" className='text-blue-500 text-lg max-md:text-xs'>
+                                            View Credential
+                                        </a>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+                            ))
+                        ) : (
+                            <p>No certifications available</p>
+                        )}
+                    </Card>
                 </div>
-                <div className="pt-2 pb-10 mt-8 font-plus-jakarta-sans">
-                    <div className="max-width flex">
-                        <div className="w-full bg-white border border-neutral-100 p-6 max-md:p-2 rounded-2xl items-center gap-5 mx-16 max-md:mx-4 text-center">
-                            <div className="flex justify-between px-2 py-3 rounded-xl">
-                                <div className="flex gap-4 items-center">
-                                    <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Skills</span>
-                                </div>
-                            </div>
-                            <hr className='pb-10 mx-4' />
-                            <div className="flex flex-wrap gap-2 max-md:gap-1">
+                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                    <Card title="Skills">
+                        {skills && skills.length > 0 ? (
+                            <div className="flex flex-wrap gap-2">
                                 {skills.map((skill: string, index: number) => (
-                                    <Chip key={index} className='max-md:text-sm text-neutral-700' variant="close" >
-                                        {skill}
-                                    </Chip>
+                                    <Chip key={index} variant='close'>{skill}</Chip>
                                 ))}
                             </div>
+                        ) : (
+                            <div className='flex  justify-center text-center'>
+                                <p className='text-center'>No Skills links available</p>
+                            </div>
+                        )}
+                    </Card>
+                </div>
+                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                    <Card title="Social Links">
+                        <div className="flex gap-2 flex-wrap ">
+                            {socialLinks ? (
+                                Object.keys(socialLinks).map((key) => (
+                                    <a key={key} href={socialLinks[key]} target="_blank" rel="noopener noreferrer" className='text-blue-500'>
+                                        <Chip key={key} variant='close'>{key}</Chip>
+                                    </a>
+                                ))
+                            ) : (
+                                <div className='flex ml-[480px] justify-center text-center'>
+                                    <p className='text-center'>No social links available</p>
+                                </div>
+                            )}
                         </div>
-                    </div>
+                    </Card>
+                </div>
+                <div className="pt-2 pb-10 font-plus-jakarta-sans">
+                    <Card title="Interests">
+                        {interests && interests.length > 0 ? (
+                            <div className="flex gap-2 flex-wrap justify-center">
+                                {interests.map((interest: string) => (
+                                    <Chip key={interest} variant='close'>{interest}</Chip>
+                                ))}
+                            </div>
+                        ) : (
+                            <p>No interests available</p>
+                        )}
+                    </Card>
                 </div>
             </div>
         </div>

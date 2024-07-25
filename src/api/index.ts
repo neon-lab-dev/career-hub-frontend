@@ -18,6 +18,9 @@ const api = {
   updateEmployeeProfile: baseUrl + "/me/update",
   employeeUploadResume: baseUrl + "/resumes",
   withDrawApplication: baseUrl + "/withdraw/job", //:id
+  employeedetails: baseUrl + "/user/details",
+  RESUME_UPLOAD: baseUrl + "/resumes",
+
 
   // for employers
   employerJob: baseUrl + "/employeer/job",
@@ -27,10 +30,13 @@ const api = {
   employerOtpVerify: baseUrl + "/verify/employeer",
   employerLogout: baseUrl + "/employeer/logout",
   employerForgotPassword: baseUrl + "/password/forgot/employeer",
-  updateEmployerCompanyDetails: baseUrl + "employeer/details",
+  updateEmployerCompanyDetails: baseUrl + "/employeer/details",
   employerProfile: baseUrl + "/employeer/me",
   updateEmployerPRofile: baseUrl + "/employeer/me/update",
   updateEmployerPassword: baseUrl + "/employeer/password/update",
+  employergetemploee:baseUrl + "/employeer/employee",
+  changeStatus:baseUrl + "/jobs/manage",
+  creatrjob:baseUrl+"/createjob",
 
   // for admin
   adminLogin: baseUrl + "/login/admin",
@@ -44,6 +50,8 @@ const api = {
   applyJob: baseUrl + "/apply/job", //:id
   adminStats: baseUrl + "/admin/counts",
   adminJob: baseUrl + "/admin/job", //:id
+
+
 };
 
 export default api;

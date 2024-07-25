@@ -24,22 +24,21 @@ const ResumeEducationModel = () => {
 
       {isOpen && (
         <div className="modal modal-open">
-          <div className="max-w-xl max-md:w-[350px] modal-box">
+          <div className="max-w-[600px] max-md:w-[350px] modal-box">
             <div className="flex max-md:flex-col gap-6 mt-4">
               <div className="flex flex-col gap-2">
                 <label htmlFor="Institute Name">Institute Name</label>
                 <Input
                   id="Institute Name"
                   placeholder="eg., Meenakshi college of engineering"
-                  className='w-[310px]'
+                  className='w-[300px]'
                 />
               </div>
               <div className="flex flex-col gap-2">
                 <label htmlFor="City, State">City, State</label>
                 <Input
                   id="pinCode"
-                  placeholder="mm/yyyy"
-                  type='month'
+                  type='text'
                 />
               </div>
             </div>
@@ -68,7 +67,7 @@ const ResumeEducationModel = () => {
                 <Input
                   id="From"
                   placeholder=""
-                  type='month'
+                  type='date'
                   className='w-[250px] max-md:w-[140px] max-md:placeholder:text-xs'
                 />
               </div>
@@ -77,7 +76,7 @@ const ResumeEducationModel = () => {
                 <Input
                   id="to"
                   placeholder=""
-                  type='month'
+                  type='date'
                   className='w-[250px] max-md:w-[140px] max-md:placeholder:text-xs'
                 />
               </div>

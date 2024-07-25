@@ -50,10 +50,10 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-        <div className="flex flex-col mx-[50px] my-10">
+        <div className="flex flex-col mx-[130px] max-lg:mx-10 my-10">
           <div className="bg-secondary-700 h-[2px]" />
         </div>
-        <div className="flex flex-col mx-[50px] my-10">
+        <div className="flex flex-col mx-[130px] max-lg:mx-10 mb-3">
           <span className="text-[20px] text-white max-lg:text-center max-lg:text-[15px]">
             Lorem ipsum dolor sit amet consectetu
           </span>
