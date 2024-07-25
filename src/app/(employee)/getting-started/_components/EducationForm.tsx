@@ -124,5 +124,4 @@ const EducationForm: React.FC<EducationFormProps> = ({ formData, setFormData, ha
     </div>
   );
 };
-
 export default EducationForm;

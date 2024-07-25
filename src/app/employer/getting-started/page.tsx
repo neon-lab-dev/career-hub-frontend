@@ -121,6 +121,7 @@ const Page = () => {
                           {...field}
                           placeholder="Postal Code"
                           className='max-md:placeholder:text-xs'
+                          type='number'
                         />
                       )}
                     />
@@ -284,6 +285,7 @@ const Page = () => {
                           {...field}
                           placeholder="Phone"
                           className='max-md:placeholder:text-xs'
+                          type='number'
                         />
                       )}
                     />
