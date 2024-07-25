@@ -34,7 +34,7 @@ const api = {
   employerProfile: baseUrl + "/employeer/me",
   updateEmployerPRofile: baseUrl + "/employeer/me/update",
   updateEmployerPassword: baseUrl + "/employeer/password/update",
-  employergetemploee:baseUrl + "//employeer/employee",
+  employergetemploee:baseUrl + "/employeer/employee",
   changeStatus:baseUrl + "/jobs/manage",
   creatrjob:baseUrl+"/createjob",
 
@@ -50,7 +50,7 @@ const api = {
   applyJob: baseUrl + "/apply/job", //:id
   adminStats: baseUrl + "/admin/counts",
   adminJob: baseUrl + "/admin/job", //:id
-  changeStatus:baseUrl + "/jobs/manage"
+
 
 };
 

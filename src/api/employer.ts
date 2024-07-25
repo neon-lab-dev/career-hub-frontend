@@ -1,23 +1,24 @@
 import axios from "axios";
-import api from ".";
-import { IEmployee } from "@/types/employee";
-import { IJob } from "@/types/job";
+import api from "."; // Import the `api` object
+import { IEmployer } from "@/types/employer";
+import { JobData } from "@/app/employer/(home)/page";
+import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
 
-export const handleGetAllEmployeesForAdminService = async ({
+export const handleGetAllEmployersForAdminService = async ({
   keyword,
 }: {
   keyword?: string;
-}): Promise<IEmployee[]> => {
+}): Promise<IEmployer[]> => {
   const url = keyword
-    ? `${api.allEmployees}?full_name=${keyword}`
-    : api.allEmployees;
+    ? `${api.allEmployers}?full_name=${keyword}`
+    : api.allEmployers;
   return new Promise((resolve, reject) => {
     axios
       .get(url, {
         withCredentials: true,
       })
       .then((res) => {
-        resolve(res.data?.employees ?? []);
+        resolve(res.data?.employers ?? []);
       })
       .catch((err) => {
         reject(err?.response?.data?.message ?? "Something went wrong");
@@ -25,12 +26,12 @@ export const handleGetAllEmployeesForAdminService = async ({
   });
 };
 
-export const handleDeleteEmployeeService = async (
+export const handleDeleteEmployerService = async (
   id: string
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     axios
-      .delete(`${api.adminEmployee}/${id}`, {
+      .delete(`${api.adminEmployer}/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -42,16 +43,16 @@ export const handleDeleteEmployeeService = async (
   });
 };
 
-export const handleGetSingleEmployeeByAdminService = async (
+export const handleGEtEmployerByIdForAdminService = async (
   id: string
-): Promise<IEmployee> => {
+): Promise<IEmployer> => {
   return new Promise((resolve, reject) => {
     axios
-      .get(`${api.adminEmployee}/${id}`, {
+      .get(`${api.adminEmployer}/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
-        resolve(res.data?.employee ?? {});
+        resolve(res.data?.employer);
       })
       .catch((err) => {
         reject(err?.response?.data?.message ?? "Something went wrong");
@@ -59,23 +60,70 @@ export const handleGetSingleEmployeeByAdminService = async (
   });
 };
 
-export const handleGetAppliedJobsByEmployeeService = async (): Promise<
-  IJob[]
-> => {
-  return new Promise((resolve, reject) => {
-    axios
-      .get(api.getEmployeeApplications, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        resolve(res.data?.jobs ?? []);
-      })
-      .catch((err) => {
-        reject(err?.response?.data?.message ?? "Something went wrong");
-      });
+export const fetchJobData = async (): Promise<JobData> => {
+  const response = await axios.get(api.employerJob, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const fetchJobs = async () => {
+  const response = await axios.get(api.employerJob, {
+    withCredentials: true,
+  });
+  return response.data.jobs;
+};
+
+export const deleteJob = async (id: string) => {
+  const response = await axios.delete(`${api.job}/${id}`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const fetchProfileData = async (applicantId: string) => {
+  const response = await axios.get(`${api.employergetemploee}/${applicantId}`, {
+      withCredentials: true,
+  });
+  return response.data.emp;
+};
+
+export const approveApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
+  await axios.put(api.changeStatus, data, {
+      withCredentials: true,
   });
 };
 
+export const rejectApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
+  await axios.put(api.changeStatus, data, {
+      withCredentials: true,
+  });
+};
+
+export const fetchJobDetails = async (jobId: string) => {
+  const response = await axios.get(`${api.job}/${jobId}`);
+  if (response.status !== 200) {
+    throw new Error(`Failed to fetch job details. Status: ${response.status}`);
+  }
+  return response.data.jobs;
+};
+
+export const fetchJobDetail = async (viewId: string): Promise<JobDetails> => {
+  const { data } = await axios.get(`${api.job}/${viewId}`, {
+      withCredentials: true,
+  });
+  return data.jobs;
+};
+
+
+export const updateJobDetails = async (viewId: string, payload: UpdateJobPayload) => {
+  const { data } = await axios.put(
+      `${api.job}/${viewId}`,
+      payload,
+      { withCredentials: true }
+  );
+  return data;
+};
 export const uploadResume = async (file: File) => {
   const fileData = new FormData();
   fileData.append('file', file);
