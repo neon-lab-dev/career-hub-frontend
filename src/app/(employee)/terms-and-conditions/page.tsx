@@ -7,77 +7,62 @@ const page = () => {
   return (
     <div>
       <div className="max-width-full h-[175px] md:h-[283px] lg:h-[310px] bg-[#F5F6FA] flex flex-col justify-center items-center">
-          <div className="highlight h-[40px] w-[270px] md:h-[71px] md:w-[581px] lg:h-[81px] lg:w-[661px]">
-            <p className="text-white font-bold text-center text-[23px] md:text-[50px] lg:text-[60px] font-plus-jakarta-sans">
-              Terms and Conditions
-            </p>
-          </div>
+        <div className="highlight h-[40px] w-[270px] md:h-[71px] md:w-[581px] lg:h-[81px] lg:w-[661px]">
+          <p className="text-white font-bold text-center text-[23px] md:text-[50px] lg:text-[60px] font-plus-jakarta-sans">
+            Terms and Conditions
+          </p>
+        </div>
       </div>
 
       <div className="wrapper mt-10">
         <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
-          Lorem ipsum dolor sit amet consectetur. Morbi semper dui faucibus
-          molestie habitasse suscipit neque. Bibendum elit viverra posuere
-          pretium tellus velit id feugiat. Praesent id scelerisque nulla dolor
-          blandit praesent a. In aliquam sapien egestas quis egestas at
-          ultricies non vitae. Elementum pharetra sed ut eget eleifend ante
-          volutpat malesuada. Egestas aliquet risus tincidunt tempor vitae sem.
-          Dictum ut augue phasellus feugiat morbi diam ut. Urna venenatis
-          ultrices aliquam facilisis arcu.
+          Welcome to the website/web portal &quot;Careehub.com&quot; which is
+          owned by &quot;MONCHI ENTERPRISE&quot;, to visit or use this website
+          there are some terms and conditions accepted and agreed upon by every
+          individual. It is also assumed that by opening and using careehub.com,
+          you accept all the &quot;Terms of Use&quot; in full and have gone
+          through with consent irrevocably to the same. If you disagree with the
+          &quot;Terms of Use&quot; conditions, you must not use this
+          website/portal i.e. careehub.com.
         </p>
         <br />
         <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
-          Praesent nisl risus condimentum nunc. Fermentum volutpat facilisi sed
-          diam euismod magna scelerisque egestas pharetra. Ultrices egestas
-          dignissim sed id duis aliquet viverra urna ut. Euismod id nunc at
-          magna arcu tristique facilisi. Tellus maecenas maecenas posuere varius
-          porta. Pharetra odio mauris libero duis quam sagittis. Consequat sed
-          vestibulum neque elementum. Aenean quis aenean sit ornare.
+          Please read carefully before entering personal or other data into the
+          portal (www.careehub.com).
         </p>
         <br />
         <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
-          Diam lacinia tempus ut adipiscing vitae scelerisque auctor porta quam.
-          Odio pharetra tellus sollicitudin fermentum nullam. Facilisi
-          adipiscing porta lacinia sit suscipit lectus. Ut non netus elementum
-          sagittis id. In sapien non sapien adipiscing. Nulla amet id
-          suspendisse nec pellentesque sed in. Sed venenatis pulvinar vivamus
-          malesuada. Mi accumsan cursus ornare lacinia pellentesque est. Cras et
-          mi augue turpis lorem venenatis. Dictum venenatis in morbi aliquam.
-          Commodo id leo mauris commodo nibh vivamus sed cursus metus. Purus id
-          velit sed lorem dignissim congue auctor gravida mauris. Vitae nibh
-          aliquam vitae augue vitae. Sed dolor metus nullam posuere. Sagittis
-          non euismod non mattis mi vitae posuere arcu a.
+          In this agreement/contract &quot;you&quot; or &quot;you&#39;re&quot;
+          will be referred to any person, group, or entity subscribing to and/or
+          using the resources or content according to the Terms and Conditions
+          of the Agreement (each one a User and collectively &quot;Users&quot;.
+          Unless otherwise stated MONCHI ENTERPRISE or CAREEHUB, &quot;we&quot;,
+          or &quot;Our&quot; will each refer to MONCHI ENTERPRISE (partnership),
+          an Indian company.
         </p>
         <br />
         <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
-          Sem pharetra adipiscing scelerisque commodo in. Risus hendrerit urna
-          aliquam egestas arcu vel. Elementum nibh rhoncus dictum pharetra duis
-          a cras. Magnis dignissim nunc velit egestas a morbi vitae lorem
-          pretium. Blandit nisi sapien sagittis sagittis varius vivamus massa.
+          All Users should create an account by completing the registration
+          process to subscribe to provided / available resources/content by
+          providing us with current, complete, and accurate information. You are
+          entirely responsible for maintaining the confidentiality of your ID,
+          password, and account. This also instructed you to immediately notify
+          us of any unauthorized use of your account or any other breach of
+          security. We are not liable for any loss that you may incur as a
+          result of someone else using your password or account, either with or
+          without your knowledge. Furthermore, you could be held
+          liable/responsible for losses incurred by www.careehub.com or another
+          party due to someone else using your account or password.
         </p>
         <br />
         <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
-          Tortor fringilla fermentum nunc consectetur ultrices elit ultricies
-          tortor. Convallis eget ultrices suspendisse habitant arcu adipiscing.
-          Lectus nascetur faucibus nec malesuada pulvinar nam pellentesque a.
-          Diam faucibus cursus neque at eget et cras aliquam ultrices. Blandit
-          porttitor id adipiscing tortor morbi quis. Aliquet lorem molestie et
-          velit quisque quis purus quam. In nisl sit hendrerit et quis tincidunt
-          lorem. Ut gravida et dui mattis et est tincidunt amet. Neque facilisis
-          hendrerit tincidunt leo quam in eget vel sit.
-        </p>
-        <br />
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
-          Faucibus tincidunt aliquam feugiat quisque. Risus bibendum leo amet
-          amet mattis dictumst. Sit pulvinar auctor tellus congue.
-        </p>
-        <br />
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
-          Ante diam tellus sit amet massa eget. Orci urna habitasse in egestas
-          sed. Odio orci habitant lectus sem lorem neque. Viverra eget lacus
-          integer tristique eros amet. Sit ipsum dictum urna sed tincidunt nibh
-          tempor placerat a. Tellus arcu adipiscing duis senectus lorem ut
-          euismod netus ultricies. Varius aliquam iaculis amet leo in felis.
+          By creating an account, the user agrees to the terms required to
+          protect the confidentiality of the username and password for the
+          account and shall be solely liable for any activity conducted using
+          the user account. The user also agrees to accept all risks and
+          responsibilities for activity done under the username. The user also
+          agrees to receive SMS and Emails containing information related to the
+          education or career guidance and of the courses and other programs.
         </p>
         <br />
       </div>
