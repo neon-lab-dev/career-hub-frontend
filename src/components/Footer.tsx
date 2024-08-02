@@ -17,11 +17,14 @@ const Footer = () => {
         <div className="flex justify-between max-lg:flex-col mx-[40px] max-lg:mx-10 max-lg:gap-12">
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">
             <span className="font-bold text-5xl">Logo</span>
-            <p className="text-[20px] max-lg:text-[16px]">
-              Lorem ipsum dolor sit amet consectetur. Accumsan sed dolor
-              scelerisque massa amet convallis bibendum. Feugiat egestas euismod
-              feugiat scelerisque aliquet. At porttitor viverra sapien.
+            <p className="text-[22px] max-lg:text-[16px]">
+              MONCHI ENTERPRISE<br />
+              A – 1401, Sector 76,<br />
+              Noida, Uttar Pradesh – 201301<br />
+              <a href="mailto:monchienterprise@gmail.com">monchienterprise@gmail.com</a><br />
+              Mobile No: <a href="tel:08920968721">08920-968721</a>
             </p>
+
           </div>
           <div className="flex flex-col gap-1 font-poppins">
             <span className="text-white font-semibold text-[22px]">
