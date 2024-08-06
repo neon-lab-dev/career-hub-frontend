@@ -3,6 +3,7 @@ import api from "."; // Import the `api` object
 import { IEmployer } from "@/types/employer";
 import { JobData } from "@/app/employer/(home)/page";
 import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
+import { User } from "@/app/employer/(home)/profile/page";
 
 export const handleGetAllEmployersForAdminService = async ({
   keyword,
@@ -124,6 +125,8 @@ export const updateJobDetails = async (viewId: string, payload: UpdateJobPayload
   );
   return data;
 };
+
+
 export const uploadResume = async (file: File) => {
   const fileData = new FormData();
   fileData.append('file', file);
@@ -132,4 +135,20 @@ export const uploadResume = async (file: File) => {
     headers: { 'Content-Type': 'multipart/form-data' },
     withCredentials: true,
   });
+};
+
+ export const fetchEmployerData = async () => {
+  const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/employeer/me', {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+
+
+export const updateEmployerData = async (updatedData: User) => {
+  const response = await axios.put("https://carrerhub-backend.vercel.app/api/v1/employeer/details", updatedData ,{
+    withCredentials:true,
+  });
+  return response.data;
 };

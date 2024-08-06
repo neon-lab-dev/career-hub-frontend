@@ -69,7 +69,6 @@ const useCreateJobMutation = (): UseMutationResult<any, Error, FormData> => {
         },
     });
 };
-
 const Page = () => {
     const { register, handleSubmit, formState: { errors } } = useForm < FormData > ();
     const mutation = useCreateJobMutation();
@@ -78,8 +77,8 @@ const Page = () => {
         mutation.mutate(data);
     };
 
-    const validLocationTypes = ["Hybrid", "Remote", "On-Site"];
-    const validEmploymentTypes = ["Full-Time", "Part-Time", "Contract"];
+    const validLocationTypes = ["Remote", "Onsite", "Hybrid"];
+    const validEmploymentTypes = ["Full-Time", "Part-Time", "Contract", "Internship"];
 
     return (
         <div className="p-6 bg-[#f5f6fa]">

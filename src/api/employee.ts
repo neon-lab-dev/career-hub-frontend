@@ -85,3 +85,10 @@ export const uploadResume = async (file: File) => {
     withCredentials: true,
   });
 };
+
+export const fetchUserData = async () => {
+  const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/me', {
+    withCredentials: true,
+  });
+  return response.data;
+};
