@@ -1,19 +1,97 @@
-"use client"
-import React, { useState } from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import Input from "@/components/Input";
 import Button from '@/components/Button';
 import Chip from '@/components/Chip';
+import axios from 'axios';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { fetchUserData } from '@/api/employee';
+
+const addProject = async (projectData: any) => {
+  const response = await axios.put('https://carrerhub-backend.vercel.app/api/v1/user/details', projectData, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+  return response.data;
+};
 
 const ResumeProjectDetailsModel = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    link: ''
+  });
+
+  const [existingData, setExistingData] = useState<any>({
+    projects: [] // Default value to prevent errors
+  });
+
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: addProject,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      setIsOpen(false);
+    },
+    onError: (error) => {
+      console.error('Error adding project:', error);
+    }
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userData = await fetchUserData();
+        setExistingData(userData.user || { projects: [] }); // Safeguard against missing user data
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (Array.isArray(existingData.projects)) { // Check if projects is an array
+      const updatedData = {
+        ...existingData,
+        projects: [...existingData.projects, formData] // Append new project data
+      };
+      mutation.mutate(updatedData, {
+        onSuccess: () => {
+          setFormData({
+            title: '',
+            description: '',
+            startDate: '',
+            endDate: '',
+            link: ''
+          });
+        }
+      });
+    } else {
+      console.error('Existing project data is not an array');
+    }
+  };
+
   return (
     <div>
-      {/* The button to open modal */}
       <div className='flex justify-end'>
         <div onClick={toggleModal} className="bg-white cursor-pointer">
           <Chip variant="add" className="w-[140px] items-center">
@@ -21,54 +99,73 @@ const ResumeProjectDetailsModel = () => {
           </Chip>
         </div>
       </div>
+
       {isOpen && (
         <div className="modal modal-open">
           <div className="max-w-xl modal-box">
-            <div className="flex flex-col mt-4 gap-2">
-              <label htmlFor="Project Title">Project Title</label>
-              <Input
-                id="Project Title"
-                type="text"
-                placeholder="eg., Online Gaming App"
-              />
-            </div>
-            <div className="flex flex-col mt-4 gap-2">
-              <label htmlFor="Project Description">Project Description</label>
-              <textarea
-                id="Project Description"
-                placeholder="You can write about what was the goal of this project? How did you develop this project? and What are some important features of the project?"
-                className='border px-2 py-4 rounded-xl placeholder:text-sm'
-              />
-            </div>
-            <div className="flex gap-6 mt-4">
-              <div className="flex flex-col gap-2">
-                <label htmlFor="From">From</label>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="flex flex-col mt-4 gap-2">
+                <label htmlFor="title">Project Title</label>
                 <Input
-                  id="From"
-                  placeholder=""
-                  type='month'
-                  className='w-[250px] max-md:w-[140px] max-md:placeholder:text-xs'
+                  id="title"
+                  type="text"
+                  placeholder="e.g., Online Gaming App"
+                  value={formData.title}
+                  onChange={handleInputChange}
                 />
               </div>
-              <div className="flex flex-col gap-2">
-                <label htmlFor="to">to</label>
-                <Input
-                  id="to"
-                  placeholder=""
-                  type='month'
-                  className='w-[250px] max-md:w-[140px] max-md:placeholder:text-xs'
+              <div className="flex flex-col mt-4 gap-2">
+                <label htmlFor="description">Project Description</label>
+                <textarea
+                  id="description"
+                  placeholder="Describe the project, its goals, development, and key features."
+                  className='border px-2 py-4 rounded-xl placeholder:text-sm'
+                  value={formData.description}
+                  onChange={handleInputChange}
                 />
               </div>
-            </div>
-            <Button variant="primary" className='mt-4'>
-              {"Add Project"}
-            </Button>
+              <div className="flex gap-6 mt-4">
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="startDate">Start Date</label>
+                  <Input
+                    id="startDate"
+                    type='date'
+                    value={formData.startDate}
+                    onChange={handleInputChange}
+                    className='w-[250px]'
+                  />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="endDate">End Date</label>
+                  <Input
+                    id="endDate"
+                    type='date'
+                    value={formData.endDate}
+                    onChange={handleInputChange}
+                    className='w-[250px]'
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col mt-4 gap-2">
+                <label htmlFor="link">Project Link</label>
+                <Input
+                  id="link"
+                  type="url"
+                  placeholder="e.g., https://example.com"
+                  value={formData.link}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <Button variant="primary" type='submit' className='mt-4'>
+                Add Project
+              </Button>
+            </form>
           </div>
           <label className="modal-backdrop" onClick={toggleModal}>Close</label>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default ResumeProjectDetailsModel;

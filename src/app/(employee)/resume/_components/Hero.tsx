@@ -13,5 +13,4 @@ const HeroComponent = () => {
     </div>
   );
 };
-
 export default HeroComponent;

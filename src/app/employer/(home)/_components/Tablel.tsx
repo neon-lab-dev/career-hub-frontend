@@ -93,7 +93,6 @@ const Table: React.FC<Props> = ({ className }) => {
             <tr>
               <td>
                 <div className="flex items-center gap-2 text-lg">
-                  <Image src={IMAGES.rectangle} alt="Role Icon" />
                   <span>Role</span>
                 </div>
               </td>
@@ -136,7 +135,6 @@ const Table: React.FC<Props> = ({ className }) => {
                 <tr key={job._id}>
                   <td>
                     <div className="flex items-center gap-2 text-lg">
-                      <Image src={IMAGES.rectangle} alt="Role Icon" />
                       <span>{job.title}</span>
                     </div>
                   </td>
