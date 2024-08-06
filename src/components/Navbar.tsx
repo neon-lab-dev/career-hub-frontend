@@ -19,6 +19,7 @@ import {
 } from "@/api/authentication";
 import { toast } from "sonner";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const navItems = [
   { text: "Home", href: "/" },
@@ -36,6 +37,7 @@ const pfileItems = [
 
 const Navbar = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = React.useState(false);
+  const router = useRouter();
   const pathname = usePathname();
   const { isAuthModalOpen, activeTab, employerProfile, studentProfile } =
     useAppSelector((state) => state.auth);
@@ -48,6 +50,7 @@ const Navbar = () => {
       toast.success("Logged out successfully");
       queryClient.setQueryData(["student-profile"], null);
       dispatch(setEmployeeProfile(null));
+      router.push("/");
     },
     onError: () => {
       toast.error("An error occurred while logging out!");
@@ -60,6 +63,7 @@ const Navbar = () => {
       toast.success("Logged out successfully");
       queryClient.setQueryData(["employer-profile"], null);
       dispatch(setEmployerProfile(null));
+      router.push("/");
     },
     onError: () => {
       toast.error("An error occurred while logging out!");
