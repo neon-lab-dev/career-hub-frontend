@@ -138,6 +138,10 @@ const Dashboard = () => {
     return <div className="text-center">No data available</div>;
   }
 
+  // Destructuring and default value
+  const { companyDetails = [] } = user;
+  const companyName = companyDetails[0]?.companyName || 'N/A';
+
   return (
     <div className="bg-gray-100 p-8 min-h-screen">
       {/* Profile Section */}
@@ -155,7 +159,7 @@ const Dashboard = () => {
             </div>
             <div>
               <h1 className="text-4xl font-semibold text-gray-800">{user.full_name || 'N/A'}</h1>
-              <p className="text-2xl text-gray-600">{user.companyDetails[0]?.companyName || 'N/A'}</p>
+              <p className="text-2xl text-gray-600">{companyName}</p>
             </div>
           </div>
           <div className="flex justify-end">
@@ -276,16 +280,16 @@ const Dashboard = () => {
                 </div>
               ))
             ) : (
-              <p className="text-lg">No address available</p>
+              <p className="text-lg text-gray-600">No address information available.</p>
             )}
           </div>
 
           {/* Company Details */}
           <div className="bg-white shadow-lg rounded-lg p-8">
             <h3 className="text-3xl font-semibold text-gray-700 mb-4">Company Details</h3>
-            {(user.companyDetails && user.companyDetails.length > 0) ? (
-              user.companyDetails.map((company, index) => (
-                <div key={company._id} className="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-200 pb-4 mb-4">
+            {companyDetails.length > 0 ? (
+              companyDetails.map((company, index) => (
+                <div key={company._id} className="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-gray-200 pb-4 mb-4">
                   <div>
                     <strong className="text-gray-600 text-lg">Company Name:</strong>
                     {isEditing ? (
@@ -346,7 +350,7 @@ const Dashboard = () => {
                     <strong className="text-gray-600 text-lg">Contact Phone:</strong>
                     {isEditing ? (
                       <input
-                        type="tel"
+                        type="text"
                         name="contactPhone"
                         value={company.contactPhone || ''}
                         onChange={(e) => handleChange(e, "companyDetails", index)}
@@ -356,57 +360,60 @@ const Dashboard = () => {
                       <span className="block mt-1 text-lg">{company.contactPhone || 'Not Available'}</span>
                     )}
                   </div>
-                  <div className="col-span-3">
+                  <div>
                     <strong className="text-gray-600 text-lg">Bio:</strong>
                     {isEditing ? (
                       <textarea
                         name="bio"
                         value={company.bio || ''}
                         onChange={(e) => handleChange(e, "companyDetails", index)}
-                        className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg"
-                        rows={3}
+                        className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg h-24"
                       />
                     ) : (
                       <span className="block mt-1 text-lg">{company.bio || 'Not Available'}</span>
                     )}
                   </div>
-                  <div className="col-span-3 space-y-2">
+                  <div>
                     <strong className="text-gray-600 text-lg">Social Links:</strong>
-                    <div className="grid grid-cols-2">
-                      <div>
-                        <strong className="text-gray-600 text-lg">LinkedIn:</strong>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            name="linkedin"
-                            value={company.socialLink?.linkedin || ''}
-                            onChange={(e) => handleChange(e, "socialLink", index)}
-                            className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg"
-                          />
-                        ) : (
-                          <span className="block mt-1 text-lg">{company.socialLink?.linkedin || 'Not Available'}</span>
-                        )}
-                      </div>
-                      <div className="">
-                        <strong className="text-gray-600 text-lg">GitHub:</strong>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            name="github"
-                            value={company.socialLink?.github || ''}
-                            onChange={(e) => handleChange(e, "socialLink", index)}
-                            className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg"
-                          />
-                        ) : (
-                          <span className="block mt-1 text-lg">{company.socialLink?.github || 'Not Available'}</span>
-                        )}
-                      </div>
-                    </div>
+                    {company.socialLink ? (
+                      <>
+                        <div>
+                          <strong className="text-gray-600 text-lg">LinkedIn:</strong>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              name="linkedin"
+                              value={company.socialLink.linkedin || ''}
+                              onChange={(e) => handleChange(e, "socialLink", index)}
+                              className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg"
+                            />
+                          ) : (
+                            <span className="block mt-1 text-lg">{company.socialLink.linkedin || 'Not Available'}</span>
+                          )}
+                        </div>
+                        <div>
+                          <strong className="text-gray-600 text-lg">GitHub:</strong>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              name="github"
+                              value={company.socialLink.github || ''}
+                              onChange={(e) => handleChange(e, "socialLink", index)}
+                              className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg"
+                            />
+                          ) : (
+                            <span className="block mt-1 text-lg">{company.socialLink.github || 'Not Available'}</span>
+                          )}
+                        </div>
+                      </>
+                    ) : (
+                      <p className="text-lg text-gray-600">No social links available.</p>
+                    )}
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-lg">No company details available</p>
+              <p className="text-lg text-gray-600">No company details available.</p>
             )}
           </div>
         </div>
@@ -414,4 +421,5 @@ const Dashboard = () => {
     </div>
   );
 };
+
 export default Dashboard;
