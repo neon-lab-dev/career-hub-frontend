@@ -12,7 +12,6 @@ import { toast } from "sonner"; // Assuming 'sonner' is correctly imported and u
 
 const Header = () => {
   const user = useAppSelector((state) => state.auth.employerProfile);
-  console.log("User object:", user); // Log the entire user object for debugging
   const pathname = usePathname();
   const router = useRouter(); // Add useRouter hook
   const queryClient = useQueryClient(); // Add useQueryClient hook
@@ -50,7 +49,7 @@ const Header = () => {
   const dropdownItems = [
     {
       label: "Profile",
-      path: "profile",
+      path: "employer/profile",
     },
   ];
 
