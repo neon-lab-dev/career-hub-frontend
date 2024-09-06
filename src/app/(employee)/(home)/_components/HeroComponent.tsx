@@ -44,11 +44,11 @@ const HeroComponent = () => {
             },
             {
               value: "100k+",
-              label: "Registered Applicants",
+              label: "Registered Aspirants",
             },
             {
               value: "1000+",
-              label: "Registered Organizations",
+              label: "Registered Openings",
             },
             {
               value: "600k+",

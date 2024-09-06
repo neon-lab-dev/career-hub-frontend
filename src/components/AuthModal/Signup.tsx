@@ -19,7 +19,7 @@ import OTP from "./OTP";
 
 const Signup = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [data, setData] = useState<any>({}); // This is the mail on which the otp will be sent
+  const [data, setData] = useState<any>({}); // This is the mail on which the OTP will be sent
   const { activeTab, authModalType } = useAppSelector((state) => state.auth);
   const dropDownRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
@@ -247,7 +247,6 @@ const Signup = () => {
     "+260", // Zambia
     "+263", // Zimbabwe
   ];
-
   useEffect(() => {
     const close = (e: MouseEvent) => {
       if (
@@ -371,23 +370,17 @@ const Signup = () => {
             >
               Mobile Number*
             </label>
-            <div className="p-4 rounded-xl border-[1px] border-neutral-300 focus:outline-none flex gap-[10px]">
+            <div className="p-4 rounded-xl border-[1px]  border-neutral-300 focus:outline-none flex gap-[10px]">
               <div ref={dropDownRef} className="relative">
                 <div
                   onClick={() => setOpen((prev) => !prev)}
-                  className="flex cursor-pointer border"
+                  className="flex cursor-pointer border "
                 >
                   {countryCode}
                   <Image src={downArrow} alt="down-arrow" />
                 </div>
                 <ul
-                  style={{
-                    overflowY: "auto",
-                    scrollbarWidth: "thin",
-                    scrollbarColor:
-                      "rgba(107, 114, 128, 0.5) rgba(255, 255, 255, 0.1)",
-                  }}
-                  className={`cursor-pointer bg-white flex flex-col gap-4 w-6 h-56 ml-2 rounded ${
+                  className={`cursor-pointer bg-white flex flex-col gap-4 w-28 h-56 overflow-scroll ml-2 rounded ${
                     open ? "visible shadow-2xl" : "invisible"
                   } absolute -left-6 top-10 z-50 w-full space-y-1 py-2`}
                 >
@@ -398,16 +391,6 @@ const Signup = () => {
                         setOpen(false);
                       }}
                       key={index}
-                      className={`${
-                        open
-                          ? "opacity-100 duration-500"
-                          : "opacity-0 duration-150"
-                      }`}
-                      style={{
-                        transform: `translateY(${
-                          open ? 0 : (index + 1) * 10
-                        }px)`,
-                      }}
                     >
                       {code}
                     </li>
@@ -497,7 +480,6 @@ const Signup = () => {
 
         <Button className="w-full mt-5" variant="primary">
           {employee.isPending || employer.isPending ? "Loading..." : "Get OTP"}
-          {/* Get OTP */}
         </Button>
 
         <p className="text-neutral-700 text-sm font-400 text-center mt-8">
