@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { IMAGES } from "@/assets";
 
 interface Navlink {
   label: string;
@@ -22,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
   return (
     <div className="w-[177px] pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 h-full flex flex-col gap-16">
       <span className="text-3xl font-bold pr-6">
-        <Link href="/employer">Logo</Link>
+        <Link href="/employer"><Image src={IMAGES.logo} alt="logo" /></Link>
       </span>
 
       {/* Navlinks */}

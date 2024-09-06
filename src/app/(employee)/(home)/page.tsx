@@ -10,9 +10,9 @@ const HomePage = () => {
   return (
     <div className="flex flex-col">
       <HeroComponent />
+      <TrendingToday />
       <LatestJobYouMightLikeComponent />
       <LatestInternshipsForYou />
-      <TrendingToday />
       <OurValuableHiringPartners />
       <WhatWeDoComponent />
     </div>
