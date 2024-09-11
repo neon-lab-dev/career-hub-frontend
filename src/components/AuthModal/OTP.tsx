@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "../Button";
 import edit from "../../assets/icons/Edit.svg";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
-import api from "@/api";
-import { useRouter } from "next/navigation";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { closeAuthModal, setAuthModalType } from "@/store/slices/authSlice";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   handleVerifyEmployeeOTPService,
   handleVerifyEmployerOTPService,
 } from "@/api/authentication";
+import { useRouter } from "next/navigation";
 
 const OTP = ({
   mail,
@@ -35,6 +33,10 @@ const OTP = ({
     formState: { errors },
   } = useForm();
 
+  const [timer, setTimer] = useState(60); // Timer for 60 seconds
+  const [isTimerActive, setIsTimerActive] = useState(true); // Track if the timer is active
+
+  // Mutation for verifying the OTP for employee
   const employee = useMutation({
     mutationFn: handleVerifyEmployeeOTPService,
     onSuccess: (msg) => {
@@ -53,6 +55,7 @@ const OTP = ({
     },
   });
 
+  // Mutation for verifying the OTP for employer
   const employer = useMutation({
     mutationFn: handleVerifyEmployerOTPService,
     onSuccess: (msg) => {
@@ -71,6 +74,19 @@ const OTP = ({
     },
   });
 
+  // Countdown effect for the timer
+  useEffect(() => {
+    if (timer > 0 && isTimerActive) {
+      const countdown = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+      return () => clearInterval(countdown);
+    } else {
+      setIsTimerActive(false); // Stop the timer when it hits zero
+    }
+  }, [timer, isTimerActive]);
+
+  // Handle OTP form submission
   const onSubmit = async (data: any) => {
     if (activeTab === "STUDENT") {
       employee.mutate({
@@ -85,19 +101,23 @@ const OTP = ({
     }
   };
 
+  // Handle Resend OTP click and reset the timer
+  const handleResendClick = () => {
+    handleResendOTP();
+    setTimer(60); // Reset timer to 60 seconds
+    setIsTimerActive(true); // Start the timer
+  };
+
   return (
     <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="font-plus-jakarta-sans"
-      >
-        {/* Phone number on whuch the otp sent */}
+      <form onSubmit={handleSubmit(onSubmit)} className="font-plus-jakarta-sans">
+        {/* Phone number on which the OTP was sent */}
         <div className="flex gap-1 items-center justify-center">
           <p className="text-neutral-700 font-Poppins text-sm font-400">
             OTP Has been sent to {mail}
           </p>
 
-          {/* Edit phone button */}
+          {/* Edit email button */}
           <button
             onClick={() => {
               dispatch(setAuthModalType("SIGNUP"));
@@ -142,9 +162,14 @@ const OTP = ({
         <button
           type="button"
           className="text-primary-500 mt-5"
-          onClick={() => handleResendOTP()}
+          onClick={handleResendClick}
+          disabled={timer > 0 || isResendLoading} // Disable button while the timer is active or OTP is loading
         >
-          {isResendLoading ? "Loading..." : "Resend OTP"}
+          {isResendLoading
+            ? "Sending OTP Resquest"
+            : timer > 0
+            ? `Resend OTP in ${timer}s`
+            : "Resend OTP"}
         </button>
       </form>
     </div>

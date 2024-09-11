@@ -32,6 +32,14 @@ import filter from "@/assets/icons/filter.svg";
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
 import penEdit from "@/assets/images/Vector.svg";
+import logo from "@/assets/images/Asset 1.png"
+import logo1 from "@/assets/images/Asset 2.png"
+import logo2 from "@/assets/images/Asset 3.png"
+import org from "@/assets/images/61ae20883d652b27b6ef3f39_org-design-second-edition.svg"
+import apr from "@/assets/images/pngtree-study-icons-boy-sitting-at-a-table-with-book-vector-png-image_12296730.png"
+
+
+
 
 export const IMAGES = {
   companyLogo,
@@ -60,6 +68,11 @@ export const IMAGES = {
   doc,
   view,
   Edit,
+  logo,
+  logo1,
+  logo2,
+  org,
+  apr
 };
 
 export const ICONS = {
