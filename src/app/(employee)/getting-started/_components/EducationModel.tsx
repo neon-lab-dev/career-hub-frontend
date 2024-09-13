@@ -109,9 +109,11 @@ const EducationModel: React.FC<EducationModelProps> = ({ formData, setFormData, 
       <input type="checkbox" id="education-modal" className="modal-toggle" />
       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div className="max-w-2xl max-md:w-[350px] modal-box">
+        <h2 id="modal-title" className="text-xl font-semibold mb-4">Add Education Details</h2>
           <div className="flex max-md:flex-col gap-6 mt-4">
+         
             <div className="flex flex-col gap-2">
-              <label htmlFor="institution-name">Institution Name</label>
+              <label htmlFor="institution-name">Institution Name & Board Name</label>
               <Input
                 id="institution-name"
                 placeholder="e.g., Meenakshi College of Engineering"

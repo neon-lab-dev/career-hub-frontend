@@ -90,7 +90,9 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ addProject, showOnMount
       {/* Modal Structure */}
       <input type="checkbox" id="project-modal" className="modal-toggle" />
       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div className="max-w-3xl modal-box p-6 bg-white shadow-md rounded-xl">
+    
+        <div className="max-w-3xl modal-box p-6 bg-white shadow-md rounded-xl"> 
+           <h2 id="modal-title" className="text-xl font-semibold mb-4">Add Projects Details</h2>
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col mt-4 gap-4">
               <label htmlFor="title" className="text-sm font-medium text-gray-600">Project Title</label>
