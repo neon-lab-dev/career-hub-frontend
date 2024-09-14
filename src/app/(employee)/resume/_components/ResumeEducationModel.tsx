@@ -116,9 +116,12 @@ const ResumeEducationModel = () => {
         <div className="modal modal-open">
           <div className="max-w-[600px] max-md:w-[350px] modal-box">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+           
+            
               <div className="flex gap-6 mt-4">
+                
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="institutionName">Institute Name</label>
+                  <label htmlFor="institutionName">Institute Name & Board</label>
                   <Input
                     id="institutionName"
                     placeholder="e.g., Meenakshi College of Engineering"

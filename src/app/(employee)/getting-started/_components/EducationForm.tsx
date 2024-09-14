@@ -1,6 +1,8 @@
 import React from 'react';
+import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
+
 interface Address {
   street: string;
   city: string;
@@ -10,13 +12,7 @@ interface Address {
 }
 
 interface FormData {
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    country: string;
-  }[];
+  address: Address[];
   education: any[];
   projects: any[];
   experience: any[];
@@ -32,19 +28,38 @@ interface FormData {
 interface EducationFormProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
-  handleContinue: (e: React.FormEvent<HTMLFormElement>) => void;}
-
+  handleContinue: (e: React.FormEvent<HTMLFormElement>) => void;
+}
 
 const EducationForm: React.FC<EducationFormProps> = ({ formData, setFormData, handleContinue }) => {
-  // Handle input changes for address
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       address: [{
         ...prevFormData.address[0],
         [id]: value,
+      }],
+    }));
+  };
+
+  const handleCountryChange = (val: string) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      address: [{
+        ...prevFormData.address[0],
+        country: val,
+        state: '', // Reset state when country changes
+      }],
+    }));
+  };
+
+  const handleStateChange = (val: string) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      address: [{
+        ...prevFormData.address[0],
+        state: val,
       }],
     }));
   };
@@ -78,29 +93,24 @@ const EducationForm: React.FC<EducationFormProps> = ({ formData, setFormData, ha
           </div>
           <div className="flex flex-col gap-2 mt-4">
             <label htmlFor="country">Country</label>
-            <Input
+            <CountryDropdown
               id="country"
-              placeholder="Country"
               value={formData.address[0]?.country || ''}
-              onChange={handleInputChange}
+              onChange={handleCountryChange}
+              classes="py-2 px-3 border rounded-lg w-full text-sm"
             />
           </div>
           <div className="flex gap-10 max-md:gap-4 mt-4">
             <div className="flex flex-col gap-2">
               <label htmlFor="state">State</label>
-              <div className='px-2 border text-neutral-400 rounded-lg w-[200px] max-md:w-full'>
-                <select
-                  id="state"
-                  className="py-4 px-2 border-none text-sm w-full border-neutral-300 max-md:text-xs"
-                  value={formData.address[0]?.state || ''}
-                  onChange={handleInputChange}
-                >
-                  <option value="" disabled>Select Here</option>
-                  <option value="state1">State 1</option>
-                  <option value="state2">State 2</option>
-                  <option value="state3">State 3</option>
-                </select>
-              </div>
+              <RegionDropdown
+                id="state"
+                country={formData.address[0]?.country || ''}
+                value={formData.address[0]?.state || ''}
+                onChange={handleStateChange}
+                classes="py-2 px-3 border rounded-lg w-[200px] max-md:w-full text-sm"
+                disableWhenEmpty={true}
+              />
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="postalCode">Postal Code</label>
@@ -124,4 +134,5 @@ const EducationForm: React.FC<EducationFormProps> = ({ formData, setFormData, ha
     </div>
   );
 };
+
 export default EducationForm;

@@ -86,7 +86,9 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ addCertification, s
       {/* Modal Structure */}
       <input type="checkbox" id="my_modal_7" className="modal-toggle" />
       <div className="modal" role="dialog">
+     
         <div className="modal-box max-w-xl max-md:w-[349px]">
+        <h2 id="modal-title" className="text-xl font-semibold mb-4">Add Certifications Detials</h2>
           <div className="flex flex-col mt-4 gap-2">
             <label htmlFor="name">Certificate Name</label>
             <Input
