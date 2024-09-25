@@ -17,9 +17,10 @@ type Project = {
 interface ProjectDetailsProps {
   addProject: (project: Project) => void;
   showOnMount: boolean;
+  handleSkip: (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks') => void;
 }
 
-const ProjectDetails: React.FC<ProjectDetailsProps> = ({ addProject, showOnMount }) => {
+const ProjectDetails: React.FC<ProjectDetailsProps> = ({ addProject, showOnMount, handleSkip }) => {
   const [project, setProject] = useState<Project>({
     title: '',
     description: '',
@@ -150,10 +151,14 @@ const ProjectDetails: React.FC<ProjectDetailsProps> = ({ addProject, showOnMount
               />
             </div>
             {validationError && <p className="text-red-500">{validationError}</p>}
-            <div className="flex justify-start mt-6 gap-2">
+            <div className="flex justify-between items-center mt-6 w-full">
               <Button variant="primary" type="submit">
                 Add Project
               </Button>
+
+              <Button variant="secondary" type="button" onClick={() => handleSkip('projects')}  className="max-md:w-[230px] max-lg:w-[400px]">
+          Skip
+        </Button>
             </div>
           </form>
         </div>

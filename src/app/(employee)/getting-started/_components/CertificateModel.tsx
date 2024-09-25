@@ -16,9 +16,10 @@ interface Certification {
 interface CertificateModelProps {
   addCertification: (certification: Certification) => void;
   showOnMount: boolean;
+  handleSkip: (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks') => void;
 }
 
-const CertificateModel: React.FC<CertificateModelProps> = ({ addCertification, showOnMount }) => {
+const CertificateModel: React.FC<CertificateModelProps> = ({ addCertification, showOnMount, handleSkip }) => {
   const [certification, setCertification] = useState<Certification>({
     name: '',
     issuingOrganization: '',
@@ -156,9 +157,15 @@ const CertificateModel: React.FC<CertificateModelProps> = ({ addCertification, s
             />
           </div>
           {validationError && <p className="text-red-500">{validationError}</p>}
-          <Button variant="primary" className='mt-4' onClick={handleAdd}>
+          <div className="flex justify-between items-center mt-4 w-full">
+          <Button variant="primary" className='' onClick={handleAdd}>
             {"Add Certificate"}
           </Button>
+
+          <Button variant="secondary" type="button" onClick={() => handleSkip('certifications')}  className="max-md:w-[230px] max-lg:w-[400px]">
+          Skip
+        </Button>
+            </div>
         </div>
         <label className="modal-backdrop" htmlFor="my_modal_7">Close</label>
       </div>

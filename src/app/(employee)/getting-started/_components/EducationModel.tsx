@@ -39,9 +39,10 @@ interface EducationModelProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   showOnMount: boolean;
+  handleSkip: (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks') => void;
 }
 
-const EducationModel: React.FC<EducationModelProps> = ({ formData, setFormData, showOnMount }) => {
+const EducationModel: React.FC<EducationModelProps> = ({ formData, setFormData, showOnMount, handleSkip }) => {
   const [institutionName, setInstitutionName] = useState('');
   const [degree, setDegree] = useState('');
   const [fieldOfStudy, setFieldOfStudy] = useState('');
@@ -168,14 +169,20 @@ const EducationModel: React.FC<EducationModelProps> = ({ formData, setFormData, 
             </div>
           </div>
           {validationError && <p className="text-red-500">{validationError}</p>}
+          <div className="flex items-center justify-between mt-4">
           <Button
             variant="primary"
             type='button'
-            className='mt-4'
+            className=''
             onClick={handleAddEducation}
           >
             Add Education
           </Button>
+
+          <Button variant="secondary" type="button" onClick={() => handleSkip('education')}  className="max-md:w-[230px] max-lg:w-[400px]">
+          Skip
+        </Button>
+            </div>
         </div>
         {/* Modal Close Button */}
         <label className="modal-backdrop" htmlFor="education-modal">Close</label>

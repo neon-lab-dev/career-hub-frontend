@@ -133,12 +133,28 @@ const Page: React.FC = () => {
     setStep(8); // Move to Step 8
   };
 
+  const handleSkip = (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks') => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [section]: [], // Clears the selected section data
+    }));
+  
+    // Move to the next step
+    handleContinueSkip();
+  };
+  
+  // Create a wrapper to call handleContinue without event
+  const handleContinueSkip = () => {
+    const fakeEvent = { preventDefault: () => {} } as React.FormEvent<HTMLFormElement>;
+    handleContinue(fakeEvent);
+  };
+
   return (
     <GetStartedLayout progress={Step * 12.5} goToPreviousStep={goToPreviousStep}>
       <div className="flex justify-center w-full">
         <div className="flex justify-center gap-4">
           {Step === 1 && (
-            <EducationForm formData={formData} setFormData={setFormData} handleContinue={handleContinue} />
+            <EducationForm formData={formData} setFormData={setFormData} handleContinue={handleContinue}/>
           )}
           {Step === 2 && (
             <div>
@@ -157,8 +173,8 @@ const Page: React.FC = () => {
                   <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteEducation(index)} className='cursor-pointer' />
                 </div>
               ))}
-              <EducationModel formData={formData} setFormData={setFormData} showOnMount={showProjectModal} />
-              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
+              <EducationModel formData={formData} setFormData={setFormData} showOnMount={showProjectModal} handleSkip={handleSkip} />
+              <div className='flex justify-between items-center max-lg:mt-32 mb-10 mt-5'>
                 <Button
                   variant="primary"
                   type="button"
@@ -168,6 +184,10 @@ const Page: React.FC = () => {
                 >
                   Continue
                 </Button>
+
+                <Button variant="secondary" type="button" onClick={() => handleSkip('education')} className="max-md:w-[230px] max-lg:w-[400px] ml-4">
+          Skip
+        </Button>
               </div>
             </div>
           )}
@@ -189,17 +209,21 @@ const Page: React.FC = () => {
                   <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteProject(index)} className='cursor-pointer' />
                 </div>
               ))}
-              <ProjectDetails addProject={addProject} showOnMount={showProjectModal} />
-              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
+              <ProjectDetails addProject={addProject} showOnMount={showProjectModal} handleSkip={handleSkip} />
+              <div className='flex justify-between items-center max-lg:mt-32 mb-10 mt-5'>
                 <Button
                   variant="primary"
                   type="button"
                   className='max-md:w-[230px] max-lg:w-[400px]'
                   onClick={handleContinue}
-                  disabled={formData.projects.length === 0} // Disable if no projects
+                  disabled={formData.education.length === 0} // Disable if no education data
                 >
                   Continue
                 </Button>
+
+                <Button variant="secondary" type="button" onClick={() => handleSkip('projects')} className="max-md:w-[230px] max-lg:w-[400px] ml-4">
+          Skip
+        </Button>
               </div>
             </div>
           )}
@@ -222,17 +246,21 @@ const Page: React.FC = () => {
                   <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteExperience(index)} className='cursor-pointer' />
                 </div>
               ))}
-              <ExperienceModel formData={formData} setFormData={setFormData} showOnMount={showProjectModal} />
-              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
+              <ExperienceModel formData={formData} setFormData={setFormData} showOnMount={showProjectModal} handleSkip={handleSkip} />
+              <div className='flex justify-between items-center max-lg:mt-32 mb-10 mt-5'>
                 <Button
                   variant="primary"
                   type="button"
                   className='max-md:w-[230px] max-lg:w-[400px]'
                   onClick={handleContinue}
-                  disabled={formData.experience.length === 0} // Disable if no experience data
+                  disabled={formData.education.length === 0} // Disable if no education data
                 >
                   Continue
                 </Button>
+
+                <Button variant="secondary" type="button" onClick={() => handleSkip('experience')} className="max-md:w-[230px] max-lg:w-[400px] ml-4">
+          Skip
+        </Button>
               </div>
             </div>
           )}
@@ -254,29 +282,33 @@ const Page: React.FC = () => {
                   <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteCertification(index)} className='cursor-pointer' />
                 </div>
               ))}
-              <CertificateModel addCertification={addCertification} showOnMount={showProjectModal} />
-              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
+              <CertificateModel addCertification={addCertification} showOnMount={showProjectModal} handleSkip={handleSkip} />
+              <div className='flex justify-between items-center max-lg:mt-32 mb-10 mt-5'>
                 <Button
                   variant="primary"
                   type="button"
                   className='max-md:w-[230px] max-lg:w-[400px]'
                   onClick={handleContinue}
-                  disabled={formData.certifications.length === 0} // Disable if no certifications data
+                  disabled={formData.education.length === 0} // Disable if no education data
                 >
                   Continue
                 </Button>
+
+                <Button variant="secondary" type="button" onClick={() => handleSkip('certifications')} className="max-md:w-[230px] max-lg:w-[400px] ml-4">
+          Skip
+        </Button>
               </div>
             </div>
           )}
 
           {Step === 6 && (
             <div>
-              <SocialLinksSkills formData={formData} setFormData={setFormData} handleContinue={handleContinue} />
+              <SocialLinksSkills formData={formData} setFormData={setFormData} handleContinue={handleContinue} handleSkip={handleSkip} />
             </div>
           )}
           {Step === 7 && (
             <div>
-              <ResumeUpload setSelectedFile={setSelectedFile} handleResumeUploadSuccess={handleResumeUploadSuccess} />
+              <ResumeUpload handleSkip={handleSkip} setSelectedFile={setSelectedFile} handleResumeUploadSuccess={handleResumeUploadSuccess} />
             </div>
           )}
           {Step === 8 && (
