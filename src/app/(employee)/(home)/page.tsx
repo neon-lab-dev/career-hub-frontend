@@ -5,12 +5,16 @@ import LatestInternshipsForYou from "./_components/LatestInternshipsForYouCompon
 import TrendingToday from "../../../components/TrendingCourseToday";
 import WhatWeDoComponent from "../../../components/WhatWeDo";
 import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
+import SkillProgrammes from "./_components/SkillProgrammes";
+import AvailableCourses from './_components/AvailableCourses';
 
 const HomePage = () => {
   return (
     <div className="flex flex-col">
       <HeroComponent />
       <TrendingToday />
+      <SkillProgrammes/>
+      <AvailableCourses/>
       <LatestJobYouMightLikeComponent />
       <LatestInternshipsForYou />
       <OurValuableHiringPartners />

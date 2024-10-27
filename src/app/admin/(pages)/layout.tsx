@@ -19,6 +19,14 @@ const navLinks = [
     label: "Jobs Posted",
     path: "/admin/jobs-posted",
   },
+  {
+    label: "Skill Programmes",
+    path: "/admin/skill-programmes",
+  },
+  {
+    label: "Courses",
+    path: "/admin/courses",
+  },
 ];
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {
