@@ -28,6 +28,7 @@ import doc from "@/assets/icons/Documents.svg";
 import view from "@/assets/icons/eye.svg";
 import Edit from "@/assets/images/Vector.svg";
 import filter from "@/assets/icons/filter.svg";
+import play from "@/assets/icons/play.svg";
 
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
@@ -85,4 +86,5 @@ export const ICONS = {
   magnifer,
   penResume,
   penEdit,
+  play,
 };

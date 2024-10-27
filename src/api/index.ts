@@ -50,6 +50,13 @@ const api = {
   applyJob: baseUrl + "/apply/job", //:id
   adminStats: baseUrl + "/admin/counts",
   adminJob: baseUrl + "/admin/job", //:id
+  allSkillProgrammes: baseUrl + "/skills",
+  singleSkillProgramme: baseUrl + "/skills",
+  deleteSkill: baseUrl + "/skills",
+  getAllCourses: baseUrl + "/courses",
+  getSingleCourse: baseUrl + "/courses",
+  deleteCourse: baseUrl + "/courses",
+  video: baseUrl + "/video",
 
 
 };
