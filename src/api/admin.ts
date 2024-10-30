@@ -113,6 +113,23 @@ export const deleteCourseById = async (id: string): Promise<void> => {
 };
 
 
+// Function to delete a video using its id
+export const deleteVideoById = async (id: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(`${api.video}/${id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        resolve()
+      })
+      .catch((err) => {
+        reject(err?.response?.message ?? "Failed to delete video");
+      });
+  });
+};
+
+
 // Function to get single course data using id
 export const getSingleCourse = async (id: string): Promise<any> => {
   return new Promise((resolve, reject) => {

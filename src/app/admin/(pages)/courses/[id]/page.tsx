@@ -2,7 +2,7 @@
 import back from "@/assets/icons/arrow_back.svg";
 import Loading from "@/components/Loading";
 import NotFound from "@/components/NotFound";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 
 import { useForm } from "react-hook-form";
@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { getSingleCourse, getSingleSkill } from "@/api/admin";
+import { deleteVideoById, getSingleCourse } from "@/api/admin";
 
 type TVideo = {
     _id: string;
@@ -37,6 +37,8 @@ type SkillFormData = {
 };
 
 const EditCourse = ({ params: { id } }: Props) => {
+  const [videoIds, setVideoIds] = useState<string[]>([]);
+  const queryClient = useQueryClient();
   const { register: videoRegister, handleSubmit: videoHandleSubmit, formState: { errors: videoErrors } } = useForm<VideoFormData>();
   const [videoId, setVideoId] = useState<string | null>(null);
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
@@ -52,38 +54,58 @@ const EditCourse = ({ params: { id } }: Props) => {
   // Video Update Form Handling
   const videoMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      try {
-        console.log('FormData being sent:', data);
-
-        const response = await axios.put(
-          `https://carrerhub-backend.vercel.app/api/v1/video/${videoId}`,
-          data,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-            withCredentials: true,
-          }
-        );
-
-        console.log('API response:', response);
-        return response.data;
-
-      } catch (error) {
-        toast.error('Error occurred during API call');
-        throw error;
-      }
+      const response = await axios.post(
+        "https://carrerhub-backend.vercel.app/api/v1/video/create",
+        data,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true,
+        }
+      );
+      return response.data;
     },
     onSuccess: (data) => {
-      console.log('Success data:', data);
-      setVideoId(data?.video?._id);
-      toast.success("Video updated successfully!");
+      const newVideoId = data?.video?._id;
+      setVideoIds((prev) => [...prev, newVideoId]);
+      setVideoId(newVideoId);  // Save the newly uploaded video ID in state
+      toast.success("Video uploaded successfully!");
+  
+      // Call the Edit Course API to update the course with the new video ID
+      updateCourseWithNewVideo(newVideoId);
     },
-    onError: (error) => {
-      console.error('Mutation error:', error);
-      toast.error("Failed to update video.");
+    onError: () => {
+      toast.error("Failed to upload video.");
     },
   });
+  
+  // Function to call the Edit Course API with the new video ID
+  const updateCourseWithNewVideo = (videoId :string) => {
+    if (!videoId){
+      toast.error("Please upload a video first.");
+      return;
+    };
+  
+    const formData = new FormData();
+    formData.append("videoId", videoId);
+  
+    axios.put(
+      `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`,
+      formData,
+      {
+        withCredentials: true,
+      }
+    )
+    .then(() => {
+      toast.success("Course updated with new video!");
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
+    })
+    .catch(() => {
+      toast.error("Failed to update course with new video.");
+    });
+  };
+  
 
   const onSubmitVideo = async (data: VideoFormData) => {
     const formData = new FormData();
@@ -93,9 +115,9 @@ const EditCourse = ({ params: { id } }: Props) => {
     toast.promise(
       videoMutation.mutateAsync(formData),
       {
-        loading: 'Updating video...',
-        success: 'Video updated successfully!',
-        error: 'Failed to update video.',
+        loading: 'Uploading video...',
+        success: 'Video uploaded successfully!',
+        error: 'Failed to upload video.',
       }
     );
   };
@@ -142,6 +164,25 @@ const EditCourse = ({ params: { id } }: Props) => {
   };
 
 
+    // Delete course
+    const { mutate: deleteVideo } = useMutation({
+      mutationFn: (id: string) => deleteVideoById(id),
+      onSuccess: () => {
+        toast.success("Video deleted successfully");
+        // Invalidate the query to refresh the course list
+        queryClient.invalidateQueries({ queryKey: ["courses"] });
+      },
+      onError: (error: string) => {
+        toast.error(error);
+      },
+    });
+  
+    // Delete course video
+    const handleDeleteVideo = (id: string) => {
+      deleteVideo(id);
+    };
+
+
   if (isLoading) return <Loading className="h-[60vh] w-full" />;
 
   return (
@@ -158,52 +199,60 @@ const EditCourse = ({ params: { id } }: Props) => {
                   autoPlay 
                   className="w-[300px] h-[250px] rounded-lg"
                 />
-                <div onClick={() => {
-                  setVideoEditExpanded(!videoEditExpanded);
-                  setSelectedVideo(video)
-                }} className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer">Edit</div>
+                <div 
+                onClick={() => {
+                  handleDeleteVideo(video._id);
+                }}
+                className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer">Delete</div>
              </div>
             )
           }
         
         </div>
 
+        <button onClick={() => {
+                  setVideoEditExpanded(!videoEditExpanded);
+                }} 
+                type="submit" className="bg-primary-600 text-white px-4 py-3 rounded-md max-w-[800px] w-full mx-auto">
+            Add New Video
+          </button>
+
 
         {/* Video Update Form */}
         {
           videoEditExpanded &&
           <form onSubmit={videoHandleSubmit(onSubmitVideo)} className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 max-w-[800px] w-full mx-auto">
-          <div>
-            <label className="text-neutral-600 font-500 font-plus-jakarta-sans" htmlFor="title">
-              Video Title
-            </label>
-            <input
-            defaultValue={selectedVideo && selectedVideo.name}
-              id="title"
-              type="text"
-              className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-              {...videoRegister("title", { required: "Video title is required" })}
-            />
-            {videoErrors.title && <span className="text-red-500">{videoErrors.title.message}</span>}
-          </div>
+        <h3 className="text-xl font-semibold">Upload Videos</h3>
+        <div>
+          <label className="text-neutral-600 font-500 font-plus-jakarta-sans" htmlFor="title">
+            Video Title
+          </label>
+          <input
+            id="title"
+            type="text"
+            className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
+            {...videoRegister("title", { required: "Video title is required" })}
+          />
+          {videoErrors.title && <span className="text-red-500">{videoErrors.title.message}</span>}
+        </div>
 
-          <div>
-            <label className="text-neutral-600 font-500 font-plus-jakarta-sans" htmlFor="video">
-              Upload Video
-            </label>
-            <input
-              id="video"
-              type="file"
-              className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-              {...videoRegister("video", { required: "Video is required" })}
-            />
-            {videoErrors.video && <span className="text-red-500">{videoErrors.video.message}</span>}
-          </div>
-
-          <button type="submit" className="bg-primary-600 text-white px-4 py-3 rounded-md">
-            Update Video
-          </button>
-        </form>
+        <div>
+          <label className="text-neutral-600 font-500 font-plus-jakarta-sans" htmlFor="video">
+            Upload Video
+          </label>
+          <input
+          multiple
+            id="video"
+            type="file"
+            className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
+            {...videoRegister("video", { required: "Video is required" })}
+          />
+          {videoErrors.video && <span className="text-red-500">{videoErrors.video.message}</span>}
+        </div>
+        <button type="submit" className="bg-primary-600 text-white px-4 py-3 rounded-md">
+          Upload Videos
+        </button>
+      </form>
         }
 
         {/* Course Update Form */}
