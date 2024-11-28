@@ -79,7 +79,7 @@ const Navbar = () => {
       <div className="flex justify-between items-center  bg-white py-6  max-lg:px-4 wrapper max-width m-auto">
         <div className="flex items-center gap-8 font-Poppins">
           <span className="text-3xl font-bold pr-6">
-            <Link href="/"><Image src={IMAGES.logo1} alt="logo" className="w-[220px] max-md:w-[120px]" /></Link>
+            <Link href="/"><Image src={IMAGES.careerHublogo} alt="logo" className="w-[220px] max-md:w-[120px]" /></Link>
           </span>
           <ul className="flex gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold max-lg:hidden font-poppins">
             {navItems.map((item, index) => (

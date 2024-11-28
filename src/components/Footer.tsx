@@ -17,7 +17,7 @@ const Footer = () => {
       <div className="py-10 max-width m-auto">
         <div className="flex justify-between max-lg:flex-col mx-[160px] max-lg:mx-10 max-lg:gap-12">
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">
-            <Image src={IMAGES.logo2} alt="logo" className=" w-64" />
+            <Image src={IMAGES.careerHublogo} alt="logo" className=" w-64" />
             <p className="text-[22px] max-lg:text-[16px]">
               Monchi Health and Education Consultancy LLP.
               704/D4, Sushant Aquapolis,
