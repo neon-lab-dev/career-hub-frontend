@@ -33,9 +33,10 @@ interface SocialLinksSkillsProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   handleContinue: (e:any) => void;
+  handleSkip: (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks') => void;
 }
 
-const SocialLinksSkills: React.FC<SocialLinksSkillsProps> = ({ formData, setFormData, handleContinue }) => {
+const SocialLinksSkills: React.FC<SocialLinksSkillsProps> = ({ formData, setFormData, handleContinue, handleSkip }) => {
   const handleSocialLinkChange = (index: number, platform: keyof SocialLink, value: string) => {
     const updatedLinks = formData.socialLinks.map((link, i) =>
       i === index ? { ...link, [platform]: value } : link
@@ -96,17 +97,21 @@ const SocialLinksSkills: React.FC<SocialLinksSkillsProps> = ({ formData, setForm
           onChange={handleInterestsChange}
         />
       </div>
-      <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
-        <Button
-          variant="primary"
-          type="button"
-          className='max-md:w-[230px] max-lg:w-[400px]'
-          onClick={handleContinue}
-          disabled={formData.skills.length === 0 || !formData.socialLinks[0].linkedin || !formData.socialLinks[0].github} // Disable if no skills or social links
-        >
-          Continue
+      <div className='flex justify-between items-center max-lg:mt-32 mb-10 mt-5'>
+                <Button
+                  variant="primary"
+                  type="button"
+                  className='max-md:w-[230px] max-lg:w-[400px]'
+                  onClick={handleContinue}
+                  disabled={formData.education.length === 0} // Disable if no education data
+                >
+                  Continue
+                </Button>
+
+                <Button variant="secondary" type="button" onClick={() => handleSkip('socialLinks')} className="max-md:w-[230px] max-lg:w-[400px] ml-4">
+          Skip
         </Button>
-      </div>
+              </div>
     </div>
   );
 };

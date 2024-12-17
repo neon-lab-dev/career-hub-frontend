@@ -64,6 +64,30 @@ const EducationForm: React.FC<EducationFormProps> = ({ formData, setFormData, ha
     }));
   };
 
+  const handleSkip = () => {
+    // Set all address fields to empty strings
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      address: [{
+        street: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        country: ''
+      }],
+    }));
+  
+    // Call handleContinue directly
+    handleContinueSkip();
+  };
+  
+  // Create a wrapper to call handleContinue without event
+  const handleContinueSkip = () => {
+    const fakeEvent = { preventDefault: () => {} } as React.FormEvent<HTMLFormElement>;
+    handleContinue(fakeEvent);
+  };
+  
+
   return (
     <div>
       <div>
@@ -124,10 +148,15 @@ const EducationForm: React.FC<EducationFormProps> = ({ formData, setFormData, ha
               />
             </div>
           </div>
-          <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mt-5 max-lg:mb-5'>
+
+          <div className="flex justify-between items-center max-lg:mt-32 mt-5 max-lg:mb-5">
             <Button variant="primary" type="submit" className='max-md:w-[230px] max-lg:w-[400px]'>
               Continue
             </Button>
+
+            <Button variant="secondary" type="button" onClick={handleSkip} className="max-md:w-[230px] max-lg:w-[400px] ml-4">
+          Skip
+        </Button>
           </div>
         </form>
       </div>
