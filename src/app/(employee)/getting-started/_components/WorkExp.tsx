@@ -37,9 +37,10 @@ interface WorkExperienceModelProps {
   formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   showOnMount: boolean;
+  handleSkip: (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks') => void;
 }
 
-const WorkExperienceModel: React.FC<WorkExperienceModelProps> = ({ formData, setFormData, showOnMount }) => {
+const WorkExperienceModel: React.FC<WorkExperienceModelProps> = ({ formData, setFormData, showOnMount, handleSkip }) => {
   const [experience, setExperience] = useState<Experience>({
     title: '',
     company: '',
@@ -165,9 +166,15 @@ const WorkExperienceModel: React.FC<WorkExperienceModelProps> = ({ formData, set
                 className='border p-4 rounded-lg w-full'
               />
             </div>
-            <Button variant="primary" className='mt-4 w-full' onClick={handleAddExperience}>
+            <div className="flex justify-between items-center mt-4 gap-2 w-full">
+            <Button variant="primary" className='' onClick={handleAddExperience}>
               Add Experience
             </Button>
+
+            <Button variant="secondary" type="button" onClick={() => handleSkip('experience')}  className="max-md:w-[230px] max-lg:w-[400px]">
+          Skip
+        </Button>
+              </div>
           </div>
         </div>
         <label className="modal-backdrop" htmlFor="work_experience_modal">Close</label>

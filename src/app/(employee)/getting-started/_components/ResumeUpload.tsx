@@ -11,10 +11,17 @@ import { uploadResume } from '@/api/employee';
 interface ResumeUploadProps {
   setSelectedFile: (file: File | null) => void;
   handleResumeUploadSuccess: () => void;
+  handleSkip: (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks' | 'resume') => void;
+  // section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks' | "resume";
 }
 
 // ResumeUpload component
-const ResumeUpload: React.FC<ResumeUploadProps> = ({ setSelectedFile, handleResumeUploadSuccess }) => {
+const ResumeUpload: React.FC<ResumeUploadProps> = ({
+  setSelectedFile,
+  handleResumeUploadSuccess,
+  handleSkip,
+  // section,
+}) => {
   const [selectedFile, setLocalSelectedFile] = useState<File | null>(null);
 
   // Define the mutation for uploading resume
@@ -51,6 +58,13 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setSelectedFile, handleResu
     }
   };
 
+  // Handle skip action with section
+  const handleSkipUpload = () => {
+    setSelectedFile(null); // Reset the selected file in the parent component
+    handleSkip("resume");
+    toast.info('Resume upload skipped'); // Notify user
+  };
+
   return (
     <div>
       <div className="flex flex-col py-6 font-plus-jakarta-sans text-3xl max-md:text-xl max-sm:text-lg pr-4 font-700">
@@ -77,11 +91,16 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({ setSelectedFile, handleResu
           </div>
         </button>
       </div>
-      <div className="flex max-lg:justify-center justify-start max-lg:mt-32 mb-5 mt-5">
-        <Button variant="primary" type="button" onClick={handleUpload} className="max-md:w-[230px] max-lg:w-[400px]">
+
+
+      <div className="flex justify-between max-lg:mt-32 mb-5 mt-5">
+      <Button variant="primary" type="button" onClick={handleUpload} className="max-md:w-[230px] max-lg:w-[400px]">
           Upload
         </Button>
-      </div>
+        <Button variant="secondary" type="button" onClick={handleSkipUpload} className="max-md:w-[230px] max-lg:w-[400px] ml-4">
+          Skip
+        </Button>
+        </div>
     </div>
   );
 };

@@ -1,19 +1,19 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import Button from "@/components/Button";
 import GetStartedLayout from "./_components/getStartedLayout";
-import Image from 'next/image';
-import { IMAGES } from '@/assets';
-import EducationModel from './_components/EducationModel';
-import ProjectDetails from './_components/ProjectDetails';
-import CertificateModel from './_components/CertificateModel';
-import ExperienceModel from './_components/WorkExp';
-import EducationForm from './_components/EducationForm';
-import ResumeUpload from './_components/ResumeUpload';
-import SocialLinksSkills from './_components/SocialLInksAndSkills';
-import Successfully from './_components/Successfully';
-import { toast } from 'sonner'; 
-import {  useUpdateUserDetails } from '@/api/updateUserDetails';
+import Image from "next/image";
+import { IMAGES } from "@/assets";
+import EducationModel from "./_components/EducationModel";
+import ProjectDetails from "./_components/ProjectDetails";
+import CertificateModel from "./_components/CertificateModel";
+import ExperienceModel from "./_components/WorkExp";
+import EducationForm from "./_components/EducationForm";
+import ResumeUpload from "./_components/ResumeUpload";
+import SocialLinksSkills from "./_components/SocialLInksAndSkills";
+import Successfully from "./_components/Successfully";
+import { toast } from "sonner";
+import { useUpdateUserDetails } from "@/api/updateUserDetails";
 
 interface CustomFormData {
   address: {
@@ -39,26 +39,27 @@ const Page: React.FC = () => {
   const [Step, setStep] = useState<number>(1);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [formData, setFormData] = useState<CustomFormData>({
-    address: [{
-      street: "",
-      city: "",
-      state: "",
-      postalCode: "",
-      country: "",
-    }],
+    address: [
+      {
+        street: "",
+        city: "",
+        state: "",
+        postalCode: "",
+        country: "",
+      },
+    ],
     education: [],
     projects: [],
     experience: [],
     certifications: [],
     skills: [],
-    socialLinks: [{ linkedin: '', github: '' }],
+    socialLinks: [{ linkedin: "", github: "" }],
     interests: [],
   });
 
   const [showProjectModal, setShowProjectModal] = useState<any>(false);
 
   const { mutate: updateUserDetails } = useUpdateUserDetails();
-
 
   const goToPreviousStep = () => {
     if (Step > 1) {
@@ -72,10 +73,14 @@ const Page: React.FC = () => {
     if (Step === 6) {
       try {
         updateUserDetails(formData);
-        toast.success('User details updated successfully!');
+        toast.success("User details updated successfully!");
       } catch (error: any) {
-        console.error('Error updating user details:', error);
-        toast.error(`Error updating user details: ${error.response?.data?.message || error.message}`);
+        console.error("Error updating user details:", error);
+        toast.error(
+          `Error updating user details: ${
+            error.response?.data?.message || error.message
+          }`
+        );
       }
     }
 
@@ -133,12 +138,46 @@ const Page: React.FC = () => {
     setStep(8); // Move to Step 8
   };
 
+  const handleSkip = (
+    section:
+      | "education"
+      | "projects"
+      | "experience"
+      | "certifications"
+      | "socialLinks"
+      |
+      "resume"
+  ) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [section]: [], // Clears the selected section data
+    }));
+
+    // Move to the next step
+    handleContinueSkip();
+  };
+
+  // Create a wrapper to call handleContinue without event
+  const handleContinueSkip = () => {
+    const fakeEvent = {
+      preventDefault: () => {},
+    } as React.FormEvent<HTMLFormElement>;
+    handleContinue(fakeEvent);
+  };
+
   return (
-    <GetStartedLayout progress={Step * 12.5} goToPreviousStep={goToPreviousStep}>
+    <GetStartedLayout
+      progress={Step * 12.5}
+      goToPreviousStep={goToPreviousStep}
+    >
       <div className="flex justify-center w-full">
         <div className="flex justify-center gap-4">
           {Step === 1 && (
-            <EducationForm formData={formData} setFormData={setFormData} handleContinue={handleContinue} />
+            <EducationForm
+              formData={formData}
+              setFormData={setFormData}
+              handleContinue={handleContinue}
+            />
           )}
           {Step === 2 && (
             <div>
@@ -146,27 +185,51 @@ const Page: React.FC = () => {
                 <span>Education</span>
               </div>
               {formData.education.map((certificate: any, index: number) => (
-                <div key={index} className='flex border items-center m-2 gap-10 p-3 rounded-xl'>
-                  <div className='flex flex-col w-[240px]'>
-                    <span className='text-xl text-neutral-900 font-bold'>{certificate.institutionName}</span>
-                    <div className='flex flex-col text-[16px] text-neutral-500'>
+                <div
+                  key={index}
+                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
+                >
+                  <div className="flex flex-col w-[240px]">
+                    <span className="text-xl text-neutral-900 font-bold">
+                      {certificate.institutionName}
+                    </span>
+                    <div className="flex flex-col text-[16px] text-neutral-500">
                       <span>{`${certificate.degree} | ${certificate.fieldOfStudy}`}</span>
                       <span>{`${certificate.startDate} - ${certificate.endDate}`}</span>
                     </div>
                   </div>
-                  <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteEducation(index)} className='cursor-pointer' />
+                  <Image
+                    src={IMAGES.bin}
+                    alt="Delete"
+                    onClick={() => deleteEducation(index)}
+                    className="cursor-pointer"
+                  />
                 </div>
               ))}
-              <EducationModel formData={formData} setFormData={setFormData} showOnMount={showProjectModal} />
-              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
+              <EducationModel
+                formData={formData}
+                setFormData={setFormData}
+                showOnMount={showProjectModal}
+                handleSkip={handleSkip}
+              />
+              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
                 <Button
                   variant="primary"
                   type="button"
-                  className='max-md:w-[230px] max-lg:w-[400px]'
+                  className="max-md:w-[230px] max-lg:w-[400px]"
                   onClick={handleContinue}
                   disabled={formData.education.length === 0} // Disable if no education data
                 >
                   Continue
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={() => handleSkip("education")}
+                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                >
+                  Skip
                 </Button>
               </div>
             </div>
@@ -178,27 +241,52 @@ const Page: React.FC = () => {
                 <span>Project Details</span>
               </div>
               {formData.projects.map((project: any, index: number) => (
-                <div key={index} className='flex border items-center m-2 gap-10 p-3 rounded-xl'>
-                  <div className='flex flex-col w-[240px]'>
-                    <span className='text-xl text-neutral-900 font-bold'>{project.title}</span>
-                    <div className='flex flex-col text-[16px] text-neutral-500'>
+                <div
+                  key={index}
+                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
+                >
+                  <div className="flex flex-col w-[240px]">
+                    <span className="text-xl text-neutral-900 font-bold">
+                      {project.title}
+                    </span>
+                    <div className="flex flex-col text-[16px] text-neutral-500">
                       <span>{project.description}</span>
-                      <span>{project.startDate} - {project.endDate}</span>
+                      <span>
+                        {project.startDate} - {project.endDate}
+                      </span>
                     </div>
                   </div>
-                  <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteProject(index)} className='cursor-pointer' />
+                  <Image
+                    src={IMAGES.bin}
+                    alt="Delete"
+                    onClick={() => deleteProject(index)}
+                    className="cursor-pointer"
+                  />
                 </div>
               ))}
-              <ProjectDetails addProject={addProject} showOnMount={showProjectModal} />
-              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
+              <ProjectDetails
+                addProject={addProject}
+                showOnMount={showProjectModal}
+                handleSkip={handleSkip}
+              />
+              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
                 <Button
                   variant="primary"
                   type="button"
-                  className='max-md:w-[230px] max-lg:w-[400px]'
+                  className="max-md:w-[230px] max-lg:w-[400px]"
                   onClick={handleContinue}
-                  disabled={formData.projects.length === 0} // Disable if no projects
+                  disabled={formData.education.length === 0} // Disable if no education data
                 >
                   Continue
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={() => handleSkip("projects")}
+                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                >
+                  Skip
                 </Button>
               </div>
             </div>
@@ -210,28 +298,54 @@ const Page: React.FC = () => {
                 <span>Work Experience</span>
               </div>
               {formData.experience.map((exp: any, index: number) => (
-                <div key={index} className='flex border items-center m-2 gap-10 p-3 rounded-xl'>
-                  <div className='flex flex-col w-[240px]'>
-                    <span className='text-xl text-neutral-900 font-bold'>{exp.company}</span>
-                    <div className='flex flex-col text-[16px] text-neutral-500'>
+                <div
+                  key={index}
+                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
+                >
+                  <div className="flex flex-col w-[240px]">
+                    <span className="text-xl text-neutral-900 font-bold">
+                      {exp.company}
+                    </span>
+                    <div className="flex flex-col text-[16px] text-neutral-500">
                       <span>{exp.title}</span>
                       <span>{exp.description}</span>
-                      <span>{exp.startDate} - {exp.endDate}</span>
+                      <span>
+                        {exp.startDate} - {exp.endDate}
+                      </span>
                     </div>
                   </div>
-                  <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteExperience(index)} className='cursor-pointer' />
+                  <Image
+                    src={IMAGES.bin}
+                    alt="Delete"
+                    onClick={() => deleteExperience(index)}
+                    className="cursor-pointer"
+                  />
                 </div>
               ))}
-              <ExperienceModel formData={formData} setFormData={setFormData} showOnMount={showProjectModal} />
-              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
+              <ExperienceModel
+                formData={formData}
+                setFormData={setFormData}
+                showOnMount={showProjectModal}
+                handleSkip={handleSkip}
+              />
+              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
                 <Button
                   variant="primary"
                   type="button"
-                  className='max-md:w-[230px] max-lg:w-[400px]'
+                  className="max-md:w-[230px] max-lg:w-[400px]"
                   onClick={handleContinue}
-                  disabled={formData.experience.length === 0} // Disable if no experience data
+                  disabled={formData.education.length === 0} // Disable if no education data
                 >
                   Continue
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={() => handleSkip("experience")}
+                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                >
+                  Skip
                 </Button>
               </div>
             </div>
@@ -242,28 +356,56 @@ const Page: React.FC = () => {
               <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
                 <span>Certifications</span>
               </div>
-              {formData.certifications.map((certification: any, index: number) => (
-                <div key={index} className='flex border items-center m-2 gap-10 p-3 rounded-xl'>
-                  <div className='flex flex-col w-[240px]'>
-                    <span className='text-xl text-neutral-900 font-bold'>{certification.name}</span>
-                    <div className='flex flex-col text-[16px] text-neutral-500'>
-                      <span>{certification.issuingOrganization}</span>
-                      <span>{certification.issueDate} - {certification.expirationDate}</span>
+              {formData.certifications.map(
+                (certification: any, index: number) => (
+                  <div
+                    key={index}
+                    className="flex border items-center m-2 gap-10 p-3 rounded-xl"
+                  >
+                    <div className="flex flex-col w-[240px]">
+                      <span className="text-xl text-neutral-900 font-bold">
+                        {certification.name}
+                      </span>
+                      <div className="flex flex-col text-[16px] text-neutral-500">
+                        <span>{certification.issuingOrganization}</span>
+                        <span>
+                          {certification.issueDate} -{" "}
+                          {certification.expirationDate}
+                        </span>
+                      </div>
                     </div>
+                    <Image
+                      src={IMAGES.bin}
+                      alt="Delete"
+                      onClick={() => deleteCertification(index)}
+                      className="cursor-pointer"
+                    />
                   </div>
-                  <Image src={IMAGES.bin} alt='Delete' onClick={() => deleteCertification(index)} className='cursor-pointer' />
-                </div>
-              ))}
-              <CertificateModel addCertification={addCertification} showOnMount={showProjectModal} />
-              <div className='flex max-lg:justify-center justify-start max-lg:mt-32 mb-10 mt-5'>
+                )
+              )}
+              <CertificateModel
+                addCertification={addCertification}
+                showOnMount={showProjectModal}
+                handleSkip={handleSkip}
+              />
+              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
                 <Button
                   variant="primary"
                   type="button"
-                  className='max-md:w-[230px] max-lg:w-[400px]'
+                  className="max-md:w-[230px] max-lg:w-[400px]"
                   onClick={handleContinue}
-                  disabled={formData.certifications.length === 0} // Disable if no certifications data
+                  disabled={formData.education.length === 0}
                 >
                   Continue
+                </Button>
+
+                <Button
+                  variant="secondary"
+                  type="button"
+                  onClick={() => handleSkip("certifications")}
+                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                >
+                  Skip
                 </Button>
               </div>
             </div>
@@ -271,17 +413,24 @@ const Page: React.FC = () => {
 
           {Step === 6 && (
             <div>
-              <SocialLinksSkills formData={formData} setFormData={setFormData} handleContinue={handleContinue} />
+              <SocialLinksSkills
+                formData={formData}
+                setFormData={setFormData}
+                handleContinue={handleContinue}
+                handleSkip={handleSkip}
+              />
             </div>
           )}
           {Step === 7 && (
             <div>
-              <ResumeUpload setSelectedFile={setSelectedFile} handleResumeUploadSuccess={handleResumeUploadSuccess} />
+              <ResumeUpload
+                handleSkip={handleSkip}
+                setSelectedFile={setSelectedFile}
+                handleResumeUploadSuccess={handleResumeUploadSuccess}
+              />
             </div>
           )}
-          {Step === 8 && (
-            <Successfully />
-          )}
+          {Step === 8 && <Successfully />}
         </div>
       </div>
     </GetStartedLayout>

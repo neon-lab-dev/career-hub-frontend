@@ -18,9 +18,7 @@ const Sidebar = ({ navLinks }: { navLinks: INavLink[] }) => {
 
   return (
     <div className="w-[177px] pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 flex flex-col gap-16 h-full">
-      <span className="text-3xl font-bold pr-6">
-        <Link href="/"><Image src={IMAGES.logo} alt="logo" /></Link>
-      </span>
+        <Link href="/" className="size-[80px]"><Image src={IMAGES.medHr} alt="medHr" /></Link>
 
       <div className="flex flex-col gap-3">
         {navLinks.map((navLink, index) => (

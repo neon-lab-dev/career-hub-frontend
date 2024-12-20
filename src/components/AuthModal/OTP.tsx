@@ -60,12 +60,13 @@ const OTP = ({
     mutationFn: handleVerifyEmployerOTPService,
     onSuccess: (msg) => {
       toast.success(msg);
+      router.push("/employer/getting-started");
       queryClient
         .invalidateQueries({
           queryKey: ["employer-profile"],
         })
         .then(() => {
-          router.push("/employer/getting-started");
+          
           dispatch(closeAuthModal());
         });
     },
