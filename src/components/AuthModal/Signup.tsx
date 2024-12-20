@@ -5,8 +5,6 @@ import Link from "next/link";
 import downArrow from "../../assets/icons/down-arrow.svg";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import api from "@/api";
-import axios from "axios";
 import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { setAuthModalType } from "@/store/slices/authSlice";
@@ -19,7 +17,7 @@ import OTP from "./OTP";
 
 const Signup = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [data, setData] = useState<any>({}); // This is the mail on which the OTP will be sent
+  const [data, setData] = useState<any>({});
   const { activeTab, authModalType } = useAppSelector((state) => state.auth);
   const dropDownRef = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();

@@ -7,7 +7,7 @@ import Profile from "./_components/Profile";
 import EducationComponent from "./_components/EducationComponent";
 import Project from "./_components/Project";
 import WorkExp from "./_components/WorkExp";
-import Certifications from "./_components/Certifcation"; // Corrected component name
+import Certifications from "./_components/Certifcation";
 import Skills from "./_components/Skills";
 import { fetchUserData } from '@/api/employee';
 
@@ -43,6 +43,7 @@ const Dashboard = () => {
   }
 
   const { avatar, full_name, education, resumes, projects, experience, certifications, skills } = data.user;
+  console.log(data)
 
   const avatarUrl = avatar?.url || '/path/to/default-avatar.png'; // Provide a valid path for default avatar
   const resumeUrl = resumes?.url || '#'; // Provide a valid path or URL for default resume

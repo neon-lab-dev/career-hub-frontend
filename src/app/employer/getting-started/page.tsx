@@ -22,11 +22,11 @@ const Page = () => {
       });
     },
     onError: (error: any) => {
-      toast.error(error.message); // Show error message using Sonner
+      toast.error(error.message);
     },
     onSuccess: () => {
       toast.success('Your information has been successfully updated!');
-      setStep(4); // Move to step 4 after successful submission
+      setStep(4);
     },
     onSettled: () => {
       setLoading(false);
