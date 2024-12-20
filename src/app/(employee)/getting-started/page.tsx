@@ -145,6 +145,8 @@ const Page: React.FC = () => {
       | "experience"
       | "certifications"
       | "socialLinks"
+      |
+      "resume"
   ) => {
     setFormData((prevFormData) => ({
       ...prevFormData,

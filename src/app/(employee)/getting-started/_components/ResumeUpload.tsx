@@ -11,8 +11,8 @@ import { uploadResume } from '@/api/employee';
 interface ResumeUploadProps {
   setSelectedFile: (file: File | null) => void;
   handleResumeUploadSuccess: () => void;
-  handleSkip: (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks') => void;
-  section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks';
+  handleSkip: (section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks' | 'resume') => void;
+  // section: 'education' | 'projects' | 'experience' | 'certifications' | 'socialLinks' | "resume";
 }
 
 // ResumeUpload component
@@ -20,7 +20,7 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
   setSelectedFile,
   handleResumeUploadSuccess,
   handleSkip,
-  section, // Receive the section prop
+  // section,
 }) => {
   const [selectedFile, setLocalSelectedFile] = useState<File | null>(null);
 
@@ -61,7 +61,7 @@ const ResumeUpload: React.FC<ResumeUploadProps> = ({
   // Handle skip action with section
   const handleSkipUpload = () => {
     setSelectedFile(null); // Reset the selected file in the parent component
-    handleSkip(section); // Call the skip handler with the section
+    handleSkip("resume");
     toast.info('Resume upload skipped'); // Notify user
   };
 
