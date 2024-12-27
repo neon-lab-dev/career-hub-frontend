@@ -14,7 +14,7 @@ export default function EmployeeRootLayout({ children }: any) {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      setIsSmallScreen(width <= 1300);
+      setIsSmallScreen(width <= 999);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
