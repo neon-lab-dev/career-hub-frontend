@@ -7,7 +7,7 @@ import AuthProvider from "@/providers/AuthProvider";
 
 export const metadata = {
   title: "MeDHr",
-  description: "Explore job/internships opportunities at the Career Hub.",
+  description: "Explore job and internships opportunities at MeDhr.",
 };
 
 export default function RootLayout({

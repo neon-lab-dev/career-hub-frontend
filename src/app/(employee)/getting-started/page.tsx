@@ -150,10 +150,9 @@ const Page: React.FC = () => {
   ) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [section]: [], // Clears the selected section data
+      [section]: [],
     }));
 
-    // Move to the next step
     handleContinueSkip();
   };
 

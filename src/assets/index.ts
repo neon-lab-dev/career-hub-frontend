@@ -1,5 +1,5 @@
 import companyLogo from "@/assets/images/company-logo.png";
-import careerHublogo from "@/assets/images/career-hub-logo.png";
+import careerHublogo from "@/assets/images/career-hub-logo1.png";
 import medHr from "@/assets/images/medHr.png";
 import hero1 from "@/assets/images/hero-1.png";
 import hero2 from "@/assets/images/hero-2.png";

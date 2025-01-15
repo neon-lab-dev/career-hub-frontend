@@ -125,7 +125,7 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
         <Image
           src={courseDetails?.image}
           alt="student1"
-          className="absolute right-0 bottom-0 w-[125px] sm:w-[244.03px] h-full"
+          className="absolute right-0 bottom-0 w-[125px] sm:w-[244.03px] h-full rounded-[19.583px]"
         />
         {/* </div> */}
       </div>
