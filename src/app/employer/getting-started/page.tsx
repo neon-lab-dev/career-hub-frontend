@@ -11,9 +11,10 @@ import api from '@/api';
 import { toast } from 'sonner';
 
 const Page = () => {
-  const { handleSubmit, control, formState: { errors } } = useForm();
+  const { handleSubmit, control, reset, formState: { errors } } = useForm();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({});
 
   const mutation = useMutation({
     mutationFn: async (data: any) => {
@@ -37,17 +38,31 @@ const Page = () => {
     setStep(step + 1);
   };
 
+  const handleSkip = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [`step${step}`]: {},
+    }));
+    reset({ [`address[0]`]: {} });
+    handleContinue();
+  };
+
   const goToPreviousStep = () => {
     if (step > 1) {
       setStep(step - 1);
     }
   };
 
-  const onSubmit = (data: any) => {
-    setLoading(true);
-    mutation.mutate(data);
-  };
+  // const onSubmit = (data: any) => {
+  //   setLoading(true);
+  //   mutation.mutate(data);
+  // };
 
+  const onSubmit = (data:any) => {
+    setLoading(true);
+    const completeData = { ...formData, [`step${step}`]: data };
+    mutation.mutate(completeData);
+  };
 
   return (
     <GetStartedLayout progress={step * 25} goToPreviousStep={goToPreviousStep}>
@@ -143,10 +158,18 @@ const Page = () => {
                     )}
                   />
                 </div>
-                <div className=' mt-8'>
+                <div className='flex items-center justify-between mt-8'>
                   <Button onClick={handleContinue} >
                     Contiune
                   </Button>
+                  <Button
+                  onClick={handleSkip}
+                  variant="secondary"
+                  type="button"
+                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                >
+                  Skip
+                </Button>
                 </div>
               </>
             )}
@@ -244,10 +267,18 @@ const Page = () => {
 
                   </div>
                 </div>
-                <div className=' mt-8'>
+                <div className='flex items-center justify-between mt-8'>
                   <Button onClick={handleContinue} >
                     Contiune
                   </Button>
+                  <Button
+                  onClick={handleSkip}
+                  variant="secondary"
+                  type="button"
+                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                >
+                  Skip
+                </Button>
                 </div>
               </>
             )}
@@ -324,10 +355,18 @@ const Page = () => {
                     )}
                   />
                 </div>
-                <div className=' mt-8'>
-                  <Button  type='submit' >
-                    Submit
+                <div className='flex items-center justify-between mt-8'>
+                  <Button onClick={handleContinue} >
+                    Contiune
                   </Button>
+                  <Button
+                  onClick={handleSkip}
+                  variant="secondary"
+                  type="button"
+                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                >
+                  Skip
+                </Button>
                 </div>
               </>
             )}
