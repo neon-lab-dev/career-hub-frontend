@@ -1,9 +1,9 @@
 "use client";
 import { getAllCourses } from "@/api/admin";
+import { ICourse } from "@/app/admin/(pages)/courses/page";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { ICourse } from "../course/[id]/page";
 
 const AvailableCourses = () => {
   const { isLoading, data } = useQuery({
