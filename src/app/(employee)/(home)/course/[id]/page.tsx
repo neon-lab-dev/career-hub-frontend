@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
@@ -14,7 +13,7 @@ interface IVideo {
     createdAt: string;
 }
 
-export interface ICourse {
+interface ICourse {
     _id: string;
     name: string;
     description: string;
@@ -28,32 +27,31 @@ export interface ICourse {
     createdAt: string;
     updatedAt: string;
     __v: number;
-  }
-
+}
 
 const fetchCourseById = async (id: string) => {
-  const { data } = await axios.get(`https://carrerhub-backend.vercel.app/api/v1/courses/${id}`);
-  return data;
+    const { data } = await axios.get(`https://carrerhub-backend.vercel.app/api/v1/courses/${id}`);
+    return data;
 };
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
+interface Props {
+    params: {
+        id: string;
+    };
+}
 
 const CourseDetails = ({ params: { id } }: Props) => {
-  const [openVideoModal, setOpenVideoModal] = useState(false);
-  const [currentVideo, setCurrentVideo] = useState<IVideo | null>(null);
+    const [openVideoModal, setOpenVideoModal] = useState(false);
+    const [currentVideo, setCurrentVideo] = useState<IVideo | null>(null);
 
-  const { isLoading, data } = useQuery({
-    queryKey: ["course", id],
-    queryFn: () => fetchCourseById(id),
-  });
+    const { isLoading, data } = useQuery({
+        queryKey: ["course", id],
+        queryFn: () => fetchCourseById(id),
+    });
 
-  if (isLoading) return <Loading />;
+    if (isLoading) return <Loading />;
 
-  const course:ICourse = data?.course;
+    const course: ICourse = data?.course;
 
   return (
     <div className="py-section flex flex-col items-center gap-10 px-6 lg:px-16">
