@@ -13,17 +13,17 @@ const WhatWeDo = () => {
           {
             img:IMAGES.org,
             heading: "Platform provider ",
-            desc: "The Careehub is a platform for organisations and aspirants, where both update their credentials and connect in between from their dedicated dashboards.",
+            desc: "Medhrplus is an online platform for organisations and for aspirants, where both update their credentials and connect in between from their dedicated dashboards.",
           },
           {
             img:IMAGES.apr,
             heading: "For Aspirants ",
-            desc: "They update their Credentials along with the field of interest, we provide them with a dedicated dashboard to apply their desired program.",
+            desc: "Aspirants update their credentials along with the field of interest, we provide them with a dedicated dashboard to apply their desired programs.",
           },
           {
             img:IMAGES.org,
             heading: "For Organisation ",
-            desc: "Employers may post their requirements and get registered aspirants along with details, also search for aspirants from the dashboard.",
+            desc: "Organisations/employers may post their programs/requirements and get registered aspirants, filtering their details according to the requirements dashboard.",
           },
         ].map((item, index) => (
           <div key={index} className="flex flex-col items-center lg:items-start text-center lg:text-left gap-1 max-w-80">
