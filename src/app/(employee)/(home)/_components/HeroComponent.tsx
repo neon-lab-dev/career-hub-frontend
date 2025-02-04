@@ -8,11 +8,11 @@ const HeroComponent = () => {
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
       <div className="max-width flex flex-col gap-[40px] xl:gap-28 wrapper">
         <div className="flex flex-col sm:items-center gap-5 justify-center sm:text-center ">
-          <h1 className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-700 leading-[120%] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl">
-            <span>Start your</span>{" "}
-            <span className="highlight text-white">Health Career</span> Today{" "}
+          <h1 className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700  xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl">
+            <span>Start your career in</span>{" "}
+            <span className="highlight text-white">HealthCare</span> Today{" "}
             <br className="hidden xl:block" />
-            with Top Internships and Jobs!
+            industry with us…
             <Image
               src={IMAGES.hero1}
               alt="hero1"
@@ -31,8 +31,8 @@ const HeroComponent = () => {
             />
           </h1>
           <p className="text-secondary-600 xl:max-w-3xl text-base sm:text-lg xl:text-2xl leading-[126%] max-w-sm md:max-w-3xl">
-            Find the best opportunities in the health industry. From internships
-            to full-time jobs, kickstart your career with us.
+            Find the best opportunities from leading healthcare providers, i.e.
+            internships, jobs, skill programs, courses, events, etc.
           </p>
           <SearchField />
         </div>
