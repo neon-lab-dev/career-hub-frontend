@@ -1,4 +1,4 @@
-const baseUrl = "https://carrerhub-backend.vercel.app/api/v1";
+const baseUrl = "https://api.medhrplus.com/api/v1";
 
 const api = {
   jobs: baseUrl + "/jobs",
