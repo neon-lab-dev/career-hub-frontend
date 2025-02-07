@@ -30,7 +30,7 @@ interface ICourse {
 }
 
 const fetchCourseById = async (id: string) => {
-    const { data } = await axios.get(`https://carrerhub-backend.vercel.app/api/v1/courses/${id}`);
+    const { data } = await axios.get(`https://api.medhrplus.com/api/v1/courses/${id}`);
     return data;
 };
 

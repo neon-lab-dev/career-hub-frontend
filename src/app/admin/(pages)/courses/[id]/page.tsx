@@ -55,7 +55,7 @@ const EditCourse = ({ params: { id } }: Props) => {
   const videoMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "https://carrerhub-backend.vercel.app/api/v1/video/create",
+        "https://api.medhrplus.com/api/v1/video/create",
         data,
         {
           headers: {
@@ -91,7 +91,7 @@ const EditCourse = ({ params: { id } }: Props) => {
     formData.append("videoId", videoId);
   
     axios.put(
-      `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`,
+      `https://api.medhrplus.com/api/v1/courses/${id}`,
       formData,
       {
         withCredentials: true,
@@ -128,7 +128,7 @@ const EditCourse = ({ params: { id } }: Props) => {
   const skillMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.put(
-        `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`,
+        `https://api.medhrplus.com/api/v1/courses/${id}`,
         data,
         {
           withCredentials: true,

@@ -22,7 +22,7 @@ const ContactPage: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://carrerhub-backend.vercel.app/api/v1/admin/contact", {
+      const response = await fetch("https://api.medhrplus.com/api/v1/admin/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

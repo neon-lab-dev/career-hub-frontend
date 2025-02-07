@@ -22,7 +22,7 @@ interface ProfileUpdateData {
 
 // Update profile function with FormData
 const updateProfile = async (data: FormData): Promise<void> => {
-    await axios.put('https://carrerhub-backend.vercel.app/api/v1/me/update', data, {
+    await axios.put('https://api.medhrplus.com/api/v1/me/update', data, {
         withCredentials: true,
         headers: {
             'Content-Type': 'multipart/form-data',
