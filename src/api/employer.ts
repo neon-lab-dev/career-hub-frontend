@@ -1,5 +1,5 @@
 import axios from "axios";
-import api from "."; // Import the `api` object
+import api from ".";
 import { IEmployer } from "@/types/employer";
 import { JobData } from "@/app/employer/(home)/page";
 import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
@@ -84,20 +84,20 @@ export const deleteJob = async (id: string) => {
 
 export const fetchProfileData = async (applicantId: string) => {
   const response = await axios.get(`${api.employergetemploee}/${applicantId}`, {
-      withCredentials: true,
+    withCredentials: true,
   });
   return response.data.emp;
 };
 
 export const approveApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
   await axios.put(api.changeStatus, data, {
-      withCredentials: true,
+    withCredentials: true,
   });
 };
 
 export const rejectApplicant = async (data: { jobId: string; applicantId: string; status: string }) => {
   await axios.put(api.changeStatus, data, {
-      withCredentials: true,
+    withCredentials: true,
   });
 };
 
@@ -111,7 +111,7 @@ export const fetchJobDetails = async (jobId: string) => {
 
 export const fetchJobDetail = async (viewId: string): Promise<JobDetails> => {
   const { data } = await axios.get(`${api.job}/${viewId}`, {
-      withCredentials: true,
+    withCredentials: true,
   });
   return data.jobs;
 };
@@ -119,9 +119,9 @@ export const fetchJobDetail = async (viewId: string): Promise<JobDetails> => {
 
 export const updateJobDetails = async (viewId: string, payload: UpdateJobPayload) => {
   const { data } = await axios.put(
-      `${api.job}/${viewId}`,
-      payload,
-      { withCredentials: true }
+    `${api.job}/${viewId}`,
+    payload,
+    { withCredentials: true }
   );
   return data;
 };
@@ -137,8 +137,8 @@ export const uploadResume = async (file: File) => {
   });
 };
 
- export const fetchEmployerData = async () => {
-  const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/employeer/me', {
+export const fetchEmployerData = async () => {
+  const response = await axios.get('https://api.medhrplus.com/api/v1/employeer/me', {
     withCredentials: true,
   });
   return response.data;
@@ -147,8 +147,8 @@ export const uploadResume = async (file: File) => {
 
 
 export const updateEmployerData = async (updatedData: User) => {
-  const response = await axios.put("https://carrerhub-backend.vercel.app/api/v1/employeer/details", updatedData ,{
-    withCredentials:true,
+  const response = await axios.put("https://api.medhrplus.com/api/v1/employeer/details", updatedData, {
+    withCredentials: true,
   });
   return response.data;
 };

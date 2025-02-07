@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { fetchUserData } from '@/api/employee';
 
 const addProject = async (projectData: any) => {
-  const response = await axios.put('https://carrerhub-backend.vercel.app/api/v1/user/details', projectData, {
+  const response = await axios.put('https://api.medhrplus.com/api/v1/user/details', projectData, {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',

@@ -29,7 +29,7 @@ const CreateCourse = () => {
         console.log('FormData being sent:', data);
 
         const response = await axios.post(
-          "https://carrerhub-backend.vercel.app/api/v1/video/create", 
+          "https://api.medhrplus.com/api/v1/video/create", 
           data, 
           {
             headers: {
@@ -79,7 +79,7 @@ const CreateCourse = () => {
   const courseMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "https://carrerhub-backend.vercel.app/api/v1/courses/create",
+        "https://api.medhrplus.com/api/v1/courses/create",
         data,
         {
           withCredentials: true,

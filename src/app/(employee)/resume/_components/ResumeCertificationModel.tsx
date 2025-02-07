@@ -7,7 +7,7 @@ import axios from 'axios';
 import { fetchUserData } from '@/api/employee'; // Function to fetch user data
 
 const updateUserProfile = async (userData: any) => {
-  const response = await axios.put('https://carrerhub-backend.vercel.app/api/v1/user/details', userData, {
+  const response = await axios.put('https://api.medhrplus.com/api/v1/user/details', userData, {
     withCredentials: true,
     headers: {
       'Content-Type': 'application/json',
