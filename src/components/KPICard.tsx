@@ -20,7 +20,7 @@ const KPICard: React.FC<cardProp> = ({
   return (
     <div
       className={twMerge(
-        "p-4 flex items-center max-w-[17.25rem] h-[5.5625rem] bg-[#ffffff] rounded-[0.875rem] gap-4",
+        "p-4 flex items-center max-w-[17.25rem] h-[5.5625rem] bg-[#ffffff] rounded-[0.875rem] gap-4 font-Poppins",
         classNames
       )}
     >
@@ -37,7 +37,7 @@ const KPICard: React.FC<cardProp> = ({
         <p className="h-[1.875rem] font-[700] font-plus-jakarta-sans text-[1.5rem] text-secondary-900">
           {value}
         </p>
-        <p className="h-[1.4375rem] capitalize font-[500] text-[1.125rem] leading-[22.68px] text-secondary-400 pt-[2px]">
+        <p className="h-[1.4375rem] capitalize font-[500] mt-1 leading-[22.68px] text-secondary-400 pt-[2px]">
           {title}
         </p>
       </div>

@@ -86,47 +86,47 @@ const Table: React.FC<Props> = ({ className }) => {
   }
 
   return (
-    <div className={twMerge(`w-full overflow-x-auto h-[700px] max-w-[1300px] mx-auto px-0 ${className}`)}>
+    <div className={twMerge(`w-full overflow-x-auto h-[700px] max-w-[1300px] font-Poppins mx-auto px-0 ${className}`)}>
       <div className="rounded-[124px]">
         <table className="table w-full">
-          <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500">
+          <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500 text-base">
             <tr>
               <td>
-                <div className="flex items-center gap-2 text-lg">
+                <div className="flex items-center gap-2">
                   <span>Role</span>
                 </div>
               </td>
               <td>
-                <div className="flex items-center gap-2 text-lg">
+                <div className="flex items-center gap-2">
                   <span>Stipend Offered</span>
                 </div>
               </td>
               <td>
-                <div className="flex items-center gap-2 text-lg">
+                <div className="flex items-center gap-2">
                   <span>Total Applications</span>
                 </div>
               </td>
               <td>
-                <div className="flex items-center gap-2 text-lg">
+                <div className="flex items-center gap-2">
                   <span>Job Type</span>
                 </div>
               </td>
               <td>
-                <div className="flex items-center gap-2 text-lg">
+                <div className="flex items-center gap-2">
                   <span>Status</span>
                 </div>
               </td>
               <td>
-                <div className="flex items-center gap-2 text-lg">
+                <div className="flex items-center gap-2">
                   <span>Action</span>
                 </div>
               </td>
             </tr>
           </thead>
-          <tbody className="bg-white w-full">
+          <tbody className="bg-white w-full text-base">
             {jobs.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-4 text-center text-3xl">
+                <td colSpan={6} className="py-4 text-center font-Poppins">
                   No data found.
                 </td>
               </tr>
@@ -134,17 +134,17 @@ const Table: React.FC<Props> = ({ className }) => {
               jobs.map((job) => (
                 <tr key={job._id}>
                   <td>
-                    <div className="flex items-center gap-2 text-lg">
+                    <div className="flex items-center gap-2">
                       <span>{job.title}</span>
                     </div>
                   </td>
                   <td>
-                    <div className="flex items-center gap-2 text-lg">
+                    <div className="flex items-center gap-2">
                       <span>{job.salary}</span>
                     </div>
                   </td>
                   <td>
-                    <div className="flex items-center gap-2 text-lg">
+                    <div className="flex items-center gap-2">
                       <span>
                         {job.applicants.length}{' '}
                         <Link href={`/employer/dashboard/${job._id}`}>
@@ -154,19 +154,19 @@ const Table: React.FC<Props> = ({ className }) => {
                     </div>
                   </td>
                   <td>
-                    <div className="flex items-center gap-2 text-lg">
+                    <div className="flex items-center gap-2">
                       <span>{job.employmentType}</span>
                     </div>
                   </td>
                   <td>
-                    <div className="flex items-center gap-2 text-lg">
+                    <div className="flex items-center gap-2">
                       <StatusLabel key="status" variant="applied">
                         {job.status}
                       </StatusLabel>
                     </div>
                   </td>
                   <td>
-                    <div className="relative flex items-center gap-2 text-lg">
+                    <div className="relative flex items-center gap-2">
                       <div onClick={() => handleMenuClick(job._id)} className="cursor-pointer">
                         <Image src={IMAGES.menudots} alt="Menu Icon" />
                       </div>

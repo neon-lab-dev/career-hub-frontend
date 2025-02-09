@@ -41,7 +41,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
               className="h-[62px] w-[62px] xl:h-[99px] xl:w-[99px] rounded-lg"
             /> */}
             <div className="bg-primary-550 p-2 rounded-full size-16 flex items-center justify-center text-white">
-          <p className="text-xs xl:text-[16px] -tracking-[0.32px]">
+          <p className="text-xs xl:text-2xl font-600 -tracking-[0.32px]">
             {job?.companyDetails?.companyName
               ? job.companyDetails.companyName.charAt(0)
               : "?"}

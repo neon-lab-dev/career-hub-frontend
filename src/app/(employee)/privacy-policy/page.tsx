@@ -22,8 +22,8 @@ const page = () => {
         </div>
       </div>
 
-      <div className="wrapper mt-10">
-        <p className={textStyle}>
+      <div className={`wrapper mt-10 ${textStyle}`}>
+        <p>
           The privacy policy is applicable only for www.Careehub.com and not for
           the websites/mentors linked through it, which shall be governed by its
           respective privacy policies and/or terms of use. The website
@@ -37,7 +37,7 @@ const page = () => {
           herein.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           User data collection on Careehub is made to simplify the process of
           data presentation by collecting the user name, age, address,
           educational qualification, field of interest, present status, etc.
@@ -50,7 +50,7 @@ const page = () => {
           informed.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           The company (M/s Monchi enterprise) can use all collected data
           (through the website or other sources) in various ways such as
           <p>
@@ -74,7 +74,7 @@ const page = () => {
           </p>
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           The website also stores data other than the content which provides
           information on personal identity in the form of IP and cookies. It is
           henceforth considered under the category of non-personal-identifiable
@@ -88,20 +88,20 @@ const page = () => {
           and ways:
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           Personal contact/Email/SMS/Telephone etc. as desired by the
           visitor/user&#39;s consent. By instructions on the site, you may opt
           not to receive any such communication in the future.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           Display banner (and similar) advertising to you in connection with the
           site that is more targeted to you specifically. In doing this type of
           targeting, Careehub or its associates, connect you with the targeting
           criteria for better mentorship support.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           The Licensed Materials, including all intellectual property rights,
           such as copyright and trademark, downloading, printing, transmitting,
           broadcasting, disseminating, reverse engineering, and /or modifying
@@ -112,7 +112,7 @@ const page = () => {
           the terms of the agreement.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           The users providing &#39;testimonials&#39; are entitled to public
           display and can also be shared with our partner. By using this
           website, the user agrees to not use any foul or offensive language in
@@ -120,24 +120,24 @@ const page = () => {
           control the third-party content, the user understands and agrees that:
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           We are not responsible for and do not endorse, any such content,
           including information and reviews provided by other users
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           We make no guarantees/responsibility about the authenticity, accuracy,
           currency, suitability, reliability, or quality of the provided
           information in such content.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           We assume no responsibility for unintended, objectionable, inaccurate,
           misleading, or unlawful Content made available by users, advertisers,
           registered or non-registered mentors, and third parties.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           We do not claim ownership in any content that the user submits or
           authorizes for use to us, the user, however, agrees that such content
           shall be exclusive to us and no such or similar shall be published,
@@ -148,14 +148,14 @@ const page = () => {
           or unintentionally on the careehub.com website.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           The &quot; MONCHI ENTERPRISE&quot; holds the sole rights to all the
           digital content, including site layout/design, software, images,
           photographs, text content, services, and other similar materials,
           available throughout the website i.e. careehub.com.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           The Trademarks, name/logos, and service marks of Careehub.com cannot
           be used to be displayed at any commercial or non-commercial use
           without prior permission from the company i.e. Monchi enterprise.
@@ -168,14 +168,14 @@ const page = () => {
           intellectual property of the Company.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           All the data mining activities i.e. scrapping, crawling, and
           republishing are not allowed until and unless written permission is
           obtained from the company. The content downloaded from the website
           does not pass on the rights or title to use it for commercial use.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           Monchi Enterprise (Careehub.com) is not liable/responsible for any
           loss caused due to the external links (audio, video, text, etc.)
           available on the website. It is also advisable that the user verifies
@@ -194,7 +194,7 @@ const page = () => {
           affiliation with, such a third-party website.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           We do reserve the right to share your name and email address with
           other companies, institutions, organizations, or websites that provide
           content, products, or services to Careehub. You also agree that, if
@@ -204,7 +204,7 @@ const page = () => {
           the terms of this Agreement.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           MONCHI ENTERPRISE (or careehub.com) is under no obligation to review
           any Recourses, messages, information, or content
           (&quot;Postings&quot;) posted on the website by Users and assumes no
@@ -245,7 +245,7 @@ const page = () => {
           </ul>
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           By using the site, you agree that Careehub will not be liable for any
           legal theory or contracts for any kind of issues caused by any other
           party. The website is also not liable to verify or justify information
@@ -262,7 +262,7 @@ const page = () => {
           Careehub do not govern the use of third-party websites.
         </p>
         <br />
-        <p className={textStyle}>
+        <p>
           All the legal proceedings shall be governed by the Laws of India and
           the courts of Delhi shall have the exclusive jurisdiction in case of
           any dispute.
