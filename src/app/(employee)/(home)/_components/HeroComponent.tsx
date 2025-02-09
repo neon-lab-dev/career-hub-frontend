@@ -30,7 +30,7 @@ const HeroComponent = () => {
               className="absolute h-[58px] w-[58px] xl:h-[106px] xl:w-[106px] -top-24 xl:-top-16 right-9 xl:-right-44 rotate-12 xl:rotate-0"
             />
           </h1>
-          <p className="text-secondary-600 xl:max-w-3xl text-base sm:text-lg xl:text-2xl leading-[126%] max-w-sm md:max-w-3xl">
+          <p className="text-secondary-600 xl:max-w-3xl text-base sm:text-lg xl:text-xl leading-[126%] max-w-sm md:max-w-3xl font-Poppins">
             Find the best opportunities from leading healthcare providers, i.e.
             internships, jobs, skill programs, courses, events, etc.
           </p>

@@ -11,6 +11,10 @@
 input {
   @apply font-poppins;
 }
+p {
+  font-family: "Poppins", sans-serif;
+}
+
 
 /* CSS file */
 .display-large {

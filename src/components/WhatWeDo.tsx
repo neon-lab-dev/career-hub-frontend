@@ -26,14 +26,14 @@ const WhatWeDo = () => {
             desc: "Organisations/employers may post their programs/requirements and get registered aspirants, filtering their details according to the requirements dashboard.",
           },
         ].map((item, index) => (
-          <div key={index} className="flex flex-col items-center lg:items-start text-center lg:text-left gap-1 max-w-80">
+          <div key={index} className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-80 font-Poppins">
             <div className="rounded-2xl w-32 h-32">
               <Image src={item.img} alt="org" />
             </div>
             <h4 className="text-2xl font-800 text-secondary-950">
               {item.heading}
             </h4>
-            <p className="text-secondary-950 text-xl">{item.desc}</p>
+            <p className="text-secondary-950 mt-2">{item.desc}</p>
           </div>
         ))}
       </div>

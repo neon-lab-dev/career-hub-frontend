@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
@@ -27,7 +27,7 @@ const Page = () => {
       companyLocation: string;
       contactEmail: string;
       contactPhone: string;
-      socialLink: {
+      soicalLink: {
         linkedin: string;
         github: string;
       };
@@ -38,7 +38,6 @@ const Page = () => {
 const [step, setStep] = useState(1);
 const [loading, setLoading] = useState(false);
 const [formData, setFormData] = useState<any>({});
-console.log(formData);
 
 // Mutation for API call
 const mutation = useMutation({
@@ -62,34 +61,48 @@ const mutation = useMutation({
 // Store data for each step without API call
 const handleContinue = (data: any) => {
   setFormData((prevData: any) => {
-    const updatedData = { ...prevData, ...data };
+    const updatedData = { ...prevData };
 
-    // Merge companyDetails properly
-    if (data.companyDetails) {
-      updatedData.companyDetails = [
-        ...(prevData.companyDetails || []), // Keep existing data
-        ...data.companyDetails, // Merge new data
-      ];
+    if (step === 1 && data.address) {
+      // Step 1: Update Address
+      updatedData.address = data.address;
+    } else if (data.companyDetails) {
+      // Step 2 & 3: Merge Company Details into Single Object
+      const companyDetails = prevData.companyDetails || []; 
+
+      if (companyDetails.length > 0) {
+        updatedData.companyDetails = [
+          { ...companyDetails[0], ...data.companyDetails[0] },
+        ];
+      } else {
+        updatedData.companyDetails = data.companyDetails;
+      }
     }
 
     return updatedData;
   });
 
-  if (step === 3) { // Assuming step 3 is the last step
+  if (step === 3) {
     setLoading(true);
+  } else {
+    setStep(step + 1);
+  }
+};
 
-    // Format the final API payload
+useEffect(() => {
+  if (step === 3 && loading) {
     const finalPayload = {
       address: formData.address || [],
       companyDetails: formData.companyDetails || [],
     };
-console.log(finalPayload)
+
+    console.log("🚀 Final Payload:", finalPayload);
+
     mutation.mutate(finalPayload);
-  } else {
-    setStep(step + 1);
-    reset(); // Reset form fields for next step
+    setLoading(false);
   }
-};
+}, [formData, step, loading]);
+
 
 
 // const handleSkip = () => {
@@ -361,9 +374,9 @@ const goToPreviousStep = () => {
                   </div>
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
-                  <label htmlFor="companyDetails.socialLink.linkedin">LinkedIn</label>
+                  <label htmlFor="companyDetails.soicalLink.linkedin">LinkedIn</label>
                   <Controller
-                    name="companyDetails.0.socialLink.linkedin"
+                    name="companyDetails.0.soicalLink.linkedin"
                     control={control}
                     defaultValue=""
                     rules={{ required: 'LinkedIn is required' }}
@@ -376,12 +389,12 @@ const goToPreviousStep = () => {
                       />
                     )}
                   />
-                  {errors.companyDetails?.[0]?.socialLink?.linkedin && <span className="text-red-500">{errors.companyDetails[0].socialLink.linkedin.message}</span>}
+                  {errors.companyDetails?.[0]?.soicalLink?.linkedin && <span className="text-red-500">{errors.companyDetails[0].soicalLink.linkedin.message}</span>}
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
-                  <label htmlFor="companyDetails.socialLink.github">GitHub</label>
+                  <label htmlFor="companyDetails.soicalLink.github">GitHub</label>
                   <Controller
-                    name="companyDetails.0.socialLink.github"
+                    name="companyDetails.0.soicalLink.github"
                     control={control}
                     defaultValue=""
                     rules={{ required: 'GitHub is required' }}
@@ -394,7 +407,7 @@ const goToPreviousStep = () => {
                       />
                     )}
                   />
-                  {errors.companyDetails?.[0]?.socialLink?.github && <span className="text-red-500">{errors.companyDetails[0].socialLink.github.message}</span>}
+                  {errors.companyDetails?.[0]?.soicalLink?.github && <span className="text-red-500">{errors.companyDetails[0].soicalLink.github.message}</span>}
                 </div>
                 <Button type="submit" className="mt-8">
                   Continue

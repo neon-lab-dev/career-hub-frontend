@@ -13,7 +13,7 @@ const Footer = () => {
     { name: "Refund Policy", href: "/refund-policy" },
   ];
   return (
-    <div className="bg-secondary-900">
+    <div className="bg-secondary-900 font-Poppins">
       <div className="py-10 max-width m-auto">
         <div className="flex justify-between max-lg:flex-col mx-[160px] max-lg:mx-10 max-lg:gap-12">
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">

@@ -20,22 +20,29 @@ const JobDetailCard = ({
   job,
   isApplied,
 }: Props) => {
+  console.log(job)
   if (!job) return null;
   return (
     <div
       className={twMerge(
         "flex flex-col gap-4 xl:gap-5 p-4 xl:p-6 rounded-[20px] border border-neutral-100 bg-white",
         wrapperClassName
-      )}
-    >
+      )}>
       <div className="flex gap-3 items-center">
-        <Image
+        {/* <Image
           src={job.companyDetails.logo}
           alt="Company Logo"
           height={64}
           width={64}
           className="h-9 w-9 xl:h-16 xl:w-16"
-        />
+        /> */}
+        <div className="bg-primary-550 p-2 rounded-full size-10 flex items-center justify-center text-white">
+          <p className="text-xs xl:text-[16px] -tracking-[0.32px]">
+            {job?.companyDetails?.companyName
+              ? job.companyDetails.companyName.charAt(0)
+              : "?"}
+          </p>
+        </div>
         <div className="flex flex-col gap-1">
           <h3 className="text-base xl:text-[22px] -tracking-[0.44px] font-600 text-neutral-900">
             {job.title}
@@ -77,9 +84,8 @@ const JobDetailCard = ({
         </div>
         <div className="flex items-center gap-3">
           <Link
-            href={`/${
-              job.employmentType === "Internship" ? "internships" : "jobs"
-            }/${job._id}`}
+            href={`/${job.employmentType === "Internship" ? "internships" : "jobs"
+              }/${job._id}`}
           >
             <Button variant="muted">View full details</Button>
           </Link>

@@ -28,6 +28,7 @@ interface CompanyDetail {
   companyLocation: string;
   contactEmail: string;
   contactPhone: string;
+  websiteLink: string;
   bio: string;
   soicalLink?: soicalLink;
 }
