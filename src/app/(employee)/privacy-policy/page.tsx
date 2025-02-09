@@ -24,10 +24,10 @@ const page = () => {
 
       <div className={`wrapper mt-10 ${textStyle}`}>
         <p>
-          The privacy policy is applicable only for www.Careehub.com and not for
+          The privacy policy is applicable only for www.https://medhrplus.com and not for
           the websites/mentors linked through it, which shall be governed by its
           respective privacy policies and/or terms of use. The website
-          (careehub.com) utilizes cookies and other tracking technologies. Some
+          (https://medhrplus.com) utilizes cookies and other tracking technologies. Some
           cookies and other technologies may serve to recall Personal
           Information previously indicated by a web user. Most browsers allow
           you to control cookies, including whether or not to accept them and
@@ -38,7 +38,7 @@ const page = () => {
         </p>
         <br />
         <p>
-          User data collection on Careehub is made to simplify the process of
+          User data collection on MeDHr+ is made to simplify the process of
           data presentation by collecting the user name, age, address,
           educational qualification, field of interest, present status, etc.
           Through creating a user account (login/signup) visitor agrees with the
@@ -62,7 +62,7 @@ const page = () => {
           <p>b. Users can unsubscribe from the mail service anytime.</p>
           <p>
             c. The company welcomes users&#39;/visitors&#39; feedback for the
-            betterment of our service on info@careehub.com
+            betterment of our service on info@https://medhrplus.com
           </p>
           <p>
             d. We use geographical or demographical data to provide location-
@@ -97,7 +97,7 @@ const page = () => {
         <p>
           Display banner (and similar) advertising to you in connection with the
           site that is more targeted to you specifically. In doing this type of
-          targeting, Careehub or its associates, connect you with the targeting
+          targeting, MeDHr+ or its associates, connect you with the targeting
           criteria for better mentorship support.
         </p>
         <br />
@@ -106,7 +106,7 @@ const page = () => {
           such as copyright and trademark, downloading, printing, transmitting,
           broadcasting, disseminating, reverse engineering, and /or modifying
           any or all the Licensed Materials are the sole and exclusive property
-          of Monchi enterprise (www.careehub.com). You accept these terms and
+          of Monchi enterprise (www.https://medhrplus.com). You accept these terms and
           conditions, you do not acquire any ownership interests of any kind in
           the Licensed Materials, but you are entitled to use them according to
           the terms of the agreement.
@@ -143,20 +143,20 @@ const page = () => {
           shall be exclusive to us and no such or similar shall be published,
           copied, reproduced by the user or any person visiting the website on
           any of the other online portals, without obtaining prior consent in
-          writing by Monchi enterprise (Careehub). The user is free to remove or
+          writing by Monchi enterprise (MeDHr+). The user is free to remove or
           remove his/her content if such content is posted either accidentally
-          or unintentionally on the careehub.com website.
+          or unintentionally on the https://medhrplus.com website.
         </p>
         <br />
         <p>
           The &quot; MONCHI ENTERPRISE&quot; holds the sole rights to all the
           digital content, including site layout/design, software, images,
           photographs, text content, services, and other similar materials,
-          available throughout the website i.e. careehub.com.
+          available throughout the website i.e. https://medhrplus.com.
         </p>
         <br />
         <p>
-          The Trademarks, name/logos, and service marks of Careehub.com cannot
+          The Trademarks, name/logos, and service marks of https://medhrplus.com cannot
           be used to be displayed at any commercial or non-commercial use
           without prior permission from the company i.e. Monchi enterprise.
           However, the materials and contents, including any data, text,
@@ -176,12 +176,12 @@ const page = () => {
         </p>
         <br />
         <p>
-          Monchi Enterprise (Careehub.com) is not liable/responsible for any
+          Monchi Enterprise (https://medhrplus.com) is not liable/responsible for any
           loss caused due to the external links (audio, video, text, etc.)
           available on the website. It is also advisable that the user verifies
           such information with other sources before making any decision based
           on advertisements or content available on the websites i.e.
-          careehub.com. For ease of users external and referral links of every
+          https://medhrplus.com. For ease of users external and referral links of every
           organization, college, or institution, wherever applicable, are
           provided on the website. The links to third-party websites or content
           are placed by us as a service to those interested in this information,
@@ -197,7 +197,7 @@ const page = () => {
         <p>
           We do reserve the right to share your name and email address with
           other companies, institutions, organizations, or websites that provide
-          content, products, or services to Careehub. You also agree that, if
+          content, products, or services to MeDHr+. You also agree that, if
           &quot;MONCHI ENTERPRISE&quot; is acquired by, merges with, or becomes
           aligned with another company or organization, as other company or
           organization shall be entitled to use your personal information under
@@ -205,11 +205,11 @@ const page = () => {
         </p>
         <br />
         <p>
-          MONCHI ENTERPRISE (or careehub.com) is under no obligation to review
+          MONCHI ENTERPRISE (or https://medhrplus.com) is under no obligation to review
           any Recourses, messages, information, or content
           (&quot;Postings&quot;) posted on the website by Users and assumes no
           responsibility or liability relating to any such posting.
-          Notwithstanding the above, CAREEHUB May from time to time monitor the
+          Notwithstanding the above, MeDHr+ May from time to time monitor the
           Postings on the website and may decline to accept and/or remove any
           Postings that contain
         </p>
@@ -226,7 +226,7 @@ const page = () => {
               addresses, or employer references.
             </li>
             <li>
-              Any messages by nonemployees or mentors or CAREEHUB purporting to
+              Any messages by nonemployees or mentors or MeDHr+ purporting to
               speak on behalf of MONCHI ENTERPRISE.
             </li>
             <li>
@@ -246,20 +246,20 @@ const page = () => {
         </p>
         <br />
         <p>
-          By using the site, you agree that Careehub will not be liable for any
+          By using the site, you agree that MeDHr+ will not be liable for any
           legal theory or contracts for any kind of issues caused by any other
           party. The website is also not liable to verify or justify information
           provided by participants of the website i.e. educational institutions,
           coaching institutes, individual comments, consultants, mentors,
           organizations, institutions, etc. To prevent the loss to visitors it
           is highly recommended that every information available on the website
-          must be verified before considering it. Careehub is not liable for any
+          must be verified before considering it. MeDHr+ is not liable for any
           misinformation, data theft, any kind of loss, or system damage
-          occurring due to the use of these external links. Careehub.com
+          occurring due to the use of these external links. https://medhrplus.com
           declares that it will not be used to propagate any malicious or
           harmful software so, in any case of program loss or system damage, the
           website can&#39;t be held responsible. The terms and policies of
-          Careehub do not govern the use of third-party websites.
+          MeDHr+ do not govern the use of third-party websites.
         </p>
         <br />
         <p>

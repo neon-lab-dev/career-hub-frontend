@@ -22,11 +22,13 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
   if (!AVAILABLE_JOB_TYPES.includes(jobType)) return <NotFound />;
 
   const job = await getJobById(jobId);
+  console.log(job)
   if (!job) return <NotFound />;
 
   const isClosed =
-    job.status.toLowerCase() !== "open" ||
+    job.status !== "Open"  ||
     new Date(job.applicationDeadline) < new Date();
+    console.log(isClosed)
   return (
     <div>
       <div className="wrapper flex flex-col xl:gap-16 pb-6">
@@ -40,6 +42,7 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
               width={99}
               className="h-[62px] w-[62px] xl:h-[99px] xl:w-[99px] rounded-lg"
             /> */}
+          
             <div className="bg-primary-550 p-2 rounded-full size-16 flex items-center justify-center text-white">
           <p className="text-xs xl:text-2xl font-600 -tracking-[0.32px]">
             {job?.companyDetails?.companyName

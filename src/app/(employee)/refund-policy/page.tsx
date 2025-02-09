@@ -24,7 +24,7 @@ const page = () => {
       <div className="wrapper mt-10">
         <p className="text-[#303D5C] text-[400] text-sm md:text-base lg:text-[20px] leading-[27px] md:leading-[33px] lg:leading-[36px] font-Poppins text-justify">
           All the monetary transactions done by the user of the site are in lieu
-          of the payment gateway partner of Monchi Enterprise (careehub.com),
+          of the payment gateway partner of Monchi Enterprise (https://medhrplus.com),
           and we take no responsibility for any payment discrepancies to the
           other agency/ user account. Also, we have full right to consider and
           review the refund case, if the amount paid by the user is in excess.

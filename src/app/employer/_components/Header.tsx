@@ -38,6 +38,7 @@ const Header = () => {
         })
         .finally(() => {
           router.push("/");
+          // window.location.reload();
         });
     },
     onError: (err) => {

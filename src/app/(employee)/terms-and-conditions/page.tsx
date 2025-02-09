@@ -16,19 +16,19 @@ const page = () => {
 
       <div className="wrapper mt-10 text-[#303D5C] text-[400] text-sm md:text-base lg:text-[20px] leading-[27px] md:leading-[33px] lg:leading-[36px] font-Poppins text-justify">
         <p>
-          Welcome to the website/web portal &quot;Careehub.com&quot; which is
+          Welcome to the website/web portal &quot;https://medhrplus.com&quot; which is
           owned by &quot;MONCHI ENTERPRISE&quot;, to visit or use this website
           there are some terms and conditions accepted and agreed upon by every
-          individual. It is also assumed that by opening and using careehub.com,
+          individual. It is also assumed that by opening and using https://medhrplus.com,
           you accept all the &quot;Terms of Use&quot; in full and have gone
           through with consent irrevocably to the same. If you disagree with the
           &quot;Terms of Use&quot; conditions, you must not use this
-          website/portal i.e. careehub.com.
+          website/portal i.e. https://medhrplus.com.
         </p>
         <br />
         <p>
           Please read carefully before entering personal or other data into the
-          portal (www.careehub.com).
+          portal (www.https://medhrplus.com).
         </p>
         <br />
         <p>
@@ -36,7 +36,7 @@ const page = () => {
           will be referred to any person, group, or entity subscribing to and/or
           using the resources or content according to the Terms and Conditions
           of the Agreement (each one a User and collectively &quot;Users&quot;.
-          Unless otherwise stated MONCHI ENTERPRISE or CAREEHUB, &quot;we&quot;,
+          Unless otherwise stated MONCHI ENTERPRISE or MedHr+, &quot;we&quot;,
           or &quot;Our&quot; will each refer to MONCHI ENTERPRISE (partnership),
           an Indian company.
         </p>
@@ -51,7 +51,7 @@ const page = () => {
           security. We are not liable for any loss that you may incur as a
           result of someone else using your password or account, either with or
           without your knowledge. Furthermore, you could be held
-          liable/responsible for losses incurred by www.careehub.com or another
+          liable/responsible for losses incurred by www.https://medhrplus.com or another
           party due to someone else using your account or password.
         </p>
         <br />
