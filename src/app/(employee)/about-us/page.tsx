@@ -15,13 +15,13 @@ const page = () => {
           </div>
           <div>
             <p className="text-black font-bold text-center text-[32px] md:text-[56px] lg:text-[64px] font-plus-jakarta-sans">
-              us
+              Us
             </p>
           </div>
         </div>
       </div>
       <div className="wrapper mt-10">
-        <p className="text-[#303D5C] text-[400] text-sm sm:text-[18px] md:text-[22px] lg:text-[20px] leading-[27px] md:leading-[33px] lg:leading-[36px] font-Poppins text-justify">
+        <p className="text-[#303D5C] text-[400] text-sm md:text-base lg:text-[20px] leading-[27px] md:leading-[33px] lg:leading-[36px] font-Poppins text-justify">
           &quot;MONCHI ENTERPRISE&quot; is an operator of the website
           “Careehub” and all of its different versions including mobile
           applications, print material, social media posts, etc. Careehub.com is
@@ -33,7 +33,7 @@ const page = () => {
           fit for or according to their interests.
         </p>
         <br />
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
+        <p className="text-[#303D5C] text-[400] text-sm md:text-base lg:text-[20px] leading-[27px] md:leading-[33px] lg:leading-[36px] font-Poppins text-justify">
           Careehub does not take any responsibilities on behalf of any
           registered employers, (consultants, advisors, recruiters, colleges,
           institutions, guides/mentors, CEOs, HRs, etc.) if they mislead, fraud,

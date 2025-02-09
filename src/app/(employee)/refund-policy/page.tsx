@@ -22,7 +22,7 @@ const page = () => {
       </div>
 
       <div className="wrapper mt-10">
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
+        <p className="text-[#303D5C] text-[400] text-sm md:text-base lg:text-[20px] leading-[27px] md:leading-[33px] lg:leading-[36px] font-Poppins text-justify">
           All the monetary transactions done by the user of the site are in lieu
           of the payment gateway partner of Monchi Enterprise (careehub.com),
           and we take no responsibility for any payment discrepancies to the
