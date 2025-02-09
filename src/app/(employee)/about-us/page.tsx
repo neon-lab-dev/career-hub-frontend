@@ -6,7 +6,7 @@ import React from "react";
 const page = () => {
   return (
     <div>
-      <div className="max-width-full h-[175px] md:h-[283px] lg:h-[310px] bg-[#F5F6FA] flex flex-col justify-center items-center">
+      <div className="max-width-full h-[175px] md:h-[283px] lg:h-[310px] bg-[#F5F6FA] flex flex-col justify-center items-center ">
         <div className="flex justify-center items-center gap-[17px] mt-[20px] h-[40px] w-[154px] md:h-[71px] md:w-[260px] lg:h-[81px] lg:w-[293px]">
           <div className=" highlight">
             <p className="text-white font-bold text-center text-[32px] md:text-[56px] lg:text-[64px] font-plus-jakarta-sans">
@@ -21,8 +21,8 @@ const page = () => {
         </div>
       </div>
       <div className="wrapper mt-10">
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
-          &quot; MONCHI ENTERPRISE &quot; is an operator of the website
+        <p className="text-[#303D5C] text-[400] text-sm sm:text-[18px] md:text-[22px] lg:text-[20px] leading-[27px] md:leading-[33px] lg:leading-[36px] font-Poppins text-justify">
+          &quot;MONCHI ENTERPRISE&quot; is an operator of the website
           “Careehub” and all of its different versions including mobile
           applications, print material, social media posts, etc. Careehub.com is
           a bridge between career seekers/aspirants and employers (i.e.

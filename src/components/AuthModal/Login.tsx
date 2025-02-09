@@ -135,7 +135,7 @@ const Login = () => {
         </Button>
 
         <p className="text-neutral-700 text-sm font-400 text-center mt-8">
-          New to Career Hub?{" "}
+          New to MeDHr?{" "}
           <button
             onClick={() => {
               dispatch(setAuthModalType("SIGNUP"));

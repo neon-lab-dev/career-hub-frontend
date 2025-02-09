@@ -11,64 +11,107 @@ import api from '@/api';
 import { toast } from 'sonner';
 
 const Page = () => {
-  const { handleSubmit, control, reset, formState: { errors } } = useForm();
-  const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({});
+  interface FormData {
+    address: {
+      street: string;
+      city: string;
+      state: string;
+      postalCode: string;
+      country: string;
+    }[];
+    companyDetails: {
+      companyName: string;
+      industryType: string;
+      bio: string;
+      websiteLink: string;
+      companyLocation: string;
+      contactEmail: string;
+      contactPhone: string;
+      socialLink: {
+        linkedin: string;
+        github: string;
+      };
+    }[];
+  }
+  
+  const { handleSubmit, control, reset, formState: { errors } } = useForm<FormData>();
+const [step, setStep] = useState(1);
+const [loading, setLoading] = useState(false);
+const [formData, setFormData] = useState<any>({});
+console.log(formData);
 
-  const mutation = useMutation({
-    mutationFn: async (data: any) => {
-      await axios.put(api.updateEmployerCompanyDetails, data, {
-        withCredentials: true,
-      });
-    },
-    onError: (error: any) => {
-      toast.error(error.message);
-    },
-    onSuccess: () => {
-      toast.success('Your information has been successfully updated!');
-      setStep(4);
-    },
-    onSettled: () => {
-      setLoading(false);
-    },
+// Mutation for API call
+const mutation = useMutation({
+  mutationFn: async (data: any) => {
+    await axios.put(api.updateEmployerCompanyDetails, data, {
+      withCredentials: true,
+    });
+  },
+  onError: (error: any) => {
+    toast.error(error.message);
+  },
+  onSuccess: () => {
+    toast.success('Your information has been successfully updated!');
+    setStep(4);
+  },
+  onSettled: () => {
+    setLoading(false);
+  },
+});
+
+// Store data for each step without API call
+const handleContinue = (data: any) => {
+  setFormData((prevData: any) => {
+    const updatedData = { ...prevData, ...data };
+
+    // Merge companyDetails properly
+    if (data.companyDetails) {
+      updatedData.companyDetails = [
+        ...(prevData.companyDetails || []), // Keep existing data
+        ...data.companyDetails, // Merge new data
+      ];
+    }
+
+    return updatedData;
   });
 
-  const handleContinue = () => {
-    setStep(step + 1);
-  };
-
-  const handleSkip = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [`step${step}`]: {},
-    }));
-    reset({ [`address[0]`]: {} });
-    handleContinue();
-  };
-
-  const goToPreviousStep = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
-
-  // const onSubmit = (data: any) => {
-  //   setLoading(true);
-  //   mutation.mutate(data);
-  // };
-
-  const onSubmit = (data:any) => {
+  if (step === 3) { // Assuming step 3 is the last step
     setLoading(true);
-    const completeData = { ...formData, [`step${step}`]: data };
-    mutation.mutate(completeData);
-  };
+
+    // Format the final API payload
+    const finalPayload = {
+      address: formData.address || [],
+      companyDetails: formData.companyDetails || [],
+    };
+console.log(finalPayload)
+    mutation.mutate(finalPayload);
+  } else {
+    setStep(step + 1);
+    reset(); // Reset form fields for next step
+  }
+};
+
+
+// const handleSkip = () => {
+//   setFormData((prevData) => ({
+//     ...prevData,
+//     [`step${step}`]: {},
+//   }));
+//   reset();
+//   setStep(step + 1);
+// };
+
+const goToPreviousStep = () => {
+  if (step > 1) {
+    setStep(step - 1);
+  }
+};
 
   return (
     <GetStartedLayout progress={step * 25} goToPreviousStep={goToPreviousStep}>
       <div className="flex justify-center w-full">
         <div className="flex justify-center gap-4">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(handleContinue)}>
             {step === 1 && (
               <>
                 <div className="flex pt-6 font-plus-jakarta-sans text-3xl max-lg:text-2xl max-md:text-xl pr-4 font-700">
@@ -78,9 +121,10 @@ const Page = () => {
                   <div className="flex flex-col gap-2">
                     <label htmlFor="address.street">Street</label>
                     <Controller
-                      name="address[0].street"
+                      name="address.0.street"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'Street is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -89,14 +133,15 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.address?.[0]?.street && <span className="text-red-500">{errors.address[0].street.message}</span>}
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="address.city">City</label>
                     <Controller
-                      name="address[0].city"
+                      name="address.0.city"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'City is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -105,16 +150,17 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.address?.[0]?.city && <span className="text-red-500">{errors.address[0].city.message}</span>}
                   </div>
                 </div>
                 <div className="flex gap-10 max-md:flex-col max-md:gap-4 mt-4">
                   <div className="flex flex-col gap-2">
                     <label htmlFor="address.state">State</label>
                     <Controller
-                      name="address[0].state"
+                      name="address.0.state"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'State is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -123,14 +169,15 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.address?.[0]?.state && <span className="text-red-500">{errors.address[0].state.message}</span>}
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="address.postalCode">Postal Code</label>
                     <Controller
-                      name="address[0].postalCode"
+                      name="address.0.postalCode"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'Postal Code is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -140,15 +187,16 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.address?.[0]?.postalCode && <span className="text-red-500">{errors.address[0].postalCode.message}</span>}
                   </div>
                 </div>
                 <div className="flex flex-col gap-2 mt-4">
                   <label htmlFor="address.country">Country</label>
                   <Controller
-                    name="address[0].country"
+                    name="address.0.country"
                     control={control}
                     defaultValue=""
+                    rules={{ required: 'Country is required' }}
                     render={({ field }) => (
                       <Input
                         {...field}
@@ -157,20 +205,11 @@ const Page = () => {
                       />
                     )}
                   />
+                  {errors.address?.[0]?.country && <span className="text-red-500">{errors.address[0].country.message}</span>}
                 </div>
-                <div className='flex items-center justify-between mt-8'>
-                  <Button onClick={handleContinue} >
-                    Contiune
-                  </Button>
-                  <Button
-                  onClick={handleSkip}
-                  variant="secondary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
+                <Button type="submit" className='mt-8'>
+                  Continue
                 </Button>
-                </div>
               </>
             )}
             {step === 2 && (
@@ -182,9 +221,10 @@ const Page = () => {
                   <div className="flex flex-col gap-2">
                     <label htmlFor="companyDetails.companyName">Company Name</label>
                     <Controller
-                      name="companyDetails[0].companyName"
+                      name="companyDetails.0.companyName"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'Company Name is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -193,15 +233,16 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.companyDetails?.[0]?.companyName && <span className="text-red-500">{errors.companyDetails[0].companyName.message}</span>}
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="companyDetails.industryType">Industry Type</label>
                     <div className='px-2 border text-neutral-400 rounded-lg w-[200px] max-md:w-full'>
                       <Controller
-                        name="companyDetails[0].industryType"
+                        name="companyDetails.0.industryType"
                         control={control}
                         defaultValue=""
+                        rules={{ required: 'Industry Type is required' }}
                         render={({ field }) => (
                           <select
                             {...field}
@@ -215,15 +256,16 @@ const Page = () => {
                         )}
                       />
                     </div>
-
+                    {errors.companyDetails?.[0]?.industryType && <span className="text-red-500">{errors.companyDetails[0].industryType.message}</span>}
                   </div>
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
                   <label htmlFor="companyDetails.bio">Company Bio</label>
                   <Controller
-                    name="companyDetails[0].bio"
+                    name="companyDetails.0.bio"
                     control={control}
                     defaultValue=""
+                    rules={{ required: 'Company Bio is required' }}
                     render={({ field }) => (
                       <textarea
                         {...field}
@@ -232,14 +274,16 @@ const Page = () => {
                       />
                     )}
                   />
+                  {errors.companyDetails?.[0]?.bio && <span className="text-red-500">{errors.companyDetails[0].bio.message}</span>}
                 </div>
                 <div className="flex gap-10 max-md:flex-col max-md:gap-4 mt-4">
                   <div className="flex flex-col gap-2 mt-4">
                     <label htmlFor="companyDetails.websiteLink">Website Link</label>
                     <Controller
-                      name="companyDetails[0].websiteLink"
+                      name="companyDetails.0.websiteLink"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'Website Link is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -248,14 +292,15 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.companyDetails?.[0]?.websiteLink && <span className="text-red-500">{errors.companyDetails[0].websiteLink.message}</span>}
                   </div>
                   <div className="flex flex-col gap-2 mt-4">
                     <label htmlFor="companyDetails.companyLocation">Location</label>
                     <Controller
-                      name="companyDetails[0].companyLocation"
+                      name="companyDetails.0.companyLocation"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'Location is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -264,22 +309,12 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.companyDetails?.[0]?.companyLocation && <span className="text-red-500">{errors.companyDetails[0].companyLocation.message}</span>}
                   </div>
                 </div>
-                <div className='flex items-center justify-between mt-8'>
-                  <Button onClick={handleContinue} >
-                    Contiune
-                  </Button>
-                  <Button
-                  onClick={handleSkip}
-                  variant="secondary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
+                <Button type="submit" className="mt-8">
+                  Continue
                 </Button>
-                </div>
               </>
             )}
             {step === 3 && (
@@ -291,9 +326,10 @@ const Page = () => {
                   <div className="flex flex-col gap-2">
                     <label htmlFor="companyDetails.contactEmail">Contact Email</label>
                     <Controller
-                      name="companyDetails[0].contactEmail"
+                      name="companyDetails.0.contactEmail"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'Contact Email is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -303,14 +339,15 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.companyDetails?.[0]?.contactEmail && <span className="text-red-500">{errors.companyDetails[0].contactEmail.message}</span>}
                   </div>
                   <div className="flex flex-col gap-2">
                     <label htmlFor="companyDetails.contactPhone">Contact Phone</label>
                     <Controller
-                      name="companyDetails[0].contactPhone"
+                      name="companyDetails.0.contactPhone"
                       control={control}
                       defaultValue=""
+                      rules={{ required: 'Contact Phone is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -320,15 +357,16 @@ const Page = () => {
                         />
                       )}
                     />
-
+                    {errors.companyDetails?.[0]?.contactPhone && <span className="text-red-500">{errors.companyDetails[0].contactPhone.message}</span>}
                   </div>
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
                   <label htmlFor="companyDetails.socialLink.linkedin">LinkedIn</label>
                   <Controller
-                    name="companyDetails[0].socialLink.linkedin"
+                    name="companyDetails.0.socialLink.linkedin"
                     control={control}
                     defaultValue=""
+                    rules={{ required: 'LinkedIn is required' }}
                     render={({ field }) => (
                       <Input
                         {...field}
@@ -338,13 +376,15 @@ const Page = () => {
                       />
                     )}
                   />
+                  {errors.companyDetails?.[0]?.socialLink?.linkedin && <span className="text-red-500">{errors.companyDetails[0].socialLink.linkedin.message}</span>}
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
                   <label htmlFor="companyDetails.socialLink.github">GitHub</label>
                   <Controller
-                    name="companyDetails[0].socialLink.github"
+                    name="companyDetails.0.socialLink.github"
                     control={control}
                     defaultValue=""
+                    rules={{ required: 'GitHub is required' }}
                     render={({ field }) => (
                       <Input
                         {...field}
@@ -354,20 +394,11 @@ const Page = () => {
                       />
                     )}
                   />
+                  {errors.companyDetails?.[0]?.socialLink?.github && <span className="text-red-500">{errors.companyDetails[0].socialLink.github.message}</span>}
                 </div>
-                <div className='flex items-center justify-between mt-8'>
-                  <Button onClick={handleContinue} >
-                    Contiune
-                  </Button>
-                  <Button
-                  onClick={handleSkip}
-                  variant="secondary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
+                <Button type="submit" className="mt-8">
+                  Continue
                 </Button>
-                </div>
               </>
             )}
             {step === 4 && (
