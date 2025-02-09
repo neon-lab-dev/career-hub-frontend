@@ -33,13 +33,20 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
         {/* job titles and cta */}
         <div className="py-16 flex items-end justify-between">
           <div className="flex gap-5 items-center">
-            <Image
+            {/* <Image
               src={job.companyDetails.logo}
               alt="Company Logo"
               height={99}
               width={99}
               className="h-[62px] w-[62px] xl:h-[99px] xl:w-[99px] rounded-lg"
-            />
+            /> */}
+            <div className="bg-primary-550 p-2 rounded-full size-16 flex items-center justify-center text-white">
+          <p className="text-xs xl:text-2xl font-600 -tracking-[0.32px]">
+            {job?.companyDetails?.companyName
+              ? job.companyDetails.companyName.charAt(0)
+              : "?"}
+          </p>
+        </div>
             <div className="flex flex-col gap-0.5">
               <h3 className="text-[20px] lg:text-[32px] -tracking-[0.44px] font-600 text-neutral-900">
                 {job.title}
@@ -154,13 +161,20 @@ const JobIdPage = async ({ params: { jobType, jobId } }: Props) => {
                     <span>{job.companyDetails.industryType}</span>
                   </div>
                 </div>
-                <Image
+                {/* <Image
                   src={job.companyDetails.logo}
                   alt="Company Logo"
                   height={56}
                   width={56}
                   className="h-[56px] w-[56px] rounded-full"
-                />
+                /> */}
+                <div className="bg-primary-550 p-2 rounded-full size-10 flex items-center justify-center text-white">
+          <p className="text-xs xl:text-[16px] -tracking-[0.32px]">
+            {job?.companyDetails?.companyName
+              ? job.companyDetails.companyName.charAt(0)
+              : "?"}
+          </p>
+        </div>
               </div>
               <hr />
               <p className="font-400 text-neutral-700 flex flex-col gap-6">

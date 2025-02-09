@@ -48,7 +48,7 @@ const LoginPage = () => {
         <div>
           <h1 className=" text-secondary-800 text-[28px] font-700 text-center">
             <span className="highlight">Login</span>
-            <span className="ml-2">to Career Hub</span>
+            <span className="ml-2">to MeDHr</span>
           </h1>
         </div>
         <div className="">

@@ -14,8 +14,8 @@ const page = () => {
         </div>
       </div>
 
-      <div className="wrapper mt-10">
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
+      <div className="wrapper mt-10 text-[#303D5C] text-[400] text-sm md:text-base lg:text-[20px] leading-[27px] md:leading-[33px] lg:leading-[36px] font-Poppins text-justify">
+        <p>
           Welcome to the website/web portal &quot;Careehub.com&quot; which is
           owned by &quot;MONCHI ENTERPRISE&quot;, to visit or use this website
           there are some terms and conditions accepted and agreed upon by every
@@ -26,12 +26,12 @@ const page = () => {
           website/portal i.e. careehub.com.
         </p>
         <br />
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
+        <p>
           Please read carefully before entering personal or other data into the
           portal (www.careehub.com).
         </p>
         <br />
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
+        <p>
           In this agreement/contract &quot;you&quot; or &quot;you&#39;re&quot;
           will be referred to any person, group, or entity subscribing to and/or
           using the resources or content according to the Terms and Conditions
@@ -41,7 +41,7 @@ const page = () => {
           an Indian company.
         </p>
         <br />
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
+        <p>
           All Users should create an account by completing the registration
           process to subscribe to provided / available resources/content by
           providing us with current, complete, and accurate information. You are
@@ -55,7 +55,7 @@ const page = () => {
           party due to someone else using your account or password.
         </p>
         <br />
-        <p className="text-[#303D5C] text-[400] text-[18px] md:text-[22px] lg:text-[24px] leading-[27px] md:leading-[33px] lg:leading-[36px]">
+        <p>
           By creating an account, the user agrees to the terms required to
           protect the confidentiality of the username and password for the
           account and shall be solely liable for any activity conducted using

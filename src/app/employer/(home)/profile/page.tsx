@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Oval } from "react-loader-spinner";
 import Image from "next/image";
-
 import Button from "@/components/Button";
 import { ICONS } from "@/assets";
 import { fetchEmployerData, updateEmployerData } from "@/api/employer";
@@ -17,7 +16,7 @@ interface Address {
   country: string;
 }
 
-interface SocialLink {
+interface soicalLink {
   linkedin?: string;
   github?: string;
 }
@@ -29,8 +28,9 @@ interface CompanyDetail {
   companyLocation: string;
   contactEmail: string;
   contactPhone: string;
+  websiteLink: string;
   bio: string;
-  socialLink?: SocialLink;
+  soicalLink?: soicalLink;
 }
 
 export interface User {
@@ -53,6 +53,7 @@ const Dashboard = () => {
     queryKey: ["employer-data"],
     queryFn: fetchEmployerData,
   });
+  console.log(data);
 
   const updateUserMutation = useMutation({
     mutationFn: updateEmployerData,
@@ -88,12 +89,12 @@ const Dashboard = () => {
         const updatedCompanyDetails = [...(user.companyDetails || [])];
         updatedCompanyDetails[index] = { ...updatedCompanyDetails[index], [name]: value };
         setUser({ ...user, companyDetails: updatedCompanyDetails });
-      } else if (field === "socialLink" && index !== undefined) {
+      } else if (field === "soicalLink" && index !== undefined) {
         const updatedCompanyDetails = [...(user.companyDetails || [])];
         updatedCompanyDetails[index] = {
           ...updatedCompanyDetails[index],
-          socialLink: {
-            ...updatedCompanyDetails[index].socialLink,
+          soicalLink: {
+            ...updatedCompanyDetails[index].soicalLink,
             [name]: value,
           },
         };
@@ -361,6 +362,20 @@ const Dashboard = () => {
                     )}
                   </div>
                   <div>
+                    <strong className="text-gray-600 text-lg">Company Website:</strong>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        name="websiteLink"
+                        value={company.websiteLink || ''}
+                        onChange={(e) => handleChange(e, "companyDetails", index)}
+                        className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg"
+                      />
+                    ) : (
+                      <a href={company.websiteLink} target="_blank" className="block mt-1 text-lg hover:underline">{company.websiteLink || 'Not Available'}</a>
+                    )}
+                  </div>
+                  <div>
                     <strong className="text-gray-600 text-lg">Bio:</strong>
                     {isEditing ? (
                       <textarea
@@ -375,7 +390,7 @@ const Dashboard = () => {
                   </div>
                   <div>
                     <strong className="text-gray-600 text-lg">Social Links:</strong>
-                    {company.socialLink ? (
+                    {company.soicalLink ? (
                       <>
                         <div>
                           <strong className="text-gray-600 text-lg">LinkedIn:</strong>
@@ -383,12 +398,12 @@ const Dashboard = () => {
                             <input
                               type="text"
                               name="linkedin"
-                              value={company.socialLink.linkedin || ''}
-                              onChange={(e) => handleChange(e, "socialLink", index)}
+                              value={company.soicalLink.linkedin || ''}
+                              onChange={(e) => handleChange(e, "soicalLink", index)}
                               className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg"
                             />
                           ) : (
-                            <span className="block mt-1 text-lg">{company.socialLink.linkedin || 'Not Available'}</span>
+                            <a href={company.soicalLink.linkedin} target="_blank" className="block mt-1 text-lg hover:underline">{company.soicalLink.linkedin || 'Not Available'}</a>
                           )}
                         </div>
                         <div>
@@ -397,12 +412,12 @@ const Dashboard = () => {
                             <input
                               type="text"
                               name="github"
-                              value={company.socialLink.github || ''}
-                              onChange={(e) => handleChange(e, "socialLink", index)}
+                              value={company.soicalLink.github || ''}
+                              onChange={(e) => handleChange(e, "soicalLink", index)}
                               className="border border-gray-300 rounded-lg px-2 py-1 w-full mt-1 text-lg"
                             />
                           ) : (
-                            <span className="block mt-1 text-lg">{company.socialLink.github || 'Not Available'}</span>
+                            <a href={company.soicalLink.github} target="_blank" className="block mt-1 text-lg hover:underline">{company.soicalLink.github || 'Not Available'}</a>
                           )}
                         </div>
                       </>
