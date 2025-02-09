@@ -30,10 +30,10 @@ const WhatWeDo = () => {
             <div className="rounded-2xl w-32 h-32">
               <Image src={item.img} alt="org" />
             </div>
-            <h4 className="text-2xl font-800 text-secondary-950">
+            <h4 className="text-2xl font-800 text-secondary-950 capitalize">
               {item.heading}
             </h4>
-            <p className="text-secondary-950 mt-2">{item.desc}</p>
+            <p className="text-secondary-950 mt-2 text-justify">{item.desc}</p>
           </div>
         ))}
       </div>
