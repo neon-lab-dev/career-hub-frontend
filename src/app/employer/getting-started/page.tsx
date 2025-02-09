@@ -33,92 +33,92 @@ const Page = () => {
       };
     }[];
   }
-  
+
   const { handleSubmit, control, reset, formState: { errors } } = useForm<FormData>();
-const [step, setStep] = useState(1);
-const [loading, setLoading] = useState(false);
-const [formData, setFormData] = useState<any>({});
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState<any>({});
 
-// Mutation for API call
-const mutation = useMutation({
-  mutationFn: async (data: any) => {
-    await axios.put(api.updateEmployerCompanyDetails, data, {
-      withCredentials: true,
-    });
-  },
-  onError: (error: any) => {
-    toast.error(error.message);
-  },
-  onSuccess: () => {
-    toast.success('Your information has been successfully updated!');
-    setStep(4);
-  },
-  onSettled: () => {
-    setLoading(false);
-  },
-});
-
-// Store data for each step without API call
-const handleContinue = (data: any) => {
-  setFormData((prevData: any) => {
-    const updatedData = { ...prevData };
-
-    if (step === 1 && data.address) {
-      // Step 1: Update Address
-      updatedData.address = data.address;
-    } else if (data.companyDetails) {
-      // Step 2 & 3: Merge Company Details into Single Object
-      const companyDetails = prevData.companyDetails || []; 
-
-      if (companyDetails.length > 0) {
-        updatedData.companyDetails = [
-          { ...companyDetails[0], ...data.companyDetails[0] },
-        ];
-      } else {
-        updatedData.companyDetails = data.companyDetails;
-      }
-    }
-
-    return updatedData;
+  // Mutation for API call
+  const mutation = useMutation({
+    mutationFn: async (data: any) => {
+      await axios.put(api.updateEmployerCompanyDetails, data, {
+        withCredentials: true,
+      });
+    },
+    onError: (error: any) => {
+      toast.error(error.message);
+    },
+    onSuccess: () => {
+      toast.success('Your information has been successfully updated!');
+      setStep(4);
+    },
+    onSettled: () => {
+      setLoading(false);
+    },
   });
 
-  if (step === 3) {
-    setLoading(true);
-  } else {
-    setStep(step + 1);
-  }
-};
+  // Store data for each step without API call
+  const handleContinue = (data: any) => {
+    setFormData((prevData: any) => {
+      const updatedData = { ...prevData };
 
-useEffect(() => {
-  if (step === 3 && loading) {
-    const finalPayload = {
-      address: formData.address || [],
-      companyDetails: formData.companyDetails || [],
-    };
+      if (step === 1 && data.address) {
+        // Step 1: Update Address
+        updatedData.address = data.address;
+      } else if (data.companyDetails) {
+        // Step 2 & 3: Merge Company Details into Single Object
+        const companyDetails = prevData.companyDetails || [];
 
-    console.log("🚀 Final Payload:", finalPayload);
+        if (companyDetails.length > 0) {
+          updatedData.companyDetails = [
+            { ...companyDetails[0], ...data.companyDetails[0] },
+          ];
+        } else {
+          updatedData.companyDetails = data.companyDetails;
+        }
+      }
 
-    mutation.mutate(finalPayload);
-    setLoading(false);
-  }
-}, [formData, step, loading]);
+      return updatedData;
+    });
+
+    if (step === 3) {
+      setLoading(true);
+    } else {
+      setStep(step + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (step === 3 && loading) {
+      const finalPayload = {
+        address: formData.address || [],
+        companyDetails: formData.companyDetails || [],
+      };
+
+      console.log("🚀 Final Payload:", finalPayload);
+
+      mutation.mutate(finalPayload);
+      setLoading(false);
+    }
+  }, [formData, step, loading]);
 
 
 
-// const handleSkip = () => {
-//   setFormData((prevData) => ({
-//     ...prevData,
-//     [`step${step}`]: {},
-//   }));
-//   reset();
-//   setStep(step + 1);
-// };
+  // const handleSkip = () => {
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     [`step${step}`]: {},
+  //   }));
+  //   reset();
+  //   setStep(step + 1);
+  // };
 
-const goToPreviousStep = () => {
-  if (step > 1) {
-    setStep(step - 1);
-  }
-};
+  const goToPreviousStep = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
 
   return (
     <GetStartedLayout progress={step * 25} goToPreviousStep={goToPreviousStep}>
@@ -261,10 +261,17 @@ const goToPreviousStep = () => {
                             {...field}
                             className="py-4 px-2 border-none text-sm w-full border-neutral-300 max-md:text-xs"
                           >
-                            <option value="">Select Here</option>
-                            <option value="industry1">Industry 1</option>
-                            <option value="industry2">Industry 2</option>
-                            <option value="industry3">Industry 3</option>
+                            <option value="" selected disabled>Select Industry</option>
+                            <option value="hospitals_healthcare">Hospitals & Healthcare Systems</option>
+                            <option value="clinics_outpatient">Clinics & Outpatient Care Centers</option>
+                            <option value="nursing_assisted_living">Nursing Homes & Assisted Living Facilities</option>
+                            <option value="rehabilitation_centers">Rehabilitation Centers</option>
+                            <option value="urgent_care">Urgent Care Centers</option>
+                            <option value="home_healthcare">Home Healthcare Services</option>
+                            <option value="hospice_palliative">Hospice & Palliative Care</option>
+                            <option value="medical_labs_diagnostics">Medical Laboratories & Diagnostic Centers</option>
+                            <option value="blood_organ_banks">Blood & Organ Banks</option>
+
                           </select>
                         )}
                       />
