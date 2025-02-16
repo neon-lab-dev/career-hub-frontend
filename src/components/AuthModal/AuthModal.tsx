@@ -73,9 +73,9 @@ const AuthModal = () => {
                   ? "Password?"
                   : authModalType === "CHANGE_PASSWORD"
                   ? "Password"
-                  : "to MeDHr"
+                  : "to MeDHr+"
 
-                // modalType === "OTP" ? "Your Email" : "to MeDHr"
+                // modalType === "OTP" ? "Your Email" : "to MeDHr+"
               }
             </h1>
           </div>
@@ -93,9 +93,8 @@ const AuthModal = () => {
                       activeTab === "STUDENT"
                         ? "text-primary-500"
                         : "text-secondary-400"
-                    }`}
-                  >
-                    Student
+                    }`}>
+                    Aspirants
                   </button>
                   <button
                     onClick={() => {
@@ -107,7 +106,7 @@ const AuthModal = () => {
                         : "text-secondary-400"
                     }`}
                   >
-                    Employer
+                    Organization
                   </button>
                 </div>
               </div>

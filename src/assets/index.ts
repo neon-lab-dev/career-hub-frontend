@@ -33,6 +33,9 @@ import filter from "@/assets/icons/filter.svg";
 import play from "@/assets/icons/play.svg";
 import facebook from "@/assets/icons/facebook.svg";
 import instagram from "@/assets/icons/instagram.svg";
+import jobs from "@/assets/icons/jobs.svg";
+import internship from "@/assets/icons/internship.svg";
+import addCircle from "@/assets/icons/Add Circle.svg";
 
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
@@ -95,4 +98,7 @@ export const ICONS = {
   play,
   facebook,
   instagram,
+  jobs,
+  internship,
+  addCircle,
 };

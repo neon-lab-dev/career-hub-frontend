@@ -7,6 +7,7 @@ import ScreenWarning from '@/components/ScreenWarning';
 import home from "@/assets/icons/home.svg";
 import { useQuery } from '@tanstack/react-query';
 import { handleEmployeeLoginService } from '@/api/authentication';
+import { ICONS } from '@/assets';
 
 export default function EmployeeRootLayout({ children }: any) {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(false);
@@ -24,8 +25,18 @@ export default function EmployeeRootLayout({ children }: any) {
   const navlinks = [
     {
       label: "Home",
-      path: "/employer/home",
+      path: "/employer",
       icon: home
+    },
+    {
+      label: "Jobs",
+      path: "/employer/jobs",
+      icon: ICONS.jobs
+    },
+    {
+      label: "Internships",
+      path: "/employer/internships",
+      icon: ICONS.internship
     },
   ];
 

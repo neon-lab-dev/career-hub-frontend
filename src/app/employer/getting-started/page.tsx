@@ -203,7 +203,7 @@ const Page = () => {
                     {errors.address?.[0]?.postalCode && <span className="text-red-500">{errors.address[0].postalCode.message}</span>}
                   </div>
                 </div>
-                <div className="flex flex-col gap-2 mt-4">
+                {/* <div className="flex flex-col gap-2 mt-4">
                   <label htmlFor="address.country">Country</label>
                   <Controller
                     name="address.0.country"
@@ -219,7 +219,36 @@ const Page = () => {
                     )}
                   />
                   {errors.address?.[0]?.country && <span className="text-red-500">{errors.address[0].country.message}</span>}
-                </div>
+                </div> */}
+
+                <div className="flex flex-col gap-2 w-full">
+                    <label htmlFor="companyDetails.industryType">Country</label>
+                    <div className='px-2 border text-neutral-400 rounded-lg w-full'>
+                      <Controller
+                        name="address.0.country"
+                        control={control}
+                        defaultValue=""
+                        rules={{ required: 'Country is required' }}
+                        render={({ field }) => (
+                          <select
+                            {...field}
+                            className="py-4 px-2 border-none text-sm w-full border-neutral-300 max-md:text-xs focus:outline-none"
+                          >
+                            <option value="" selected disabled>Select Country</option>
+                            <option value="hospitals_healthcare">India</option>
+                            <option value="clinics_outpatient">United States</option>
+                            <option value="nursing_assisted_living">Australia</option>
+                            <option value="rehabilitation_centers">Bangladesh</option>
+                            <option value="urgent_care">Canada</option>
+
+                          </select>
+                        )}
+                      />
+                    </div>
+                    {errors.address?.[0]?.country && <span className="text-red-500">{errors.address?.[0]?.country.message}</span>}
+                  </div>
+
+
                 <Button type="submit" className='mt-8'>
                   Continue
                 </Button>
@@ -303,7 +332,7 @@ const Page = () => {
                       name="companyDetails.0.websiteLink"
                       control={control}
                       defaultValue=""
-                      rules={{ required: 'Website Link is required' }}
+                      // rules={{ required: 'Website Link is required' }}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -312,7 +341,7 @@ const Page = () => {
                         />
                       )}
                     />
-                    {errors.companyDetails?.[0]?.websiteLink && <span className="text-red-500">{errors.companyDetails[0].websiteLink.message}</span>}
+                    {/* {errors.companyDetails?.[0]?.websiteLink && <span className="text-red-500">{errors.companyDetails[0].websiteLink.message}</span>} */}
                   </div>
                   <div className="flex flex-col gap-2 mt-4">
                     <label htmlFor="companyDetails.companyLocation">Location</label>
@@ -386,7 +415,7 @@ const Page = () => {
                     name="companyDetails.0.soicalLink.linkedin"
                     control={control}
                     defaultValue=""
-                    rules={{ required: 'LinkedIn is required' }}
+                    // rules={{ required: 'LinkedIn is required' }}
                     render={({ field }) => (
                       <Input
                         {...field}
@@ -396,7 +425,7 @@ const Page = () => {
                       />
                     )}
                   />
-                  {errors.companyDetails?.[0]?.soicalLink?.linkedin && <span className="text-red-500">{errors.companyDetails[0].soicalLink.linkedin.message}</span>}
+                  {/* {errors.companyDetails?.[0]?.soicalLink?.linkedin && <span className="text-red-500">{errors.companyDetails[0].soicalLink.linkedin.message}</span>} */}
                 </div>
                 <div className="flex flex-col mt-4 gap-2">
                   <label htmlFor="companyDetails.soicalLink.github">GitHub</label>
@@ -404,7 +433,7 @@ const Page = () => {
                     name="companyDetails.0.soicalLink.github"
                     control={control}
                     defaultValue=""
-                    rules={{ required: 'GitHub is required' }}
+                    // rules={{ required: 'GitHub is required' }}
                     render={({ field }) => (
                       <Input
                         {...field}
@@ -414,7 +443,7 @@ const Page = () => {
                       />
                     )}
                   />
-                  {errors.companyDetails?.[0]?.soicalLink?.github && <span className="text-red-500">{errors.companyDetails[0].soicalLink.github.message}</span>}
+                  {/* {errors.companyDetails?.[0]?.soicalLink?.github && <span className="text-red-500">{errors.companyDetails[0].soicalLink.github.message}</span>} */}
                 </div>
                 <Button type="submit" className="mt-8">
                   Continue

@@ -8,7 +8,7 @@ import CourseCard from "./CourseCard";
 
 const TrendingCourseToday = () => {
   return (
-    <div className="max-lg:px-4 max-w-full xl:max-w-[1250px] mx-auto">
+    <div className="max-lg:px-4 max-w-full 2xl:max-w-[1440px] mx-auto">
       <div className="py-section flex flex-col items-center justify-center gap-14">
       <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
         <span className="highlight">Trending</span> Today⚡
@@ -16,7 +16,7 @@ const TrendingCourseToday = () => {
       <div className="w-full">
         <Swiper
           modules={[Navigation]}
-          spaceBetween={30}
+          spaceBetween={0}
           slidesPerView={1}
           navigation
           breakpoints={{
@@ -26,23 +26,25 @@ const TrendingCourseToday = () => {
             },
             375: {
               slidesPerView: 1,
-              spaceBetween: 20,
+              spaceBetween: 0,
             },
             425: {
-              slidesPerView: 1.2,
-              spaceBetween: 20,
+              slidesPerView: 1,
+              spaceBetween: 0,
             },
             640: {
               slidesPerView: 2
             },
             768: {
-              slidesPerView: 2
+              slidesPerView: 1
             },
             1024: {
+              slidesPerView: 1.4
+            },
+            1280: {
               slidesPerView: 2
             },
-          }}
-        >
+          }}>
           {COURSE_DETAILS.map((details, index) => (
             <SwiperSlide key={index} className="flex items-center justify-center w-full">
               <CourseCard
