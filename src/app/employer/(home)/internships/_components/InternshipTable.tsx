@@ -10,7 +10,7 @@ import { Oval } from "react-loader-spinner";
 import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
-interface Job {
+interface Internship {
     _id: string;
     title: string;
     salary: string;
@@ -23,8 +23,8 @@ interface Job {
     className: string;
   }
   
-  const useFetchJobs = () => {
-    return useQuery<Job[], Error>({
+  const useFetchInternships = () => {
+    return useQuery<Internship[], Error>({
       queryKey: ['jobs-employer-job'],
       queryFn: fetchJobs,
     });
@@ -51,10 +51,10 @@ interface Job {
     });
   };
 
-const JobTable = ({className} : {className:string}) => {
+const InternshipTable = ({className} : {className:string}) => {
     const [dropdownOpenId, setDropdownOpenId] = useState<string | null>(null);
-  const { data: jobs = [], isLoading, isError, error } = useFetchJobs();
-  const allJobs = jobs.filter(job => job?.employmentType !== "Internship");
+  const { data: jobs = [], isLoading, isError, error } = useFetchInternships();
+  const allInternship = jobs.filter(job => job?.employmentType === "Internship");
   const { mutate: deleteJob } = useDeleteJob();
 
   const handleMenuClick = (id: string) => {
@@ -124,14 +124,14 @@ const JobTable = ({className} : {className:string}) => {
             </tr>
           </thead>
           <tbody className="bg-white w-full text-base">
-            {allJobs.length === 0 ? (
+            {allInternship.length === 0 ? (
               <tr>
                 <td colSpan={6} className="py-4 text-center font-Poppins">
                   No data found.
                 </td>
               </tr>
             ) : (
-              allJobs.map((job) => (
+              allInternship.map((job) => (
                 <tr key={job._id}>
                   <td>
                     <div className="flex items-center gap-2">
@@ -202,4 +202,4 @@ const JobTable = ({className} : {className:string}) => {
     );
 };
 
-export default JobTable;
+export default InternshipTable;
