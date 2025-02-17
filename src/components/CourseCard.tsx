@@ -24,7 +24,7 @@ const CourseCard: React.FC<CourseProps> = ({ courseDetails, variant }) => {
               ? "bg-courseCard-gradient-blue"
               : "bg-courseCard-gradient-white"
           } 
-          w-[329.978px] sm:w-[590.55px] h-[187.02px] sm:h-[324px] rounded-[19.583px] sm:rounded-[33.089px] card-border flex relative p-[13.71px] sm:p-[22px]
+          w-[329.978px] sm:w-[590.55px] mx-auto h-[187.02px] sm:h-[324px] rounded-[19.583px] sm:rounded-[33.089px] card-border flex relative p-[13.71px] sm:p-[22px]
         `)}
       >
         <div className={`flex flex-col ${variant === "A" ? "gap-[8.81px]" : "gap-[5.87px]"}  sm:gap-[10px]`}>

@@ -1,5 +1,5 @@
 "use client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation, UseMutationResult, useQueryClient, } from "@tanstack/react-query";
 import axios from "axios";
@@ -70,7 +70,8 @@ const useCreateJobMutation = (): UseMutationResult<any, Error, FormData> => {
     });
 };
 const Page = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm < FormData > ();
+    const pathname = usePathname();
+    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const mutation = useCreateJobMutation();
 
     const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -78,7 +79,8 @@ const Page = () => {
     };
 
     const validLocationTypes = ["Remote", "Onsite", "Hybrid"];
-    const validEmploymentTypes = ["Full-Time", "Part-Time", "Contract", "Internship"];
+    const validEmploymentTypes = ["Full-Time", "Part-Time", "Contract"];
+    const internshipEmploymentTypes = ["Internship"];
 
     return (
         <div className="p-6 bg-[#f5f6fa]">
@@ -199,11 +201,12 @@ const Page = () => {
                                 className="p-3 border rounded-xl w-[370px]"
                             >
                                 <option value="">Select Employment Type</option>
-                                {validEmploymentTypes.map((type) => (
+                                {(pathname === "/employer/add-new-hiring/job" ? validEmploymentTypes : internshipEmploymentTypes).map((type) => (
                                     <option key={type} value={type}>
                                         {type}
                                     </option>
                                 ))}
+
                             </select>
                             {errors.employmentType && <p className="text-red-500">{errors.employmentType.message}</p>}
                         </div>
@@ -270,7 +273,7 @@ const Page = () => {
                         </div>
                     </div>
                     <div className="flex justify-center mt-10 gap-6">
-                        <Button type="submit" className="px-10">Create Job</Button>
+                        <Button type="submit" className="px-10">Create {pathname === "/employer/add-new-hiring/internship" ? "Internship" : "Job"}</Button>
                     </div>
                 </form>
                 {mutation.isError && (

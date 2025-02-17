@@ -5,11 +5,7 @@ import applicationIcon from "@/assets/icons/applications.svg";
 import hourglass from "@/assets/icons/hourglass.svg";
 import checkCircle from "@/assets/icons/check-circle.svg";
 import closeCircle from "@/assets/icons/close-circle.svg";
-import Image from "next/image";
-import addCircle from "@/assets/icons/Add Circle.svg";
-import Button from "@/components/Button";
-import Tablel from "./_components/Tablel"; // Ensure correct import path
-import Link from "next/link";
+import Tablel from "./_components/Tablel";
 import { useQuery } from '@tanstack/react-query';
 import { fetchJobData } from "@/api/employer";
 import { Oval } from "react-loader-spinner";
@@ -119,22 +115,8 @@ const Dashboard = () => {
         />
       </div>
 
-      <div className="flex justify-end">
-        <Link href="/employer/add-new-hiring">
-          <Button
-            className="flex items-center gap-[6px] max-w-[200px] justify-center"
-            variant="primary"
-          >
-            Add New Hiring
-            <Image src={addCircle} alt="addCircle" />
-          </Button>
-        </Link>
-      </div>
-
       {/* Display open jobs in a table */}
-      <Tablel
-        className="w-full max-w-full"
-      />
+      <Tablel className="w-full max-w-full"/>
     </div>
   );
 };

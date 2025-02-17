@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
         {navlinks.map((navlink, index) => (
           <div key={index} className="py-2 flex items-center justify-between">
             <Link
-              href="/employer/"
+              href={navlink.path}
               className={`flex items-center gap-[6px] ${
                 pathname === navlink?.path
                   ? "text-primary-500"
@@ -38,7 +38,7 @@ const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
             >
               {
                 navlink?.icon &&
-              <Image src={navlink?.icon} alt="home-icon" />
+              <Image src={navlink?.icon} alt={`${navlink.label}-icon`} className="size-5" />
               }
               {navlink.label}
             </Link>
