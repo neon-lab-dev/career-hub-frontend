@@ -18,7 +18,7 @@ const classNames = {
       "text-sm xl:text-base border border-primary-200 bg-primary-50 text-primary-500 disabled:opacity-50",
     ghost: "",
     normal:
-      "text-base bg-primary-500 text-white rounded-lg px-6 font-semibold py-2",
+      "text-base bg-gradient-primary-button shadow-primary-button text-white rounded-lg px-6 font-semibold py-2",
     natural:
     "text-base bg-neutral-100 rounded-lg px-6 font-semibold py-2"
   },

@@ -36,6 +36,8 @@ import instagram from "@/assets/icons/instagram.svg";
 import jobs from "@/assets/icons/jobs.svg";
 import internship from "@/assets/icons/internship.svg";
 import addCircle from "@/assets/icons/Add Circle.svg";
+import location from "@/assets/icons/location-2.svg";
+import search from "@/assets/icons/search-2.svg";
 
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
@@ -101,4 +103,6 @@ export const ICONS = {
   jobs,
   internship,
   addCircle,
+  location,
+  search,
 };

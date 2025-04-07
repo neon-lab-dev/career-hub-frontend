@@ -18,12 +18,13 @@ const config: Config = {
           "linear-gradient(282deg, #DCEAFD 0%, #EFF6FF 100%)",
         line: "rgba(255, 255, 255, 0.12)",
         "gradient-primary-button":
-          "linear-gradient(180deg, #F9533A 0%, #C22A13 93.51%)",
+        "radial-gradient(99.79% 100% at 31.97% 99.5%, rgba(255, 255, 255, 0.00) 0%, rgba(206, 154, 146, 0.30) 100%), linear-gradient(180deg, #F9533A 0%, #FF3F22 100%)",
         "gradient-primary-button-hover":
           "linear-gradient(0deg, rgba(0, 0, 0, 0.20) 0%, rgba(0, 0, 0, 0.20) 100%), linear-gradient(180deg, #F9533A 0%, #C22A13 93.51%)",
       },
       boxShadow: {
-        "primary-button": "0px 8px 24px -10px rgba(249, 83, 58, 0.50)",
+        "primary-button": "0px 1px 2px 0px rgba(255, 255, 255, 0.30) inset, 0px -2px 0px 0px #E0381F inset, 0px 4px 16px 0px rgba(254, 71, 43, 0.30)",
+        "secondary-button" : "0px 2px 8px 0px var(--Secondary-Color-100, #EAECF4)",
       },
       customBorder: {
         'white-horizontal-line': 'rgba(255, 255, 255, 0.12)',
