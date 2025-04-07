@@ -5,7 +5,7 @@ import { getLatestJobs } from "@/api/jobs";
 import Link from "next/link";
 import React from "react";
 
-const LatestJobYouMightLikeComponent = async () => {
+const LatestJobs = async () => {
   const jobs = await getLatestJobs();
   if (!jobs || jobs.length === 0) return null;
   return (
@@ -38,4 +38,4 @@ const LatestJobYouMightLikeComponent = async () => {
   );
 };
 
-export default LatestJobYouMightLikeComponent;
+export default LatestJobs;
