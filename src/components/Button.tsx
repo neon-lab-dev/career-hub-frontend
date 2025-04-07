@@ -7,7 +7,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const classNames = {
   default:
-    "py-3 px-6 rounded-lg text-base font-600 disabled:pointer-events-none transition-colors ",
+    "py-3 px-6 rounded-lg text-base font-600 disabled:pointer-events-none transition-colors cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95",
   variants: {
     primary:
       "enabled:bg-gradient-primary-button enabled:shadow-primary-button text-primary-50 disabled:shadow-none enabled:hover:bg-gradient-primary-button-hover disabled:bg-neutral-50 disabled:text-neutral-300",

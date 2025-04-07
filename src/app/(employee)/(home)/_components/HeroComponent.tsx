@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ICONS, IMAGES } from "@/assets";
 import FilterDropdown from "@/components/Reusable/FilterDropdown/FilterDropdown";
 import Button from "@/components/Button";
+import LocationSearch from "./LocationSearch";
 
 const HeroComponent = () => {
   const items = ["React", "Angular", "Vue"];
@@ -61,20 +62,7 @@ const HeroComponent = () => {
               onSelect={handleItemSelect}
             />
 
-            <form className="px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 text-xl font-500 leading-6 rounded-2xl w-[277px]">
-              <input
-                type="text"
-                className="focus:outline-none w-full"
-                placeholder="Enter location"
-                // value={value}
-                // onChange={(e) => setValue(e.target.value)}
-              />
-              <Image
-                src={ICONS.location}
-                alt="search-icon"
-                className="size-6"
-              />
-            </form>
+            <LocationSearch/>
 
             <Button variant="normal" className="size-[60px] p-5 rounded-2xl">
               <Image src={ICONS.search} alt="search-icon" className="size-6" />
