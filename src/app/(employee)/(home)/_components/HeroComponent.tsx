@@ -18,7 +18,7 @@ const HeroComponent = () => {
   };
   return (
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
-      <div className="max-width flex flex-col gap-[40px] xl:gap-28 wrapper">
+      <div className="flex flex-col gap-[40px] xl:gap-28 wrapper">
         <div className="flex flex-col sm:items-center gap-5 justify-center sm:text-center ">
           {/* Title */}
           <h1 className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700  xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl">

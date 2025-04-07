@@ -94,7 +94,7 @@ p {
 }
 
 .wrapper {
-  @apply px-[23px] md:px-[64px] xl:px-32;
+  @apply max-w-7xl mx-auto px-6 2xl:px-0;
 }
 
 .highlight {
@@ -114,3 +114,4 @@ p {
 .section-heading {
   @apply font-700 text-[32px] xl:text-[40px] text-secondary-950 tracking-[-0.5px];
 }
+

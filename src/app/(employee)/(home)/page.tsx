@@ -13,10 +13,10 @@ const HomePage = () => {
     <div className="flex flex-col">
       <HeroComponent />
       <LatestJobs />
+      <LatestInternshipsForYou />
       <TrendingToday />
       <SkillProgrammes/>
       <AvailableCourses/>
-      <LatestInternshipsForYou />
       <OurValuableHiringPartners />
       <WhatWeDoComponent />
     </div>

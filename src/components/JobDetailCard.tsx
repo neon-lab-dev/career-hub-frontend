@@ -25,7 +25,7 @@ const JobDetailCard = ({
   return (
     <div
       className={twMerge(
-        "max-w-[450px] min-h-[530px] bg-white font-plus-jakarta-sans border border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500 hover:scale-105 transition-all duration-300 ease-in-out transform",
+        "max-w-[450px] min-h-[550px] bg-white font-plus-jakarta-sans border border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500 transition-all duration-300 ease-in-out transform",
         wrapperClassName
       )}
     >
@@ -51,7 +51,7 @@ const JobDetailCard = ({
           elementum erat vestibulum. Nisl faucibus null
         </p>
 
-      {/* Job details */}
+        {/* Job details */}
         <div className="flex items-center gap-3 mt-3">
           <div className="flex items-center gap-1">
             <Image src={ICONS.clock} alt="clock-icon" className="size-[18px]" />
@@ -80,7 +80,7 @@ const JobDetailCard = ({
         {/* hr */}
         <hr className="w-full border border-neutral-100 h-[2px] my-6" />
 
-      {/* Apply details */}
+        {/* Apply details */}
         <div className="flex items-center justify-between">
           <div>
             <p className="text-neutral-400">Job Offer</p>
