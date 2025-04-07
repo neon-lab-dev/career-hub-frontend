@@ -71,20 +71,24 @@ const LocationSearch = () => {
     <div ref={dropDownRef} className="relative mx-auto w-fit text-white">
       <form
         onClick={() => setOpen((prev) => !prev)}
-        className="px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 text-xl font-500 leading-6 rounded-2xl w-[277px] cursor-pointer 
+        className="px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 text-xl leading-6 rounded-2xl w-[277px] cursor-pointer 
         transition-all duration-300 ease-in-out transform active:scale-95"
       >
-        <input
-          type="text"
-          className="focus:outline-none w-full text-base"
-          placeholder="Enter location"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpen(true);
-          }}
-        />
+        {open ? (
+          <input
+            type="text"
+            className="focus:outline-none w-full font-400"
+            placeholder="Enter location"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpen(true);
+            }}
+          />
+        ) : (
+          <h1>Select Location</h1>
+        )}
         <Image src={ICONS.location} alt="location-icon" className="size-6" />
       </form>
 

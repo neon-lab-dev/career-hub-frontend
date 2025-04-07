@@ -52,13 +52,13 @@ const HeroComponent = () => {
             <FilterDropdown
               label="Internships"
               items={items}
-              icon={IMAGES.arrowDown}
+              icon={ICONS.downArrow}
               onSelect={handleItemSelect}
             />
             <FilterDropdown
               label="Category"
               items={categories}
-              icon={IMAGES.arrowDown}
+              icon={ICONS.downArrow}
               onSelect={handleItemSelect}
             />
 
