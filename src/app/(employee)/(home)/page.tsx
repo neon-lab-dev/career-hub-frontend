@@ -14,9 +14,9 @@ const HomePage = () => {
       <HeroComponent />
       <LatestJobs />
       <LatestInternships />
+      <AvailableCourses/>
       <TrendingToday />
       <SkillProgrammes/>
-      <AvailableCourses/>
       <OurValuableHiringPartners />
       <WhatWeDoComponent />
     </div>

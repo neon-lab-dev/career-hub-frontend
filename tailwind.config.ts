@@ -25,7 +25,7 @@ const config: Config = {
       boxShadow: {
         "primary-button": "0px 1px 2px 0px rgba(255, 255, 255, 0.30) inset, 0px -2px 0px 0px #E0381F inset, 0px 4px 16px 0px rgba(254, 71, 43, 0.30)",
         "secondary-button" : "0px 2px 8px 0px var(--Secondary-Color-100, #EAECF4)",
-        "job-card-shadow" : "0px 4px 8px 0px var(--Neutral-Color-50, #F7F7F8)"
+        "job-card-shadow" : "0px 4px 8px 0px var(--Neutral-Color-50, #F7F7F8)",
       },
       customBorder: {
         'white-horizontal-line': 'rgba(255, 255, 255, 0.12)',
@@ -92,11 +92,14 @@ const config: Config = {
           950: "#25252c",
           960: '#4A4A5A',
           970: '#37466D',
-          975: "#434347"
+          975: "#434347",
+          980: "#374957",
+          990: "#697781",
         },
         success: {
           50: "#EFFEF7",
           100: "#1ACD81",
+          110 : "#0FA968",
         },
         warning: {
           50: "#FFC244",

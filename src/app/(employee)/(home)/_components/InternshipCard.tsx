@@ -19,10 +19,7 @@ const InternshipCard: React.FC<TInternshipCardProps> = ({
   job,
 }) => {
   return (
-    <Link
-      href={`/${job.employmentType === "Internship" ? "internships" : "jobs"}/${
-        job._id
-      }`}
+    <div
       className={twMerge(
         "w-[380px] h-[500px] bg-white font-plus-jakarta-sans border-2 border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500 transition-all duration-300 ease-in-out transform",
         wrapperClassName
@@ -105,7 +102,7 @@ const InternshipCard: React.FC<TInternshipCardProps> = ({
           </Link>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

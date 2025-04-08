@@ -4,6 +4,7 @@ import { ICourse } from "@/app/admin/(pages)/courses/page";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import CourseCard from "./CourseCard";
 
 const AvailableCourses = () => {
   const { isLoading, data } = useQuery({
@@ -13,11 +14,12 @@ const AvailableCourses = () => {
 
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
-        Available <span className="highlight">Courses</span>
+      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left capitalize">
+        <span className="highlight">Courses</span> for you
       </h3>
       <div className="w-full overflow-x-scroll wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
+          <CourseCard/>
           {data?.courses.map((course:ICourse) => (
             <div
               key={course._id}
