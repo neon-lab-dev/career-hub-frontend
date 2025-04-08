@@ -1,19 +1,19 @@
 import React from "react";
 import HeroComponent from "./_components/HeroComponent";
-import LatestInternshipsForYou from "./_components/LatestInternshipsForYouComponent";
 import TrendingToday from "../../../components/TrendingCourseToday";
 import WhatWeDoComponent from "../../../components/WhatWeDo";
 import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
 import SkillProgrammes from "./_components/SkillProgrammes";
 import AvailableCourses from './_components/AvailableCourses';
 import LatestJobs from "./_components/LatestJobs";
+import LatestInternships from "./_components/LatestInternships";
 
 const HomePage = () => {
   return (
     <div className="flex flex-col">
       <HeroComponent />
       <LatestJobs />
-      <LatestInternshipsForYou />
+      <LatestInternships />
       <TrendingToday />
       <SkillProgrammes/>
       <AvailableCourses/>

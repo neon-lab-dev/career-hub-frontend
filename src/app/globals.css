@@ -86,7 +86,7 @@ p {
 }
 
 .wrapper-left {
-  @apply pl-[23px] md:pl-[64px] xl:pl-32;
+  @apply pl-[23px] md:pl-[64px] xl:pl-60;
 }
 
 .wrapper-right {
@@ -115,3 +115,13 @@ p {
   @apply font-700 text-[32px] xl:text-[40px] text-secondary-950 tracking-[-0.5px];
 }
 
+
+
+.pagination-orange .swiper-pagination-bullet {
+  background-color: #f9533a; /* Tailwind's orange-500 */
+  opacity: 0.4;
+}
+
+.pagination-orange .swiper-pagination-bullet-active {
+  opacity: 1;
+}

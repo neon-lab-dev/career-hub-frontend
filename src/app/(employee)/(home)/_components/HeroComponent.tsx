@@ -62,7 +62,7 @@ const HeroComponent = () => {
               onSelect={handleItemSelect}
             />
 
-            <LocationSearch/>
+            <LocationSearch />
 
             <Button variant="normal" className="size-[60px] p-5 rounded-2xl">
               <Image src={ICONS.search} alt="search-icon" className="size-6" />

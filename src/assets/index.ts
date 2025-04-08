@@ -41,6 +41,8 @@ import search from "@/assets/icons/search-2.svg";
 import downArrow from "@/assets/icons/down-arrow-2.svg";
 import jobType from "@/assets/icons/job-type.svg";
 import clock from "@/assets/icons/clock.svg";
+import sallary from "@/assets/icons/sallary.svg";
+import rightArrow from "@/assets/icons/right-arrow.svg";
 
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
@@ -50,7 +52,8 @@ import logo1 from "@/assets/images/Asset 2.png"
 import logo2 from "@/assets/images/Asset 3.png"
 import org from "@/assets/images/61ae20883d652b27b6ef3f39_org-design-second-edition.svg"
 import apr from "@/assets/images/pngtree-study-icons-boy-sitting-at-a-table-with-book-vector-png-image_12296730.png"
-import jobCardBg from "@/assets/images/job-card-bg.png"
+import jobCardBg from "@/assets/images/job-card-bg.png";
+import internshipCardBg from "@/assets/images/internship-card-bg.png";
 
 
 
@@ -90,6 +93,7 @@ export const IMAGES = {
   org,
   apr,
   jobCardBg,
+  internshipCardBg,
 };
 
 export const ICONS = {
@@ -113,4 +117,6 @@ export const ICONS = {
   downArrow,
   clock,
   jobType,
+  sallary,
+  rightArrow,
 };

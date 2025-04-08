@@ -3,8 +3,9 @@ import JobDetailCard from "@/components/JobDetailCard";
 import { getLatestInternships } from "@/api/jobs";
 import Link from "next/link";
 import React from "react";
+import InternshipCard from "./InternshipCard";
 
-const LatestInternshipsForYouComponent = async () => {
+const LatestInternships = async () => {
   const internships = await getLatestInternships();
   if (!internships || internships.length === 0) return null;
   return (
@@ -20,9 +21,10 @@ const LatestInternshipsForYouComponent = async () => {
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
           {internships.map((details, index) => (
             <div key={index} className="carousel-item">
-              <JobDetailCard
-                wrapperClassName="xl:min-w-[500px]"
+              <InternshipCard
+                wrapperClassName=""
                 job={details}
+                
               />
             </div>
           ))}
@@ -37,4 +39,4 @@ const LatestInternshipsForYouComponent = async () => {
   );
 };
 
-export default LatestInternshipsForYouComponent;
+export default LatestInternships;
