@@ -4,6 +4,7 @@ import { jobDetails } from "@/mockData/jobCard";
 import { getLatestJobs } from "@/api/jobs";
 import Link from "next/link";
 import React from "react";
+import NoDataFound from "@/components/NoDataFound";
 
 const LatestJobs = async () => {
   const jobs = await getLatestJobs();
@@ -18,7 +19,10 @@ const LatestJobs = async () => {
         </span>{" "}
         You Might Like
       </h3>
-      <div className="w-full overflow-hidden wrapper-left">
+      {
+        jobs.length === 0 ?
+        <NoDataFound message="No Jobs Available"/> :
+        <div className="w-full overflow-hidden wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
           {job?.map((details, index) => (
             <div key={index} className="carousel-item">
@@ -30,6 +34,7 @@ const LatestJobs = async () => {
           ))}
         </div>
       </div>
+      }
       <Link href="/jobs">
         <Button variant="outline" className="px-12 py-5">
           View all openings

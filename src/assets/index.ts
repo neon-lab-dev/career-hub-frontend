@@ -44,6 +44,8 @@ import clock from "@/assets/icons/clock.svg";
 import sallary from "@/assets/icons/sallary.svg";
 import rightArrow from "@/assets/icons/right-arrow.svg";
 import rightArrowCourse from "@/assets/icons/right-arrow-course.svg";
+import calender from "@/assets/icons/calender.svg";
+import noData from "@/assets/icons/no-data.svg";
 
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
@@ -56,6 +58,7 @@ import apr from "@/assets/images/pngtree-study-icons-boy-sitting-at-a-table-with
 import jobCardBg from "@/assets/images/job-card-bg.png";
 import internshipCardBg from "@/assets/images/internship-card-bg.png";
 import courseImg from "@/assets/images/course-img.png";
+import eventImg from "@/assets/images/event-img.png";
 
 
 
@@ -97,6 +100,7 @@ export const IMAGES = {
   jobCardBg,
   internshipCardBg,
   courseImg,
+  eventImg,
 };
 
 export const ICONS = {
@@ -123,4 +127,6 @@ export const ICONS = {
   sallary,
   rightArrow,
   rightArrowCourse,
+  calender,
+  noData,
 };

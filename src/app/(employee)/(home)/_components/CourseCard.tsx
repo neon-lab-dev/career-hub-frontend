@@ -13,8 +13,8 @@ const CourseCard = () => {
   ];
 
   const [showAll, setShowAll] = useState<boolean>(false);
-
   const visibleItems = showAll ? courseIncludes : courseIncludes.slice(0, 2);
+
   return (
     <div
       className={`bg-white p-6 w-full max-w-[446px] rounded-3xl border border-neutral-300 shadow-job-card-shadow font-plus-jakarta-sans flex flex-col gap-6 ${

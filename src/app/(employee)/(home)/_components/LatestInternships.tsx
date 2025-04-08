@@ -4,10 +4,10 @@ import { getLatestInternships } from "@/api/jobs";
 import Link from "next/link";
 import React from "react";
 import InternshipCard from "./InternshipCard";
+import NoDataFound from "@/components/NoDataFound";
 
 const LatestInternships = async () => {
   const internships = await getLatestInternships();
-  if (!internships || internships.length === 0) return null;
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
       <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
@@ -17,7 +17,10 @@ const LatestInternships = async () => {
         </span>{" "}
         For You
       </h3>
-      <div className="w-full overflow-hidden wrapper-left">
+      {
+        internships?.length < 1 ?
+        <NoDataFound message="No Internship Found" /> :
+        <div className="w-full overflow-hidden wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
           {internships.map((details, index) => (
             <div key={index} className="carousel-item">
@@ -30,6 +33,7 @@ const LatestInternships = async () => {
           ))}
         </div>
       </div>
+      }
       <Link href="/internships">
         <Button variant="outline" className="px-12 py-5">
           View all openings

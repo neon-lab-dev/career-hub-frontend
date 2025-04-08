@@ -7,6 +7,7 @@ import SkillProgrammes from "./_components/SkillProgrammes";
 import AvailableCourses from './_components/AvailableCourses';
 import LatestJobs from "./_components/LatestJobs";
 import LatestInternships from "./_components/LatestInternships";
+import Events from "./_components/Events";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
       <LatestJobs />
       <LatestInternships />
       <AvailableCourses/>
+      <Events/>
       <TrendingToday />
       <SkillProgrammes/>
       <OurValuableHiringPartners />

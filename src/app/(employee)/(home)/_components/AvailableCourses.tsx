@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import CourseCard from "./CourseCard";
+import NoDataFound from "@/components/NoDataFound";
 
 const AvailableCourses = () => {
   const { isLoading, data } = useQuery({
@@ -17,7 +18,10 @@ const AvailableCourses = () => {
       <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left capitalize">
         <span className="highlight">Courses</span> for you
       </h3>
-      <div className="w-full overflow-x-scroll wrapper-left">
+      {
+        data?.courses?.length < 1 ?
+        <NoDataFound message="No Course Available" /> :
+        <div className="w-full overflow-x-scroll wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
           <CourseCard/>
           {data?.courses.map((course:ICourse) => (
@@ -53,6 +57,7 @@ const AvailableCourses = () => {
           ))}
         </div>
       </div>
+      }
     </div>
   );
 };
