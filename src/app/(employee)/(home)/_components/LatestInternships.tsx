@@ -35,7 +35,7 @@ const LatestInternships = async () => {
       </div>
       }
       <Link href="/internships">
-        <Button variant="outline" className="px-12 py-5">
+        <Button variant="normal" className="px-9 py-4">
           View all openings
         </Button>
       </Link>
