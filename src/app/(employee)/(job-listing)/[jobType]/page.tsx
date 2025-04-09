@@ -8,13 +8,13 @@ import ApplyFilter, {
 } from "../_components/ApplyFilter";
 import { ICONS } from "@/assets";
 import Image from "next/image";
-import JobDetailCard from "@/components/JobDetailCard";
 import { useQuery } from "@tanstack/react-query";
 import { handleGetAllJobsByTypeService } from "@/api/jobs";
 import debounce from "@/helpers/debounce";
 import { useSearchParams } from "next/navigation";
 import { useAppSelector } from "@/hooks/store";
 import Button from "@/components/Button";
+import JobCard from "../_components/JobCard";
 
 type Props = {
   params: {
@@ -53,7 +53,8 @@ const PageComponent = ({ jobType }: { jobType: string }) => {
       }),
   });
   return (
-    <div className="wrapper bg-[#f5f6fa] py-6">
+    <div className="bg-[#f5f6fa] h-full min-h-screen">
+      <div className="wrapper py-6">
       <div className="flex justify-between gap-10">
         <ApplyFilter
           setFilterParams={setQueryParams}
@@ -111,7 +112,7 @@ const PageComponent = ({ jobType }: { jobType: string }) => {
             </div>
           ) : (
             data?.map((details, index: number) => (
-              <JobDetailCard
+              <JobCard
                 wrapperClassName=""
                 key={index}
                 job={details}
@@ -125,6 +126,7 @@ const PageComponent = ({ jobType }: { jobType: string }) => {
             ))
           )}
         </div>
+      </div>
       </div>
     </div>
   );

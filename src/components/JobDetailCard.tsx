@@ -9,6 +9,7 @@ import ApplyJob from "@/app/(employee)/(job-listing)/[jobType]/[jobId]/_componen
 
 type Props = {
   showApplyButton?: boolean;
+  isDetailsBtnVisible?: boolean;
   wrapperClassName?: string;
   job: IJob;
   isApplied?: boolean;
@@ -16,6 +17,7 @@ type Props = {
 
 const JobDetailCard = ({
   showApplyButton,
+  isDetailsBtnVisible=true,
   wrapperClassName,
   job,
   isApplied,
@@ -25,7 +27,7 @@ const JobDetailCard = ({
   return (
     <div
       className={twMerge(
-        "max-w-[450px] min-h-[600px] xl:min-h-[530px] bg-white font-plus-jakarta-sans border border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500 transition-all duration-300 ease-in-out transform",
+        "max-w-[450px] min-h-[600px] xl:min-h-[530px] bg-white font-plus-jakarta-sans border border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500  transition-all duration-300 ease-in-out transform hover:scale-105",
         wrapperClassName
       )}
     >
@@ -107,7 +109,9 @@ const JobDetailCard = ({
 
           {/* Apply btn */}
           <div className="flex items-center gap-3">
-            <Link
+            {
+              isDetailsBtnVisible &&
+              <Link
               href={`/${
                 job.employmentType === "Internship" ? "internships" : "jobs"
               }/${job._id}`}
@@ -116,6 +120,7 @@ const JobDetailCard = ({
                 View full details
               </Button>
             </Link>
+            }
             {showApplyButton && (
               <div className="hidden sm:block">
                 <ApplyJob jobId={job._id} />
