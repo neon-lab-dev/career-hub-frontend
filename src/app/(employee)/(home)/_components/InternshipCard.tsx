@@ -14,14 +14,13 @@ type TInternshipCardProps = {
 };
 
 const InternshipCard: React.FC<TInternshipCardProps> = ({
-  showApplyButton,
   wrapperClassName,
   job,
 }) => {
   return (
     <div
       className={twMerge(
-        "w-[380px] h-[500px] bg-white font-plus-jakarta-sans border-2 border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500 transition-all duration-300 ease-in-out transform",
+        "w-[380px] h-[510px] bg-white font-plus-jakarta-sans border-2 border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500 transition-all duration-300 ease-in-out transform",
         wrapperClassName
       )}
     >
@@ -34,23 +33,32 @@ const InternshipCard: React.FC<TInternshipCardProps> = ({
       <div className="p-6">
         {/* Company logo */}
         <div className="flex items-center gap-2">
-          <Image
+          {/* <Image
             src={IMAGES.companyLogo}
             alt=""
             className="size-8 object-cover"
-          />
-          <p className="text-neutral-400">Talkwisely Platforms</p>
+          /> */}
+          <div className="size-12 rounded-md bg-primary-50 text-primary-500 border border-primary-500/20 flex items-center justify-center">
+          <h1 className="text-sm font-700">
+            {job?.companyDetails?.companyName
+              ?.split(" ")
+              .map((word) => word[0])
+              .join("")
+              .toUpperCase()}
+          </h1>
+        </div>
+          <p className="text-neutral-400">{job?.companyDetails?.companyName}</p>
         </div>
 
         <h1 className="text-neutral-900 text-xl font-700 mt-4">
-          Frontend Developer Job
+        {job?.title}
         </h1>
 
         {/* Job details */}
         <div className="flex flex-col gap-5 mt-6">
           <div className="flex items-center gap-1">
             <Image src={ICONS.clock} alt="clock-icon" className="size-[18px]" />
-            <p className="text-neutral-400">Fulltime</p>
+            <p className="text-neutral-400">{job?.employmentType}</p>
           </div>
           <div className="flex items-center gap-1">
             <Image
@@ -58,7 +66,7 @@ const InternshipCard: React.FC<TInternshipCardProps> = ({
               alt="clock-icon"
               className="size-[18px]"
             />
-            <p className="text-neutral-400">On Site</p>
+            <p className="text-neutral-400">{job?.locationType}</p>
           </div>
           <div className="flex items-center gap-1">
             <Image
@@ -66,7 +74,7 @@ const InternshipCard: React.FC<TInternshipCardProps> = ({
               alt="clock-icon"
               className="size-[18px]"
             />
-            <p className="text-neutral-400">₹ 8,000-10,000 /month</p>
+            <p className="text-neutral-400">₹ {job?.salary} /month</p>
           </div>
         </div>
 
@@ -74,12 +82,13 @@ const InternshipCard: React.FC<TInternshipCardProps> = ({
         <div className="mt-6">
           <p className="text-neutral-400">Required Skills:</p>
           <div className="flex items-center gap-[10px] mt-2">
-            <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px]">
-              Figma
+            {
+              job?.requiredSkills?.map(skill => 
+                <div key={skill} className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px] capitalize">
+              {skill}
             </div>
-            <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px]">
-              Figma
-            </div>
+              )
+            }
           </div>
         </div>
 

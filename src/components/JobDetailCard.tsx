@@ -31,13 +31,22 @@ const JobDetailCard = ({
     >
       {/* Banner image */}
       <Image src={IMAGES.jobCardBg} alt="" className="w-full rounded-t-2xl" />
-      <div className="p-7 absolute top-12">
+      <div className="p-7 absolute top-12 w-full">
         {/* Company logo */}
-        <Image
+        {/* <Image
           src={IMAGES.companyLogo}
           alt=""
           className="size-[91px] object-cover"
-        />
+        /> */}
+        <div className="size-20 rounded-xl bg-primary-50 text-primary-500 border border-primary-500/20 flex items-center justify-center">
+          <h1 className=" text-2xl font-700">
+            {job?.companyDetails?.companyName
+              ?.split(" ")
+              .map((word) => word[0])
+              .join("")
+              .toUpperCase()}
+          </h1>
+        </div>
         <h1 className="text-neutral-900 text-2xl font-700 mt-3 capitalize">
           {job?.title}
         </h1>
@@ -50,7 +59,11 @@ const JobDetailCard = ({
           <p className="text-neutral-400">Ahmedabad, India</p>
         </div>
 
-        <p className="text-neutral-400 mt-6">{job?.description}</p>
+        <p className="text-neutral-400 mt-6">
+          {job?.description?.length > 70
+            ? `${job?.description?.slice(0, 70)}...`
+            : job?.description}
+        </p>
 
         {/* Job details */}
         <div className="flex items-center gap-3 mt-3">
@@ -84,7 +97,7 @@ const JobDetailCard = ({
         <hr className="w-full border border-neutral-100 h-[2px] my-6" />
 
         {/* Apply details */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between w-full">
           <div>
             <p className="text-neutral-400">Job Offer</p>
             <h2 className="text-primary-500 text-xl font-700 mt-1">

@@ -8,7 +8,6 @@ import NoDataFound from "@/components/NoDataFound";
 
 const LatestJobs = async () => {
   const jobs = await getLatestJobs();
-  console.log(jobs);
   if (!jobs || jobs.length === 0) return null;
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">

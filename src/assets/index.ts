@@ -46,6 +46,7 @@ import rightArrow from "@/assets/icons/right-arrow.svg";
 import rightArrowCourse from "@/assets/icons/right-arrow-course.svg";
 import calender from "@/assets/icons/calender.svg";
 import noData from "@/assets/icons/no-data.svg";
+import company from "@/assets/icons/company.svg";
 
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
@@ -129,4 +130,5 @@ export const ICONS = {
   rightArrowCourse,
   calender,
   noData,
+  company,
 };

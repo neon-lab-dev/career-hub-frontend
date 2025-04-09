@@ -3,9 +3,9 @@ import Image from "next/image";
 import { twMerge } from "tailwind-merge";
 
 type TEventCardProps = {
-    wrapperClassName?: string;
-}
-const EventCard:React.FC<TEventCardProps> = ({ wrapperClassName }) => {
+  wrapperClassName?: string;
+};
+const EventCard: React.FC<TEventCardProps> = ({ wrapperClassName }) => {
   return (
     <div
       className={twMerge(
@@ -25,9 +25,7 @@ const EventCard:React.FC<TEventCardProps> = ({ wrapperClassName }) => {
       <div className="flex items-center gap-2 mt-[18px]">
         <div className="flex items-center gap-2">
           <Image src={ICONS.calender} alt="" className="size-[18px]" />
-          <p className="text-neutral-400 text-[15px]">
-            Talkwisely Platforms Pvt. Ltd.
-          </p>
+          <p className="text-neutral-400 text-[15px]">May 20, 2025</p>
         </div>
         <div className="bg-neutral-400 size-[5px] rounded-full"></div>
         <p className="text-neutral-400 text-[15px]">10PM</p>
@@ -40,11 +38,11 @@ const EventCard:React.FC<TEventCardProps> = ({ wrapperClassName }) => {
 
       {/* Company Info */}
       <div className="flex items-center gap-2 mt-2 text-neutral-400 text-[15px]">
-        <div className="flex items-center gap-2">
+        <div className="flex gap-2">
           <Image
-            src={IMAGES.companyLogo}
+            src={ICONS.company}
             alt=""
-            className="size-4 object-cover rounded-full"
+            className="size-5 object-cover rounded-full"
           />
           <p className="">Talkwisely Platforms</p>
         </div>

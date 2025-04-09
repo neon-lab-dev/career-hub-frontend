@@ -1,5 +1,4 @@
 import Button from "@/components/Button";
-import JobDetailCard from "@/components/JobDetailCard";
 import { getLatestInternships } from "@/api/jobs";
 import Link from "next/link";
 import React from "react";
@@ -8,6 +7,7 @@ import NoDataFound from "@/components/NoDataFound";
 
 const LatestInternships = async () => {
   const internships = await getLatestInternships();
+  console.log(internships);
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
       <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
