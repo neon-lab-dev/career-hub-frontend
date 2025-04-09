@@ -10,8 +10,12 @@ import { useRouter } from "next/navigation";
 
 const HeroComponent = () => {
   const router = useRouter();
-  const [selectedEmploymentType, setSelectedEmploymentType] = useState<string | null>(null);
-  const [selectedLocationType, setSelectedLocationType] = useState<string | null>(null);
+  const [selectedEmploymentType, setSelectedEmploymentType] = useState<
+    string | null
+  >(null);
+  const [selectedLocationType, setSelectedLocationType] = useState<
+    string | null
+  >(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   console.log(selectedLocation);
 
@@ -25,19 +29,19 @@ const HeroComponent = () => {
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-  
-    if (selectedEmploymentType) params.set("employmentType", selectedEmploymentType);
+
+    if (selectedEmploymentType)
+      params.set("employmentType", selectedEmploymentType);
     if (selectedLocationType) params.set("locationType", selectedLocationType);
     if (selectedLocation) params.set("location", selectedLocation);
-  
+
     const path =
       selectedEmploymentType?.toLowerCase() === "internship"
         ? "/internship"
         : "/jobs";
-  
+
     router.push(`${path}?${params.toString()}`);
   };
-  
 
   return (
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
@@ -77,12 +81,14 @@ const HeroComponent = () => {
               items={["Full-Time", "Part-Time", "Internship"]}
               icon={ICONS.downArrow}
               onSelect={handleCategorySelect}
+              selectedData={selectedEmploymentType}
             />
             <FilterDropdown
-              label="Job Type"
+              label="Location Type"
               items={["Remote", "On Site"]}
               icon={ICONS.downArrow}
               onSelect={handleLocationTypeSelect}
+              selectedData={selectedLocationType}
             />
 
             <LocationSearch
@@ -105,19 +111,19 @@ const HeroComponent = () => {
           {[
             {
               value: "10k+",
-              label: "Companies Hiring",
+              label: "Organizations",
             },
             {
               value: "100k+",
-              label: "Registered Aspirants",
+              label: "Aspirants",
             },
             {
               value: "1000+",
-              label: "Registered Openings",
+              label: "Openings",
             },
             {
               value: "600k+",
-              label: "Learners",
+              label: "Events",
             },
           ].map((item, index) => (
             <div

@@ -6,9 +6,10 @@ type TFilterDropdownProps = {
   items: string[];
   icon: string;
   onSelect?: (item: string) => void;
+  selectedData: string | null;
 };
 
-const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, onSelect }) => {
+const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, onSelect, selectedData }) => {
   const [open, setOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -34,7 +35,12 @@ const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, on
         className="px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 text-xl leading-6 rounded-2xl w-[277px] cursor-pointer 
         transition-all duration-300 ease-in-out transform active:scale-95"
       >
-        {label}
+        {
+          selectedData ?
+          selectedData
+          :
+          label
+        }
         <Image src={icon} alt="dropdown-icon" className="size-6" />
       </button>
       <div
