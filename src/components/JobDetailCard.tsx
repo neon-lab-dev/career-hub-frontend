@@ -38,24 +38,25 @@ const JobDetailCard = ({
           alt=""
           className="size-[91px] object-cover"
         />
-        <h1 className="text-neutral-900 text-2xl font-700 mt-3">
-          Frontend Developer Job
+        <h1 className="text-neutral-900 text-2xl font-700 mt-3 capitalize">
+          {job?.title}
         </h1>
         <div className="flex items-center gap-2 mt-1">
-          <p className="text-neutral-400">Talkwisely Platforms Pvt. Ltd.</p>
+          <p className="text-neutral-400">
+            {" "}
+            {job?.companyDetails?.companyName}
+          </p>
+          <div className="bg-neutral-400 size-[5px] rounded-full"></div>
           <p className="text-neutral-400">Ahmedabad, India</p>
         </div>
 
-        <p className="text-neutral-400 mt-6">
-          Lorem ipsum dolor sit amet consectetur. Interdum nisl ultricies
-          elementum erat vestibulum. Nisl faucibus null
-        </p>
+        <p className="text-neutral-400 mt-6">{job?.description}</p>
 
         {/* Job details */}
         <div className="flex items-center gap-3 mt-3">
           <div className="flex items-center gap-1">
             <Image src={ICONS.clock} alt="clock-icon" className="size-[18px]" />
-            <p className="text-neutral-400">Fulltime</p>
+            <p className="text-neutral-400">{job?.employmentType}</p>
           </div>
           <div className="flex items-center gap-1">
             <Image
@@ -63,18 +64,20 @@ const JobDetailCard = ({
               alt="clock-icon"
               className="size-[18px]"
             />
-            <p className="text-neutral-400">On Site</p>
+            <p className="text-neutral-400">{job?.locationType}</p>
           </div>
         </div>
 
         {/* Required skills */}
         <div className="flex items-center gap-[10px] mt-[18px]">
-          <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px]">
-            Figma
-          </div>
-          <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px]">
-            Figma
-          </div>
+          {job?.requiredSkills?.map((skill) => (
+            <div
+              key={skill}
+              className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px] capitalize"
+            >
+              {skill}
+            </div>
+          ))}
         </div>
 
         {/* hr */}
@@ -85,7 +88,7 @@ const JobDetailCard = ({
           <div>
             <p className="text-neutral-400">Job Offer</p>
             <h2 className="text-primary-500 text-xl font-700 mt-1">
-              ₹ 7 LPA - 12 LPA
+              ₹ {job?.salary}
             </h2>
           </div>
 

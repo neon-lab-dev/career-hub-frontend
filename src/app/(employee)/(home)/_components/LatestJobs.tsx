@@ -8,7 +8,7 @@ import NoDataFound from "@/components/NoDataFound";
 
 const LatestJobs = async () => {
   const jobs = await getLatestJobs();
-  const job = [1,2,3,4,5,6]
+  console.log(jobs);
   if (!jobs || jobs.length === 0) return null;
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
@@ -24,7 +24,7 @@ const LatestJobs = async () => {
         <NoDataFound message="No Jobs Available"/> :
         <div className="w-full overflow-hidden wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
-          {job?.map((details, index) => (
+          {jobs?.map((details, index) => (
             <div key={index} className="carousel-item">
               <JobDetailCard
                 wrapperClassName="xl:min-w-[500px]"

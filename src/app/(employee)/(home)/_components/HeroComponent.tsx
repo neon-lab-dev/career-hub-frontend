@@ -8,7 +8,6 @@ import Button from "@/components/Button";
 import LocationSearch from "./LocationSearch";
 
 const HeroComponent = () => {
-  const items = ["React", "Angular", "Vue"];
   const categories = ["React", "Angular", "Vue"];
   const handleItemSelect = (item: string) => {
     console.log("Selected:", item);
@@ -50,14 +49,14 @@ const HeroComponent = () => {
 
           <div className="flex items-center gap-3 mt-7">
             <FilterDropdown
-              label="Internships"
-              items={items}
+              label="Category"
+              items={["Full Time", "Part Time", "Internship"]}
               icon={ICONS.downArrow}
               onSelect={handleItemSelect}
             />
             <FilterDropdown
-              label="Category"
-              items={categories}
+              label="Job Type"
+              items={["Remote", "On Site"]}
               icon={ICONS.downArrow}
               onSelect={handleItemSelect}
             />
