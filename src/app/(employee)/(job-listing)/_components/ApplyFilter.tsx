@@ -21,6 +21,9 @@ export type IDefaultQueryParams = {
   salary: number;
   duration: number;
   experienceLevel?: string;
+  employmentType : string;
+  location : string;
+  jobType : string;
 };
 
 export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
@@ -29,6 +32,9 @@ export const DEFAULT_QUERY_PARAMS: IDefaultQueryParams = {
   salary: 0,
   duration: 0,
   experienceLevel: "",
+  employmentType : "",
+  location: "",
+  jobType : "",
 };
 
 type Props = {

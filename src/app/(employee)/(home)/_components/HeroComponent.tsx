@@ -6,15 +6,39 @@ import { ICONS, IMAGES } from "@/assets";
 import FilterDropdown from "@/components/Reusable/FilterDropdown/FilterDropdown";
 import Button from "@/components/Button";
 import LocationSearch from "./LocationSearch";
+import { useRouter } from "next/navigation";
 
 const HeroComponent = () => {
-  const categories = ["React", "Angular", "Vue"];
-  const handleItemSelect = (item: string) => {
-    console.log("Selected:", item);
-  };
+  const router = useRouter();
+  const [selectedEmploymentType, setSelectedEmploymentType] = useState<string | null>(null);
+  const [selectedLocationType, setSelectedLocationType] = useState<string | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  console.log(selectedLocation);
+
   const handleCategorySelect = (category: string) => {
+    setSelectedEmploymentType(category);
     console.log("Selected:", category);
   };
+  const handleLocationTypeSelect = (jobType: string) => {
+    setSelectedLocationType(jobType);
+  };
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+  
+    if (selectedEmploymentType) params.set("employmentType", selectedEmploymentType);
+    if (selectedLocationType) params.set("locationType", selectedLocationType);
+    if (selectedLocation) params.set("location", selectedLocation);
+  
+    const path =
+      selectedEmploymentType?.toLowerCase() === "internship"
+        ? "/internship"
+        : "/jobs";
+  
+    router.push(`${path}?${params.toString()}`);
+  };
+  
+
   return (
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
       <div className="flex flex-col gap-[40px] xl:gap-28 wrapper">
@@ -49,21 +73,28 @@ const HeroComponent = () => {
 
           <div className="flex items-center gap-3 mt-7">
             <FilterDropdown
-              label="Category"
-              items={["Full Time", "Part Time", "Internship"]}
+              label="Employment Type"
+              items={["Full-Time", "Part-Time", "Internship"]}
               icon={ICONS.downArrow}
-              onSelect={handleItemSelect}
+              onSelect={handleCategorySelect}
             />
             <FilterDropdown
               label="Job Type"
               items={["Remote", "On Site"]}
               icon={ICONS.downArrow}
-              onSelect={handleItemSelect}
+              onSelect={handleLocationTypeSelect}
             />
 
-            <LocationSearch />
+            <LocationSearch
+              selectedLocation={selectedLocation}
+              setSelectedLocation={setSelectedLocation}
+            />
 
-            <Button variant="normal" className="size-[60px] p-5 rounded-2xl">
+            <Button
+              variant="normal"
+              className="size-[60px] p-5 rounded-2xl"
+              onClick={handleSearch}
+            >
               <Image src={ICONS.search} alt="search-icon" className="size-6" />
             </Button>
           </div>

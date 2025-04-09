@@ -25,10 +25,30 @@ type Props = {
 const PageComponent = ({ jobType }: { jobType: string }) => {
   const { studentProfile } = useAppSelector((state) => state.auth);
   const searchParams = useSearchParams();
+  console.log(searchParams);
   const [queryParams, setQueryParams] = useState<IDefaultQueryParams>({
     ...DEFAULT_QUERY_PARAMS,
     keyword: searchParams.get("search") || "",
   });
+
+  useEffect(() => {
+    const employmentType = searchParams.get("employmentType");
+    const locationType = searchParams.get("locationType");
+    const location = searchParams.get("location"); // Use .get to fetch a single value
+    
+    console.log("employmentType:", employmentType);
+    console.log("Job Type:", locationType);
+    console.log("location:", location);  // This will be a string, not an array
+  
+    setQueryParams((prev) => ({
+      ...prev,
+      employmentType: employmentType || "",
+      locationType: locationType || "",
+      location: location || "",  // Store as a string
+    }));
+  }, [searchParams]);
+  
+  
   const [debouncedQueryParams, setDebouncedQueryParams] =
     useState<IDefaultQueryParams>(DEFAULT_QUERY_PARAMS);
 

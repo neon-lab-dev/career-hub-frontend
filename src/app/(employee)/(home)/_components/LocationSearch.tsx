@@ -1,15 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ICONS } from "@/assets"; // adjust this path as per your structure
+import { ICONS } from "@/assets";
 
-const LocationSearch = () => {
+const LocationSearch = ({
+  selectedLocation,
+  setSelectedLocation,
+}: {
+  selectedLocation: string | null;
+  setSelectedLocation: (location: string) => void;
+}) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  console.log(selectedItems);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
   const indianStates = [
+    "Dhaka",
     "Andhra Pradesh",
     "Arunachal Pradesh",
     "Assam",
@@ -47,11 +52,8 @@ const LocationSearch = () => {
     : indianStates;
 
   const handleSelect = (item: string) => {
-    if (selectedItems.includes(item)) {
-      setSelectedItems(selectedItems.filter((i) => i !== item));
-    } else {
-      setSelectedItems([...selectedItems, item]);
-    }
+    setSelectedLocation(item);
+    setOpen(false); // auto-close after selecting
   };
 
   useEffect(() => {
@@ -87,7 +89,7 @@ const LocationSearch = () => {
             }}
           />
         ) : (
-          <h1>Select Location</h1>
+          <h1>{selectedLocation || "Select Location"}</h1>
         )}
         <Image src={ICONS.location} alt="location-icon" className="size-6" />
       </form>
@@ -103,10 +105,11 @@ const LocationSearch = () => {
             className="flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium cursor-pointer"
           >
             <input
-              type="checkbox"
-              checked={selectedItems.includes(item)}
+              type="radio"
+              name="location"
+              checked={selectedLocation === item}
               onChange={() => handleSelect(item)}
-              className="form-checkbox h-4 w-4 text-primary-500"
+              className="form-radio h-4 w-4 text-primary-500"
             />
             {item}
           </label>
