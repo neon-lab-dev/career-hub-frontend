@@ -10,18 +10,60 @@ import MultiSelectDropdown from "@/components/Reusable/MultiSelectDropdown/Multi
 import { useQuery } from "@tanstack/react-query";
 
 const filtersConfig = [
-  { label: "Gender", items: ["Male", "Female", "Other"], icon: ICONS.downArrow, key: "gender" },
-  { label: "Country", items: ["USA", "San Francisco", "Chicago", "Remote"], icon: ICONS.downArrow, key: "country" },
-  { label: "City", items: ["New York", "San Francisco", "Chicago", "Remote"], icon: ICONS.downArrow, key: "city" },
-  { label: "Skills", items: ["JavaScript", "React", "Node.js", "Python"], icon: ICONS.downArrow, key: "skills" },
-  { label: "Language", items: ["English", "Spanish", "Hindi", "French"], icon: ICONS.downArrow, key: "language" },
-  { label: "Experience (Years)", items: ["1", "2", "3", "4", "5", "6", "7", "8"], icon: ICONS.downArrow, key: "experience" },
-  { label: "Designation", items: ["Frontend Developer", "Backend Developer", "Fullstack Developer", "UI/UX Designer"], icon: ICONS.downArrow, key: "designation" },
+  {
+    label: "Gender",
+    items: ["Male", "Female", "Other"],
+    icon: ICONS.downArrow,
+    key: "gender",
+  },
+  {
+    label: "Country",
+    items: ["USA", "San Francisco", "Chicago", "Remote"],
+    icon: ICONS.downArrow,
+    key: "country",
+  },
+  {
+    label: "City",
+    items: ["New York", "San Francisco", "Chicago", "Remote"],
+    icon: ICONS.downArrow,
+    key: "city",
+  },
+  {
+    label: "Skills",
+    items: ["JavaScript", "React", "Node.js", "Python"],
+    icon: ICONS.downArrow,
+    key: "skills",
+  },
+  {
+    label: "Language",
+    items: ["English", "Spanish", "Hindi", "French"],
+    icon: ICONS.downArrow,
+    key: "language",
+  },
+  {
+    label: "Experience (Years)",
+    items: ["1", "2", "3", "4", "5", "6", "7", "8"],
+    icon: ICONS.downArrow,
+    key: "experience",
+  },
+  {
+    label: "Designation",
+    items: [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "UI/UX Designer",
+    ],
+    icon: ICONS.downArrow,
+    key: "designation",
+  },
 ];
 
 const FindCandidates = () => {
-  const [filters, setFilters] = useState<Record<string, string | string[] | null>>({});
-  
+  const [filters, setFilters] = useState<
+    Record<string, string | string[] | null>
+  >({});
+
   const handleSelect = (key: string, value: string) => {
     setFilters((prev) => {
       const existing = prev[key];
@@ -44,10 +86,10 @@ const FindCandidates = () => {
     refetch,
   } = useQuery({
     queryKey: ["candidates", filters],
-    queryFn: () => handleGetAllCandidatesService(filters as Record<string, string | null>),
+    queryFn: () =>
+      handleGetAllCandidatesService(filters as Record<string, string | null>),
     enabled: false, // Disable automatic fetching
   });
-  
 
   const handleClearFilter = () => {
     setFilters({});
