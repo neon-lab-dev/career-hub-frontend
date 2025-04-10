@@ -38,6 +38,11 @@ export default function EmployeeRootLayout({ children }: any) {
       path: "/employer/internships",
       icon: ICONS.internship
     },
+    {
+      label: "Find Candidates",
+      path: "/employer/find-candidates",
+      icon: ICONS.findCandidates
+    },
   ];
 
 
