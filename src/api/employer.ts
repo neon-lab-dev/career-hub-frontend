@@ -5,6 +5,37 @@ import { JobData } from "@/app/employer/(home)/page";
 import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
 import { User } from "@/app/employer/(home)/profile/page";
 
+
+export const handleGetAllCandidatesService = async (
+  filters: Record<string, string | null>
+): Promise<any[]> => {
+  const params = new URLSearchParams();
+  console.log("Incoming filters:", filters);
+
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value) {
+      if (Array.isArray(value)) {
+        value.forEach((v) => params.append(key, v)); // append each value
+      } else {
+        params.append(key, value);
+      }
+    }
+  });
+  
+  const url = `${api.findCandidate}?${params.toString()}`;
+  return new Promise((resolve, reject) => {
+    axios
+      .get(url, { withCredentials: true })
+      .then((res) => {
+        resolve(res.data?.candidates ?? []);
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Something went wrong");
+      });
+  });
+};
+
+
 export const handleGetAllEmployersForAdminService = async ({
   keyword,
 }: {

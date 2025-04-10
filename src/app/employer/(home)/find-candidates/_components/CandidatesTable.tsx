@@ -1,64 +1,23 @@
 "use client"
-import { deleteJob, fetchJobs } from "@/api/employer";
 import { IMAGES } from "@/assets";
-import StatusLabel from "@/components/StatusLabel";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Oval } from "react-loader-spinner";
-import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
-interface Job {
-    _id: string;
-    title: string;
-    salary: string;
-    applicants: any[];
-    employmentType: string;
-    status: string;
-  }
-  
-  const useFetchJobs = () => {
-    return useQuery<Job[], Error>({
-      queryKey: ['jobs-employer-job'],
-      queryFn: fetchJobs,
-    });
-  };
-  
-  const useDeleteJob = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-      mutationFn: deleteJob,
-      onSuccess: (data: { success: boolean; message: string }) => {
-        queryClient.invalidateQueries({ queryKey: ['jobs-employer-job'] }); 
-        if (data.success) {
-          toast.success('Job deleted successfully');
-          queryClient.invalidateQueries({ queryKey: ['jobs'] });
-        } else {
-          toast.error(`Failed to delete job: ${data.message}`);
-        }
-      },
-      onError: (error: any) => {
-        const errorMessage = error.response?.data?.message || error.message || 'Failed to delete job';
-        console.error('Error deleting job:', errorMessage);
-        toast.error(`Error: ${errorMessage}`);
-      },
-    });
-  };
+type TCandidatesTableProps = {
+  candidates: any[];
+  isLoading: boolean;
+  className? : string;
+}
 
-const CandidatesTable = ({className} : {className?:string}) => {
+const CandidatesTable:React.FC<TCandidatesTableProps> = ({className, candidates, isLoading}) => {
+  console.log(isLoading);
     const [dropdownOpenId, setDropdownOpenId] = useState<string | null>(null);
-  const { data: jobs = [], isLoading, isError, error } = useFetchJobs();
-  const allJobs = jobs.filter(job => job?.employmentType !== "Internship");
-  const { mutate: deleteJob } = useDeleteJob();
 
   const handleMenuClick = (id: string) => {
     setDropdownOpenId(dropdownOpenId === id ? null : id);
-  };
-
-  const handleDelete = (id: string) => {
-    deleteJob(id);
   };
 
   if (isLoading) {
@@ -77,39 +36,30 @@ const CandidatesTable = ({className} : {className?:string}) => {
       </div>
     );
   }
-
-  if (isError) {
-    return <div>Error fetching jobs: {error instanceof Error ? error.message : 'Unknown error'}</div>;
-  }
     return (
-        <div className={twMerge(`w-full overflow-x-auto h-[700px] w-full font-Poppins mx-auto px-0 ${className}`)}>
+        <div className={twMerge(`w-full overflow-x-auto h-[700px] font-Poppins mx-auto px-0 ${className}`)}>
       <div className="rounded-[124px]">
         <table className="table w-full">
           <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500 text-base">
             <tr>
               <td>
                 <div className="flex items-center gap-2">
-                  <span>Role</span>
+                  <span>Name</span>
                 </div>
               </td>
               <td>
                 <div className="flex items-center gap-2">
-                  <span>Stipend Offered</span>
+                  <span>Email</span>
                 </div>
               </td>
               <td>
                 <div className="flex items-center gap-2">
-                  <span>Total Applications</span>
+                  <span>Designation</span>
                 </div>
               </td>
               <td>
                 <div className="flex items-center gap-2">
-                  <span>Job Type</span>
-                </div>
-              </td>
-              <td>
-                <div className="flex items-center gap-2">
-                  <span>Status</span>
+                  <span>Location</span>
                 </div>
               </td>
               <td>
@@ -120,70 +70,59 @@ const CandidatesTable = ({className} : {className?:string}) => {
             </tr>
           </thead>
           <tbody className="bg-white w-full text-base">
-            {allJobs.length === 0 ? (
+            {candidates?.length === 0 ? (
               <tr>
                 <td colSpan={6} className="py-4 text-center font-Poppins">
-                  No data found.
+                  No candidate found
                 </td>
               </tr>
             ) : (
-              allJobs.map((job) => (
-                <tr key={job._id}>
+              candidates?.map((candidate) => (
+                <tr key={candidate._id}>
                   <td>
                     <div className="flex items-center gap-2">
-                      <span>{job.title}</span>
+                      <span>{candidate?.full_name}</span>
                     </div>
                   </td>
                   <td>
                     <div className="flex items-center gap-2">
-                      <span>{job.salary}</span>
+                      <span>{candidate?.email}</span>
                     </div>
                   </td>
                   <td>
                     <div className="flex items-center gap-2">
-                      <span>
-                        {job.applicants.length}{' '}
-                        <Link href={`/employer/dashboard/${job._id}`}>
-                          <span className="text-red-500 underline cursor-pointer">View Applications</span>
-                        </Link>{' '}
-                      </span>
+                    <span>{candidate?.areasOfInterests?.length > 0 ? candidate?.areasOfInterests?.join(", ") : "Not available"}</span>
                     </div>
                   </td>
                   <td>
                     <div className="flex items-center gap-2">
-                      <span>{job.employmentType}</span>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="flex items-center gap-2">
-                      <StatusLabel key="status" variant="applied">
-                        {job.status}
-                      </StatusLabel>
+                      {
+                        candidate.address?.length > 0 ?
+                        <span>{candidate.address[0]?.street} {candidate.address[0]?.city} {candidate.address[0]?.postalCode} {candidate.address[0]?.state} {candidate.address[0]?.country}</span>
+                        :
+                        <span>Not available</span>
+                      }
                     </div>
                   </td>
                   <td>
                     <div className="relative flex items-center gap-2">
-                      <div onClick={() => handleMenuClick(job._id)} className="cursor-pointer">
+                      <div onClick={() => handleMenuClick(candidate._id)} className="cursor-pointer">
                         <Image src={IMAGES.menudots} alt="Menu Icon" />
                       </div>
-                      {dropdownOpenId === job._id && (
+                      {dropdownOpenId === candidate._id && (
                         <div className="absolute right-0 mt-48 w-48 p-4 rounded-xl bg-white border shadow-lg z-10">
-                          <Link href={`/employer/dashboard/${job._id}`}>
+                          <Link href={`/employer/dashboard/${candidate._id}`}>
                             <div className="flex items-center gap-2 text-sm p-2">
                               <Image src={IMAGES.doc} alt="Role Icon" />
-                              <span>View Applications</span>
+                              <span>Send Email</span>
                             </div>
                           </Link>
-                          <Link href={`/employer/${job._id}`}>
+                          <Link href={`/employer/${candidate._id}`}>
                             <div className="flex items-center gap-2 text-sm p-2">
                               <Image src={IMAGES.view} alt="Role Icon" />
-                              <span>View</span>
+                              <span>View Profile</span>
                             </div>
                           </Link>
-                          <div onClick={() => handleDelete(job._id)} className="flex items-center gap-2 text-sm p-2 cursor-pointer">
-                            <Image src={IMAGES.bin} alt="Role Icon" />
-                            <span className="text-red-500">Delete</span>
-                          </div>
                         </div>
                       )}
                     </div>

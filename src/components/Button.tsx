@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "outline" | "muted" | "ghost" | "normal" | "natural";
+  onClick? : () => void;
 };
 
 const classNames = {
@@ -28,10 +29,12 @@ const Button = ({
   variant = "primary",
   children,
   className,
+  onClick,
   ...props
 }: Props) => {
   return (
     <button
+    onClick={onClick}
       className={twMerge(
         classNames.default,
         classNames.variants[variant],
