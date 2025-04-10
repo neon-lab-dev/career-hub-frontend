@@ -4,8 +4,9 @@ import { jobDetails } from "@/mockData/jobCard";
 import { getLatestJobs } from "@/api/jobs";
 import Link from "next/link";
 import React from "react";
+import NoDataFound from "@/components/NoDataFound";
 
-const LatestJobYouMightLikeComponent = async () => {
+const LatestJobs = async () => {
   const jobs = await getLatestJobs();
   if (!jobs || jobs.length === 0) return null;
   return (
@@ -17,7 +18,10 @@ const LatestJobYouMightLikeComponent = async () => {
         </span>{" "}
         You Might Like
       </h3>
-      <div className="w-full overflow-hidden wrapper-left">
+      {
+        jobs.length === 0 ?
+        <NoDataFound message="No Jobs Available"/> :
+        <div className="w-full overflow-hidden wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
           {jobs?.map((details, index) => (
             <div key={index} className="carousel-item">
@@ -29,8 +33,9 @@ const LatestJobYouMightLikeComponent = async () => {
           ))}
         </div>
       </div>
+      }
       <Link href="/jobs">
-        <Button variant="outline" className="px-12 py-5">
+        <Button variant="normal" className="px-9 py-4">
           View all openings
         </Button>
       </Link>
@@ -38,4 +43,4 @@ const LatestJobYouMightLikeComponent = async () => {
   );
 };
 
-export default LatestJobYouMightLikeComponent;
+export default LatestJobs;

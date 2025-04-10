@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
 
 
   return (
-    <div className="w-[177px] pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 h-full flex flex-col gap-16">
+    <div className="w-[200px] pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 min-h-screen overflow-y-auto h-full flex flex-col gap-16">
       <Link href="/" className="size-[80px]"><Image src={IMAGES.medHr} alt="medHr" /></Link>
 
       {/* Navlinks */}

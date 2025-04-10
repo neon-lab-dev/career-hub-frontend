@@ -1,4 +1,5 @@
-const baseUrl = "https://api.medhrplus.com/api/v1";
+// const baseUrl = "https://api.medhrplus.com/api/v1";
+const baseUrl = "http://localhost:7000/api/v1";
 // const baseUrl = "https://carrerhub-backend.vercel.app/api/v1";
 
 const api = {
@@ -38,6 +39,7 @@ const api = {
   employergetemploee:baseUrl + "/employeer/employee",
   changeStatus:baseUrl + "/jobs/manage",
   creatrjob:baseUrl+"/createjob",
+  findCandidate:baseUrl+"/employeer/find-candidates",
 
   // for admin
   adminLogin: baseUrl + "/login/admin",

@@ -103,6 +103,9 @@ export const handleApplyJobService = async (id: string): Promise<string> => {
 
 export const handleGetAllJobsByTypeService = async ({
   type,
+  employmentType,
+  location,
+  locationType,
   salary,
   duration,
   experienceLevel,
@@ -110,22 +113,32 @@ export const handleGetAllJobsByTypeService = async ({
 }: IDefaultQueryParams & {
   type: string;
 }): Promise<IJob[]> => {
+  // Filter out parameters that are falsy or empty (no need to include them in the request)
   const truthyParams = Object.fromEntries(
     Object.entries(params).filter(([_, value]) => value)
   );
+
+  // Only include parameters if they exist
+  const requestParams: any = {
+    ...truthyParams,
+  };
+
+  if (employmentType) requestParams.employmentType = employmentType;
+  if (locationType) requestParams.locationType = locationType;
+  if (location) requestParams.location = location;
+  if (salary) requestParams["salary[gte]"] = salary;
+  if (duration) requestParams["employmentDuration[gte]"] = duration;
 
   return new Promise((resolve, reject) => {
     axios
       .get(`${api.jobs}`, {
         withCredentials: true,
-        params: {
-          ...truthyParams,
-          "salary[gte]": salary,
-          "employmentDuration[gte]": duration,
-        },
+        params: requestParams, // Send only the parameters that exist
       })
       .then((res) => {
         let jobs = res.data?.jobs ?? [];
+
+        // Filter jobs by type if a type is provided (internship or not)
         if (type) {
           jobs = jobs.filter((job: IJob) => {
             if (type === "internships") {
@@ -135,6 +148,8 @@ export const handleGetAllJobsByTypeService = async ({
             }
           });
         }
+
+        // Filter jobs by experience level if provided
         if (experienceLevel) {
           jobs = jobs.filter((job: IJob) => {
             return (
@@ -142,6 +157,7 @@ export const handleGetAllJobsByTypeService = async ({
             );
           });
         }
+
         resolve(jobs ?? []);
       })
       .catch((err) => {

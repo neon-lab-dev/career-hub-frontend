@@ -1,4 +1,4 @@
-import { IMAGES } from "@/assets";
+import { ICONS, IMAGES } from "@/assets";
 import Image from "next/image";
 import React from "react";
 import Button from "./Button";
@@ -9,6 +9,7 @@ import ApplyJob from "@/app/(employee)/(job-listing)/[jobType]/[jobId]/_componen
 
 type Props = {
   showApplyButton?: boolean;
+  isDetailsBtnVisible?: boolean;
   wrapperClassName?: string;
   job: IJob;
   isApplied?: boolean;
@@ -16,84 +17,116 @@ type Props = {
 
 const JobDetailCard = ({
   showApplyButton,
+  isDetailsBtnVisible=true,
   wrapperClassName,
   job,
   isApplied,
 }: Props) => {
-  console.log(job)
+  console.log(job);
   if (!job) return null;
   return (
     <div
       className={twMerge(
-        "flex flex-col gap-4 xl:gap-5 p-4 xl:p-6 rounded-[20px] border border-neutral-100 bg-white",
+        "max-w-[450px] min-h-[600px] xl:min-h-[530px] bg-white font-plus-jakarta-sans border border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500  transition-all duration-300 ease-in-out transform hover:scale-105",
         wrapperClassName
-      )}>
-      <div className="flex gap-3 items-center">
+      )}
+    >
+      {/* Banner image */}
+      <Image src={IMAGES.jobCardBg} alt="" className="w-full rounded-t-2xl" />
+      <div className="p-7 absolute top-12 w-full">
+        {/* Company logo */}
         {/* <Image
-          src={job.companyDetails.logo}
-          alt="Company Logo"
-          height={64}
-          width={64}
-          className="h-9 w-9 xl:h-16 xl:w-16"
+          src={IMAGES.companyLogo}
+          alt=""
+          className="size-[91px] object-cover"
         /> */}
-        <div className="bg-primary-550 p-2 rounded-full size-10 flex items-center justify-center text-white">
-          <p className="text-xs xl:text-[16px] -tracking-[0.32px]">
+        <div className="size-20 rounded-xl bg-primary-50 text-primary-500 border border-primary-500/20 flex items-center justify-center">
+          <h1 className=" text-2xl font-700">
             {job?.companyDetails?.companyName
-              ? job.companyDetails.companyName.charAt(0)
-              : "?"}
-          </p>
+              ?.split(" ")
+              .map((word) => word[0])
+              .join("")
+              .toUpperCase()}
+          </h1>
         </div>
-        <div className="flex flex-col gap-1">
-          <h3 className="text-base xl:text-[22px] -tracking-[0.44px] font-600 text-neutral-900">
-            {job.title}
-          </h3>
-          <div className="flex items-center text-xs gap-2 xl:text-[18px] text-neutral-400">
-            <span>{job.companyDetails.companyName}</span>
-            <div className="w-[5px] h-[5px] bg-neutral-400 rounded-full" />
-            <span>{job.locationType}</span>
+        <h1 className="text-neutral-900 text-2xl font-700 mt-3 capitalize">
+          {job?.title}
+        </h1>
+        <div className="flex items-center gap-2 mt-1">
+          <p className="text-neutral-400">
+            {" "}
+            {job?.companyDetails?.companyName}
+          </p>
+          <div className="bg-neutral-400 size-[5px] rounded-full"></div>
+          <p className="text-neutral-400">Ahmedabad, India</p>
+        </div>
+
+        <p className="text-neutral-400 mt-6">
+          {job?.description?.length > 70
+            ? `${job?.description?.slice(0, 70)}...`
+            : job?.description}
+        </p>
+
+        {/* Job details */}
+        <div className="flex items-center gap-3 mt-3">
+          <div className="flex items-center gap-1">
+            <Image src={ICONS.clock} alt="clock-icon" className="size-[18px]" />
+            <p className="text-neutral-400">{job?.employmentType}</p>
+          </div>
+          <div className="flex items-center gap-1">
+            <Image
+              src={ICONS.jobType}
+              alt="clock-icon"
+              className="size-[18px]"
+            />
+            <p className="text-neutral-400">{job?.locationType}</p>
           </div>
         </div>
-      </div>
 
-      <div className="flex items-center gap-3">
-        {[
-          job.employmentType,
-          job.locationType,
-          `Exp: ${job.experience}`,
-          job.employmentType === "Internship"
-            ? `${job.employmentDuration} months`
-            : "",
-        ]
-          ?.filter((item) => item !== "")
-          ?.map((tag) => (
+        {/* Required skills */}
+        <div className="flex items-center gap-[10px] mt-[18px]">
+          {job?.requiredSkills?.map((skill) => (
             <div
-              key={tag}
-              className=" py-2 xl:py-2.5 font-500 rounded-md px-3 xl:px-[18px] bg-white border border-secondary-200 text-xs xl:text-sm text-secondary-400"
+              key={skill}
+              className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px] capitalize"
             >
-              {tag}
+              {skill}
             </div>
           ))}
-      </div>
-      <hr />
-      <div className="flex justify-between items-center gap-6 sm:gap-16 xl:gap-36">
-        <div className="flex flex-col gap-1 ">
-          <span className="text-xs xl:text-base text-neutral-400">Salary</span>
-          <span className="text-x xl:text-base !font-600 text-primary-500">
-            {job.salary === "Unpaid" ? "" : `₹ ${job.salary}/month`}
-          </span>
         </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href={`/${job.employmentType === "Internship" ? "internships" : "jobs"
+
+        {/* hr */}
+        <hr className="w-full border border-neutral-100 h-[2px] my-6" />
+
+        {/* Apply details */}
+        <div className="flex items-center justify-between w-full">
+          <div>
+            <p className="text-neutral-400">Job Offer</p>
+            <h2 className="text-primary-500 text-xl font-700 mt-1">
+              ₹ {job?.salary}
+            </h2>
+          </div>
+
+          {/* Apply btn */}
+          <div className="flex items-center gap-3">
+            {
+              isDetailsBtnVisible &&
+              <Link
+              href={`/${
+                job.employmentType === "Internship" ? "internships" : "jobs"
               }/${job._id}`}
-          >
-            <Button variant="muted">View full details</Button>
-          </Link>
-          {showApplyButton && (
-            <div className="hidden sm:block">
-              <ApplyJob jobId={job._id} />
-            </div>
-          )}
+            >
+              <Button variant="muted" className="px-5 py-4">
+                View full details
+              </Button>
+            </Link>
+            }
+            {showApplyButton && (
+              <div className="hidden sm:block">
+                <ApplyJob jobId={job._id} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

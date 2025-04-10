@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { COURSE_DETAILS } from "@/mockData/course";
 import CourseCard from "./CourseCard";
+import NoDataFound from "./NoDataFound";
 
 const TrendingCourseToday = () => {
   return (
@@ -13,7 +14,10 @@ const TrendingCourseToday = () => {
       <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
         <span className="highlight">Trending</span> Today⚡
       </h3>
-      <div className="w-full">
+      {
+        COURSE_DETAILS?.length < 0 ?
+        <NoDataFound message="No Course Available" /> :
+        <div className="w-full">
         <Swiper
           modules={[Navigation]}
           spaceBetween={0}
@@ -55,6 +59,7 @@ const TrendingCourseToday = () => {
           ))}
         </Swiper>
       </div>
+      }
     </div>
     </div>
   );
