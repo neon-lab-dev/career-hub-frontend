@@ -17,7 +17,7 @@ const Certifications:React.FC<TCertificationsProps> = ({
     return (
         <div className="flex flex-col gap-5 mt-12 font-plus-jakarta-sans">
       <h1 className="registration-form-heading mb-4">Certifications</h1>
-      {/* Work experience card */}
+      {/* Certificate card */}
       <div className="p-5 rounded-2xl bg-white border focus:outline-none focus:border-primary-500 transition duration-300 border-neutral-300 flex flex-col">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">

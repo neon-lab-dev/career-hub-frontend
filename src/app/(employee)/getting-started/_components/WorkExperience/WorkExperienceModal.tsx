@@ -20,7 +20,7 @@ const WorkExperienceModal:React.FC<TWorkExperienceModalProps> = ({
     const workTypes = ["Full Time", "Part Time", "Internship"];
     return (
         <Modal
-      heading="Designation"
+      heading="Add Your Work Experience"
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
     >

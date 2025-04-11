@@ -10,13 +10,14 @@ interface TextInputProps {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   defaultValue?: any;
   isDisabled?: boolean;
   isRequired?: boolean;
 }
 
 const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
-  ({ label, name, placeholder = "", type = "text", error, defaultValue, isDisabled = false, isRequired = true, ...rest }, ref) => {
+  ({ label, name, placeholder = "", type = "text", error, defaultValue, onKeyDown, isDisabled = false, isRequired = true, ...rest }, ref) => {
     return (
       <div className="flex flex-col gap-2 font-Inter w-full font-plus-jakarta-sans">
         <label htmlFor={name} className="text-neutral-700 font-500">
@@ -32,6 +33,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           name={name}
           type={type}
           placeholder={placeholder}
+          onKeyDown={onKeyDown}
           defaultValue={defaultValue}
           ref={ref}
           disabled={isDisabled}

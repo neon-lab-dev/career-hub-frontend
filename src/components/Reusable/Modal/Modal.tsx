@@ -21,7 +21,7 @@ const Modal: React.FC<TModal> = ({ heading, children, isModalOpen, setIsModalOpe
         } max-w-[673px] max-h-[550px] w-full h-fit overflow-y-auto bg-white rounded-[28px] p-8 transition-all duration-300`}
       >
         <div className="w-full flex items-center justify-between">
-          <h1 className="text-neutral-700 font-500">{heading}</h1>
+          <h1 className="text-neutral-700 font-500 capitalize">{heading}</h1>
           <Image
             src={IMAGES.close}
             alt="cross-icon"
