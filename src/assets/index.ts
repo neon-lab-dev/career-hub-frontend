@@ -51,6 +51,8 @@ import searchGray from "@/assets/icons/search-gray.svg";
 import findCandidates from "@/assets/icons/find-candidates.svg";
 import addCircleGray from "@/assets/icons/add-circle-gray.svg";
 import addCircleWhite from "@/assets/icons/add-circle-white.svg";
+import radioButtonChecked from "@/assets/icons/radio_button_checked.svg";
+import radioButtonUnchecked from "@/assets/icons/radio_button_unchecked.svg";
 
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
@@ -139,4 +141,6 @@ export const ICONS = {
   findCandidates,
   addCircleWhite,
   addCircleGray,
+  radioButtonChecked,
+  radioButtonUnchecked,
 };

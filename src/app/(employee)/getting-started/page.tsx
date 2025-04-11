@@ -28,7 +28,7 @@ const GettingStarted = () => {
     formState: { errors },
   } = useForm<TFormData>();
 
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(6);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedInterest, setSelectedInterest] = useState<string[]>([]);
   const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] =

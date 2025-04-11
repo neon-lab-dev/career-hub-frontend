@@ -49,7 +49,7 @@ const Education: React.FC<TCurrentlyLookingForFormProps> = ({
           />
       </button>
 
-      <RegistrationFormModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <RegistrationFormModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} register={register} errors={errors}  />
     </div>
   );
 };
