@@ -9,6 +9,7 @@ import PersonalInfoForm from "./_components/PersonalInfoForm";
 import LanguagePreference from "./_components/LanguagePreference";
 import AreaOfInterests from "./_components/AreaOfInterests";
 import CurrentlyLookingFor from "./_components/CurrentlyLookingFor";
+import Address from "./_components/Address";
 
 type TFormData = {
   fullName: string;
@@ -29,7 +30,8 @@ const GettingStarted = () => {
   const [step, setStep] = useState<number>(1);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedInterest, setSelectedInterest] = useState<string[]>([]);
-  const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] = useState<string[]>([]);
+  const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] =
+    useState<string[]>([]);
 
   const handleCompleteRegistration = (data: TFormData) => {
     if (step < TOTAL_STEPS) {
@@ -53,8 +55,8 @@ const GettingStarted = () => {
               alt="left arrow icon"
               className="size-10 cursor-pointer"
               onClick={() => {
-                if(step > 1){
-                  setStep(step-1)
+                if (step > 1) {
+                  setStep(step - 1);
                 }
               }}
             />
@@ -73,28 +75,34 @@ const GettingStarted = () => {
             onSubmit={handleSubmit(handleCompleteRegistration)}
             className="max-w-[560px] mx-auto"
           >
-            {
-              step == 1 && <PersonalInfoForm register={register} errors={errors} />
-            }
-            {
-              step == 2 && <LanguagePreference selectedLanguages={selectedLanguages} setSelectedLanguages={setSelectedLanguages} />
-            }
-            {
-              step == 3 && <AreaOfInterests selectedInterest={selectedInterest} setSelectedInterest={setSelectedInterest} />
-            }
-            {
-              step == 4 && <CurrentlyLookingFor selectedCurrentlyLookingFor={selectedCurrentlyLookingFor} setSelectedCurrentlyLookingFor={setSelectedCurrentlyLookingFor} />
-            }
+            {step == 1 && (
+              <PersonalInfoForm register={register} errors={errors} />
+            )}
+            {step == 2 && (
+              <LanguagePreference
+                selectedLanguages={selectedLanguages}
+                setSelectedLanguages={setSelectedLanguages}
+              />
+            )}
+            {step == 3 && (
+              <AreaOfInterests
+                selectedInterest={selectedInterest}
+                setSelectedInterest={setSelectedInterest}
+              />
+            )}
+            {step == 4 && (
+              <CurrentlyLookingFor
+                selectedCurrentlyLookingFor={selectedCurrentlyLookingFor}
+                setSelectedCurrentlyLookingFor={setSelectedCurrentlyLookingFor}
+              />
+            )}
+            {step == 5 && <Address register={register} errors={errors} />}
 
             <div className="flex items-center gap-3 justify-end mt-5">
               <Button variant="natural" className="px-6 py-[14px]">
                 Skip
               </Button>
-              <Button
-                type="submit"
-                variant="normal"
-                className="px-6 py-[14px]"
-              >
+              <Button type="submit" variant="normal" className="px-6 py-[14px]">
                 {step === TOTAL_STEPS ? "Submit" : "Continue"}
               </Button>
             </div>

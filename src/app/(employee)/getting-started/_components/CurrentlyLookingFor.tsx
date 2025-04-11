@@ -5,12 +5,12 @@ import Chip from "@/components/Chip";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 
-type TAreaOfInterestsProps = {
+type TCurrentlyLookingForProps = {
   selectedCurrentlyLookingFor: string[];
   setSelectedCurrentlyLookingFor: Dispatch<SetStateAction<string[]>>;
 };
 
-const CurrentlyLookingFor: React.FC<TAreaOfInterestsProps> = ({
+const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
   selectedCurrentlyLookingFor,
   setSelectedCurrentlyLookingFor,
 }) => {
