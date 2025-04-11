@@ -12,6 +12,8 @@ import CurrentlyLookingFor from "./_components/CurrentlyLookingFor";
 import Address from "./_components/Address";
 import Education from "./_components/Education/Education";
 import ProjectDetails from "./_components/ProjectDetails/ProjectDetails";
+import WorkExperience from "./_components/WorkExperience/WorkExperience";
+import Certifications from "./_components/Certifications/Certifications";
 
 type TFormData = {
   fullName: string;
@@ -29,7 +31,7 @@ const GettingStarted = () => {
     formState: { errors },
   } = useForm<TFormData>();
 
-  const [step, setStep] = useState<number>(6);
+  const [step, setStep] = useState<number>(1);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedInterest, setSelectedInterest] = useState<string[]>([]);
   const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] =
@@ -101,6 +103,8 @@ const GettingStarted = () => {
             {step == 5 && <Address register={register} errors={errors} />}
             {step == 6 && <Education register={register} errors={errors} />}
             {step == 7 && <ProjectDetails register={register} errors={errors} />}
+            {step == 8 && <WorkExperience register={register} errors={errors} />}
+            {step == 9 && <Certifications register={register} errors={errors} />}
 
             <div className="flex items-center gap-3 justify-end mt-5">
               <Button variant="natural" className="px-6 py-[14px]">

@@ -17,7 +17,7 @@ const ProjectDetails: React.FC<TProjectDetailsProps> = ({
   return (
     <div className="flex flex-col gap-5 mt-12 font-plus-jakarta-sans">
       <h1 className="registration-form-heading mb-4">Project Details</h1>
-      {/* Education card */}
+      {/* Project details card */}
       <div className="p-5 rounded-2xl bg-white border focus:outline-none focus:border-primary-500 transition duration-300 border-neutral-300 flex flex-col">
         <div className="flex items-center justify-between">
           <h1 className="text-secondary-930 text-lg font-900">Project Title</h1>

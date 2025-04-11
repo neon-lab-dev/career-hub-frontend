@@ -6,11 +6,11 @@ import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { useState } from "react";
 import EducationModal from "./EducationModal";
 
-type TCurrentlyLookingForFormProps = {
+type TEducationProps = {
   register: UseFormRegister<any>;
   errors: FieldErrors;
 };
-const Education: React.FC<TCurrentlyLookingForFormProps> = ({
+const Education: React.FC<TEducationProps> = ({
   register,
   errors,
 }) => {

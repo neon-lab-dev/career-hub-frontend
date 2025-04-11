@@ -14,8 +14,20 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
   selectedCurrentlyLookingFor,
   setSelectedCurrentlyLookingFor,
 }) => {
-  const interests = ["Internships", "Jobs", "Events", "Online Programme"];
-
+  const interests = [
+    "Shadow Internship",
+    "Practice Internship",
+    "Training Program / Course",
+    "Online Programs",
+    "Certification Course",
+    "Fellowship/Scholarships",
+    "Events",
+    "Diploma Course",
+    "Bachelor Degree",
+    "Master Degree",
+    "Jobs"
+  ];
+  
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleAddInterest = (language: string) => {

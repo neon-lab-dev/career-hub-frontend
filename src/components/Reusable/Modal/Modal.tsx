@@ -18,7 +18,7 @@ const Modal: React.FC<TModal> = ({ heading, children, isModalOpen, setIsModalOpe
       <div
         className={`${
           isModalOpen ? " scale-[1] opacity-100" : " scale-[0] opacity-0"
-        } max-w-[673px] w-full bg-white rounded-[28px] p-8 transition-all duration-300`}
+        } max-w-[673px] max-h-[550px] w-full h-fit overflow-y-auto bg-white rounded-[28px] p-8 transition-all duration-300`}
       >
         <div className="w-full flex items-center justify-between">
           <h1 className="text-neutral-700 font-500">{heading}</h1>
