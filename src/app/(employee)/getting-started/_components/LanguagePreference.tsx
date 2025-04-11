@@ -54,7 +54,7 @@ const LanguagePreference: React.FC<TLanguagePreferenceProps> = ({
         <Image
           src={ICONS.searchGray}
           alt="search-icon"
-          className="size-6 absolute top-[14px] left-4"
+          className="size-6 absolute top-4 left-4"
         />
       </div>
 

@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import PersonalInfoForm from "./_components/PersonalInfoForm";
 import LanguagePreference from "./_components/LanguagePreference";
+import AreaOfInterests from "./_components/AreaOfInterests";
+import CurrentlyLookingFor from "./_components/CurrentlyLookingFor";
 
 type TFormData = {
   fullName: string;
@@ -26,6 +28,8 @@ const GettingStarted = () => {
 
   const [step, setStep] = useState<number>(1);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedInterest, setSelectedInterest] = useState<string[]>([]);
+  const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] = useState<string[]>([]);
 
   const handleCompleteRegistration = (data: TFormData) => {
     if (step < TOTAL_STEPS) {
@@ -74,6 +78,12 @@ const GettingStarted = () => {
             }
             {
               step == 2 && <LanguagePreference selectedLanguages={selectedLanguages} setSelectedLanguages={setSelectedLanguages} />
+            }
+            {
+              step == 3 && <AreaOfInterests selectedInterest={selectedInterest} setSelectedInterest={setSelectedInterest} />
+            }
+            {
+              step == 4 && <CurrentlyLookingFor selectedCurrentlyLookingFor={selectedCurrentlyLookingFor} setSelectedCurrentlyLookingFor={setSelectedCurrentlyLookingFor} />
             }
 
             <div className="flex items-center gap-3 justify-end mt-5">
