@@ -2,20 +2,20 @@
 import { ICONS, IMAGES } from "@/assets";
 import Image from "next/image";
 import { useState } from "react";
-import TextInput from "../TextInput/TextInput";
+import TextInput from "../../../../../components/Reusable/TextInput/TextInput";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import DropdownInput from "../DopdownInput/DropdownInput";
+import DropdownInput from "../../../../../components/Reusable/DopdownInput/DropdownInput";
 import Button from "@/components/Button";
-import Modal from "../Modal/Modal";
+import Modal from "../../../../../components/Reusable/Modal/Modal";
 
-type TRegistrationFormModalProps = {
+type TEducationModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   register: UseFormRegister<any>;
   errors: FieldErrors;
 };
 
-const RegistrationFormModal: React.FC<TRegistrationFormModalProps> = ({
+const EducationModal: React.FC<TEducationModalProps> = ({
   isModalOpen,
   setIsModalOpen,
   register,
@@ -194,4 +194,4 @@ const RegistrationFormModal: React.FC<TRegistrationFormModalProps> = ({
   );
 };
 
-export default RegistrationFormModal;
+export default EducationModal;

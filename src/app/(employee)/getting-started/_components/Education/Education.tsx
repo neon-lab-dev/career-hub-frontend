@@ -4,7 +4,7 @@ import { ICONS, IMAGES } from "@/assets";
 import Image from "next/image";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { useState } from "react";
-import RegistrationFormModal from "@/components/Reusable/RegistrationFormModal/RegistrationFormModal";
+import EducationModal from "./EducationModal";
 
 type TCurrentlyLookingForFormProps = {
   register: UseFormRegister<any>;
@@ -49,7 +49,7 @@ const Education: React.FC<TCurrentlyLookingForFormProps> = ({
           />
       </button>
 
-      <RegistrationFormModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} register={register} errors={errors}  />
+      <EducationModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} register={register} errors={errors}  />
     </div>
   );
 };
