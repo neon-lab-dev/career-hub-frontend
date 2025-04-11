@@ -49,6 +49,8 @@ import noData from "@/assets/icons/no-data.svg";
 import company from "@/assets/icons/company.svg";
 import searchGray from "@/assets/icons/search-gray.svg";
 import findCandidates from "@/assets/icons/find-candidates.svg";
+import addCircleGray from "@/assets/icons/add-circle-gray.svg";
+import addCircleWhite from "@/assets/icons/add-circle-white.svg";
 
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
@@ -135,4 +137,6 @@ export const ICONS = {
   company,
   searchGray,
   findCandidates,
+  addCircleWhite,
+  addCircleGray,
 };

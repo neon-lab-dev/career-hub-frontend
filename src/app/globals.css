@@ -54,6 +54,10 @@ p {
   @apply text-[20px] font-[500] tracking-normal;
 }
 
+.registration-form-heading {
+  @apply text-secondary-800 text-[28px] font-700;
+}
+
 .body-large {
   @apply text-[18px] font-[400] leading-[125%] tracking-tight;
 }
