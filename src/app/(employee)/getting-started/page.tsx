@@ -10,6 +10,7 @@ import LanguagePreference from "./_components/LanguagePreference";
 import AreaOfInterests from "./_components/AreaOfInterests";
 import CurrentlyLookingFor from "./_components/CurrentlyLookingFor";
 import Address from "./_components/Address";
+import Education from "./_components/Education";
 
 type TFormData = {
   fullName: string;
@@ -97,6 +98,7 @@ const GettingStarted = () => {
               />
             )}
             {step == 5 && <Address register={register} errors={errors} />}
+            {step == 6 && <Education register={register} errors={errors} />}
 
             <div className="flex items-center gap-3 justify-end mt-5">
               <Button variant="natural" className="px-6 py-[14px]">
