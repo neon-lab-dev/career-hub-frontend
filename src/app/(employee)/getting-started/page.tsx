@@ -1,438 +1,115 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
-import React, { useState } from "react";
+import { ICONS } from "@/assets";
 import Button from "@/components/Button";
-import GetStartedLayout from "./_components/getStartedLayout";
+import DropdownInput from "@/components/Reusable/DopdownInput/DropdownInput";
+import TextInput from "@/components/Reusable/TextInput/TextInput";
 import Image from "next/image";
-import { IMAGES } from "@/assets";
-import EducationModel from "./_components/EducationModel";
-import ProjectDetails from "./_components/ProjectDetails";
-import CertificateModel from "./_components/CertificateModel";
-import ExperienceModel from "./_components/WorkExp";
-import EducationForm from "./_components/EducationForm";
-import ResumeUpload from "./_components/ResumeUpload";
-import SocialLinksSkills from "./_components/SocialLInksAndSkills";
-import Successfully from "./_components/Successfully";
-import { toast } from "sonner";
-import { useUpdateUserDetails } from "@/api/updateUserDetails";
+import React, { ChangeEvent } from "react";
+import { useForm } from "react-hook-form";
 
-interface CustomFormData {
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    country: string;
-  }[];
-  education: any[];
-  projects: any[];
-  experience: any[];
-  certifications: any[];
-  skills: string[];
-  socialLinks: {
-    linkedin: string;
-    github: string;
-  }[];
-  interests: string[];
-}
+type TFormData = {
+  fullName: string;
+  email: string;
+  mobileNumber: string;
+  message: string;
+};
 
-const Page: React.FC = () => {
-  const [Step, setStep] = useState<number>(1);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [formData, setFormData] = useState<CustomFormData>({
-    address: [
-      {
-        street: "",
-        city: "",
-        state: "",
-        postalCode: "",
-        country: "",
-      },
-    ],
-    education: [],
-    projects: [],
-    experience: [],
-    certifications: [],
-    skills: [],
-    socialLinks: [{ linkedin: "", github: "" }],
-    interests: [],
-  });
+const GettingStarted = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TFormData>();
 
-  const [showProjectModal, setShowProjectModal] = useState<any>(false);
-
-  const { mutate: updateUserDetails } = useUpdateUserDetails();
-
-  const goToPreviousStep = () => {
-    if (Step > 1) {
-      setStep(Step - 1);
-    }
+  const handleCompleteRegistration = (data: FormData) => {
+    console.log("Form Data:", data);
   };
-
-  const handleContinue = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (Step === 6) {
-      try {
-        updateUserDetails(formData);
-        toast.success("User details updated successfully!");
-      } catch (error: any) {
-        console.error("Error updating user details:", error);
-        toast.error(
-          `Error updating user details: ${
-            error.response?.data?.message || error.message
-          }`
-        );
-      }
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setStep(Step + 1);
-
-    if (Step === 1) {
-      setShowProjectModal(true);
-    }
-  };
-
-  const addProject = (project: any) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      projects: [...prevFormData.projects, project],
-    }));
-  };
-
-  const addCertification = (certification: any) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      certifications: [...prevFormData.certifications, certification],
-    }));
-  };
-
-  const deleteEducation = (index: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      education: prevFormData.education.filter((_, i) => i !== index),
-    }));
-  };
-
-  const deleteProject = (index: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      projects: prevFormData.projects.filter((_, i) => i !== index),
-    }));
-  };
-
-  const deleteExperience = (index: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      experience: prevFormData.experience.filter((_, i) => i !== index),
-    }));
-  };
-
-  const deleteCertification = (index: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      certifications: prevFormData.certifications.filter((_, i) => i !== index),
-    }));
-  };
-
-  const handleResumeUploadSuccess = () => {
-    setStep(8); // Move to Step 8
-  };
-
-  const handleSkip = (
-    section:
-      | "education"
-      | "projects"
-      | "experience"
-      | "certifications"
-      | "socialLinks"
-      |
-      "resume"
-  ) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [section]: [],
-    }));
-
-    handleContinueSkip();
-  };
-
-  // Create a wrapper to call handleContinue without event
-  const handleContinueSkip = () => {
-    const fakeEvent = {
-      preventDefault: () => {},
-    } as React.FormEvent<HTMLFormElement>;
-    handleContinue(fakeEvent);
-  };
-
+  const progress = 20;
   return (
-    <GetStartedLayout
-      progress={Step * 12.5}
-      goToPreviousStep={goToPreviousStep}
-    >
-      <div className="flex justify-center w-full">
-        <div className="flex justify-center gap-4">
-          {Step === 1 && (
-            <EducationForm
-              formData={formData}
-              setFormData={setFormData}
-              handleContinue={handleContinue}
+    <div className="pt-12 bg-neutral-450 min-h-screen h-full font-plus-jakarta-sans">
+      <div className="bg-white border border-neutral-100 rounded-3xl p-9 wrapper ">
+        <div className="max-w-[900px] w-full mx-auto">
+          {/* Progress bar */}
+          <div className="flex items-center gap-5">
+            <Image
+              src={ICONS.leftArrow}
+              alt="left arrow icon"
+              className="size-10"
             />
-          )}
-          {Step === 2 && (
-            <div>
-              <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
-                <span>Education</span>
-              </div>
-              {formData.education.map((certificate: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
-                >
-                  <div className="flex flex-col w-[240px]">
-                    <span className="text-xl text-neutral-900 font-bold">
-                      {certificate.institutionName}
-                    </span>
-                    <div className="flex flex-col text-[16px] text-neutral-500">
-                      <span>{`${certificate.degree} | ${certificate.fieldOfStudy}`}</span>
-                      <span>{`${certificate.startDate} - ${certificate.endDate}`}</span>
-                    </div>
-                  </div>
-                  <Image
-                    src={IMAGES.bin}
-                    alt="Delete"
-                    onClick={() => deleteEducation(index)}
-                    className="cursor-pointer"
-                  />
-                </div>
-              ))}
-              <EducationModel
-                formData={formData}
-                setFormData={setFormData}
-                showOnMount={showProjectModal}
-                handleSkip={handleSkip}
-              />
-              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px]"
-                  onClick={handleContinue}
-                  disabled={formData.education.length === 0} // Disable if no education data
-                >
-                  Continue
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  type="button"
-                  onClick={() => handleSkip("education")}
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
-                </Button>
-              </div>
+            <div className="w-full bg-neutral-50 rounded-full h-[14px]">
+              <div
+                className="bg-primary-500 h-[14px] rounded-[100px] transition-all duration-300"
+                style={{ width: `${progress}%` }}
+              ></div>
             </div>
-          )}
+          </div>
 
-          {Step === 3 && (
-            <div>
-              <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
-                <span>Project Details</span>
-              </div>
-              {formData.projects.map((project: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
-                >
-                  <div className="flex flex-col w-[240px]">
-                    <span className="text-xl text-neutral-900 font-bold">
-                      {project.title}
-                    </span>
-                    <div className="flex flex-col text-[16px] text-neutral-500">
-                      <span>{project.description}</span>
-                      <span>
-                        {project.startDate} - {project.endDate}
-                      </span>
-                    </div>
-                  </div>
-                  <Image
-                    src={IMAGES.bin}
-                    alt="Delete"
-                    onClick={() => deleteProject(index)}
-                    className="cursor-pointer"
-                  />
-                </div>
-              ))}
-              <ProjectDetails
-                addProject={addProject}
-                showOnMount={showProjectModal}
-                handleSkip={handleSkip}
+          <form
+            onSubmit={handleSubmit(handleCompleteRegistration)}
+            className="max-w-[560px] mx-auto"
+          >
+            <div className="flex flex-col gap-5 mt-12">
+              <h1 className="text-secondary-800 text-[28px] font-700 mb-4">
+                Let's get started
+              </h1>
+              <TextInput
+                label="Full Name"
+                placeholder="John Smith"
+                error={errors.fullName}
+                {...register("fullName", {
+                  required: "Full Name is required",
+                })}
               />
-              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px]"
-                  onClick={handleContinue}
-                  disabled={formData.education.length === 0} // Disable if no education data
-                >
-                  Continue
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  type="button"
-                  onClick={() => handleSkip("projects")}
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {Step === 4 && (
-            <div>
-              <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
-                <span>Work Experience</span>
-              </div>
-              {formData.experience.map((exp: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
-                >
-                  <div className="flex flex-col w-[240px]">
-                    <span className="text-xl text-neutral-900 font-bold">
-                      {exp.company}
-                    </span>
-                    <div className="flex flex-col text-[16px] text-neutral-500">
-                      <span>{exp.title}</span>
-                      <span>{exp.description}</span>
-                      <span>
-                        {exp.startDate} - {exp.endDate}
-                      </span>
-                    </div>
-                  </div>
-                  <Image
-                    src={IMAGES.bin}
-                    alt="Delete"
-                    onClick={() => deleteExperience(index)}
-                    className="cursor-pointer"
-                  />
-                </div>
-              ))}
-              <ExperienceModel
-                formData={formData}
-                setFormData={setFormData}
-                showOnMount={showProjectModal}
-                handleSkip={handleSkip}
+              <TextInput
+                label="Date of Birth"
+                type="date"
+                error={errors.fullName}
+                {...register("fullName", {
+                  required: "Date of Birth is required",
+                })}
               />
-              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px]"
-                  onClick={handleContinue}
-                  disabled={formData.education.length === 0} // Disable if no education data
-                >
-                  Continue
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  type="button"
-                  onClick={() => handleSkip("experience")}
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
-                </Button>
+              <div className="flex items-center gap-5">
+                <TextInput
+                  label="Guardian Name"
+                  placeholder="Smith John"
+                  error={errors.fullName}
+                  {...register("fullName", {
+                    required: "Guardian Name is required",
+                  })}
+                />
+                <TextInput
+                  label="Guardian Phone Number"
+                  placeholder="+91 9737328323"
+                  type="number"
+                  error={errors.fullName}
+                  {...register("fullName", {
+                    required: "Guardian Phone Number is required",
+                  })}
+                />
               </div>
-            </div>
-          )}
-
-          {Step === 5 && (
-            <div>
-              <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
-                <span>Certifications</span>
-              </div>
-              {formData.certifications.map(
-                (certification: any, index: number) => (
-                  <div
-                    key={index}
-                    className="flex border items-center m-2 gap-10 p-3 rounded-xl"
-                  >
-                    <div className="flex flex-col w-[240px]">
-                      <span className="text-xl text-neutral-900 font-bold">
-                        {certification.name}
-                      </span>
-                      <div className="flex flex-col text-[16px] text-neutral-500">
-                        <span>{certification.issuingOrganization}</span>
-                        <span>
-                          {certification.issueDate} -{" "}
-                          {certification.expirationDate}
-                        </span>
-                      </div>
-                    </div>
-                    <Image
-                      src={IMAGES.bin}
-                      alt="Delete"
-                      onClick={() => deleteCertification(index)}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                )
-              )}
-              <CertificateModel
-                addCertification={addCertification}
-                showOnMount={showProjectModal}
-                handleSkip={handleSkip}
-              />
-              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px]"
-                  onClick={handleContinue}
-                  disabled={formData.education.length === 0}
-                >
-                  Continue
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  type="button"
-                  onClick={() => handleSkip("certifications")}
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {Step === 6 && (
-            <div>
-              <SocialLinksSkills
-                formData={formData}
-                setFormData={setFormData}
-                handleContinue={handleContinue}
-                handleSkip={handleSkip}
+              <DropdownInput
+                label="Occupation"
+                {...register(`fullName`)}
+                error={errors.fullName}
+                options={["Teacher", "Engineer", "Other"]}
+                // onChange={(e: ChangeEvent<HTMLSelectElement>) => handleBankInfoChange(e, "accType")}
               />
             </div>
-          )}
-          {Step === 7 && (
-            <div>
-              <ResumeUpload
-                handleSkip={handleSkip}
-                setSelectedFile={setSelectedFile}
-                handleResumeUploadSuccess={handleResumeUploadSuccess}
-              />
+
+            <div className="flex items-center gap-3 justify-end mt-5">
+              <Button variant="natural" className=" px-6 py-[14px]">
+                Skip
+              </Button>
+              <Button variant="normal" className="px-6 py-[14px]">
+                Continue
+              </Button>
             </div>
-          )}
-          {Step === 8 && <Successfully />}
+          </form>
         </div>
       </div>
-    </GetStartedLayout>
+    </div>
   );
 };
-export default Page;
+
+export default GettingStarted;

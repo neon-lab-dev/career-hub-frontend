@@ -50,7 +50,7 @@ const HeroComponent = () => {
           {/* Title */}
           <h1 className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700  xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl">
             <span>Start your career in</span>{" "}
-            <span className="highlight text-white">HealthCare</span> Today{" "}
+            <span className="highlight text-white">Health Care</span> Today{" "}
             <br className="hidden xl:block" />
             industry with us…
             <Image

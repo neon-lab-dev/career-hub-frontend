@@ -12,7 +12,7 @@ import correctPrimary from "@/assets/icons/correct-primary.svg";
 import crossPrimary from "@/assets/icons/correct-primary.svg";
 import application from "@/assets/icons/applications.svg";
 import share from "@/assets/icons/Share.svg";
-import arrow from "@/assets/icons/arrow_back.svg";
+import leftArrow from "@/assets/icons/arrow_back.svg";
 import pen from "@/assets/icons/Pen.svg";
 import bin from "@/assets/icons/Trash Bin Trash.svg";
 import circle from "@/assets/icons/Add Circle.svg";
@@ -74,7 +74,6 @@ export const IMAGES = {
   correctPrimary,
   crossPrimary,
   application,
-  arrow,
   pen,
   bin,
   circle,
@@ -129,6 +128,7 @@ export const ICONS = {
   jobType,
   sallary,
   rightArrow,
+  leftArrow,
   rightArrowCourse,
   calender,
   noData,
