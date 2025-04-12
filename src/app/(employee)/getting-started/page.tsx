@@ -59,7 +59,7 @@ export type TProjectDetails = {
 export type TCertificateDetails = {
   name: string;
   issuingOrganization: string;
-  issueDate: Date;
+  issueDate: string;
   credentialID: string;
   credentialURL: string;
 };
