@@ -35,7 +35,7 @@ const CertificationModal:React.FC<TCertificationModalProps> = ({
         />
         <div className="flex items-center gap-5">
         <TextInput
-          label="Certificate link / ID"
+          label="Certificate Link / ID"
           placeholder="Add link here"
           error={errors.fullName}
           {...register("fullName")}

@@ -15,6 +15,7 @@ import ProjectDetails from "./_components/ProjectDetails/ProjectDetails";
 import WorkExperience from "./_components/WorkExperience/WorkExperience";
 import Certifications from "./_components/Certifications/Certifications";
 import Skills from "./_components/Skills";
+import ResumeUpload from "./_components/ResumeUpload/ResumeUpload";
 
 type TFormData = {
   fullName: string;
@@ -107,6 +108,7 @@ const GettingStarted = () => {
             {step == 8 && <WorkExperience register={register} errors={errors} />}
             {step == 9 && <Certifications register={register} errors={errors} />}
             {step == 10 && <Skills register={register} errors={errors} />}
+            {step == 11 && <ResumeUpload register={register} errors={errors} />}
 
             <div className="flex items-center gap-3 justify-end mt-5">
               <Button variant="natural" className="px-6 py-[14px]">

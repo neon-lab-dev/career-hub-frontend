@@ -18,7 +18,7 @@ interface TextAreaProps {
 }
 
 const TextArea = forwardRef<HTMLInputElement, TextAreaProps>(
-  ({ label, name, placeholder = "", rows, cols, error, defaultValue, isDisabled = false, isRequired = true, ...rest }) => {
+  ({ label, name, placeholder = "", rows, cols, error, defaultValue, isDisabled = false, isRequired = true, ...rest }, ref) => {
     return (
       <div className="flex flex-col gap-2 font-Inter w-full font-plus-jakarta-sans">
         <label htmlFor={name} className="text-neutral-700 font-500">
