@@ -17,8 +17,8 @@ const PersonalInfoForm:React.FC<TPersonalInfoFormProps> = ({ register, errors })
       <TextInput
         label="Full Name"
         placeholder="John Smith"
-        error={errors.fullName}
-        {...register("fullName")}
+        error={errors.full_name}
+        {...register("full_name")}
         isRequired={false}
       />
       <TextInput
@@ -40,8 +40,8 @@ const PersonalInfoForm:React.FC<TPersonalInfoFormProps> = ({ register, errors })
           label="Guardian Phone Number"
           placeholder="+91 9737328323"
           type="number"
-          error={errors.guardianPhone}
-          {...register("guardianPhone")}
+          error={errors.phoneNumber}
+          {...register("phoneNumber")}
           isRequired={false}
         />
       </div>

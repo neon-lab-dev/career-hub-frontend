@@ -3,17 +3,12 @@ import { useState } from "react";
 import { ICONS } from "@/assets";
 import Chip from "@/components/Chip";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
 
 type TCurrentlyLookingForProps = {
-  selectedCurrentlyLookingFor: string[];
-  setSelectedCurrentlyLookingFor: Dispatch<SetStateAction<string[]>>;
+  onChange: (data: string[]) => void;
 };
 
-const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
-  selectedCurrentlyLookingFor,
-  setSelectedCurrentlyLookingFor,
-}) => {
+const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({ onChange }) => {
   const interests = [
     "Shadow Internship",
     "Practice Internship",
@@ -25,24 +20,24 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
     "Diploma Course",
     "Bachelor Degree",
     "Master Degree",
-    "Jobs"
+    "Jobs",
   ];
-  
-  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleAddInterest = (language: string) => {
-    if (!selectedCurrentlyLookingFor.includes(language)) {
-      setSelectedCurrentlyLookingFor([
-        ...selectedCurrentlyLookingFor,
-        language,
-      ]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const handleAddInterest = (interest: string) => {
+    if (!selected.includes(interest)) {
+      const updated = [...selected, interest];
+      setSelected(updated);
+      onChange(updated);
     }
   };
 
-  const handleRemoveLanguage = (interest: string) => {
-    setSelectedCurrentlyLookingFor(
-      selectedCurrentlyLookingFor.filter((i) => i !== interest)
-    );
+  const handleRemoveInterest = (interest: string) => {
+    const updated = selected.filter((i) => i !== interest);
+    setSelected(updated);
+    onChange(updated);
   };
 
   const filteredInterests = interests.filter((interest) =>
@@ -51,9 +46,7 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
 
   return (
     <div className="flex flex-col gap-9 mt-12 font-plus-jakarta-sans">
-      <h1 className="registration-form-heading">
-        What are you currently looking for?
-      </h1>
+      <h1 className="registration-form-heading">What are you currently looking for?</h1>
 
       {/* Search Input */}
       <div className="relative max-w-[633px] w-full">
@@ -73,12 +66,8 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
 
       {/* Add Custom Interest */}
       {searchTerm &&
-        !interests
-          .map((i) => i.toLowerCase())
-          .includes(searchTerm.toLowerCase()) &&
-        !selectedCurrentlyLookingFor
-          .map((i) => i.toLowerCase())
-          .includes(searchTerm.toLowerCase()) && (
+        !interests.map((i) => i.toLowerCase()).includes(searchTerm.toLowerCase()) &&
+        !selected.map((i) => i.toLowerCase()).includes(searchTerm.toLowerCase()) && (
           <div>
             <Chip
               variant="add"
@@ -94,11 +83,11 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
 
       {/* Selected Interests */}
       <div className="flex flex-wrap gap-2">
-        {selectedCurrentlyLookingFor?.length > 0 ? (
-          selectedCurrentlyLookingFor?.map((interest) => (
+        {selected.length > 0 ? (
+          selected.map((interest) => (
             <Chip
               key={interest}
-              onClick={() => handleRemoveLanguage(interest)}
+              onClick={() => handleRemoveInterest(interest)}
               variant="close"
             >
               {interest}
@@ -111,7 +100,7 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
 
       {/* All Interests */}
       <div className="flex flex-wrap gap-2 max-h-[300px] overflow-y-auto">
-        {filteredInterests?.map((interest) => (
+        {filteredInterests.map((interest) => (
           <Chip
             key={interest}
             onClick={() => handleAddInterest(interest)}

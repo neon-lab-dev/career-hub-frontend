@@ -4,7 +4,7 @@ import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 
 interface TextInputProps {
   label: string;
-  name: string;
+  name?: string;
   placeholder?: string;
   type?: string;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
@@ -30,7 +30,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
         <input
           required={isRequired}
           id={name}
-          name={name}
+          name={name || undefined}
           type={type}
           placeholder={placeholder}
           onKeyDown={onKeyDown}

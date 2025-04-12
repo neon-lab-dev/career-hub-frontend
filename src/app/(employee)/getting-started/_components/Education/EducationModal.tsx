@@ -1,126 +1,113 @@
-"use client";
-import { ICONS, IMAGES } from "@/assets";
+import { ICONS } from "@/assets";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextInput from "../../../../../components/Reusable/TextInput/TextInput";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
 import DropdownInput from "../../../../../components/Reusable/DopdownInput/DropdownInput";
 import Button from "@/components/Button";
 import Modal from "../../../../../components/Reusable/Modal/Modal";
+import { TEducationDetails } from "../../page";
 
 type TEducationModalProps = {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  register: UseFormRegister<any>;
-  errors: FieldErrors;
+  onSubmit: (data: TEducationDetails) => void;
+  defaultValues?: TEducationDetails;
 };
 
 const EducationModal: React.FC<TEducationModalProps> = ({
   isModalOpen,
   setIsModalOpen,
-  register,
-  errors,
+  onSubmit,
+  defaultValues,
 }) => {
-  const [selectedDesignation, setSelectedDesignation] =
-    useState<string>("Medical");
-  const designationTypes = [
-    "Medical",
-    "Paramedical",
-    "Paramedical Diploma",
-    "Other",
-  ];
+  const [selectedDesignation, setSelectedDesignation] = useState("Medical");
+
+  const [formValues, setFormValues] = useState<TEducationDetails>({
+    institutionName: "",
+    city: "",
+    courseName: "",
+    grade: "",
+    startDate: "",
+    endDate: "",
+    designationType: "Medical",
+  });
+
+  useEffect(() => {
+    if (defaultValues) {
+      setFormValues(defaultValues);
+      setSelectedDesignation(defaultValues.designationType);
+    }
+  }, [defaultValues]);
+
+  const handleChange = (field: keyof TEducationDetails, value: string) => {
+    setFormValues({ ...formValues, [field]: value });
+  };
+
+  const handleAdd = () => {
+    onSubmit({ ...formValues, designationType: selectedDesignation });
+    setFormValues({
+      institutionName: "",
+      city: "",
+      courseName: "",
+      grade: "",
+      startDate: "",
+      endDate: "",
+      designationType: "Medical",
+    });
+    setSelectedDesignation("Medical");
+  };
+
+  const designationTypes = ["Medical", "Paramedical", "Paramedical Diploma", "Other"];
+
   const medicalCourses = [
-    "Ayurvedic Medicine and Surgery",
-    "Dental Surgery",
-    "Medicine and Bachelor of Surgery",
-    "Naturopathy and Yoga Sciences",
-    "Siddha Medicine and Surgery",
-    "Unani Medicine and Surgery",
+    "Ayurvedic Medicine and Surgery", "Dental Surgery", "Medicine and Bachelor of Surgery",
+    "Naturopathy and Yoga Sciences", "Siddha Medicine and Surgery", "Unani Medicine and Surgery",
   ];
 
   const paramedicalCourses = [
-    "Anaesthesia Technology",
-    "Audiology and Speech Therapy",
-    "Biomedical Engineering",
-    "Biotechnology",
-    "Cardiac or Cardiovascular Technology",
-    "Dialysis Technology",
-    "Healthcare Management",
-    "Medical Laboratory Technology",
-    "Medical Record Technology",
-    "Microbiology",
-    "Nursing and Midwifery",
-    "Nutrition and Dietetics",
-    "Occupational Therapy",
-    "Operation Theater Technology",
-    "Ophthalmic Technology",
-    "Optometry",
-    "Physiotherapy",
-    "Psychology",
-    "Radiography and Medical Imaging",
-    "Respiratory Therapy",
-    "X-Ray Technology",
+    "Anaesthesia Technology", "Audiology and Speech Therapy", "Biomedical Engineering",
+    "Biotechnology", "Cardiac or Cardiovascular Technology", "Dialysis Technology",
+    "Healthcare Management", "Medical Laboratory Technology", "Medical Record Technology",
+    "Microbiology", "Nursing and Midwifery", "Nutrition and Dietetics", "Occupational Therapy",
+    "Operation Theater Technology", "Ophthalmic Technology", "Optometry", "Physiotherapy",
+    "Psychology", "Radiography and Medical Imaging", "Respiratory Therapy", "X-Ray Technology",
   ];
 
   const paramedicalDiplomaCourses = [
-    "Anaesthesia Technology",
-    "Dialysis Technology",
-    "ECG Technology",
-    "Hearing Language and Speech",
-    "Medical Laboratory Technology",
-    "Medical Record Technology",
-    "Nursing Care Assistance",
-    "Operation Theatre Technology",
-    "Ophthalmic Technology",
-    "Physiotherapy",
-    "Radiography and Medical Imaging",
-    "Sanitary Inspection",
-    "X-Ray Technology",
+    "Anaesthesia Technology", "Dialysis Technology", "ECG Technology",
+    "Hearing Language and Speech", "Medical Laboratory Technology", "Medical Record Technology",
+    "Nursing Care Assistance", "Operation Theatre Technology", "Ophthalmic Technology",
+    "Physiotherapy", "Radiography and Medical Imaging", "Sanitary Inspection", "X-Ray Technology",
   ];
 
   const options =
-    selectedDesignation === "Medical"
-      ? medicalCourses
-      : selectedDesignation === "Paramedical"
-      ? paramedicalCourses
-      : selectedDesignation === "Paramedical Diploma"
-      ? paramedicalDiplomaCourses
-      : [];
+    selectedDesignation === "Medical" ? medicalCourses :
+    selectedDesignation === "Paramedical" ? paramedicalCourses :
+    selectedDesignation === "Paramedical Diploma" ? paramedicalDiplomaCourses : [];
 
   return (
-    <Modal
-      heading="Designation"
-      isModalOpen={isModalOpen}
-      setIsModalOpen={setIsModalOpen}
-    >
-      {/* Radio inputs */}
+    <Modal heading="Designation" isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
       <div className="flex items-center gap-6">
-        {designationTypes?.map((designation) => (
+        {designationTypes.map((designation) => (
           <button
             key={designation}
             type="button"
             onClick={() => setSelectedDesignation(designation)}
             className="flex items-center gap-1 cursor-pointer"
           >
-            {selectedDesignation === designation ? (
-              <Image
-                src={ICONS.radioButtonChecked}
-                alt="radio-icon"
-                className="size-5"
-              />
-            ) : (
-              <Image
-                src={ICONS.radioButtonUnchecked}
-                alt="radio-icon"
-                className="size-5"
-              />
-            )}
+            <Image
+              src={
+                selectedDesignation === designation
+                  ? ICONS.radioButtonChecked
+                  : ICONS.radioButtonUnchecked
+              }
+              alt="radio-icon"
+              className="size-5"
+            />
             <h1
               className={`${
-                selectedDesignation === designation
-                  ? "text-neutral-900"
-                  : "text-neutral-500"
-              } font-500`}
+                selectedDesignation === designation ? "text-neutral-900" : "text-neutral-500"
+              } font-medium`}
             >
               {designation}
             </h1>
@@ -128,68 +115,70 @@ const EducationModal: React.FC<TEducationModalProps> = ({
         ))}
       </div>
 
+      <form onSubmit={(e) => { e.preventDefault(); handleAdd(); }} noValidate>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
         <TextInput
+          name="institutionName"
           label="Institute Name"
-          placeholder="eg.,  Meenakshi college of engineering"
-          error={errors.fullName}
-          {...register("fullName")}
-          isRequired={false}
+          placeholder="eg., Meenakshi college of engineering"
+          value={formValues.institutionName}
+          onChange={(e) => handleChange("institutionName", e.target.value)}
         />
         <TextInput
+          name="city"
           label="City & State"
           placeholder="eg., Mumbai"
-          error={errors.fullName}
-          {...register("fullName")}
-          isRequired={false}
+          value={formValues.city}
+          onChange={(e) => handleChange("city", e.target.value)}
         />
         {selectedDesignation !== "Other" ? (
           <DropdownInput
             label="Course"
-            {...register("occupation")}
-            error={errors.occupation}
             options={options}
-            isRequired={false}
+            value={formValues.courseName}
+            onChange={(e) => handleChange("courseName", e.target.value)}
           />
         ) : (
           <TextInput
+            name="courseName"
             label="Course"
-            placeholder="ex: Full stack web development"
-            error={errors.fullName}
-            {...register("fullName")}
-            isRequired={false}
+            placeholder="eg., Full stack web development"
+            value={formValues.courseName}
+            onChange={(e) => handleChange("courseName", e.target.value)}
           />
         )}
         <TextInput
+          name="grade"
           label="Grade / Percentage"
           placeholder="eg., 3.85/4"
-          error={errors.fullName}
-          {...register("fullName")}
-          isRequired={false}
+          value={formValues.grade}
+          onChange={(e) => handleChange("grade", e.target.value)}
         />
         <TextInput
+          name="startDate"
           label="From"
           type="date"
-          error={errors.fullName}
-          {...register("fullName")}
-          isRequired={false}
+          value={formValues.startDate}
+          onChange={(e) => handleChange("startDate", e.target.value)}
         />
         <TextInput
+          name="endDate"
           label="To"
           type="date"
-          error={errors.fullName}
-          {...register("fullName")}
-          isRequired={false}
+          value={formValues.endDate}
+          onChange={(e) => handleChange("endDate", e.target.value)}
         />
       </div>
+
       <div className="flex items-center gap-3 mt-6">
-        <Button variant="natural" className="px-6 py-3">
+        <Button variant="natural" className="px-6 py-3" onClick={() => setIsModalOpen(false)}>
           Cancel
         </Button>
-        <Button type="submit" variant="normal" className="px-6 py-3">
-          Add
+        <Button type="button" variant="normal" className="px-6 py-3" onClick={handleAdd}>
+          {defaultValues ? "Update" : "Add"}
         </Button>
       </div>
+      </form>
     </Modal>
   );
 };

@@ -33,16 +33,31 @@ const CertificationModal:React.FC<TCertificationModalProps> = ({
           {...register("fullName")}
           isRequired={false}
         />
-        <div className="flex items-center gap-5">
+      <TextInput
+          label="Organization/Institute Name"
+          placeholder="eg.,  UI UX Design Certificate"
+          error={errors.fullName}
+          {...register("fullName")}
+          isRequired={false}
+        />
         <TextInput
-          label="Certificate Link / ID"
+          label="Certificate Link"
           placeholder="Add link here"
           error={errors.fullName}
           {...register("fullName")}
           isRequired={false}
         />
+        <div className="flex items-center gap-5">
+        <TextInput
+          label="Certificate ID"
+          placeholder="Add link here"
+          error={errors.fullName}
+          {...register("fullName")}
+          isRequired={false}
+        />
+        
           <TextInput
-          label="Certification Date"
+          label="Issued Date"
           type="date"
           error={errors.fullName}
           {...register("fullName")}

@@ -16,23 +16,23 @@ const Address:React.FC<TCurrentlyLookingForFormProps> = ({ register, errors }) =
       <TextInput
         label="Street Address"
         placeholder="ex: new york, USA"
-        error={errors.fullName}
-        {...register("fullName")}
+        error={errors.street}
+        {...register("street")}
         isRequired={false}
       />
       <div className="flex items-center gap-5">
         <TextInput
           label="City"
           placeholder="ex: new york"
-          error={errors.guardianName}
-          {...register("guardianName")}
+          error={errors.city}
+          {...register("city")}
           isRequired={false}
         />
         <TextInput
           label="Post/ZIP Code"
           placeholder="ex: 35012"
-          error={errors.guardianPhone}
-          {...register("guardianPhone")}
+          error={errors.postalCode}
+          {...register("postalCode")}
           isRequired={false}
         />
       </div>
@@ -40,15 +40,15 @@ const Address:React.FC<TCurrentlyLookingForFormProps> = ({ register, errors }) =
         <TextInput
           label="State"
           placeholder="ex: new york"
-          error={errors.guardianName}
-          {...register("guardianName")}
+          error={errors.state}
+          {...register("state")}
           isRequired={false}
         />
         <TextInput
           label="Country"
           placeholder="ex: America"
-          error={errors.guardianPhone}
-          {...register("guardianPhone")}
+          error={errors.country}
+          {...register("country")}
           isRequired={false}
         />
       </div>

@@ -90,7 +90,11 @@ const SocialLink: React.FC<TSocialLinkProps> = ({ register, errors }) => {
             className="p-4 rounded-xl bg-white border focus:outline-none focus:border-primary-500 flex items-center justify-between w-[210px] mt-2 cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-[#1D293D] font-500"
           >
             {selectedPlatform?.platform ?? "Select Social Media"}
-            <Image src={ICONS.downArrow} alt="dropdown-icon" className="size-6" />
+            <Image
+              src={ICONS.downArrow}
+              alt="dropdown-icon"
+              className="size-6"
+            />
           </button>
 
           <div
@@ -143,14 +147,13 @@ const SocialLink: React.FC<TSocialLinkProps> = ({ register, errors }) => {
 
       {/* Display added links */}
       <div className="flex flex-col gap-4">
-        {socialLinks.map((item, idx) => (
+        {socialLinks.map((item, index) => (
           <div
-            key={idx}
-            className="flex items-center justify-between p-3 border border-neutral-200 rounded-lg bg-neutral-50"
-          >
+            key={index}
+            className="flex items-center justify-between p-3 border border-neutral-200 rounded-lg bg-neutral-50">
             <div className="flex items-center gap-2">
-            <Image src={item.icon} alt={item.platform} className="size-6" />
-            <span className="font-medium w-[120px]">{item.platform}:</span>
+              <Image src={item.icon} alt={item.platform} className="size-6" />
+              <span className="font-medium w-[120px]">{item.platform}:</span>
             </div>
             <a
               href={item.link}

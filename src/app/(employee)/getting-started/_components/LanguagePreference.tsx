@@ -4,18 +4,16 @@ import ISO6391 from "iso-639-1";
 import { ICONS } from "@/assets";
 import Chip from "@/components/Chip";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
 
 type TLanguagePreferenceProps = {
-  selectedLanguages: string[];
-  setSelectedLanguages: Dispatch<SetStateAction<string[]>>;
+  onChange: (languages: string[]) => void;
 };
 
 const LanguagePreference: React.FC<TLanguagePreferenceProps> = ({
-  selectedLanguages,
-  setSelectedLanguages,
+  onChange,
 }) => {
   const [languageList, setLanguageList] = useState<string[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
@@ -23,13 +21,34 @@ const LanguagePreference: React.FC<TLanguagePreferenceProps> = ({
   }, []);
 
   const handleAddLanguage = (language: string) => {
-    if (!selectedLanguages.includes(language)) {
-      setSelectedLanguages([...selectedLanguages, language]);
+    if (
+      language &&
+      !selectedLanguages.includes(language) &&
+      languageList.includes(language)
+    ) {
+      const updated = [...selectedLanguages, language];
+      setSelectedLanguages(updated);
+      onChange(updated);
+      setSearchTerm("");
     }
   };
 
   const handleRemoveLanguage = (language: string) => {
-    setSelectedLanguages(selectedLanguages.filter((l) => l !== language));
+    const updated = selectedLanguages.filter((l) => l !== language);
+    setSelectedLanguages(updated);
+    onChange(updated);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const matchedLanguage = languageList.find(
+        (lang) => lang.toLowerCase() === searchTerm.toLowerCase()
+      );
+      if (matchedLanguage) {
+        handleAddLanguage(matchedLanguage);
+      }
+    }
   };
 
   const filteredLanguages = languageList.filter((lang) =>
@@ -48,6 +67,7 @@ const LanguagePreference: React.FC<TLanguagePreferenceProps> = ({
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Select a language or enter keyword"
           className="pl-12 pr-4 py-4 border border-neutral-300 rounded-xl focus:outline-none focus:border-primary-500 transition duration-300 w-full"
         />
@@ -60,8 +80,8 @@ const LanguagePreference: React.FC<TLanguagePreferenceProps> = ({
 
       {/* Selected Languages */}
       <div className="flex flex-wrap gap-2">
-        {selectedLanguages?.length > 0 ? (
-          selectedLanguages?.map((lang) => (
+        {selectedLanguages.length > 0 ? (
+          selectedLanguages.map((lang) => (
             <Chip
               key={lang}
               onClick={() => handleRemoveLanguage(lang)}
@@ -77,7 +97,7 @@ const LanguagePreference: React.FC<TLanguagePreferenceProps> = ({
 
       {/* All Languages */}
       <div className="flex flex-wrap gap-2 max-h-[300px] overflow-y-auto">
-        {filteredLanguages?.map((lang) => (
+        {filteredLanguages.map((lang) => (
           <Chip
             key={lang}
             onClick={() => handleAddLanguage(lang)}
