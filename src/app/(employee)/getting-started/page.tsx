@@ -231,7 +231,7 @@ const GettingStarted = () => {
               />
             )}
             {step === 10 && (
-              <Skills onChange={(skills) => setValue("skills", skills)} />
+              <Skills selectedSkills={selectedSkills} setSelectedSkills={setSelectedSkills} />
             )}
             {step === 11 && (
               <SocialLink

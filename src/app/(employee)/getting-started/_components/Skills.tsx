@@ -1,30 +1,31 @@
 "use client";
 import { useState, KeyboardEvent } from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
 import TextInput from "@/components/Reusable/TextInput/TextInput";
 import Chip from "@/components/Chip";
 
 type TSkillsProps = {
-  register: UseFormRegister<any>;
-  errors: FieldErrors;
+  selectedSkills: string;
+  setSelectedSkills: (skill: string) => void;
 };
 
-const Skills: React.FC<TSkillsProps> = ({ register, errors }) => {
+const Skills: React.FC<TSkillsProps> = ({
+  selectedSkills,
+  setSelectedSkills,
+}) => {
   const [inputValue, setInputValue] = useState("");
-  const [skills, setSkills] = useState<string[]>([]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue.trim()) {
       e.preventDefault();
-      if (!skills.includes(inputValue.trim())) {
-        setSkills((prev) => [...prev, inputValue.trim()]);
+      if (!selectedSkills.includes(inputValue.trim())) {
+        setSelectedSkills((prev) => [...prev, inputValue.trim()]);
       }
       setInputValue("");
     }
   };
 
   const handleRemoveSkill = (skill: string) => {
-    setSkills((prev) => prev.filter((s) => s !== skill));
+    setSelectedSkills((prev) => prev.filter((s) => s !== skill));
   };
 
   return (
@@ -38,7 +39,6 @@ const Skills: React.FC<TSkillsProps> = ({ register, errors }) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          error={errors.fullName}
           isRequired={false}
         />
         <p className="text-neutral-700 font-500 text-[15px] mt-[6px]">
@@ -46,9 +46,9 @@ const Skills: React.FC<TSkillsProps> = ({ register, errors }) => {
         </p>
 
         {/* Show skills */}
-        {skills.length > 0 && (
+        {selectedSkills.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
-            {skills.map((skill) => (
+            {selectedSkills.map((skill: string) => (
               <Chip
                 key={skill}
                 onClick={() => handleRemoveSkill(skill)}
