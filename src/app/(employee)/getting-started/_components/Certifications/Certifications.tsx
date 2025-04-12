@@ -4,14 +4,13 @@ import Image from "next/image";
 import { useState } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import CertificationModal from "./CertificationModal";
+import { TCertificateDetails } from "../../page";
 
 type TCertificationsProps = {
-  register: UseFormRegister<any>;
-  errors: FieldErrors;
+  onChange: (project: TCertificateDetails[]) => void;
 };
 const Certifications:React.FC<TCertificationsProps> = ({
-    register,
-  errors,
+  onChange
 }) => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     return (

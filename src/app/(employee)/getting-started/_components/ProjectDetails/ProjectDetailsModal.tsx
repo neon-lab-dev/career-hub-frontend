@@ -66,7 +66,6 @@ const ProjectDetailsModal: React.FC<TProjectDetailsModalProps> = ({
             placeholder="eg.,  Online Gaming App"
             value={formValues.title}
             onChange={(e) => handleChange("title", e.target.value)}
-            isRequired={false}
           />
           <TextArea
             label="Project Description"
@@ -107,7 +106,12 @@ const ProjectDetailsModal: React.FC<TProjectDetailsModalProps> = ({
             Cancel
           </Button>
 
-          <Button onClick={handleAdd} type="button" variant="normal" className="px-6 py-3">
+          <Button
+            onClick={handleAdd}
+            type="button"
+            variant="normal"
+            className="px-6 py-3"
+          >
             Add
           </Button>
         </div>

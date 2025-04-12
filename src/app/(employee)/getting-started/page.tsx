@@ -56,12 +56,23 @@ export type TProjectDetails = {
   link: string;
 };
 
-type TCertificateDetails = {
+export type TCertificateDetails = {
   name: string;
   issuingOrganization: string;
   issueDate: Date;
   credentialID: string;
   credentialURL: string;
+};
+
+export type TWorkExperience = {
+  designation: string;
+  companyName: string;
+  workType: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  companyLocation: string;
+  projectLinks: string[];
 };
 
 type TSocialLinks = {
@@ -88,7 +99,7 @@ type TFormValues = {
   address: TAddress;
   education: TEducationDetails[];
   projects: TProjectDetails[];
-  workExperience: TProjectDetails[];
+  workExperience: TWorkExperience[];
   certifications: TCertificateDetails[];
   socialLinks: TSocialLinks;
   skills: string[];
@@ -213,16 +224,10 @@ const GettingStarted = () => {
             {step === 5 && <Address register={register} errors={errors} />}
             {step === 6 && <Education onChange={setSelectedEducation} />}
             {step === 7 && <ProjectDetails onChange={setSelectedProject} />}
-            {step === 8 && (
-              <WorkExperience
-                onChange={(experience) =>
-                  setValue("workExperience", experience)
-                }
-              />
-            )}
+            {step === 8 && <WorkExperience onChange={setSelectedExperience}/> }
             {step === 9 && (
               <Certifications
-                onChange={(certs) => setValue("certifications", certs)}
+                onChange={setSelectedCertificate}
               />
             )}
             {step === 10 && (

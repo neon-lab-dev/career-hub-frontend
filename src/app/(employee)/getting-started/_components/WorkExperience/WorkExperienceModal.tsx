@@ -4,24 +4,47 @@ import DropdownInput from "@/components/Reusable/DopdownInput/DropdownInput";
 import Modal from "@/components/Reusable/Modal/Modal";
 import TextArea from "@/components/Reusable/TextArea/TextArea";
 import TextInput from "@/components/Reusable/TextInput/TextInput";
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, useEffect } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { TWorkExperience } from "../../page";
 
 type TWorkExperienceModalProps = {
   isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  register: UseFormRegister<any>;
-  errors: FieldErrors;
+    setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    onSubmit: (data: TWorkExperience) => void;
+    defaultValues?: TWorkExperience;
 };
 const WorkExperienceModal: React.FC<TWorkExperienceModalProps> = ({
   isModalOpen,
   setIsModalOpen,
-  register,
-  errors,
+  onSubmit,
+  defaultValues,
 }) => {
   const workTypes = ["Full Time", "Part Time", "Internship"];
   const [inputValue, setInputValue] = useState("");
   const [projectLinks, setProjectLinks] = useState<string[]>([]);
+
+  const [formValues, setFormValues] = useState<TWorkExperience>({
+    designation: "",
+    companyName: "",
+    workType: "",
+    startDate: "",
+    endDate: "",
+    description: "",
+    companyLocation: "",
+    projectLinks: [],
+  });
+
+  useEffect(() => {
+    setFormValues((prev) => ({ ...prev, projectLinks }));
+  }, [projectLinks]);
+
+  useEffect(() => {
+    if (defaultValues) {
+      setFormValues(defaultValues);
+      setProjectLinks(defaultValues.projectLinks || []);
+    }
+  }, [defaultValues]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && inputValue.trim()) {
@@ -36,68 +59,99 @@ const WorkExperienceModal: React.FC<TWorkExperienceModalProps> = ({
   const handleRemoveLink = (link: string) => {
     setProjectLinks((prev) => prev.filter((l) => l !== link));
   };
+
+  const handleChange = (field: keyof TWorkExperience, value: string) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleAdd = () => {
+    const finalData = { ...formValues, projectLinks };
+    onSubmit(finalData);
+
+    // Reseting after submission
+    setFormValues({
+      designation: "",
+      companyName: "",
+      workType: "",
+      startDate: "",
+      endDate: "",
+      description: "",
+      companyLocation: "",
+      projectLinks: [],
+    });
+    setProjectLinks([]);
+    setInputValue("");
+    setIsModalOpen(false);
+  };
   return (
     <Modal
       heading="Add Your Work Experience"
       isModalOpen={isModalOpen}
       setIsModalOpen={setIsModalOpen}
     >
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleAdd();
+        }}
+        noValidate
+      >
       <div className="flex flex-col gap-5 mt-5">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <TextInput
+            label="Designation"
+            placeholder="eg.,  MITRA Consultancy"
+            value={formValues.designation}
+            onChange={(e) => handleChange("designation", e.target.value)}
+          />
+          <TextInput
             label="Company Name"
             placeholder="eg.,  MITRA Consultancy"
-            error={errors.fullName}
-            {...register("fullName")}
-            isRequired={false}
+            value={formValues.companyName}
+            onChange={(e) => handleChange("companyName", e.target.value)}
           />
           <DropdownInput
             label="Work Type"
-            {...register("occupation")}
-            error={errors.occupation}
             options={workTypes}
             isRequired={false}
+            value={formValues.workType}
+            onChange={(e) => handleChange("workType", e.target.value)}
           />
           <TextInput
             label="From"
             type="date"
-            error={errors.fullName}
-            {...register("fullName")}
+            value={formValues.startDate}
+            onChange={(e) => handleChange("startDate", e.target.value)}
             isRequired={false}
           />
           <TextInput
             label="To"
             type="date"
-            error={errors.fullName}
-            {...register("fullName")}
-            isRequired={false}
+            value={formValues.endDate}
+            onChange={(e) => handleChange("endDate", e.target.value)}
           />
         </div>
         <TextInput
           label="Company Location"
           placeholder="ex: New York, America"
-          error={errors.fullName}
-          {...register("fullName")}
-          isRequired={false}
+          value={formValues.companyLocation}
+          onChange={(e) => handleChange("companyLocation", e.target.value)}
         />
         <TextArea
           label="Work Description"
           placeholder="What was the project assigned? What was your contribution to the project? What are the some important features of the project."
           cols={2}
           rows={4}
-          error={errors.fullName}
-          {...register("fullName")}
-          isRequired={false}
+          value={formValues.description}
+          onChange={(e) => handleChange("description", e.target.value)}
         />
         <div>
           <TextInput
-            name="Project Links"
             label="Project Links"
             placeholder="Add link here"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            error={errors.fullName}
             isRequired={false}
           />
           <p className="text-neutral-700 font-500 text-[15px] mt-[6px]">
@@ -121,13 +175,14 @@ const WorkExperienceModal: React.FC<TWorkExperienceModalProps> = ({
         )}
       </div>
       <div className="flex items-center gap-3 mt-6">
-        <Button variant="natural" className="px-6 py-3">
+        <Button onClick={() => setIsModalOpen(false)} variant="natural" className="px-6 py-3">
           Cancel
         </Button>
-        <Button type="submit" variant="normal" className="px-6 py-3">
+        <Button onClick={handleAdd} type="button" variant="normal" className="px-6 py-3">
           Add
         </Button>
       </div>
+      </form>
     </Modal>
   );
 };

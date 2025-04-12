@@ -39,7 +39,7 @@ const ProjectDetails: React.FC<TProjectDetailsProps> = ({ onChange }) => {
     <div className="flex flex-col gap-5 mt-12 font-plus-jakarta-sans">
       <h1 className="registration-form-heading mb-4">Project Details</h1>
       {/* Project details card */}
-      <div>
+      <div className="flex flex-col gap-5">
         {projectList?.length > 0 ? (
           projectList?.map((project, index: number) => (
             <div
@@ -61,6 +61,7 @@ const ProjectDetails: React.FC<TProjectDetailsProps> = ({ onChange }) => {
                     src={IMAGES.bin}
                     alt="trash-bin-icon"
                     className="size-5 cursor-pointer"
+                    onClick={() => handleDelete(index)}
                   />
                 </div>
               </div>
