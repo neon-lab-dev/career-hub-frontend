@@ -16,6 +16,7 @@ import WorkExperience from "./_components/WorkExperience/WorkExperience";
 import Certifications from "./_components/Certifications/Certifications";
 import Skills from "./_components/Skills";
 import ResumeUpload from "./_components/ResumeUpload/ResumeUpload";
+import SuccessTab from "./_components/SuccessTab";
 
 type TFormData = {
   fullName: string;
@@ -33,7 +34,7 @@ const GettingStarted = () => {
     formState: { errors },
   } = useForm<TFormData>();
 
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(12);
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedInterest, setSelectedInterest] = useState<string[]>([]);
   const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] =
@@ -109,8 +110,11 @@ const GettingStarted = () => {
             {step == 9 && <Certifications register={register} errors={errors} />}
             {step == 10 && <Skills register={register} errors={errors} />}
             {step == 11 && <ResumeUpload register={register} errors={errors} />}
+            {step == 12 && <SuccessTab/>}
 
-            <div className="flex items-center gap-3 justify-end mt-5">
+            {
+              step !== 12 &&
+              <div className="flex items-center gap-3 justify-end mt-5">
               <Button variant="natural" className="px-6 py-[14px]">
                 Skip
               </Button>
@@ -118,6 +122,7 @@ const GettingStarted = () => {
                 {step === TOTAL_STEPS ? "Submit" : "Continue"}
               </Button>
             </div>
+            }
           </form>
         </div>
       </div>

@@ -16,7 +16,7 @@ import leftArrow from "@/assets/icons/arrow_back.svg";
 import pen from "@/assets/icons/Pen.svg";
 import bin from "@/assets/icons/Trash Bin Trash.svg";
 import circle from "@/assets/icons/Add Circle.svg";
-import sucess from "@/assets/icons/image 9.svg";
+import success from "@/assets/icons/image 9.svg";
 import papperclip from "@/assets/icons/Paperclip.svg";
 import hamburger from "@/assets/images/Hamburger Menu.svg";
 import close from "@/assets/icons/Close Circle.svg";
@@ -81,7 +81,7 @@ export const IMAGES = {
   pen,
   bin,
   circle,
-  sucess,
+  success,
   papperclip,
   hamburger,
   close,
