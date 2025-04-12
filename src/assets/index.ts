@@ -54,6 +54,22 @@ import addCircleWhite from "@/assets/icons/add-circle-white.svg";
 import radioButtonChecked from "@/assets/icons/radio_button_checked.svg";
 import radioButtonUnchecked from "@/assets/icons/radio_button_unchecked.svg";
 
+
+import behance from "@/assets/icons/social media/behance.svg";
+import discord from "@/assets/icons/social media/discord.svg";
+import dribble from "@/assets/icons/social media/dribble.svg";
+import github from "@/assets/icons/social media/github.svg";
+import linkedin from "@/assets/icons/social media/linkedin.svg";
+import medium from "@/assets/icons/social media/medium.svg";
+import pinterest from "@/assets/icons/social media/pinterest.svg";
+import reddit from "@/assets/icons/social media/reddit.svg";
+import stackoverflow from "@/assets/icons/social media/stackoverflow.svg";
+import telegram from "@/assets/icons/social media/telegram.svg";
+import tiktok from "@/assets/icons/social media/tiktok.svg";
+import twitter from "@/assets/icons/social media/twitter.svg";
+import youtube from "@/assets/icons/social media/youtube.svg";
+
+
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
 import penEdit from "@/assets/images/Vector.svg";
@@ -120,8 +136,6 @@ export const ICONS = {
   penResume,
   penEdit,
   play,
-  facebook,
-  instagram,
   jobs,
   internship,
   addCircle,
@@ -143,4 +157,21 @@ export const ICONS = {
   addCircleGray,
   radioButtonChecked,
   radioButtonUnchecked,
+
+  // Social Icons
+  facebook,
+  instagram,
+  behance,
+  discord,
+  dribble,
+  github,
+  linkedin,
+  medium,
+  pinterest,
+  reddit,
+  stackoverflow,
+  telegram,
+  tiktok,
+  twitter,
+  youtube,
 };

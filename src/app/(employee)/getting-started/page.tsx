@@ -17,6 +17,7 @@ import Certifications from "./_components/Certifications/Certifications";
 import Skills from "./_components/Skills";
 import ResumeUpload from "./_components/ResumeUpload/ResumeUpload";
 import SuccessTab from "./_components/SuccessTab";
+import SocialLink from "./_components/SocialLink";
 
 type TFormData = {
   fullName: string;
@@ -25,7 +26,7 @@ type TFormData = {
   message: string;
 };
 
-const TOTAL_STEPS = 12;
+const TOTAL_STEPS = 13;
 
 const GettingStarted = () => {
   const {
@@ -109,11 +110,12 @@ const GettingStarted = () => {
             {step == 8 && <WorkExperience register={register} errors={errors} />}
             {step == 9 && <Certifications register={register} errors={errors} />}
             {step == 10 && <Skills register={register} errors={errors} />}
-            {step == 11 && <ResumeUpload register={register} errors={errors} />}
-            {step == 12 && <SuccessTab/>}
+            {step == 11 && <SocialLink register={register} errors={errors} />}
+            {step == 12 && <ResumeUpload register={register} errors={errors} />}
+            {step == 13 && <SuccessTab/>}
 
             {
-              step !== 12 &&
+              step !== 13 &&
               <div className="flex items-center gap-3 justify-end mt-5">
               <Button variant="natural" className="px-6 py-[14px]">
                 Skip
