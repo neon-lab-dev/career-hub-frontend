@@ -4,7 +4,7 @@ import { ICONS } from "@/assets";
 import Button from "@/components/Button";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PersonalInfoForm from "./_components/PersonalInfoForm";
 import LanguagePreference from "./_components/LanguagePreference";
 import AreaOfInterests from "./_components/AreaOfInterests";
@@ -127,19 +127,21 @@ const GettingStarted = () => {
   const [selectedEducation, setSelectedEducation] = useState<
     TEducationDetails[]
   >([]);
-  console.log(selectedEducation);
   const [selectedProject, setSelectedProject] = useState<TProjectDetails[]>([]);
   const [selectedExperience, setSelectedExperience] = useState<
-    TProjectDetails[]
+  TProjectDetails[]
   >([]);
   const [selectedCertificate, setSelectedCertificate] = useState<
-    TCertificateDetails[]
+  TCertificateDetails[]
   >([]);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedSocialLinks, setSelectedSocialLinks] = useState<
-    TSocialLinks[]
+  TSocialLinks[]
   >([]);
   const [selectedResume, setSelectedResume] = useState<File | null>(null);
+  useEffect(() => {
+    console.log("Updated resume in parent:", selectedResume);
+  }, [selectedResume]);
 
   const handleCompleteRegistration = (data: TFormValues) => {
     const formData = {
@@ -235,11 +237,11 @@ const GettingStarted = () => {
             )}
             {step === 11 && (
               <SocialLink
-                onChange={(links) => setValue("socialLinks", links)}
+              setSelectedSocialLinks={setSelectedSocialLinks}
               />
             )}
             {step === 12 && (
-              <ResumeUpload onChange={(file) => setValue("resume", file)} />
+              <ResumeUpload selectedResume={selectedResume} setSelectedResume={setSelectedResume} />
             )}
             {step === 13 && <SuccessTab />}
 

@@ -1,15 +1,12 @@
-import { ICONS, IMAGES } from "@/assets";
+import { IMAGES } from "@/assets";
 import Image from "next/image";
-import { useState } from "react";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 type TResumeUploadProps = {
-  register: UseFormRegister<any>;
-  errors: FieldErrors;
+  selectedResume :  File | null;
+  setSelectedResume : (resume : File | null) => void;
 };
 
-const ResumeUpload: React.FC<TResumeUploadProps> = ({ register, errors }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+const ResumeUpload: React.FC<TResumeUploadProps> = ({ selectedResume, setSelectedResume }) => {
 
   const handleFileClick = () => {
     const fileInput = document.getElementById(
@@ -22,10 +19,12 @@ const ResumeUpload: React.FC<TResumeUploadProps> = ({ register, errors }) => {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    console.log(file)
     if (file) {
-      setSelectedFile(file);
+      setSelectedResume(file);
     }
   };
+
 
   return (
     <div className="flex flex-col gap-5 mt-12 font-plus-jakarta-sans">
@@ -39,7 +38,7 @@ const ResumeUpload: React.FC<TResumeUploadProps> = ({ register, errors }) => {
           onChange={handleFileChange}
         />
         <button
-          type="button"
+        type="button"
           className="border border-dashed border-gray-400 rounded-lg w-full h-48 flex flex-col justify-center items-center"
           onClick={handleFileClick}
         >
@@ -48,8 +47,8 @@ const ResumeUpload: React.FC<TResumeUploadProps> = ({ register, errors }) => {
               <Image src={IMAGES.papperclip} alt="resume" />
             </div>
             <span className="text-gray-400 p-4">Click here to upload</span>
-            {selectedFile && (
-              <span className="mt-2 text-blue-500">{selectedFile.name}</span>
+            {selectedResume && (
+              <span className="mt-2 text-blue-500">{selectedResume?.name}</span>
             )}
           </div>
         </button>

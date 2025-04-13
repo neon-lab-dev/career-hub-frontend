@@ -48,7 +48,7 @@ const Skills: React.FC<TSkillsProps> = ({
         {/* Show skills */}
         {selectedSkills.length > 0 && (
           <div className="flex flex-wrap gap-2 mt-4">
-            {selectedSkills.map((skill: string) => (
+            {selectedSkills?.map((skill: string) => (
               <Chip
                 key={skill}
                 onClick={() => handleRemoveSkill(skill)}

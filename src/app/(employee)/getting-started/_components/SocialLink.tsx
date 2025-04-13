@@ -1,16 +1,32 @@
 "use client";
 import { ICONS } from "@/assets";
-import TextInput from "@/components/Reusable/TextInput/TextInput";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-type TSocialLinkProps = {
-  register: UseFormRegister<any>;
-  errors: FieldErrors;
+type TSocialLinks = {
+  linkedin?: string;
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+  github?: string;
+  youtube?: string;
+  dribbble?: string;
+  behance?: string;
+  medium?: string;
+  stackoverflow?: string;
+  reddit?: string;
+  tiktok?: string;
+  snapchat?: string;
+  pinterest?: string;
+  telegram?: string;
+  discord?: string;
 };
 
-const SocialLink: React.FC<TSocialLinkProps> = ({ register, errors }) => {
+type TSocialLinkProps = {
+  setSelectedSocialLinks: (links: TSocialLinks) => void;
+};
+
+const SocialLink: React.FC<TSocialLinkProps> = ({ setSelectedSocialLinks }) => {
   const [open, setOpen] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState<{
     icon: string;
@@ -44,16 +60,35 @@ const SocialLink: React.FC<TSocialLinkProps> = ({ register, errors }) => {
   const handleAddSocialLink = () => {
     if (!selectedPlatform || !link) return;
 
-    setSocialLinks((prev) => [
-      ...prev,
+    // Prevent duplicate platforms
+    if (
+      socialLinks.find(
+        (item) =>
+          item.platform.toLowerCase() === selectedPlatform.platform.toLowerCase()
+      )
+    )
+      return;
+
+    const updatedLinks = [
+      ...socialLinks,
       {
         platform: selectedPlatform.platform,
         icon: selectedPlatform.icon,
         link,
       },
-    ]);
+    ];
 
-    // Reset states
+    setSocialLinks(updatedLinks);
+
+    // Transform to backend-friendly object
+    const backendLinks: TSocialLinks = {};
+    updatedLinks.forEach((item) => {
+      backendLinks[item.platform.toLowerCase() as keyof TSocialLinks] = item.link;
+    });
+
+    setSelectedSocialLinks(backendLinks);
+
+    // Reset
     setSelectedPlatform(null);
     setLink("");
   };
@@ -65,7 +100,7 @@ const SocialLink: React.FC<TSocialLinkProps> = ({ register, errors }) => {
     { icon: ICONS.twitter, platform: "Twitter" },
     { icon: ICONS.github, platform: "Github" },
     { icon: ICONS.youtube, platform: "YouTube" },
-    { icon: ICONS.dribble, platform: "Dribble" },
+    { icon: ICONS.dribble, platform: "Dribbble" },
     { icon: ICONS.behance, platform: "Behance" },
     { icon: ICONS.medium, platform: "Medium" },
     { icon: ICONS.stackoverflow, platform: "StackOverflow" },
@@ -129,9 +164,7 @@ const SocialLink: React.FC<TSocialLinkProps> = ({ register, errors }) => {
             value={link}
             onChange={(e) => setLink(e.target.value)}
             placeholder="e.g., https://linkedin.com/in/username"
-            className={`p-4 mt-2 rounded-xl bg-white border w-full focus:outline-none focus:border-primary-500 transition duration-300 ${
-              errors?.socialLink ? "border-red-500" : "border-neutral-300"
-            }`}
+            className={`p-4 mt-2 rounded-xl bg-white border w-full focus:outline-none focus:border-primary-500 transition duration-300 border-neutral-300`}
           />
         </div>
 
@@ -150,18 +183,19 @@ const SocialLink: React.FC<TSocialLinkProps> = ({ register, errors }) => {
         {socialLinks.map((item, index) => (
           <div
             key={index}
-            className="flex items-center justify-between p-3 border border-neutral-200 rounded-lg bg-neutral-50">
+            className="flex items-center justify-between p-3 border border-neutral-200 rounded-lg bg-neutral-50"
+          >
             <div className="flex items-center gap-2">
-              <Image src={item.icon} alt={item.platform} className="size-6" />
-              <span className="font-medium w-[120px]">{item.platform}:</span>
+              <Image src={item?.icon} alt={item?.platform} className="size-6" />
+              <span className="font-medium w-[120px]">{item?.platform}:</span>
             </div>
             <a
-              href={item.link}
+              href={item?.link}
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary-500 hover:underline break-all"
             >
-              {item.link}
+              {item?.link}
             </a>
           </div>
         ))}
