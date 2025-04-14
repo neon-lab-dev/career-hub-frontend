@@ -5,7 +5,7 @@ import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 type TDropdownInputProps = {
   label: string;
   options: string[];
-  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  error?: FieldError | string | undefined | Merge<FieldError, FieldErrorsImpl<any>>;
   isRequired?: boolean;
   selected?: boolean;
 }
@@ -36,7 +36,9 @@ const DropdownInput:React.FC<TDropdownInputProps> = ({ label, options, error, is
             </option>
           ))}
         </select>
-        {error && typeof error.message === 'string' && <p className="text-xs text-red-500 mt-1">{error.message}</p>}
+        {error && typeof error !== 'string' && 'message' in error && typeof error.message === 'string' && (
+          <p className="text-xs text-red-500 mt-1">{error.message}</p>
+        )}
       </div>
   );
 };

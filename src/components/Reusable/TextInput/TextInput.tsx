@@ -7,7 +7,7 @@ interface TextInputProps {
   name?: string;
   placeholder?: string;
   type?: string;
-  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
+  error?: FieldError | string | undefined | Merge<FieldError, FieldErrorsImpl<any>>;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
@@ -41,8 +41,11 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             }`}
           {...rest}
         />
-        {error?.message && (
+        {typeof error === "object" && "message" in error && (
           <span className="text-red-500 text-sm">{String(error.message)}</span>
+        )}
+        {typeof error === "string" && (
+          <span className="text-red-500 text-sm">{error}</span>
         )}
       </div>
     );

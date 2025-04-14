@@ -3,10 +3,20 @@
 import TextInput from "@/components/Reusable/TextInput/TextInput";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
+type AddressErrors = {
+  address?: {
+    street?: string;
+    city?: string;
+    postalCode?: string;
+    state?: string;
+    country?: string;
+  };
+};
+
 type TCurrentlyLookingForFormProps = {
-    register: UseFormRegister<any>;
-    errors: FieldErrors;
-  }
+  register: UseFormRegister<any>;
+  errors: FieldErrors & AddressErrors;
+};
 const Address:React.FC<TCurrentlyLookingForFormProps> = ({ register, errors }) => {
   return (
     <div className="flex flex-col gap-5 mt-12 font-plus-jakarta-sans">
@@ -16,23 +26,23 @@ const Address:React.FC<TCurrentlyLookingForFormProps> = ({ register, errors }) =
       <TextInput
         label="Street Address"
         placeholder="ex: new york, USA"
-        error={errors.street}
-        {...register("street")}
+        error={errors.address?.street}
+        {...register("address.street", {required : "Street address is required"})}
         isRequired={false}
       />
       <div className="flex items-center gap-5">
         <TextInput
           label="City"
           placeholder="ex: new york"
-          error={errors.city}
-          {...register("city")}
+          error={errors.address?.city}
+          {...register("address.city", {required : "City is required"})}
           isRequired={false}
         />
         <TextInput
           label="Post/ZIP Code"
           placeholder="ex: 35012"
-          error={errors.postalCode}
-          {...register("postalCode")}
+          error={errors.address?.postalCode}
+          {...register("address.postalCode", {required : "Post code is required"})}
           isRequired={false}
         />
       </div>
@@ -40,15 +50,15 @@ const Address:React.FC<TCurrentlyLookingForFormProps> = ({ register, errors }) =
         <TextInput
           label="State"
           placeholder="ex: new york"
-          error={errors.state}
-          {...register("state")}
+          error={errors.address?.state}
+          {...register("address.state" , {required : "State is required"})}
           isRequired={false}
         />
         <TextInput
           label="Country"
           placeholder="ex: America"
-          error={errors.country}
-          {...register("country")}
+          error={errors.address?.country}
+          {...register("address.country", {required : "Country is required"})}
           isRequired={false}
         />
       </div>
