@@ -9,6 +9,7 @@ type TCurrentlyLookingForProps = {
 };
 
 const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({ onChange }) => {
+  // Interests
   const interests = [
     "Shadow Internship",
     "Practice Internship",

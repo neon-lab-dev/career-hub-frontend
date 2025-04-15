@@ -1,11 +1,11 @@
 "use client";
-import { useState, KeyboardEvent } from "react";
+import { useState, KeyboardEvent, Dispatch, SetStateAction } from "react";
 import TextInput from "@/components/Reusable/TextInput/TextInput";
 import Chip from "@/components/Chip";
 
 type TSkillsProps = {
-  selectedSkills: string;
-  setSelectedSkills: (skill: string) => void;
+  selectedSkills: string[];
+  setSelectedSkills: Dispatch<SetStateAction<string[]>>;
 };
 
 const Skills: React.FC<TSkillsProps> = ({

@@ -2,12 +2,12 @@
 "use client";
 import DropdownInput from "@/components/Reusable/DopdownInput/DropdownInput";
 import TextInput from "@/components/Reusable/TextInput/TextInput";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
 
 type TGuardianErrors = {
-  guardianName?: string;
-  phoneNumber?: string;
-  occupation?: string;
+  guardianName?: FieldError;
+  phoneNumber?: FieldError;
+  occupation?: FieldError;
 };
 
 type TPersonalInfoFormProps = {

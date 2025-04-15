@@ -19,6 +19,8 @@ import ResumeUpload from "./_components/ResumeUpload/ResumeUpload";
 import SuccessTab from "./_components/SuccessTab";
 import SocialLink from "./_components/SocialLink";
 import { toast } from "sonner";
+import { useUpdateUserDetails } from "@/api/updateUserDetails";
+import { Oval } from "react-loader-spinner";
 
 // Types
 
@@ -67,7 +69,7 @@ export type TWorkExperience = {
   projectLinks: string[];
 };
 
-type TSocialLinks = {
+export type TSocialLinks = {
   linkedin?: string;
   facebook?: string;
   instagram?: string;
@@ -120,6 +122,7 @@ const GettingStarted = () => {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<TFormValues>({
     defaultValues: {
@@ -140,9 +143,13 @@ const GettingStarted = () => {
     },
   });
 
-  const { mutate: updateUserDetails } = useUpdateUserDetails();
+  const { mutateAsync: updateUserDetails } = useUpdateUserDetails();
 
   const [step, setStep] = useState<number>(1);
+  const [skippedSteps, setSkippedSteps] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedInterest, setSelectedInterest] = useState<string[]>([]);
   const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] =
@@ -152,7 +159,7 @@ const GettingStarted = () => {
   >([]);
   const [selectedProject, setSelectedProject] = useState<TProjectDetails[]>([]);
   const [selectedExperience, setSelectedExperience] = useState<
-    TProjectDetails[]
+  TWorkExperience[]
   >([]);
   const [selectedCertificate, setSelectedCertificate] = useState<
     TCertificateDetails[]
@@ -162,133 +169,87 @@ const GettingStarted = () => {
     TSocialLinks[]
   >([]);
   const [selectedResume, setSelectedResume] = useState<File | null>(null);
+
+  const progress = Math.round((step / TOTAL_STEPS) * 100);
+
   useEffect(() => {
     console.log("Updated resume:", selectedResume);
   }, [selectedResume]);
 
-  const [skippedSteps, setSkippedSteps] = useState<number[]>([]);
+  const handleCompleteRegistration = async (data: TFormValues) => {
+    const validateStep = () => {
+      switch (step) {
+        case 2:
+          if (!skippedSteps.includes(2) && selectedLanguages.length < 1) {
+            toast.error("Please add your preferred language");
+            return false;
+          }
+          break;
+        case 3:
+          if (!skippedSteps.includes(3) && selectedInterest.length < 1) {
+            toast.error("Please add your interest");
+            return false;
+          }
+          break;
+        case 4:
+          if (
+            !skippedSteps.includes(4) &&
+            selectedCurrentlyLookingFor.length < 1
+          ) {
+            toast.error("Please add your current goals");
+            return false;
+          }
+          break;
+        case 6:
+          if (!skippedSteps.includes(6) && selectedEducation.length < 1) {
+            toast.error("Please add your educational details");
+            return false;
+          }
+          break;
+        case 7:
+          if (!skippedSteps.includes(7) && selectedProject.length < 1) {
+            toast.error("Please add your project details");
+            return false;
+          }
+          break;
+        case 8:
+          if (!skippedSteps.includes(8) && selectedExperience.length < 1) {
+            toast.error("Please add your working experience if you have any");
+            return false;
+          }
+          break;
+        case 9:
+          if (!skippedSteps.includes(9) && selectedCertificate.length < 1) {
+            toast.error("Please add your certificates");
+            return false;
+          }
+          break;
+        case 10:
+          if (!skippedSteps.includes(10) && selectedSkills.length < 1) {
+            toast.error("Please add your skills");
+            return false;
+          }
+          break;
+        case 11:
+          if (!skippedSteps.includes(11) && selectedSocialLinks.length < 1) {
+            toast.error("Please add your social links");
+            return false;
+          }
+          break;
+        case 12:
+          if (!skippedSteps.includes(12) && !selectedResume) {
+            toast.error("Please upload your resume");
+            return false;
+          }
+          break;
+      }
+      return true;
+    };
 
-  const handleCompleteRegistration = (data: TFormValues) => {
-    if (
-      step === 2 &&
-      !skippedSteps.includes(2) &&
-      selectedLanguages.length < 1
-    ) {
-      toast.error("Please add your preferred language");
-      return;
-    }
-    if (
-      step === 3 &&
-      !skippedSteps.includes(3) &&
-      selectedInterest.length < 1
-    ) {
-      toast.error("Please add your interest");
-      return;
-    }
-    if (
-      step === 4 &&
-      !skippedSteps.includes(4) &&
-      selectedCurrentlyLookingFor.length < 1
-    ) {
-      toast.error("Please add your current goals");
-      return;
-    }
-    if (
-      step === 6 &&
-      !skippedSteps.includes(6) &&
-      selectedEducation.length < 1
-    ) {
-      toast.error("Please add your educational details");
-      return;
-    }
-    if (step === 7 && !skippedSteps.includes(7) && selectedProject.length < 1) {
-      toast.error("Please add your project details");
-      return;
-    }
-    if (
-      step === 8 &&
-      !skippedSteps.includes(8) &&
-      selectedExperience.length < 1
-    ) {
-      toast.error("Please add your working experience if you have any");
-      return;
-    }
-    if (
-      step === 9 &&
-      !skippedSteps.includes(9) &&
-      selectedCertificate.length < 1
-    ) {
-      toast.error("Please add your certificates");
-      return;
-    }
-    if (
-      step === 10 &&
-      !skippedSteps.includes(10) &&
-      selectedSkills.length < 1
-    ) {
-      toast.error("Please add your skills");
-      return;
-    }
-    if (
-      step === 11 &&
-      !skippedSteps.includes(11) &&
-      selectedSocialLinks.length < 1
-    ) {
-      toast.error("Please add your social links");
-      return;
-    }
-    if (step === 12 && !skippedSteps.includes(12) && !selectedResume) {
-      toast.error("Please upload your resume");
-      return;
-    }
-
-    // If current step is not final, just go to the next step
-    if (step < TOTAL_STEPS) {
+    if (step === 13) {
+      if (!validateStep()) return;
       setStep((prev) => prev + 1);
     } else {
-      // Final step: validate everything before submit
-      if (!skippedSteps.includes(2) && selectedLanguages.length < 1) {
-        toast.error("Please add your preferred language");
-        return;
-      }
-      if (!skippedSteps.includes(3) && selectedInterest.length < 1) {
-        toast.error("Please add your interest");
-        return;
-      }
-      if (!skippedSteps.includes(4) && selectedCurrentlyLookingFor.length < 1) {
-        toast.error("Please add your current goals");
-        return;
-      }
-      if (!skippedSteps.includes(6) && selectedEducation.length < 1) {
-        toast.error("Please add your educational details");
-        return;
-      }
-      if (!skippedSteps.includes(7) && selectedProject.length < 1) {
-        toast.error("Please add your project details");
-        return;
-      }
-      if (!skippedSteps.includes(8) && selectedExperience.length < 1) {
-        toast.error("Please add your working experience if you have any");
-        return;
-      }
-      if (!skippedSteps.includes(9) && selectedCertificate.length < 1) {
-        toast.error("Please add your certificates");
-        return;
-      }
-      if (!skippedSteps.includes(10) && selectedSkills.length < 1) {
-        toast.error("Please add your skills");
-        return;
-      }
-      if (!skippedSteps.includes(11) && selectedSocialLinks.length < 1) {
-        toast.error("Please add your social links");
-        return;
-      }
-      if (!skippedSteps.includes(12) && !selectedResume) {
-        toast.error("Please upload your resume");
-        return;
-      }
-
-      // Submit full form
       const formData = {
         full_name: data.full_name,
         dob: data.dob,
@@ -317,14 +278,33 @@ const GettingStarted = () => {
       };
 
       console.log("Final Submit:", formData);
-      // submit to backend
+
+      try {
+        setIsSubmitting(true);
+        await updateUserDetails(formData);
+       if(step !== 12){
+        toast.success("Details Updated! Go to next step.");
+       } else {
+        toast.success("Registration successful!");
+       }
+        setStep(step + 1);
+      } catch (error: any) {
+        console.error("Error updating user details:", error);
+        toast.error(
+          `Error updating user details: ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
-  const progress = Math.round((step / TOTAL_STEPS) * 100);
-
-  const handleSkip = (tab: number) => {
+  const handleSkip = async (tab: number) => {
     setSkippedSteps((prev) => [...prev, tab]);
+
+    // Reset form state
     if (tab === 1) {
       setValue("full_name", "");
       setValue("dob", "");
@@ -363,7 +343,47 @@ const GettingStarted = () => {
       setSelectedResume(null);
     }
 
-    setStep((prev) => prev + 1);
+    // If last step is skipped, submit the form
+    if (tab === 12) {
+      const formData = {
+        full_name: getValues("full_name"),
+        dob: getValues("dob"),
+        guardian: getValues("guardian"),
+        address: getValues("address"),
+        education: selectedEducation,
+        projects: selectedProject,
+        workExperience: selectedExperience,
+        certifications: selectedCertificate,
+        socialLinks: selectedSocialLinks,
+        skills: selectedSkills,
+        languages: selectedLanguages,
+        areasOfInterests: selectedInterest,
+        currentlyLookingFor: selectedCurrentlyLookingFor,
+        resume: null,
+      };
+
+      try {
+        setIsLoading(true);
+        await updateUserDetails(formData);
+       if(step !== 12){
+        toast.success("Details Updated! Go to next step.");
+       } else {
+        toast.success("Registration successful!");
+       }
+        setStep(step + 1);
+      } catch (error: any) {
+        console.error("Error updating user details:", error);
+        toast.error(
+          `Error updating user details: ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setStep((prev) => prev + 1);
+    }
   };
 
   return (
@@ -391,7 +411,7 @@ const GettingStarted = () => {
               </span>
             </div>
           </div>
-
+              
           <form
             onSubmit={handleSubmit(handleCompleteRegistration)}
             className="max-w-[560px] mx-auto"
@@ -434,16 +454,21 @@ const GettingStarted = () => {
                   onClick={() => handleSkip(step)}
                   type="button"
                   variant="natural"
-                  className="px-6 py-[14px]"
+                  className="px-6 py-[14px] flex items-center justify-center"
                 >
-                  Skip
+                  {isLoading ? <Oval height="25" width="25" strokeWidth="5" /> : "Skip"}
                 </Button>
                 <Button
                   type="submit"
                   variant="normal"
                   className="px-6 py-[14px]"
                 >
-                  {step === TOTAL_STEPS ? "Submit" : "Continue"}
+                  {
+                   isSubmitting ? <Oval height="25" width="25" color="white" strokeWidth="5" /> :
+                   step === 12 ?
+                   "Submit" :
+                    "Continue"
+                    }
                 </Button>
               </div>
             )}

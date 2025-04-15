@@ -9,6 +9,7 @@ type TAreaOfInterestsProps = {
 };
 
 const AreaOfInterests: React.FC<TAreaOfInterestsProps> = ({ onChange }) => {
+  // Interests
   const interests = [
     "Marketing",
     "Operations",

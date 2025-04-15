@@ -1,15 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
 "use client";
 import TextInput from "@/components/Reusable/TextInput/TextInput";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, FieldError,  UseFormRegister } from "react-hook-form";
 
 type AddressErrors = {
   address?: {
-    street?: string;
-    city?: string;
-    postalCode?: string;
-    state?: string;
-    country?: string;
+    street?: FieldError;
+    city?: FieldError;
+    postalCode?: FieldError;
+    state?: FieldError;
+    country?: FieldError;
   };
 };
 

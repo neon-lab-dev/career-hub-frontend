@@ -1,29 +1,12 @@
 "use client";
 import { ICONS } from "@/assets";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
+import { TSocialLinks } from "../page";
 
-type TSocialLinks = {
-  linkedin?: string;
-  facebook?: string;
-  instagram?: string;
-  twitter?: string;
-  github?: string;
-  youtube?: string;
-  dribbble?: string;
-  behance?: string;
-  medium?: string;
-  stackoverflow?: string;
-  reddit?: string;
-  tiktok?: string;
-  snapchat?: string;
-  pinterest?: string;
-  telegram?: string;
-  discord?: string;
-};
 
 type TSocialLinkProps = {
-  setSelectedSocialLinks: (links: TSocialLinks) => void;
+  setSelectedSocialLinks: Dispatch<SetStateAction<TSocialLinks[]>>;
 };
 
 const SocialLink: React.FC<TSocialLinkProps> = ({ setSelectedSocialLinks }) => {
@@ -32,6 +15,7 @@ const SocialLink: React.FC<TSocialLinkProps> = ({ setSelectedSocialLinks }) => {
     icon: string;
     platform: string;
   } | null>(null);
+  
   const [link, setLink] = useState("");
   const [socialLinks, setSocialLinks] = useState<
     { platform: string; icon: string; link: string }[]
@@ -86,7 +70,7 @@ const SocialLink: React.FC<TSocialLinkProps> = ({ setSelectedSocialLinks }) => {
       backendLinks[item.platform.toLowerCase() as keyof TSocialLinks] = item.link;
     });
 
-    setSelectedSocialLinks(backendLinks);
+    setSelectedSocialLinks((prev) => [...prev, backendLinks]);
 
     // Reset
     setSelectedPlatform(null);

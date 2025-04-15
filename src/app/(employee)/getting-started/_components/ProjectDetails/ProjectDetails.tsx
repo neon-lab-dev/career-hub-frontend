@@ -13,6 +13,7 @@ const ProjectDetails: React.FC<TProjectDetailsProps> = ({ onChange }) => {
   const [projectList, setProjectList] = useState<TProjectDetails[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
+   // For adding new details
   const handleAddOrUpdate = (data: TProjectDetails) => {
     const updatedList =
       editingIndex !== null
@@ -25,11 +26,13 @@ const ProjectDetails: React.FC<TProjectDetailsProps> = ({ onChange }) => {
     setEditingIndex(null);
   };
 
+  // For editing the added project details
   const handleEdit = (index: number) => {
     setEditingIndex(index);
     setIsModalOpen(true);
   };
 
+  // For deleting the education details
   const handleDelete = (index: number) => {
     const updatedList = projectList.filter((_, i) => i !== index);
     setProjectList(updatedList);

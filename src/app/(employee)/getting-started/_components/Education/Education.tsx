@@ -15,6 +15,7 @@ const Education: React.FC<TEducationProps> = ({ onChange }) => {
   const [educationList, setEducationList] = useState<TEducationDetails[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
+  // For adding new details
   const handleAddOrUpdate = (data: TEducationDetails) => {
     const updatedList =
       editingIndex !== null
@@ -27,11 +28,13 @@ const Education: React.FC<TEducationProps> = ({ onChange }) => {
     setEditingIndex(null);
   };
 
+  // For editing the added education details
   const handleEdit = (index: number) => {
     setEditingIndex(index);
     setIsModalOpen(true);
   };
 
+  // For deleting the education details
   const handleDelete = (index: number) => {
     const updatedList = educationList.filter((_, i) => i !== index);
     setEducationList(updatedList);
