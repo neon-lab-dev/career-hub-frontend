@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CourseCard from "./CourseCard";
 import NoDataFound from "@/components/NoDataFound";
+import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
 
 const AvailableCourses = () => {
   const { isLoading, data } = useQuery({
@@ -15,9 +16,11 @@ const AvailableCourses = () => {
 
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left capitalize">
-        <span className="highlight">Courses</span> for you
-      </h3>
+      <SectionHeading
+        highlightedText="Courses"
+        normalText="For You"
+        align="left"
+      />
       {data?.courses?.length < 1 ? (
         <NoDataFound message="No Course Available" />
       ) : (

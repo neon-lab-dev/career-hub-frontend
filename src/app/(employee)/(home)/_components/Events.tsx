@@ -1,18 +1,17 @@
 import React from 'react';
 import EventCard from './EventCard';
 import NoDataFound from '@/components/NoDataFound';
+import SectionHeading from '@/components/Reusable/SectionHeading/SectionHeading';
 
 const Events = () => {
     const events = [1,2,3,4,5,5]
     return (
         <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left capitalize">
-        <span className="highlight">
-        Events
-          <br className="xl:hidden" />
-        </span>{" "}
-        Happening for you!
-      </h3>
+      <SectionHeading
+        highlightedText="Events"
+        normalText="Happening for you!"
+        align="left"
+      />
       {
         events?.length < 1 ?
         <NoDataFound message="No Events Available" />

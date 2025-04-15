@@ -4,19 +4,18 @@ import Link from "next/link";
 import React from "react";
 import InternshipCard from "./InternshipCard";
 import NoDataFound from "@/components/NoDataFound";
+import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
 
 const LatestInternships = async () => {
   const internships = await getLatestInternships();
   console.log(internships);
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
-        <span className="highlight">
-          Latest internships
-          <br className="xl:hidden" />
-        </span>{" "}
-        For You
-      </h3>
+      <SectionHeading
+        highlightedText="Latest Internships"
+        normalText="For You"
+        align="left"
+      />
       {
         internships?.length < 1 ?
         <NoDataFound message="No Internship Found" /> :

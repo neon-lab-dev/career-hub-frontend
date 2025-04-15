@@ -1,8 +1,5 @@
 "use client";
-
-import { ICONS } from "@/assets";
 import Button from "@/components/Button";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import PersonalInfoForm from "./_components/PersonalInfoForm";
@@ -21,16 +18,7 @@ import SocialLink from "./_components/SocialLink";
 import { toast } from "sonner";
 import { useUpdateUserDetails } from "@/api/updateUserDetails";
 import { Oval } from "react-loader-spinner";
-
-// Types
-
-type TAddress = {
-  street: string;
-  city: string;
-  postalCode: string;
-  state: string;
-  country: string;
-};
+import ProgressBar from "./_components/ProgressBar";
 
 export type TEducationDetails = {
   institutionName: string;
@@ -145,32 +133,24 @@ const GettingStarted = () => {
 
   const { mutateAsync: updateUserDetails } = useUpdateUserDetails();
 
+  // Step counter
   const [step, setStep] = useState<number>(1);
   const [skippedSteps, setSkippedSteps] = useState<number[]>([]);
+  // For Skip button
   const [isLoading, setIsLoading] = useState(false);
+  // For Continue/Submit button
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
   const [selectedInterest, setSelectedInterest] = useState<string[]>([]);
-  const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] =
-    useState<string[]>([]);
-  const [selectedEducation, setSelectedEducation] = useState<
-    TEducationDetails[]
-  >([]);
+  const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] = useState<string[]>([]);
+  const [selectedEducation, setSelectedEducation] = useState<TEducationDetails[]>([]);
   const [selectedProject, setSelectedProject] = useState<TProjectDetails[]>([]);
-  const [selectedExperience, setSelectedExperience] = useState<
-  TWorkExperience[]
-  >([]);
-  const [selectedCertificate, setSelectedCertificate] = useState<
-    TCertificateDetails[]
-  >([]);
+  const [selectedExperience, setSelectedExperience] = useState<TWorkExperience[]>([]);
+  const [selectedCertificate, setSelectedCertificate] = useState<TCertificateDetails[]>([]);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-  const [selectedSocialLinks, setSelectedSocialLinks] = useState<
-    TSocialLinks[]
-  >([]);
+  const [selectedSocialLinks, setSelectedSocialLinks] = useState<TSocialLinks[]>([]);
   const [selectedResume, setSelectedResume] = useState<File | null>(null);
-
-  const progress = Math.round((step / TOTAL_STEPS) * 100);
 
   useEffect(() => {
     console.log("Updated resume:", selectedResume);
@@ -386,68 +366,32 @@ const GettingStarted = () => {
     }
   };
 
+  const progress = Math.round((step / TOTAL_STEPS) * 100);
+
   return (
     <div className="pt-12 bg-neutral-450 min-h-screen h-full font-plus-jakarta-sans">
       <div className="bg-white border border-neutral-100 rounded-3xl p-9 wrapper min-h-screen h-full">
         <div className="max-w-[900px] w-full mx-auto">
-          <div className="flex items-center gap-5">
-            <Image
-              src={ICONS.leftArrow}
-              alt="left arrow icon"
-              className="size-10 cursor-pointer"
-              onClick={() => {
-                if (step > 1) {
-                  setStep(step - 1);
-                }
-              }}
-            />
-            <div className="w-full bg-neutral-50 rounded-full h-[14px] relative">
-              <div
-                className="bg-primary-500 h-[14px] rounded-[100px] transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              ></div>
-              <span className="absolute right-2 -top-8 text-sm font-medium text-primary-500">
-                {progress}%
-              </span>
-            </div>
-          </div>
-              
+          <ProgressBar step={step} setStep={setStep} progress={progress} />
           <form
             onSubmit={handleSubmit(handleCompleteRegistration)}
             className="max-w-[560px] mx-auto"
           >
-            {step === 1 && (
-              <PersonalInfoForm register={register} errors={errors} />
-            )}
-            {step === 2 && (
-              <LanguagePreference onChange={setSelectedLanguages} />
-            )}
+            {step === 1 && <PersonalInfoForm register={register} errors={errors} />}
+            {step === 2 && <LanguagePreference onChange={setSelectedLanguages} />}
             {step === 3 && <AreaOfInterests onChange={setSelectedInterest} />}
-            {step === 4 && (
-              <CurrentlyLookingFor onChange={setSelectedCurrentlyLookingFor} />
-            )}
+            {step === 4 && <CurrentlyLookingFor onChange={setSelectedCurrentlyLookingFor} />}
             {step === 5 && <Address register={register} errors={errors} />}
             {step === 6 && <Education onChange={setSelectedEducation} />}
             {step === 7 && <ProjectDetails onChange={setSelectedProject} />}
             {step === 8 && <WorkExperience onChange={setSelectedExperience} />}
             {step === 9 && <Certifications onChange={setSelectedCertificate} />}
-            {step === 10 && (
-              <Skills
-                selectedSkills={selectedSkills}
-                setSelectedSkills={setSelectedSkills}
-              />
-            )}
-            {step === 11 && (
-              <SocialLink setSelectedSocialLinks={setSelectedSocialLinks} />
-            )}
-            {step === 12 && (
-              <ResumeUpload
-                selectedResume={selectedResume}
-                setSelectedResume={setSelectedResume}
-              />
-            )}
+            {step === 10 && <Skills selectedSkills={selectedSkills} setSelectedSkills={setSelectedSkills}/>}
+            {step === 11 && <SocialLink setSelectedSocialLinks={setSelectedSocialLinks} />}
+            {step === 12 && <ResumeUpload selectedResume={selectedResume} setSelectedResume={setSelectedResume}/>}
             {step === 13 && <SuccessTab />}
 
+            {/* Submit & Skip Button */}
             {step !== 13 && (
               <div className="flex items-center gap-3 justify-end mt-5">
                 <Button

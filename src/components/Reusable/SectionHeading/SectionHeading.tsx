@@ -1,0 +1,53 @@
+"use client";
+import { useTypewriterOnScroll } from "@/hooks/useTypewriterOnScroll";
+import React from "react";
+
+interface SectionHeadingProps {
+  highlightedText: string;
+  normalText?: string;
+  className?: string;
+  align?: "center" | "left" | "right";
+}
+
+const SectionHeading: React.FC<SectionHeadingProps> = ({
+  highlightedText,
+  normalText = "",
+  className = "",
+  align = "center",
+}) => {
+  const { text, ref } = useTypewriterOnScroll(highlightedText);
+
+  const alignmentClass =
+    align === "left"
+      ? "text-left"
+      : align === "right"
+      ? "text-right"
+      : "text-center";
+
+  return (
+    <h3
+      ref={ref}
+      className={`section-heading wrapper max-width m-auto ${alignmentClass} ${className}`}
+    >
+      {align === "right" ? (
+        <>
+          {normalText}{" "}
+          <span className="highlight">
+            {text}
+            <br className="xl:hidden" />
+          </span>
+        </>
+      ) : (
+        <>
+          <span className="highlight">
+            {text}
+            <br className="xl:hidden" />
+          </span>{" "}
+          {normalText}
+        </>
+      )}
+    </h3>
+  );
+};
+
+export default SectionHeading;

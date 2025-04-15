@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import SearchField from "./SearchFieldComponent";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ICONS, IMAGES } from "@/assets";
 import FilterDropdown from "@/components/Reusable/FilterDropdown/FilterDropdown";
 import Button from "@/components/Button";
 import LocationSearch from "./LocationSearch";
 import { useRouter } from "next/navigation";
+import { useInView } from "react-intersection-observer";
 
 const HeroComponent = () => {
   const router = useRouter();
@@ -43,14 +43,40 @@ const HeroComponent = () => {
     router.push(`${path}?${params.toString()}`);
   };
 
+  const [text, setText] = useState("");
+const [hasAnimated, setHasAnimated] = useState(false);
+const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
+
+const fullText = "Health Care";
+
+useEffect(() => {
+  if (inView && !hasAnimated) {
+    let index = 0;
+    let currentText = "";
+
+    const interval = setInterval(() => {
+      if (index < fullText.length) {
+        currentText += fullText[index];
+        setText(currentText);
+        index++;
+      } else {
+        clearInterval(interval);
+        setHasAnimated(true);
+      }
+    }, 100);
+
+    return () => clearInterval(interval); // cleanup just in case
+  }
+}, [inView, hasAnimated]);
+
   return (
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
       <div className="flex flex-col gap-[40px] xl:gap-28 wrapper">
         <div className="flex flex-col sm:items-center gap-5 justify-center sm:text-center ">
           {/* Title */}
-          <h1 className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700  xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl">
+          <h1 ref={ref} className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700  xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl">
             <span>Start your career in</span>{" "}
-            <span className="highlight text-white">Health Care</span> Today{" "}
+            <span className="highlight text-white">{text}</span> Today{" "}
             <br className="hidden xl:block" />
             industry with us…
             <Image
