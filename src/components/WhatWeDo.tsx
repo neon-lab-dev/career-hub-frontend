@@ -1,13 +1,16 @@
 import { IMAGES } from "@/assets";
 import Image from "next/image";
 import React from "react";
+import SectionHeading from "./Reusable/SectionHeading/SectionHeading";
 
 const WhatWeDo = () => {
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14 wrapper max-width">
-      <h3 className="section-heading">
-        What we <span className="highlight">Do?</span>
-      </h3>
+      <SectionHeading
+        highlightedText="Do?"
+        normalText="What we"
+        align="right"
+      />
       <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-center">
         {[
           {
@@ -23,7 +26,7 @@ const WhatWeDo = () => {
           {
             img:IMAGES.org,
             heading: "For Organisation ",
-            desc: "Organisations/employers may post their programs/requirements and get registered aspirants, filtering their details according to the requirements dashboard.",
+            desc: "Organizations/employers may post their programs/requirements and get registered aspirants, filtering their details according to the requirements dashboard.",
           },
         ].map((item, index) => (
           <div key={index} className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-80 font-Poppins">

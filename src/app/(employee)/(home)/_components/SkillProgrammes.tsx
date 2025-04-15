@@ -2,6 +2,7 @@
 import { getAllSkillProgrammes } from "@/api/skillProgrammes";
 import { ISkill } from "@/app/admin/(pages)/skill-programmes/page";
 import NoDataFound from "@/components/NoDataFound";
+import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
@@ -22,9 +23,11 @@ const SkillProgrammes = () => {
 
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
-        <span className="highlight">Skill</span> Programmes⚡
-      </h3>
+      <SectionHeading
+        highlightedText="Skill"
+        normalText="Programmes⚡"
+        align="left"
+      />
       {
         data?.skills?.length < 1 ?
         <NoDataFound message="No Skill Programmes Available" /> :

@@ -14,7 +14,6 @@ const LocationSearch = ({
   const dropDownRef = useRef<HTMLDivElement>(null);
 
   const indianStates = [
-    "Dhaka",
     "Andhra Pradesh",
     "Arunachal Pradesh",
     "Assam",

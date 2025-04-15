@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "outline" | "muted" | "ghost" | "normal" | "natural";
-  onClick? : (e: React.FormEvent) => Promise<void>;
+  onClick? : any;
 };
 
 const classNames = {
