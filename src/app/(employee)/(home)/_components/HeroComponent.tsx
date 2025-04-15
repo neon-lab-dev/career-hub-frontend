@@ -74,7 +74,7 @@ useEffect(() => {
       <div className="flex flex-col gap-[40px] xl:gap-28 wrapper">
         <div className="flex flex-col sm:items-center gap-5 justify-center sm:text-center ">
           {/* Title */}
-          <h1 ref={ref} className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700  xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl">
+          <h1 ref={ref} className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700  xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl text-center">
             <span>Start your career in</span>{" "}
             <span className="highlight text-white">{text}</span> Today{" "}
             <br className="hidden xl:block" />
@@ -96,12 +96,12 @@ useEffect(() => {
               className="absolute h-[58px] w-[58px] xl:h-[106px] xl:w-[106px] -top-24 xl:-top-16 right-9 xl:-right-44 rotate-12 xl:rotate-0"
             />
           </h1>
-          <p className="text-secondary-600 xl:max-w-3xl text-base sm:text-lg xl:text-xl leading-[126%] max-w-sm md:max-w-3xl font-Poppins">
+          <p className="text-secondary-600 xl:max-w-3xl text-base sm:text-lg xl:text-xl leading-[126%] max-w-sm md:max-w-3xl font-Poppins text-center">
             Find the best opportunities from leading healthcare providers, i.e.
             internships, jobs, skill programs, courses, events, etc.
           </p>
 
-          <div className="flex items-center gap-3 mt-7">
+          <div className="flex flex-col lg:flex-row items-center gap-3 mt-7">
             <FilterDropdown
               label="Employment Type"
               items={["Full-Time", "Part-Time", "Internship"]}

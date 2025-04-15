@@ -26,7 +26,7 @@ const LatestJobs = async () => {
             {jobs?.map((details, index) => (
               <div key={index} className="carousel-item">
                 <JobDetailCard
-                  wrapperClassName="xl:min-w-[500px]"
+                  wrapperClassName="min w-[400px] xl:min-w-[500px]"
                   job={details}
                 />
               </div>
