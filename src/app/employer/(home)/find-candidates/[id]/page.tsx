@@ -12,28 +12,27 @@ import Certification from "../_components/Certification";
 import Skills from "../_components/Skills";
 import Button from "@/components/Button";
 import Link from "next/link";
+import { use } from "react";
 
 type Props = {
-    params: {
-      id: string;
-    };
-  };
+  params: Promise<{ id: string }>; // params is now a Promise
+};
 
-const EmployeeProfileDetails = ({ params: { id } }: Props) => {
-  console.log(id);
+const EmployeeProfileDetails = ({ params }: Props) => {
+  const { id } = use(params);
     const { isLoading, data } = useQuery({
         queryKey: ["employer", "employee", id],
         queryFn: () => handleGEtEmployerByIdForEmployer(id),
       });
       console.log(data);
-      // if (isLoading) return <Loading className="h-[60vh] w-full" />;
-      // if (!data) return <NotFound />;
+      if (isLoading) return <Loading className="h-[60vh] w-full" />;
+      if (!data) return <NotFound />;
     return (
-      <div className="bg-[#f5f6fa] p-7 max-w-[1100px] font-plus-jakarta-sans">
+      <div className="bg-[#f5f6fa] p-7 font-plus-jakarta-sans">
       {/* {data?.full_name} */}
-      <div className="bg-white border border-[#EEEEF0] p-9 rounded-3xl">
+      <div className="bg-white border border-[#EEEEF0] p-9 rounded-3xl max-w-[1100px]">
         {/* Header */}
-        <div className="flex items-center justify-baseline">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-5">
             <Link href={"/employer/find-candidates"}>
               <Image
@@ -48,7 +47,7 @@ const EmployeeProfileDetails = ({ params: { id } }: Props) => {
           </div>
           <Button
             variant="normal"
-            className="px-4 py-3 flex items-center gap-1 text-gray-800"
+            className="px-4 py-3 flex items-center gap-1"
           >
             Send Message
             <Image src={ICONS.sendArrow} alt="send-arrow" className="size-5" />
@@ -67,24 +66,24 @@ const EmployeeProfileDetails = ({ params: { id } }: Props) => {
             </div>
             <div>
               <h1 className="text-xl font-600 text-[#25252C]">
-                Rahul Sutradhar
+              {data?.full_name}
               </h1>
               <p className="text-[#5B5C6E] mt-[6px]">CCN Polytechnic</p>
             </div>
           </div>
-          <button className="flex items-center gap-2 px-6 py-4 bg-[#D0D7E7] border border-[#778DB9] text-[#303D5C] font-500 rounded-[14px] cursor-pointer">
+          <Link href={data?.resumes?.url ? data?.resumes?.url : ""} className="flex items-center gap-2 px-6 py-4 bg-[#D0D7E7] border border-[#778DB9] text-[#303D5C] font-500 rounded-[14px] cursor-pointer">
             Download Resume
             <Image
               src={ICONS.download2}
               alt="download-icon"
               className="size-4"
             />
-          </button>
+          </Link>
         </div>
 
         {/* Rest sections */}
         <div className="flex flex-col gap-6">
-          <EducationDetails />
+          <EducationDetails education={data?.education} />
           <ProjectDetails />
           <WorkExperience />
           <Certification />

@@ -1,23 +1,43 @@
+import { convertDate } from "@/helpers/convertDate";
 import React from "react";
 
-const EducationDetails = () => {
+type TEducationDetails = {
+  _id: string;
+  city: string;
+  courseName: string;
+  designation: string;
+  endDate: string;
+  grade: string;
+  institutionName: string;
+  startDate: string;
+};
+
+
+const EducationDetails = ({education} : {education:TEducationDetails[]}) => {
   return (
     <div className="bg-white border border-[#F7F7F8] rounded-[20px] p-5 flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold font-600 text-[#37466D]">
+      <h1 className="text-2xl font-600 text-[#37466D]">
         Education Details
       </h1>
       <hr className="border border-[#F7F7F8] w-full" />
 
       {/* Education card */}
-      <div className="bg-white border border-[#F7F7F8] rounded-[20px] p-5">
-        <h1 className="text-lg font-medium font-500 text-[#383842]">
-          Meenakshi College of Engineering
+      {
+        education?.length > 0 ?
+        education?.map((education:TEducationDetails, index:number) => 
+          <div key={index} className="bg-white border border-[#F7F7F8] rounded-[20px] p-5">
+        <h1 className="text-lg font-500 text-[#383842]">
+          {education?.institutionName}
         </h1>
         <p className="text-[#717386] mt-2">
-          B.E., Computer Science Engineering | 9.2 CGPA
+        {education?.designation} | {education?.courseName} | Grade {education?.grade}
         </p>
-        <p className="text-[#717386] mt-[2px]">2021-2025</p>
+        <p className="text-[#717386] mt-[2px]">{convertDate(education?.startDate)} - {convertDate(education?.endDate)}</p>
       </div>
+        )
+        :
+        "Np education details added"
+      }
     </div>
   );
 };
