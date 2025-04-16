@@ -85,8 +85,8 @@ const EmployeeProfileDetails = ({ params }: Props) => {
         <div className="flex flex-col gap-6">
           <EducationDetails education={data?.education} />
           <ProjectDetails projects={data?.projects} />
-          <WorkExperience />
-          <Certification />
+          <WorkExperience experiences={data?.experience} />
+          <Certification certifications={data?.certifications} />
           <Skills />
         </div>
       </div>
