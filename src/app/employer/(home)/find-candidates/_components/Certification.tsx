@@ -1,12 +1,12 @@
 import { convertDate } from "@/helpers/convertDate";
 
 export type TCertification = {
-  _id: string;
-  name: string;
-  credentialID: string;
-  credentialURL: string;
-  issueDate: string;
-  issuingOrganization: string;
+  _id?: string;
+  name?: string;
+  issuingOrganization?: string;
+  issueDate?: string;
+  credentialID?: string;
+  credentialURL?: string;
 };
 
 
@@ -17,7 +17,7 @@ const Certification = ({ certifications }: { certifications: TCertification[] })
       <hr className="border border-[#F7F7F8] w-full" />
 
       {certifications.length === 0 ? (
-        <p className="text-center text-gray-400">No certificate added</p>
+        <p className="text-gray-400">No certificate added</p>
       ) : (
         certifications.map((certificate?) => (
           <div

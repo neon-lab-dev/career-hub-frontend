@@ -54,15 +54,16 @@ const EmployeeProfileDetails = ({ params }: Props) => {
           </Button>
         </div>
 
-        <div className="bg-[#EAECF4] border border-[#EEEEF0] rounded-3xl p-8 flex items-center justify-between mt-12 mb-6">
           {/* Img and name */}
+        <div className="bg-[#EAECF4] border border-[#EEEEF0] rounded-3xl p-8 flex items-center justify-between mt-12 mb-6">
           <div className="flex items-center gap-[10px]">
-            <div className="size-[59px] rounded-full border-2 border-[#F7F7F8] flex items-center justify-center">
-              <Image
-                src={ICONS.leftArrow}
-                alt="left-arrow"
-                className="size-10"
-              />
+            <div className="size-[59px] rounded-full border-2 border-[#F7F7F8] flex items-center justify-center text-xl font-600">
+            {data?.full_name
+                  ? data?.full_name
+                      .split(" ")
+                      .map((letter:string) => letter.charAt(0))
+                      .join("")
+                  : "?"}
             </div>
             <div>
               <h1 className="text-xl font-600 text-[#25252C]">
@@ -83,11 +84,11 @@ const EmployeeProfileDetails = ({ params }: Props) => {
 
         {/* Rest sections */}
         <div className="flex flex-col gap-6">
-          <EducationDetails education={data?.education} />
-          <ProjectDetails projects={data?.projects} />
-          <WorkExperience experiences={data?.experience} />
-          <Certification certifications={data?.certifications} />
-          <Skills />
+          <EducationDetails education={data?.education? data?.education : []} />
+          <ProjectDetails projects={data?.projects? data?.projects : []} />
+          <WorkExperience experiences={data?.experience ? data?.experience: []} />
+          <Certification certifications={data?.certifications ? data?.certifications : []} />
+          <Skills skills={data?.skills} />
         </div>
       </div>
     </div>

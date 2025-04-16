@@ -2,14 +2,14 @@ import { convertDate } from "@/helpers/convertDate";
 import React from "react";
 
 type TEducationDetails = {
-  _id: string;
-  city: string;
-  courseName: string;
-  designation: string;
-  endDate: string;
-  grade: string;
-  institutionName: string;
-  startDate: string;
+  _id?: string;
+  city?: string;
+  courseName?: string;
+  designation?: string;
+  endDate?: string;
+  grade?: string;
+  institutionName?: string;
+  startDate?: string;
 };
 
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import api from ".";
-import { IEmployer } from "@/types/employer";
+import { IEmployer, TEmployee } from "@/types/employer";
 import { JobData } from "@/app/employer/(home)/page";
 import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
 import { User } from "@/app/employer/(home)/profile/page";
@@ -94,7 +94,7 @@ export const handleGEtEmployerByIdForAdminService = async (
 
 export const handleGEtEmployerByIdForEmployer = async (
   id: string
-): Promise<IEmployer> => {
+): Promise<TEmployee> => {
   return new Promise((resolve, reject) => {
     axios
       .get(`${api.employergetemploee}/${id}`, {
