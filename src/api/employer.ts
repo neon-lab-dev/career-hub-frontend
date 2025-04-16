@@ -92,6 +92,23 @@ export const handleGEtEmployerByIdForAdminService = async (
   });
 };
 
+export const handleGEtEmployerByIdForEmployer = async (
+  id: string
+): Promise<IEmployer> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${api.employergetemploee}/${id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        resolve(res?.data?.emp);
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Something went wrong");
+      });
+  });
+};
+
 export const fetchJobData = async (): Promise<JobData> => {
   const response = await axios.get(api.employerJob, {
     withCredentials: true,

@@ -53,7 +53,9 @@ import addCircleGray from "@/assets/icons/add-circle-gray.svg";
 import addCircleWhite from "@/assets/icons/add-circle-white.svg";
 import radioButtonChecked from "@/assets/icons/radio_button_checked.svg";
 import radioButtonUnchecked from "@/assets/icons/radio_button_unchecked.svg";
-
+// import leftArrow from "./icons/arrow_back.svg";
+import sendArrow from "@/assets/icons/send-arrow.svg";
+import download2 from "@/assets/icons/download.svg";
 
 import behance from "@/assets/icons/social media/behance.svg";
 import discord from "@/assets/icons/social media/discord.svg";
@@ -69,22 +71,18 @@ import tiktok from "@/assets/icons/social media/tiktok.svg";
 import twitter from "@/assets/icons/social media/twitter.svg";
 import youtube from "@/assets/icons/social media/youtube.svg";
 
-
 import download from "@/assets/images/fi-br-download (1).svg";
 import penResume from "@/assets/images/Pen.svg";
 import penEdit from "@/assets/images/Vector.svg";
-import logo from "@/assets/images/Asset 1.png"
-import logo1 from "@/assets/images/Asset 2.png"
-import logo2 from "@/assets/images/Asset 3.png"
-import org from "@/assets/images/61ae20883d652b27b6ef3f39_org-design-second-edition.svg"
-import apr from "@/assets/images/pngtree-study-icons-boy-sitting-at-a-table-with-book-vector-png-image_12296730.png"
+import logo from "@/assets/images/Asset 1.png";
+import logo1 from "@/assets/images/Asset 2.png";
+import logo2 from "@/assets/images/Asset 3.png";
+import org from "@/assets/images/61ae20883d652b27b6ef3f39_org-design-second-edition.svg";
+import apr from "@/assets/images/pngtree-study-icons-boy-sitting-at-a-table-with-book-vector-png-image_12296730.png";
 import jobCardBg from "@/assets/images/job-card-bg.png";
 import internshipCardBg from "@/assets/images/internship-card-bg.png";
 import courseImg from "@/assets/images/course-img.png";
 import eventImg from "@/assets/images/event-img.png";
-
-
-
 
 export const IMAGES = {
   medHr,
@@ -174,4 +172,7 @@ export const ICONS = {
   tiktok,
   twitter,
   youtube,
+
+  sendArrow,
+  download2,
 };

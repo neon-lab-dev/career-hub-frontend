@@ -39,7 +39,7 @@ const api = {
   employergetemploee:baseUrl + "/employeer/employee",
   changeStatus:baseUrl + "/jobs/manage",
   creatrjob:baseUrl+"/createjob",
-  findCandidate:baseUrl+"/employeer/find-candidates",
+  findCandidate: baseUrl+"/employeer/find-candidates",
 
   // for admin
   adminLogin: baseUrl + "/login/admin",
