@@ -19,12 +19,11 @@ type Props = {
 };
 
 const EmployeeProfileDetails = ({ params }: Props) => {
-  const { id } = use(params);
+    const { id } = use(params);
     const { isLoading, data } = useQuery({
         queryKey: ["employer", "employee", id],
         queryFn: () => handleGEtEmployerByIdForEmployer(id),
       });
-      console.log(data);
       if (isLoading) return <Loading className="h-[60vh] w-full" />;
       if (!data) return <NotFound />;
     return (

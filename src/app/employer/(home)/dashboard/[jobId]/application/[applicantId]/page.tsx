@@ -10,6 +10,7 @@ import { ICONS, IMAGES } from '@/assets';
 import Chip from '@/components/Chip';
 import { useQuery, useMutation, QueryClient, useQueryClient } from '@tanstack/react-query';
 import { approveApplicant, fetchProfileData, rejectApplicant } from '@/api/employer';
+import { useRouter } from 'next/navigation';
 
 // Card Component
 interface CardProps {
@@ -69,6 +70,7 @@ interface Certification {
 
 
 const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
+    const router = useRouter();
     const queryClient = useQueryClient();
 
     const { data: profileData, isLoading, isError, error } = useQuery({
@@ -78,13 +80,13 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
 
     const approveMutation = useMutation({
         mutationFn: () => approveApplicant({ jobId, applicantId, status: 'HIRED' }),
-        onSuccess: () => {toast.success('Applicant approved successfully.'),queryClient.invalidateQueries({ queryKey: ['jobDetails', jobId]})},
+        onSuccess: () => {toast.success('Applicant approved successfully.'), router.push("/employer/jobs"),queryClient.invalidateQueries({ queryKey: ['jobDetails', jobId]})},
         onError: (error: any) => toast.error(`Error: ${error.message}`),
     });
 
     const rejectMutation = useMutation({
         mutationFn: () => rejectApplicant({ jobId, applicantId, status: 'REJECTED' }),
-        onSuccess: () => {toast.success('Applicant rejected successfully.'),queryClient.invalidateQueries({ queryKey: ['jobDetails', jobId]})},
+        onSuccess: () => {toast.success('Applicant rejected successfully.'), router.push("/employer/jobs"),queryClient.invalidateQueries({ queryKey: ['jobDetails', jobId]})},
         onError: (error: any) => toast.error(`Error: ${error.message}`),
     });
     
@@ -129,7 +131,7 @@ const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
                 <div className='flex justify-between my-10 ml-10 items-center'>
                     <div className='flex gap-6 items-center'>
                         <Link href={`/employer/dashboard/${jobId}`}>
-                            <Image src={IMAGES.arrow} alt={''} />
+                            <Image src={ICONS.leftArrow} alt={'left-arrow'} />
                         </Link>
                         <h1 className='text-neutral-950 text-[28px] font-700'>Application</h1>
                     </div>
