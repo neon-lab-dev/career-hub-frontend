@@ -84,7 +84,7 @@ const EmployeeProfileDetails = ({ params }: Props) => {
         {/* Rest sections */}
         <div className="flex flex-col gap-6">
           <EducationDetails education={data?.education} />
-          <ProjectDetails />
+          <ProjectDetails projects={data?.projects} />
           <WorkExperience />
           <Certification />
           <Skills />

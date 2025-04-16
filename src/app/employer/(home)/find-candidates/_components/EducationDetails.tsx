@@ -22,6 +22,7 @@ const EducationDetails = ({education} : {education:TEducationDetails[]}) => {
       <hr className="border border-[#F7F7F8] w-full" />
 
       {/* Education card */}
+      <div className="flex flex-col gap-3">
       {
         education?.length > 0 ?
         education?.map((education:TEducationDetails, index:number) => 
@@ -38,6 +39,7 @@ const EducationDetails = ({education} : {education:TEducationDetails[]}) => {
         :
         "Np education details added"
       }
+      </div>
     </div>
   );
 };
