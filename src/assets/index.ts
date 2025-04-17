@@ -56,6 +56,8 @@ import radioButtonUnchecked from "@/assets/icons/radio_button_unchecked.svg";
 // import leftArrow from "./icons/arrow_back.svg";
 import sendArrow from "@/assets/icons/send-arrow.svg";
 import download2 from "@/assets/icons/download.svg";
+import student from "@/assets/icons/student.svg";
+import lesson from "@/assets/icons/lesson.svg";
 
 import behance from "@/assets/icons/social media/behance.svg";
 import discord from "@/assets/icons/social media/discord.svg";
@@ -175,4 +177,6 @@ export const ICONS = {
 
   sendArrow,
   download2,
+  student,
+  lesson,
 };

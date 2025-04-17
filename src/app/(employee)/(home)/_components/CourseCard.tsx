@@ -1,73 +1,88 @@
-"use client";
 import { ICONS, IMAGES } from "@/assets";
+import Button from "@/components/Button";
 import Image from "next/image";
-import { useState } from "react";
 
 const CourseCard = () => {
-  const courseIncludes = [
-    "Adobe Illustrator",
-    "Adobe Illustrator",
-    "Adobe Illustrator",
-    "Adobe Illustrator",
-    "Adobe Illustrator",
-  ];
-
-  const [showAll, setShowAll] = useState<boolean>(false);
-  const visibleItems = showAll ? courseIncludes : courseIncludes.slice(0, 2);
-
   return (
     <div
-      className={`bg-white p-6 w-full max-w-[446px] rounded-3xl border border-neutral-300 shadow-job-card-shadow font-plus-jakarta-sans flex flex-col gap-6 ${
-        showAll ? "h-[auto]" : "h-[710px]"
-      }`}
+      className={`bg-white w-full max-w-[350px] h-[397px] rounded-3xl border border-neutral-300 shadow-job-card-shadow font-plus-jakarta-sans flex flex-col cursor-pointer relative group overflow-hidden`}
     >
       <Image src={IMAGES.courseImg} alt="" className="" />
-      {/* Course Name */}
-      <h1 className="text-neutral-900 text-[28px] font-800 ">
-        Creative Maven Pack
-      </h1>
-
-      {/* Course includes */}
-      <div>
-        <h2 className="text-neutral-980 text-2xl font-600 ">This Includes:</h2>
-        <div className="flex flex-col gap-3 mt-4">
-          {visibleItems.map((item, index) => (
-            <div key={index} className="flex items-center gap-[7px]">
-              <Image
-                src={ICONS.rightArrowCourse}
-                alt="right-pointer-arrow-icon"
-                className="size-[21px]"
-              />
-              <p className="text-neutral-990 text-[21px] capitalize">{item}</p>
-            </div>
-          ))}
-
-          {courseIncludes.length > 2 && (
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className="text-primary-500 text-xs underline w-fit"
-            >
-              {showAll ? "See Less" : "See More"}
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Course Price */}
-      <div className="flex items-center gap-[15px]">
+      <div className="p-5">
         <div className="flex items-center gap-3">
-          <h1 className="text-primary-500 text-[36px] font-800">₹1,499</h1>
-          <p className="text-neutral-990 text-lg line-through">₹2,796</p>
+          <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">
+            For All Levels
+          </div>
+          <h1 className="text-success-100 text-xl font-600">Free</h1>
         </div>
-        <p className="text-success-110 text-lg font-600">You save ₹12976</p>
+        {/* Course Name */}
+        <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
+          Learn to create LMS platform using MERN Stack
+        </h1>
+
+        <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
+          <div className="flex items-center gap-2">
+            <Image
+              src={ICONS.student}
+              alt="student | Medhrplus"
+              className="size-6"
+            />
+            <p>289 Students</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Image
+              src={ICONS.lesson}
+              alt="lesson | Medhrplus"
+              className="size-6"
+            />
+            <p>20 Lessons</p>
+          </div>
+        </div>
       </div>
 
-      {/* hr */}
-      <hr className="w-full border border-neutral-100 h-[3px]" />
+      {/* Hover card */}
+      <div className="flex flex-col bg-neutral-450 rounded-3xl absolute bottom-0 w-full h-full translate-y-full group-hover:translate-y-0 transition-all duration-[600ms] overflow-hidden p-7">
+        <div className="flex items-center gap-3">
+          <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-white w-fit rounded-md translate-y-[-50px] group-hover:translate-y-0 transition-all duration-700 opacity-0 group-hover:opacity-100">
+            For All Levels
+          </div>
+          <h1 className="text-success-100 text-xl font-600 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
+            Free
+          </h1>
+        </div>
 
-      <button className="bg-white px-9 py-[15px] rounded-lg border border-neutral-200 shadow-job-card-shadow text-neutral-600 font-600 leading-6 text-xl">
-        Enroll Now
-      </button>
+        <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
+          Learn to create LMS platform using MERN Stack
+        </h1>
+
+        <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
+          <div className="flex items-center gap-2 translate-y-[-100px] group-hover:translate-y-0 transition-all duration-700 opacity-0 group-hover:opacity-100">
+            <Image
+              src={ICONS.student}
+              alt="student | Medhrplus"
+              className="size-6"
+            />
+            <p>289 Students</p>
+          </div>
+          <div className="flex items-center gap-2 translate-y-[-50px] group-hover:translate-y-0 transition-all duration-700 opacity-0 group-hover:opacity-100">
+            <Image
+              src={ICONS.lesson}
+              alt="lesson | Medhrplus"
+              className="size-6"
+            />
+            <p>20 Lessons</p>
+          </div>
+        </div>
+
+        <p className="text-neutral-400 text-[15px] mt-6 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste odio vel
+          repellendus natus magnam nulla quibusdam iure fugiat veniam dolor.
+        </p>
+
+        <Button variant="normal" className="px-6 py-[10px] w-fit mt-7">
+          View Details
+        </Button>
+      </div>
     </div>
   );
 };

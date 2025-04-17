@@ -106,7 +106,6 @@ const config: Config = {
         },
         warning: {
           50: "#FFC244",
-          // 100: "#1ACD81",
         },
         error: {
           500: "#FF3333",

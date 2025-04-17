@@ -67,8 +67,6 @@ interface Certification {
     credentialURL: string;
 }
 
-
-
 const Profile = ({ params: { applicantId, jobId } }: ProfileProps) => {
     const router = useRouter();
     const queryClient = useQueryClient();
