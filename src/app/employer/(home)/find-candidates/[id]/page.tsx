@@ -12,9 +12,11 @@ import Certification from "../_components/Certification";
 import Skills from "../_components/Skills";
 import Button from "@/components/Button";
 import Link from "next/link";
-import { use } from "react";
+import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { pdf } from "@react-pdf/renderer";
+import { CertificateDocument } from "../_components/CertificateDocument";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -23,6 +25,7 @@ type Props = {
 const EmployeeProfileDetails = ({ params }: Props) => {
     const { id } = use(params);
     const router = useRouter();
+    const [certificate, setCertificate] = useState();
     const { isLoading, data } = useQuery({
         queryKey: ["employer", "employee", id],
         queryFn: () => handleGEtEmployerByIdForEmployer(id),
@@ -46,12 +49,36 @@ const EmployeeProfileDetails = ({ params }: Props) => {
         },
       });
       
-      const handleSendEmail = () => {
-        if (!id) return;
-        mutate({
-          userId: id,
-          companyName: employerProfile?.user?.companyDetails[0]?.companyName || "Undefined",
-        });
+      const handleSendEmail = async () => {
+        // if (!id) return;
+        // mutate({
+        //   userId: id,
+        //   companyName: employerProfile?.user?.companyDetails[0]?.companyName || "Undefined",
+        // });
+
+        const blob = await pdf(
+          <CertificateDocument
+            name="Salmaan Ahmed K N"
+            from="XXXX"
+            role="YYY"
+            company="ZZZZZ"
+            certId="CH-UIUX-2023-234"
+            issueDate="SEPTEMBER 6, 2023"
+          />
+        ).toBlob();
+      
+        // Store in state (optional)
+        setCertificate(blob);
+      
+        // Trigger download
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "Certificate.pdf";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
       };
       
       if (isLoading) return <Loading className="h-[60vh] w-full" />;
