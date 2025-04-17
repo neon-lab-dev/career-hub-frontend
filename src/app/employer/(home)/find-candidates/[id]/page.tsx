@@ -1,8 +1,8 @@
 "use client"
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import Loading from '@/components/Loading';
 import NotFound from '@/components/NotFound';
-import { handleGEtEmployerByIdForEmployer } from "@/api/employer";
+import { fetchEmployerProfileData, handleGEtEmployerByIdForEmployer, sendHiredEmail } from "@/api/employer";
 import Image from "next/image";
 import { ICONS } from "@/assets";
 import EducationDetails from "../_components/EducationDetails";
@@ -13,17 +13,47 @@ import Skills from "../_components/Skills";
 import Button from "@/components/Button";
 import Link from "next/link";
 import { use } from "react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type Props = {
-  params: Promise<{ id: string }>; // params is now a Promise
+  params: Promise<{ id: string }>;
 };
 
 const EmployeeProfileDetails = ({ params }: Props) => {
     const { id } = use(params);
+    const router = useRouter();
     const { isLoading, data } = useQuery({
         queryKey: ["employer", "employee", id],
         queryFn: () => handleGEtEmployerByIdForEmployer(id),
       });
+
+    const { data:employerProfile } = useQuery({
+        queryKey: ["employerProfileData", id],
+        queryFn: () => fetchEmployerProfileData(),
+      });
+      console.log(employerProfile)
+
+      const { mutate } = useMutation({
+        mutationFn: ({ userId, companyName }: { userId: string; companyName: string }) =>
+          sendHiredEmail(userId, companyName),
+        onSuccess: () => {
+          toast.success("Email sent successfully!");
+          router.push("/r/find-candidates");
+        },
+        onError: (error: any) => {
+          toast.error(error?.message || "Failed to send email.");
+        },
+      });
+      
+      const handleSendEmail = () => {
+        if (!id) return;
+        mutate({
+          userId: id,
+          companyName: employerProfile?.user?.companyDetails[0]?.companyName || "Undefined",
+        });
+      };
+      
       if (isLoading) return <Loading className="h-[60vh] w-full" />;
       if (!data) return <NotFound />;
     return (
@@ -45,6 +75,7 @@ const EmployeeProfileDetails = ({ params }: Props) => {
             </h1>
           </div>
           <Button
+          onClick={handleSendEmail}
             variant="normal"
             className="px-4 py-3 flex items-center gap-1"
           >
