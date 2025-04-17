@@ -15,6 +15,7 @@ const SkillProgrammes = () => {
     queryKey: ["skillprogrammes"],
     queryFn: getAllSkillProgrammes,
   });
+  console.log(data)
 
   const handleOpenVideoModal = (videoUrl: string) => {
     setSelectedVideoUrl(videoUrl);
@@ -29,6 +30,7 @@ const SkillProgrammes = () => {
         align="left"
       />
       {
+        !data?.skills ||
         data?.skills?.length < 1 ?
         <NoDataFound message="No Skill Programmes Available" /> :
         <div className="w-full overflow-x-scroll wrapper-left">

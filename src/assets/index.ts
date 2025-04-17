@@ -85,6 +85,7 @@ import jobCardBg from "@/assets/images/job-card-bg.png";
 import internshipCardBg from "@/assets/images/internship-card-bg.png";
 import courseImg from "@/assets/images/course-img.png";
 import eventImg from "@/assets/images/event-img.png";
+import linnerBg from "@/assets/images/linner-bg.png";
 
 export const IMAGES = {
   medHr,
@@ -123,6 +124,7 @@ export const IMAGES = {
   internshipCardBg,
   courseImg,
   eventImg,
+  linnerBg,
 };
 
 export const ICONS = {

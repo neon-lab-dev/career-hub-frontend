@@ -27,7 +27,7 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({
   return (
     <h3
       ref={ref}
-      className={`section-heading wrapper max-width m-auto ${alignmentClass} ${className}`}
+      className={`section-heading wrapper max-width m-auto z-10 ${alignmentClass} ${className}`}
     >
       {align === "right" ? (
         <>
