@@ -2,8 +2,8 @@ import axios from "axios";
 import api from ".";
 import { IEmployer, TEmployee } from "@/types/employer";
 import { JobData } from "@/app/employer/(home)/page";
-import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
 import { User } from "@/app/employer/(home)/profile/page";
+import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/_components/ViewIdPage";
 
 
 export const handleGetAllCandidatesService = async (

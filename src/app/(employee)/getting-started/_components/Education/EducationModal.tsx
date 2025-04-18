@@ -136,7 +136,7 @@ const EducationModal: React.FC<TEducationModalProps> = ({
             label="Course"
             options={options}
             value={formValues.courseName}
-            onChange={(e) => handleChange("courseName", e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange("courseName", e.target.value)}
           />
         ) : (
           <TextInput

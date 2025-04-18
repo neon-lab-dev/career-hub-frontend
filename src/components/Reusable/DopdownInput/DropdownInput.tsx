@@ -8,9 +8,11 @@ type TDropdownInputProps = {
   error?: FieldError | string | undefined | Merge<FieldError, FieldErrorsImpl<any>>;
   isRequired?: boolean;
   selected?: boolean;
+  value? : any;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const DropdownInput:React.FC<TDropdownInputProps> = ({ label, options, error, isRequired=true, selected, ...rest }, ref) => {
+const DropdownInput:React.FC<TDropdownInputProps> = ({ label, options, error, isRequired=true, selected, value,onChange, ...rest }, ref) => {
   return (
     <div className="flex flex-col gap-2 font-plus-jakarta-sansr">
         <label className="text-neutral-700 font-500">

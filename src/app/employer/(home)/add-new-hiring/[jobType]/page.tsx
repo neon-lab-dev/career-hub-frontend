@@ -88,7 +88,7 @@ const Page = () => {
                 <div className="flex justify-between">
                     <div className="flex gap-6 items-center">
                         <Link href="/employer/">
-                            <Image src={IMAGES.arrow} alt={""} />
+                            <Image src={ICONS.leftArrow} alt={""} />
                         </Link>
                         <h1 className="text-neutral-950 text-[28px] font-700">Add New Hiring</h1>
                     </div>

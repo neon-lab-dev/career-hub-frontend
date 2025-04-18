@@ -33,7 +33,7 @@ const EducationDetails = ({education} : {education:TEducationDetails[]}) => {
         <p className="text-[#717386] mt-2">
         {education?.designation} | {education?.courseName} | Grade {education?.grade}
         </p>
-        <p className="text-[#717386] mt-[2px]">{convertDate(education?.startDate)} - {convertDate(education?.endDate)}</p>
+        <p className="text-[#717386] mt-[2px]">{convertDate(education?.startDate as string)} - {convertDate(education?.endDate as string)}</p>
       </div>
         )
         :
