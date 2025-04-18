@@ -15,7 +15,7 @@ input {
 p {
   font-family: "Poppins", sans-serif;
 }
-
+a
 
 /* CSS file */
 .display-large {
@@ -116,7 +116,7 @@ p {
 }
 
 .section-heading {
-  @apply font-700 text-[32px] xl:text-[40px] text-secondary-950 tracking-[-0.5px];
+  @apply font-700 text-[24px] xl:text-[40px] text-secondary-950 tracking-[-0.5px];
 }
 
 

@@ -154,7 +154,7 @@ export const CertificateDocument = ({
       <View style={styles.footer}>
         <Text>CERTIFICATE-ID: {certId}</Text>
         <Text>DATE OF ISSUE: {issueDate}</Text>
-        <Text>Verify at www.career.com/verify-certificate</Text>
+        <Text>Visit www.medhrplus.com</Text>
       </View>
     </Page>
   </Document>
