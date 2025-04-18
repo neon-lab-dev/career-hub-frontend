@@ -68,7 +68,7 @@ const EmployeeProfileDetails = ({ params }: Props) => {
         ).toBlob();
       
         // Store in state (optional)
-        setCertificate(blob);
+        // setCertificate(blob);
       
         // Trigger download
         const url = URL.createObjectURL(blob);

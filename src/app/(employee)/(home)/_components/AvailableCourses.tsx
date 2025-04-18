@@ -7,6 +7,7 @@ import Link from "next/link";
 import CourseCard from "./CourseCard";
 import NoDataFound from "@/components/NoDataFound";
 import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
+import { IMAGES } from "@/assets";
 
 const AvailableCourses = () => {
   const { isLoading, data } = useQuery({

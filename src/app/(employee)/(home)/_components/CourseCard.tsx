@@ -7,7 +7,7 @@ const CourseCard = () => {
     <div
       className={`bg-white w-full max-w-[350px] h-[397px] rounded-3xl border border-neutral-300 shadow-job-card-shadow font-plus-jakarta-sans flex flex-col cursor-pointer relative group overflow-hidden`}
     >
-      <Image src={IMAGES.courseImg} alt="" className="" />
+      <Image src={IMAGES.courseImg} alt="" className="w-full max-h-[207px] object-cover rounded-t-3xl" />
       <div className="p-5">
         <div className="flex items-center gap-3">
           <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">

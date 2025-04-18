@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
 import CourseCard from "./CourseCard";
+import { IMAGES } from "@/assets";
 
 const SkillProgrammes = () => {
   const [openVideoModal, setOpenVideoModal] = useState(false);
@@ -32,7 +33,7 @@ const SkillProgrammes = () => {
       />
         <div className="w-full overflow-x-scroll wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
-        <CourseCard />
+        <CourseCard/>
           
         </div>
       </div>
