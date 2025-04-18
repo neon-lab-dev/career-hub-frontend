@@ -51,10 +51,10 @@ const EventCard: React.FC<TEventCardProps> = ({ wrapperClassName }) => {
       </div>
 
       <div className="flex items-center gap-[10px] mt-3">
-        <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px]">
+        <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-500/5 rounded-[999px]">
           Figma
         </div>
-        <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px]">
+        <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-500/5 rounded-[999px]">
           Figma
         </div>
       </div>

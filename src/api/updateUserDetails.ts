@@ -3,28 +3,8 @@ import axios from "axios";
 import api from ".";
 
 
-interface CustomFormData {
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    country: string;
-  }[];
-  education: any[];
-  projects: any[];
-  experience: any[];
-  certifications: any[];
-  skills: string[];
-  socialLinks: {
-    linkedin: string;
-    github: string;
-  }[];
-  interests: string[];
-}
-
 // Update User Details
-const updateUserDetails = (formData: CustomFormData): Promise<any> => {
+const updateUserDetails = (formData: any): Promise<any> => {
   return new Promise((resolve, reject) => {
     axios.put(api.employeedetails, formData, {
       headers: {
@@ -38,7 +18,7 @@ const updateUserDetails = (formData: CustomFormData): Promise<any> => {
 };
 
 
-export const useUpdateUserDetails = (): UseMutationResult<any, Error, CustomFormData> => {
+export const useUpdateUserDetails = (): UseMutationResult<any, Error, any> => {
   return useMutation({
     mutationFn: updateUserDetails,
   });

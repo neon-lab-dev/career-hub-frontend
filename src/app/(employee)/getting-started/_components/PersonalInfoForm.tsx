@@ -1,165 +1,65 @@
-import React from 'react';
-import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import Input from '@/components/Input';
-import Button from '@/components/Button';
+/* eslint-disable react/no-unescaped-entities */
+"use client";
+import DropdownInput from "@/components/Reusable/DopdownInput/DropdownInput";
+import TextInput from "@/components/Reusable/TextInput/TextInput";
+import { FieldError, FieldErrors, UseFormRegister } from "react-hook-form";
 
-interface Address {
-  street: string;
-  city: string;
-  state: string;
-  postalCode: string;
-  country: string;
-}
+type TGuardianErrors = {
+  guardianName?: FieldError;
+  phoneNumber?: FieldError;
+  occupation?: FieldError;
+};
 
-interface FormData {
-  address: Address[];
-  education: any[];
-  projects: any[];
-  experience: any[];
-  certifications: any[];
-  skills: string[];
-  socialLinks: {
-    linkedin: string;
-    github: string;
-  }[];
-  interests: string[];
-}
-
-interface EducationFormProps {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
-  handleContinue: (e: React.FormEvent<HTMLFormElement>) => void;
-}
-
-const PersonalInfoForm: React.FC<EducationFormProps> = ({ formData, setFormData, handleContinue }) => {
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      address: [{
-        ...prevFormData.address[0],
-        [id]: value,
-      }],
-    }));
+type TPersonalInfoFormProps = {
+  register: UseFormRegister<any>;
+  errors: FieldErrors & {
+    guardian?: TGuardianErrors;
   };
-
-  const handleCountryChange = (val: string) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      address: [{
-        ...prevFormData.address[0],
-        country: val,
-        state: '', // Reset state when country changes
-      }],
-    }));
-  };
-
-  const handleStateChange = (val: string) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      address: [{
-        ...prevFormData.address[0],
-        state: val,
-      }],
-    }));
-  };
-
-  const handleSkip = () => {
-    // Set all address fields to empty strings
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      address: [{
-        street: '',
-        city: '',
-        state: '',
-        postalCode: '',
-        country: ''
-      }],
-    }));
-  
-    // Call handleContinue directly
-    handleContinueSkip();
-  };
-  
-  // Create a wrapper to call handleContinue without event
-  const handleContinueSkip = () => {
-    const fakeEvent = { preventDefault: () => {} } as React.FormEvent<HTMLFormElement>;
-    handleContinue(fakeEvent);
-  };
-  
-
+};
+const PersonalInfoForm:React.FC<TPersonalInfoFormProps> = ({ register, errors }) => {
   return (
-    <div>
-      <div>
-        <div className="flex py-6 font-plus-jakarta-sans text-3xl max-md:text-xl max-sm:text-lg pr-4 font-700">
-          <span>Where do you live currently?</span>
-        </div>
-        <form onSubmit={handleContinue}>
-          <div className="flex flex-col mt-4 gap-2 max">
-            <label htmlFor="street">Street</label>
-            <Input
-              id="street"
-              type="text"
-              placeholder="Enter Street"
-              value={formData.address[0]?.street || ''}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="flex flex-col mt-4 gap-2">
-            <label htmlFor="city">City</label>
-            <Input
-              id="city"
-              type="text"
-              placeholder="Enter city"
-              value={formData.address[0]?.city || ''}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="flex flex-col gap-2 mt-4">
-            <label htmlFor="country">Country</label>
-            <CountryDropdown
-              id="country"
-              value={formData.address[0]?.country || ''}
-              onChange={handleCountryChange}
-              classes="py-2 px-3 border rounded-lg w-full text-sm"
-            />
-          </div>
-          <div className="flex gap-10 max-md:gap-4 mt-4">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="state">State</label>
-              <RegionDropdown
-                id="state"
-                country={formData.address[0]?.country || ''}
-                value={formData.address[0]?.state || ''}
-                onChange={handleStateChange}
-                classes="py-2 px-3 border rounded-lg w-[200px] max-md:w-full text-sm"
-                disableWhenEmpty={true}
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="postalCode">Postal Code</label>
-              <Input
-                id="postalCode"
-                type='number'
-                placeholder="Enter Postal Code"
-                className='max-md:w-[140px] max-md:placeholder:text-[10px] max-sm:w-[120px]'
-                value={formData.address[0]?.postalCode || ''}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center max-lg:mt-32 mt-5 max-lg:mb-5">
-            <Button variant="primary" type="submit" className='max-md:w-[230px] max-lg:w-[400px]'>
-              Continue
-            </Button>
-
-            <Button variant="secondary" type="button" onClick={handleSkip} className="max-md:w-[230px] max-lg:w-[400px] ml-4">
-          Skip
-        </Button>
-          </div>
-        </form>
+    <div className="flex flex-col gap-5 mt-12 font-plus-jakarta-sans">
+      <h1 className="registration-form-heading mb-4">
+        Let's get started
+      </h1>
+      <TextInput
+        label="Full Name"
+        placeholder="John Smith"
+        error={errors.full_name}
+        {...register("full_name", {required : "Full name is required"})}
+        isRequired={false}
+      />
+      <TextInput
+        label="Date of Birth"
+        type="date"
+        error={errors.dob}
+        {...register("dob" , {required : "Datre of birth is required"})}
+        isRequired={false}
+      />
+      <div className="flex items-center gap-5">
+        <TextInput
+          label="Guardian Name"
+          placeholder="Smith John"
+          error={errors.guardian?.guardianName}
+          {...register("guardian.guardianName", {required : "Guardian name is required"})}
+          isRequired={false}
+        />
+        <TextInput
+          label="Guardian Phone Number"
+          placeholder="+91 9737328323"
+          type="number"
+          error={errors.guardian?.phoneNumber}
+          {...register("guardian.phoneNumber", {required : "Guardian phone number is required"})}
+          isRequired={false}
+        />
       </div>
+      <DropdownInput
+        label="Occupation"
+        {...register("guardian.occupation" ,{required : "Occupation is required"})}
+        error={errors.guardian?.occupation}
+        options={["Teacher", "Engineer", "Other"]}
+        isRequired={false}
+      />
     </div>
   );
 };

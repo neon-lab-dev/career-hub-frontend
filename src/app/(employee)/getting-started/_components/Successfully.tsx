@@ -12,7 +12,7 @@ const Successfully = () => {
                 <span className=' text-xl font-800'>Your Profile is created successfully</span>
             </div>
             <div className="flex justify-center w-full ">
-                <Image src={IMAGES.sucess} alt='completed' />
+                <Image src={IMAGES.success} alt='completed' />
             </div>
             <div className=' flex justify-center'>
                 <Link href='/'><Button variant="primary" type="submit" className=' max-md:w-[230px] max-lg:w-[400px]'>

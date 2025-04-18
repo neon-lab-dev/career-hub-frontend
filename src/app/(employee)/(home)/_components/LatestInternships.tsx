@@ -4,19 +4,21 @@ import Link from "next/link";
 import React from "react";
 import InternshipCard from "./InternshipCard";
 import NoDataFound from "@/components/NoDataFound";
+import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
+import Image from "next/image";
+import { IMAGES } from "@/assets";
 
 const LatestInternships = async () => {
   const internships = await getLatestInternships();
   console.log(internships);
   return (
-    <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
-        <span className="highlight">
-          Latest internships
-          <br className="xl:hidden" />
-        </span>{" "}
-        For You
-      </h3>
+    <div className="py-section flex flex-col items-center justify-center gap-14 bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
+      <Image src={IMAGES.linnerBg} alt="" className="absolute top-0 bottom-0 right-0 left-0 z-0 h-full w-full opacity-10" />
+      <SectionHeading
+        highlightedText="Latest Internships"
+        normalText="For You"
+        align="left"
+      />
       {
         internships?.length < 1 ?
         <NoDataFound message="No Internship Found" /> :

@@ -2,9 +2,12 @@
 import { getAllSkillProgrammes } from "@/api/skillProgrammes";
 import { ISkill } from "@/app/admin/(pages)/skill-programmes/page";
 import NoDataFound from "@/components/NoDataFound";
+import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
+import CourseCard from "./CourseCard";
+import { IMAGES } from "@/assets";
 
 const SkillProgrammes = () => {
   const [openVideoModal, setOpenVideoModal] = useState(false);
@@ -14,6 +17,7 @@ const SkillProgrammes = () => {
     queryKey: ["skillprogrammes"],
     queryFn: getAllSkillProgrammes,
   });
+  console.log(data)
 
   const handleOpenVideoModal = (videoUrl: string) => {
     setSelectedVideoUrl(videoUrl);
@@ -22,14 +26,24 @@ const SkillProgrammes = () => {
 
   return (
     <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
-        <span className="highlight">Skill</span> Programmes⚡
-      </h3>
-      {
+      <SectionHeading
+        highlightedText="Skill"
+        normalText="Programmes⚡"
+        align="left"
+      />
+        <div className="w-full overflow-x-scroll wrapper-left">
+        <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
+        <CourseCard/>
+          
+        </div>
+      </div>
+      {/* {
+        !data?.skills ||
         data?.skills?.length < 1 ?
         <NoDataFound message="No Skill Programmes Available" /> :
         <div className="w-full overflow-x-scroll wrapper-left">
         <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
+        <CourseCard />
           {data?.skills?.map((skill:ISkill) => (
             <div key={skill._id} className="carousel-item">
               <Image 
@@ -44,7 +58,7 @@ const SkillProgrammes = () => {
           ))}
         </div>
       </div>
-      }
+      } */}
 
       {/* Video Modal */}
       {openVideoModal && (

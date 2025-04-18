@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import SearchField from "./SearchFieldComponent";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ICONS, IMAGES } from "@/assets";
 import FilterDropdown from "@/components/Reusable/FilterDropdown/FilterDropdown";
 import Button from "@/components/Button";
 import LocationSearch from "./LocationSearch";
 import { useRouter } from "next/navigation";
+import { useInView } from "react-intersection-observer";
 
 const HeroComponent = () => {
   const router = useRouter();
@@ -43,14 +43,40 @@ const HeroComponent = () => {
     router.push(`${path}?${params.toString()}`);
   };
 
+  const [text, setText] = useState("");
+const [hasAnimated, setHasAnimated] = useState(false);
+const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
+
+const fullText = "Health Care";
+
+useEffect(() => {
+  if (inView && !hasAnimated) {
+    let index = 0;
+    let currentText = "";
+
+    const interval = setInterval(() => {
+      if (index < fullText.length) {
+        currentText += fullText[index];
+        setText(currentText);
+        index++;
+      } else {
+        clearInterval(interval);
+        setHasAnimated(true);
+      }
+    }, 100);
+
+    return () => clearInterval(interval); // cleanup just in case
+  }
+}, [inView, hasAnimated]);
+
   return (
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
       <div className="flex flex-col gap-[40px] xl:gap-28 wrapper">
         <div className="flex flex-col sm:items-center gap-5 justify-center sm:text-center ">
           {/* Title */}
-          <h1 className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700  xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl">
+          <h1 ref={ref} className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700 leading-10 xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl text-center">
             <span>Start your career in</span>{" "}
-            <span className="highlight text-white">HealthCare</span> Today{" "}
+            <span className="highlight text-white">{text}</span> Today{" "}
             <br className="hidden xl:block" />
             industry with us…
             <Image
@@ -70,12 +96,12 @@ const HeroComponent = () => {
               className="absolute h-[58px] w-[58px] xl:h-[106px] xl:w-[106px] -top-24 xl:-top-16 right-9 xl:-right-44 rotate-12 xl:rotate-0"
             />
           </h1>
-          <p className="text-secondary-600 xl:max-w-3xl text-base sm:text-lg xl:text-xl leading-[126%] max-w-sm md:max-w-3xl font-Poppins">
+          <p className="text-secondary-600 xl:max-w-3xl text-base sm:text-lg xl:text-xl leading-[126%] max-w-sm md:max-w-3xl font-Poppins text-center">
             Find the best opportunities from leading healthcare providers, i.e.
             internships, jobs, skill programs, courses, events, etc.
           </p>
 
-          <div className="flex items-center gap-3 mt-7">
+          <div className="xl:flex gap-3 items-center justify-center mt-7 hidden">
             <FilterDropdown
               label="Employment Type"
               items={["Full-Time", "Part-Time", "Internship"]}
@@ -98,16 +124,68 @@ const HeroComponent = () => {
 
             <Button
               variant="normal"
-              className="size-[60px] p-5 rounded-2xl"
+              className="size-[60px] p-5 rounded-2xl hidden xl:block w-fit"
               onClick={handleSearch}
             >
               <Image src={ICONS.search} alt="search-icon" className="size-6" />
+            </Button>
+            <Button
+              variant="normal"
+              className="size-0 w-[300px] xl:w-0 xl:size-[60px] px-5 py-4 rounded-2xl flex xl:hidden items-center justify-center gap-2 mx-auto xl:mx-0"
+              onClick={handleSearch}
+            >
+              <span className="text-white text-base font-500 xl:text-xl block xl:hidden">
+              Search
+              </span>
+              
+              <Image src={ICONS.search} alt="search-icon" className="size-4 xl:size-6" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-center justify-center max-w-[620px] xl:max-w-[1300px] mx-auto mt-7 block xl:hidden">
+            <FilterDropdown
+              label="Employment Type"
+              items={["Full-Time", "Part-Time", "Internship"]}
+              icon={ICONS.downArrow}
+              onSelect={handleCategorySelect}
+              selectedData={selectedEmploymentType}
+            />
+            <FilterDropdown
+              label="Location Type"
+              items={["Remote", "On Site"]}
+              icon={ICONS.downArrow}
+              onSelect={handleLocationTypeSelect}
+              selectedData={selectedLocationType}
+            />
+
+            <LocationSearch
+              selectedLocation={selectedLocation}
+              setSelectedLocation={setSelectedLocation}
+            />
+
+            <Button
+              variant="normal"
+              className="size-[60px] p-5 rounded-2xl hidden xl:block w-fit"
+              onClick={handleSearch}
+            >
+              <Image src={ICONS.search} alt="search-icon" className="size-6" />
+            </Button>
+            <Button
+              variant="normal"
+              className="size-0 w-[300px] lg:w-[277px] px-5 py-7 rounded-2xl flex xl:hidden items-center justify-center gap-2 mx-auto"
+              onClick={handleSearch}
+            >
+              <span className="text-white text-base font-500 xl:text-xl block xl:hidden">
+              Search
+              </span>
+              
+              <Image src={ICONS.search} alt="search-icon" className="size-4" />
             </Button>
           </div>
 
           {/* <SearchField /> */}
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 bg-white rounded-3xl px-6 py-6 xl:py-8 xl:px-12 gap-3 xl:gap-28 items-center max-w-fit m-auto relative">
+        <div className="grid grid-cols-2 md:grid-cols-4 bg-white rounded-3xl px-6 py-6 xl:py-8 xl:px-12 gap-3 xl:gap-28 items-center relative">
           {[
             {
               value: "10k+",

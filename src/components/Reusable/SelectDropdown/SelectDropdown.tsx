@@ -16,7 +16,6 @@ const SelectDropdown: React.FC<TSelectDropdownProps> = ({
   onSelect,
   selectedData,
 }) => {
-  console.log(label);
   const [open, setOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 

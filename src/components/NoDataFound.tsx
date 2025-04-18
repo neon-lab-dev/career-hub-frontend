@@ -9,7 +9,7 @@ const NoDataFound = ({ message }: { message: string }) => {
         alt="no-data-ico"
         className="w-[220px] h-[182px]"
       />
-      <h1 className="text-neutral-300 text-[28px] font-600 font-plus-jakarta-sans">
+      <h1 className="text-neutral-300 text-2xl xl:text-[28px] font-600 font-plus-jakarta-sans text-center">
         {message}
       </h1>
     </div>

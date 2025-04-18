@@ -6,14 +6,17 @@ import "swiper/css/navigation";
 import { COURSE_DETAILS } from "@/mockData/course";
 import CourseCard from "./CourseCard";
 import NoDataFound from "./NoDataFound";
+import SectionHeading from "./Reusable/SectionHeading/SectionHeading";
 
 const TrendingCourseToday = () => {
   return (
     <div className="max-lg:px-4 max-w-full 2xl:max-w-[1440px] mx-auto">
       <div className="py-section flex flex-col items-center justify-center gap-14">
-      <h3 className="section-heading wrapper max-width m-auto text-center xl:text-left">
-        <span className="highlight">Trending</span> Today⚡
-      </h3>
+      <SectionHeading
+        highlightedText="Trending"
+        normalText="Today⚡"
+        align="left"
+      />
       {
         COURSE_DETAILS?.length < 0 ?
         <NoDataFound message="No Course Available" /> :

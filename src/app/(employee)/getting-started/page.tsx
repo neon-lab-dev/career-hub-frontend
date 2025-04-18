@@ -1,79 +1,273 @@
 "use client";
-import React, { useState } from "react";
 import Button from "@/components/Button";
-import GetStartedLayout from "./_components/getStartedLayout";
-import Image from "next/image";
-import { IMAGES } from "@/assets";
-import EducationModel from "./_components/EducationModel";
-import ProjectDetails from "./_components/ProjectDetails";
-import CertificateModel from "./_components/CertificateModel";
-import ExperienceModel from "./_components/WorkExp";
-import EducationForm from "./_components/EducationForm";
-import ResumeUpload from "./_components/ResumeUpload";
-import SocialLinksSkills from "./_components/SocialLInksAndSkills";
-import Successfully from "./_components/Successfully";
+import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
+import PersonalInfoForm from "./_components/PersonalInfoForm";
+import LanguagePreference from "./_components/LanguagePreference";
+import AreaOfInterests from "./_components/AreaOfInterests";
+import CurrentlyLookingFor from "./_components/CurrentlyLookingFor";
+import Address from "./_components/Address";
+import Education from "./_components/Education/Education";
+import ProjectDetails from "./_components/ProjectDetails/ProjectDetails";
+import WorkExperience from "./_components/WorkExperience/WorkExperience";
+import Certifications from "./_components/Certifications/Certifications";
+import Skills from "./_components/Skills";
+import ResumeUpload from "./_components/ResumeUpload/ResumeUpload";
+import SuccessTab from "./_components/SuccessTab";
+import SocialLink from "./_components/SocialLink";
 import { toast } from "sonner";
 import { useUpdateUserDetails } from "@/api/updateUserDetails";
+import { Oval } from "react-loader-spinner";
+import ProgressBar from "./_components/ProgressBar";
 
-interface CustomFormData {
+export type TEducationDetails = {
+  institutionName: string;
+  city: string;
+  courseName: string;
+  grade: string;
+  startDate: string;
+  endDate: string;
+  designationType: string;
+};
+
+export type TProjectDetails = {
+  title: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  link: string;
+};
+
+export type TCertificateDetails = {
+  name: string;
+  issuingOrganization: string;
+  issueDate: string;
+  credentialID: string;
+  credentialURL: string;
+};
+
+export type TWorkExperience = {
+  designation: string;
+  companyName: string;
+  workType: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  companyLocation: string;
+  projectLinks: string[];
+};
+
+export type TSocialLinks = {
+  linkedin?: string;
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+  github?: string;
+  youtube?: string;
+  dribbble?: string;
+  behance?: string;
+  medium?: string;
+  stackoverflow?: string;
+  reddit?: string;
+  tiktok?: string;
+  snapchat?: string;
+  pinterest?: string;
+  telegram?: string;
+  discord?: string;
+};
+
+type TFormValues = {
+  full_name: string;
+  dob: string;
+  guardian: {
+    guardianName: string;
+    phoneNumber: string;
+    occupation: string;
+  };
   address: {
     street: string;
     city: string;
-    state: string;
     postalCode: string;
+    state: string;
     country: string;
-  }[];
-  education: any[];
-  projects: any[];
-  experience: any[];
-  certifications: any[];
+  };
+  education: TEducationDetails[];
+  projects: TProjectDetails[];
+  workExperience: TWorkExperience[];
+  certifications: TCertificateDetails[];
+  socialLinks: TSocialLinks;
   skills: string[];
-  socialLinks: {
-    linkedin: string;
-    github: string;
-  }[];
-  interests: string[];
-}
+  languages: string[];
+  areasOfInterests: string[];
+  currentlyLookingFor: string[];
+  resume: File | null;
+};
 
-const Page: React.FC = () => {
-  const [Step, setStep] = useState<number>(1);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [formData, setFormData] = useState<CustomFormData>({
-    address: [
-      {
+const TOTAL_STEPS = 13;
+
+const GettingStarted = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<TFormValues>({
+    defaultValues: {
+      address: {
         street: "",
         city: "",
-        state: "",
         postalCode: "",
+        state: "",
         country: "",
       },
-    ],
-    education: [],
-    projects: [],
-    experience: [],
-    certifications: [],
-    skills: [],
-    socialLinks: [{ linkedin: "", github: "" }],
-    interests: [],
+      full_name: "",
+      dob: "",
+      guardian: {
+        guardianName: "",
+        phoneNumber: "",
+        occupation: "",
+      },
+    },
   });
 
-  const [showProjectModal, setShowProjectModal] = useState<any>(false);
+  const { mutateAsync: updateUserDetails } = useUpdateUserDetails();
 
-  const { mutate: updateUserDetails } = useUpdateUserDetails();
+  // Step counter
+  const [step, setStep] = useState<number>(1);
+  const [skippedSteps, setSkippedSteps] = useState<number[]>([]);
+  // For Skip button
+  const [isLoading, setIsLoading] = useState(false);
+  // For Continue/Submit button
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const goToPreviousStep = () => {
-    if (Step > 1) {
-      setStep(Step - 1);
-    }
-  };
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedInterest, setSelectedInterest] = useState<string[]>([]);
+  const [selectedCurrentlyLookingFor, setSelectedCurrentlyLookingFor] = useState<string[]>([]);
+  const [selectedEducation, setSelectedEducation] = useState<TEducationDetails[]>([]);
+  const [selectedProject, setSelectedProject] = useState<TProjectDetails[]>([]);
+  const [selectedExperience, setSelectedExperience] = useState<TWorkExperience[]>([]);
+  const [selectedCertificate, setSelectedCertificate] = useState<TCertificateDetails[]>([]);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [selectedSocialLinks, setSelectedSocialLinks] = useState<TSocialLinks[]>([]);
+  const [selectedResume, setSelectedResume] = useState<File | null>(null);
 
-  const handleContinue = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    console.log("Updated resume:", selectedResume);
+  }, [selectedResume]);
 
-    if (Step === 6) {
+  const handleCompleteRegistration = async (data: TFormValues) => {
+    const validateStep = () => {
+      switch (step) {
+        case 2:
+          if (!skippedSteps.includes(2) && selectedLanguages.length < 1) {
+            toast.error("Please add your preferred language");
+            return false;
+          }
+          break;
+        case 3:
+          if (!skippedSteps.includes(3) && selectedInterest.length < 1) {
+            toast.error("Please add your interest");
+            return false;
+          }
+          break;
+        case 4:
+          if (
+            !skippedSteps.includes(4) &&
+            selectedCurrentlyLookingFor.length < 1
+          ) {
+            toast.error("Please add your current goals");
+            return false;
+          }
+          break;
+        case 6:
+          if (!skippedSteps.includes(6) && selectedEducation.length < 1) {
+            toast.error("Please add your educational details");
+            return false;
+          }
+          break;
+        case 7:
+          if (!skippedSteps.includes(7) && selectedProject.length < 1) {
+            toast.error("Please add your project details");
+            return false;
+          }
+          break;
+        case 8:
+          if (!skippedSteps.includes(8) && selectedExperience.length < 1) {
+            toast.error("Please add your working experience if you have any");
+            return false;
+          }
+          break;
+        case 9:
+          if (!skippedSteps.includes(9) && selectedCertificate.length < 1) {
+            toast.error("Please add your certificates");
+            return false;
+          }
+          break;
+        case 10:
+          if (!skippedSteps.includes(10) && selectedSkills.length < 1) {
+            toast.error("Please add your skills");
+            return false;
+          }
+          break;
+        case 11:
+          if (!skippedSteps.includes(11) && selectedSocialLinks.length < 1) {
+            toast.error("Please add your social links");
+            return false;
+          }
+          break;
+        case 12:
+          if (!skippedSteps.includes(12) && !selectedResume) {
+            toast.error("Please upload your resume");
+            return false;
+          }
+          break;
+      }
+      return true;
+    };
+
+    if (step === 13) {
+      if (!validateStep()) return;
+      setStep((prev) => prev + 1);
+    } else {
+      const formData = {
+        full_name: data.full_name,
+        dob: data.dob,
+        guardian: {
+          guardianName: data.guardian.guardianName,
+          phoneNumber: data.guardian.phoneNumber,
+          occupation: data.guardian.occupation,
+        },
+        address: {
+          street: data.address.street,
+          city: data.address.city,
+          postalCode: data.address.postalCode,
+          state: data.address.state,
+          country: data.address.country,
+        },
+        education: selectedEducation,
+        projects: selectedProject,
+        workExperience: selectedExperience,
+        certifications: selectedCertificate,
+        socialLinks: selectedSocialLinks,
+        skills: selectedSkills,
+        languages: selectedLanguages,
+        areasOfInterests: selectedInterest,
+        currentlyLookingFor: selectedCurrentlyLookingFor,
+        resume: selectedResume,
+      };
+
+      console.log("Final Submit:", formData);
+
       try {
-        updateUserDetails(formData);
-        toast.success("User details updated successfully!");
+        setIsSubmitting(true);
+        await updateUserDetails(formData);
+       if(step !== 12){
+        toast.success("Details Updated! Go to next step.");
+       } else {
+        toast.success("Registration successful!");
+       }
+        setStep(step + 1);
       } catch (error: any) {
         console.error("Error updating user details:", error);
         toast.error(
@@ -81,358 +275,152 @@ const Page: React.FC = () => {
             error.response?.data?.message || error.message
           }`
         );
+      } finally {
+        setIsSubmitting(false);
       }
     }
+  };
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setStep(Step + 1);
+  const handleSkip = async (tab: number) => {
+    setSkippedSteps((prev) => [...prev, tab]);
 
-    if (Step === 1) {
-      setShowProjectModal(true);
+    // Reset form state
+    if (tab === 1) {
+      setValue("full_name", "");
+      setValue("dob", "");
+      setValue("guardian", {
+        guardianName: "",
+        phoneNumber: "",
+        occupation: "",
+      });
+    } else if (tab === 2) {
+      setSelectedLanguages([]);
+    } else if (tab === 3) {
+      setSelectedInterest([]);
+    } else if (tab === 4) {
+      setSelectedCurrentlyLookingFor([]);
+    } else if (tab === 5) {
+      setValue("address", {
+        street: "",
+        city: "",
+        postalCode: "",
+        state: "",
+        country: "",
+      });
+    } else if (tab === 6) {
+      setSelectedEducation([]);
+    } else if (tab === 7) {
+      setSelectedProject([]);
+    } else if (tab === 8) {
+      setSelectedExperience([]);
+    } else if (tab === 9) {
+      setSelectedCertificate([]);
+    } else if (tab === 10) {
+      setSelectedSkills([]);
+    } else if (tab === 11) {
+      setSelectedSocialLinks([]);
+    } else if (tab === 12) {
+      setSelectedResume(null);
+    }
+
+    // If last step is skipped, submit the form
+    if (tab === 12) {
+      const formData = {
+        full_name: getValues("full_name"),
+        dob: getValues("dob"),
+        guardian: getValues("guardian"),
+        address: getValues("address"),
+        education: selectedEducation,
+        projects: selectedProject,
+        workExperience: selectedExperience,
+        certifications: selectedCertificate,
+        socialLinks: selectedSocialLinks,
+        skills: selectedSkills,
+        languages: selectedLanguages,
+        areasOfInterests: selectedInterest,
+        currentlyLookingFor: selectedCurrentlyLookingFor,
+        resume: null,
+      };
+
+      try {
+        setIsLoading(true);
+        await updateUserDetails(formData);
+       if(step !== 12){
+        toast.success("Details Updated! Go to next step.");
+       } else {
+        toast.success("Registration successful!");
+       }
+        setStep(step + 1);
+      } catch (error: any) {
+        console.error("Error updating user details:", error);
+        toast.error(
+          `Error updating user details: ${
+            error.response?.data?.message || error.message
+          }`
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      setStep((prev) => prev + 1);
     }
   };
 
-  const addProject = (project: any) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      projects: [...prevFormData.projects, project],
-    }));
-  };
-
-  const addCertification = (certification: any) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      certifications: [...prevFormData.certifications, certification],
-    }));
-  };
-
-  const deleteEducation = (index: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      education: prevFormData.education.filter((_, i) => i !== index),
-    }));
-  };
-
-  const deleteProject = (index: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      projects: prevFormData.projects.filter((_, i) => i !== index),
-    }));
-  };
-
-  const deleteExperience = (index: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      experience: prevFormData.experience.filter((_, i) => i !== index),
-    }));
-  };
-
-  const deleteCertification = (index: number) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      certifications: prevFormData.certifications.filter((_, i) => i !== index),
-    }));
-  };
-
-  const handleResumeUploadSuccess = () => {
-    setStep(8); // Move to Step 8
-  };
-
-  const handleSkip = (
-    section:
-      | "education"
-      | "projects"
-      | "experience"
-      | "certifications"
-      | "socialLinks"
-      |
-      "resume"
-  ) => {
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [section]: [],
-    }));
-
-    handleContinueSkip();
-  };
-
-  // Create a wrapper to call handleContinue without event
-  const handleContinueSkip = () => {
-    const fakeEvent = {
-      preventDefault: () => {},
-    } as React.FormEvent<HTMLFormElement>;
-    handleContinue(fakeEvent);
-  };
+  const progress = Math.round((step / TOTAL_STEPS) * 100);
 
   return (
-    <GetStartedLayout
-      progress={Step * 12.5}
-      goToPreviousStep={goToPreviousStep}
-    >
-      <div className="flex justify-center w-full">
-        <div className="flex justify-center gap-4">
-          {Step === 1 && (
-            <EducationForm
-              formData={formData}
-              setFormData={setFormData}
-              handleContinue={handleContinue}
-            />
-          )}
-          {Step === 2 && (
-            <div>
-              <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
-                <span>Education</span>
-              </div>
-              {formData.education.map((certificate: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
-                >
-                  <div className="flex flex-col w-[240px]">
-                    <span className="text-xl text-neutral-900 font-bold">
-                      {certificate.institutionName}
-                    </span>
-                    <div className="flex flex-col text-[16px] text-neutral-500">
-                      <span>{`${certificate.degree} | ${certificate.fieldOfStudy}`}</span>
-                      <span>{`${certificate.startDate} - ${certificate.endDate}`}</span>
-                    </div>
-                  </div>
-                  <Image
-                    src={IMAGES.bin}
-                    alt="Delete"
-                    onClick={() => deleteEducation(index)}
-                    className="cursor-pointer"
-                  />
-                </div>
-              ))}
-              <EducationModel
-                formData={formData}
-                setFormData={setFormData}
-                showOnMount={showProjectModal}
-                handleSkip={handleSkip}
-              />
-              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px]"
-                  onClick={handleContinue}
-                  disabled={formData.education.length === 0} // Disable if no education data
-                >
-                  Continue
-                </Button>
+    <div className="pt-12 bg-neutral-450 min-h-screen h-full font-plus-jakarta-sans">
+      <div className="bg-white border border-neutral-100 rounded-3xl p-9 wrapper min-h-screen h-full">
+        <div className="max-w-[900px] w-full mx-auto">
+          <ProgressBar step={step} setStep={setStep} progress={progress} />
+          <form
+            onSubmit={handleSubmit(handleCompleteRegistration)}
+            className="max-w-[560px] mx-auto"
+          >
+            {step === 1 && <PersonalInfoForm register={register} errors={errors} />}
+            {step === 2 && <LanguagePreference onChange={setSelectedLanguages} />}
+            {step === 3 && <AreaOfInterests onChange={setSelectedInterest} />}
+            {step === 4 && <CurrentlyLookingFor onChange={setSelectedCurrentlyLookingFor} />}
+            {step === 5 && <Address register={register} errors={errors} />}
+            {step === 6 && <Education onChange={setSelectedEducation} />}
+            {step === 7 && <ProjectDetails onChange={setSelectedProject} />}
+            {step === 8 && <WorkExperience onChange={setSelectedExperience} />}
+            {step === 9 && <Certifications onChange={setSelectedCertificate} />}
+            {step === 10 && <Skills selectedSkills={selectedSkills} setSelectedSkills={setSelectedSkills}/>}
+            {step === 11 && <SocialLink setSelectedSocialLinks={setSelectedSocialLinks} />}
+            {step === 12 && <ResumeUpload selectedResume={selectedResume} setSelectedResume={setSelectedResume}/>}
+            {step === 13 && <SuccessTab />}
 
+            {/* Submit & Skip Button */}
+            {step !== 13 && (
+              <div className="flex items-center gap-3 justify-end mt-5">
                 <Button
-                  variant="secondary"
+                  onClick={() => handleSkip(step)}
                   type="button"
-                  onClick={() => handleSkip("education")}
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                  variant="natural"
+                  className="px-6 py-[14px] flex items-center justify-center"
                 >
-                  Skip
+                  {isLoading ? <Oval height="25" width="25" strokeWidth="5" /> : "Skip"}
+                </Button>
+                <Button
+                  type="submit"
+                  variant="normal"
+                  className="px-6 py-[14px]"
+                >
+                  {
+                   isSubmitting ? <Oval height="25" width="25" color="white" strokeWidth="5" /> :
+                   step === 12 ?
+                   "Submit" :
+                    "Continue"
+                    }
                 </Button>
               </div>
-            </div>
-          )}
-
-          {Step === 3 && (
-            <div>
-              <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
-                <span>Project Details</span>
-              </div>
-              {formData.projects.map((project: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
-                >
-                  <div className="flex flex-col w-[240px]">
-                    <span className="text-xl text-neutral-900 font-bold">
-                      {project.title}
-                    </span>
-                    <div className="flex flex-col text-[16px] text-neutral-500">
-                      <span>{project.description}</span>
-                      <span>
-                        {project.startDate} - {project.endDate}
-                      </span>
-                    </div>
-                  </div>
-                  <Image
-                    src={IMAGES.bin}
-                    alt="Delete"
-                    onClick={() => deleteProject(index)}
-                    className="cursor-pointer"
-                  />
-                </div>
-              ))}
-              <ProjectDetails
-                addProject={addProject}
-                showOnMount={showProjectModal}
-                handleSkip={handleSkip}
-              />
-              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px]"
-                  onClick={handleContinue}
-                  disabled={formData.education.length === 0} // Disable if no education data
-                >
-                  Continue
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  type="button"
-                  onClick={() => handleSkip("projects")}
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {Step === 4 && (
-            <div>
-              <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
-                <span>Work Experience</span>
-              </div>
-              {formData.experience.map((exp: any, index: number) => (
-                <div
-                  key={index}
-                  className="flex border items-center m-2 gap-10 p-3 rounded-xl"
-                >
-                  <div className="flex flex-col w-[240px]">
-                    <span className="text-xl text-neutral-900 font-bold">
-                      {exp.company}
-                    </span>
-                    <div className="flex flex-col text-[16px] text-neutral-500">
-                      <span>{exp.title}</span>
-                      <span>{exp.description}</span>
-                      <span>
-                        {exp.startDate} - {exp.endDate}
-                      </span>
-                    </div>
-                  </div>
-                  <Image
-                    src={IMAGES.bin}
-                    alt="Delete"
-                    onClick={() => deleteExperience(index)}
-                    className="cursor-pointer"
-                  />
-                </div>
-              ))}
-              <ExperienceModel
-                formData={formData}
-                setFormData={setFormData}
-                showOnMount={showProjectModal}
-                handleSkip={handleSkip}
-              />
-              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px]"
-                  onClick={handleContinue}
-                  disabled={formData.education.length === 0} // Disable if no education data
-                >
-                  Continue
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  type="button"
-                  onClick={() => handleSkip("experience")}
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {Step === 5 && (
-            <div>
-              <div className="flex font-plus-jakarta-sans py-6 font-900 text-3xl max-md:text-xl pr-4">
-                <span>Certifications</span>
-              </div>
-              {formData.certifications.map(
-                (certification: any, index: number) => (
-                  <div
-                    key={index}
-                    className="flex border items-center m-2 gap-10 p-3 rounded-xl"
-                  >
-                    <div className="flex flex-col w-[240px]">
-                      <span className="text-xl text-neutral-900 font-bold">
-                        {certification.name}
-                      </span>
-                      <div className="flex flex-col text-[16px] text-neutral-500">
-                        <span>{certification.issuingOrganization}</span>
-                        <span>
-                          {certification.issueDate} -{" "}
-                          {certification.expirationDate}
-                        </span>
-                      </div>
-                    </div>
-                    <Image
-                      src={IMAGES.bin}
-                      alt="Delete"
-                      onClick={() => deleteCertification(index)}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                )
-              )}
-              <CertificateModel
-                addCertification={addCertification}
-                showOnMount={showProjectModal}
-                handleSkip={handleSkip}
-              />
-              <div className="flex justify-between items-center max-lg:mt-32 mb-10 mt-5">
-                <Button
-                  variant="primary"
-                  type="button"
-                  className="max-md:w-[230px] max-lg:w-[400px]"
-                  onClick={handleContinue}
-                  disabled={formData.education.length === 0}
-                >
-                  Continue
-                </Button>
-
-                <Button
-                  variant="secondary"
-                  type="button"
-                  onClick={() => handleSkip("certifications")}
-                  className="max-md:w-[230px] max-lg:w-[400px] ml-4"
-                >
-                  Skip
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {Step === 6 && (
-            <div>
-              <SocialLinksSkills
-                formData={formData}
-                setFormData={setFormData}
-                handleContinue={handleContinue}
-                handleSkip={handleSkip}
-              />
-            </div>
-          )}
-          {Step === 7 && (
-            <div>
-              <ResumeUpload
-                handleSkip={handleSkip}
-                setSelectedFile={setSelectedFile}
-                handleResumeUploadSuccess={handleResumeUploadSuccess}
-              />
-            </div>
-          )}
-          {Step === 8 && <Successfully />}
+            )}
+          </form>
         </div>
       </div>
-    </GetStartedLayout>
+    </div>
   );
 };
-export default Page;
+
+export default GettingStarted;

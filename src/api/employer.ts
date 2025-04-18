@@ -1,6 +1,6 @@
 import axios from "axios";
 import api from ".";
-import { IEmployer } from "@/types/employer";
+import { IEmployer, TEmployee } from "@/types/employer";
 import { JobData } from "@/app/employer/(home)/page";
 import { JobDetails, UpdateJobPayload } from "@/app/employer/(home)/[viewId]/page";
 import { User } from "@/app/employer/(home)/profile/page";
@@ -91,6 +91,47 @@ export const handleGEtEmployerByIdForAdminService = async (
       });
   });
 };
+
+export const handleGEtEmployerByIdForEmployer = async (
+  id: string
+): Promise<TEmployee> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${api.employergetemploee}/${id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        resolve(res?.data?.emp);
+      })
+      .catch((err) => {
+        reject(err?.response?.data?.message ?? "Something went wrong");
+      });
+  });
+};
+
+// api/employer.ts
+export const sendHiredEmail = async (userId: string, companyName: string): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        `${api.sendHiredEmail}/${userId}`,
+        { companyName },
+        { withCredentials: true }
+      )
+      .then((res) => resolve(res.data))
+      .catch((err) =>
+        reject(err?.response?.data?.message ?? "Something went wrong")
+      );
+  });
+};
+
+export const fetchEmployerProfileData = async () => {
+  const response = await axios.get('http://localhost:7000/api/v1/employeer/me', {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
 
 export const fetchJobData = async (): Promise<JobData> => {
   const response = await axios.get(api.employerJob, {

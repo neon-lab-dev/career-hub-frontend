@@ -1,15 +1,16 @@
 import React, { ReactNode } from 'react';
 import Image from 'next/image';
-import AddIcon from "@/assets/images/Add Circle.svg"; // Adjust path as necessary
-import CloseIcon from "@/assets/images/Close Circle.svg"; // Adjust path as necessary
+import AddIcon from "@/assets/images/Add Circle.svg";
+import CloseIcon from "@/assets/images/Close Circle.svg";
 
 interface ChipProps {
     variant: 'add' | 'close';
     children: ReactNode;
-    className?: string; // Allow custom class names to be passed
+    className?: string;
+    onClick? : () => void;
 }
 
-const Chip: React.FC<ChipProps> = ({ variant, children , className}) => {
+const Chip: React.FC<ChipProps> = ({ variant, children , className, onClick}) => {
     const baseStyles = ' pb-[10px] pt-2 rounded-[10px] px-4 font-semibold max-md:px-2';
     
     const variantStyles = {
@@ -28,17 +29,15 @@ const Chip: React.FC<ChipProps> = ({ variant, children , className}) => {
             case 'close':
                 return CloseIcon;
             default:
-                return ''; // Handle default case if needed
+                return '';
         }
     };
 
     return (
-        <div className={`flex justify-center gap-1 m-2 py-[20px] ${buttonClass}`}>
-            <button className='text-[16px] font-semibold font-plus-jakarta-sans'>
+            <button onClick={onClick} type="button" className={`flex items-center justify-center gap-2 px-5 py-[10px] text-sm font-500 font-plus-jakarta-sans cursor-pointer ${buttonClass}`}>
                 {children}
+                <Image src={getImageSource()} alt="Button Icon" className='size-4' />
             </button>
-            <Image src={getImageSource()} alt="Button Icon" width={24} height={24} className=' cursor-pointer' />
-        </div>
     );
 };
 

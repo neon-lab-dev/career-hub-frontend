@@ -1,4 +1,6 @@
-"use client"
+"use client";
+
+import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useState } from "react";
@@ -7,51 +9,58 @@ import Loading from "@/components/Loading";
 import { ICONS } from "@/assets";
 
 interface IVideo {
-    _id: string;
-    name: string;
-    url: string;
-    createdAt: string;
+  _id: string;
+  name: string;
+  url: string;
+  createdAt: string;
 }
 
 interface ICourse {
+  _id: string;
+  name: string;
+  description: string;
+  videos: IVideo[];
+  thumbnail: {
     _id: string;
+    fileId: string;
     name: string;
-    description: string;
-    videos: IVideo[];
-    thumbnail: {
-        _id: string;
-        fileId: string;
-        name: string;
-        url: string;
-    };
-    createdAt: string;
-    updatedAt: string;
-    __v: number;
+    url: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 const fetchCourseById = async (id: string) => {
-    const { data } = await axios.get(`https://api.medhrplus.com/api/v1/courses/${id}`);
-    return data;
+  const { data } = await axios.get(
+    `https://api.medhrplus.com/api/v1/courses/${id}`
+  );
+  return data;
 };
 
-interface Props {
-    params: {
-        id: string;
-    };
-}
+const CourseDetails = () => {
+  const { id } = useParams(); // 👈 useParams hook gives you the dynamic [id]
+  const [openVideoModal, setOpenVideoModal] = useState(false);
+  const [currentVideo, setCurrentVideo] = useState<IVideo | null>(null);
 
-const CourseDetails = ({ params: { id } }: Props) => {
-    const [openVideoModal, setOpenVideoModal] = useState(false);
-    const [currentVideo, setCurrentVideo] = useState<IVideo | null>(null);
+  const courseId = Array.isArray(id) ? id[0] : id; // handle edge case
 
-    const { isLoading, data } = useQuery({
-        queryKey: ["course", id],
-        queryFn: () => fetchCourseById(id),
-    });
+  const { isLoading, data } = useQuery({
+    queryKey: ["course", courseId],
+    queryFn: async () => {
+      if (!courseId) throw new Error("Course ID is undefined");
+      return fetchCourseById(courseId);
+    },
+    enabled: !!courseId,
+  });
 
-    if (isLoading) return <Loading />;
 
-    const course: ICourse = data?.course;
+  
+  
+
+  if (isLoading) return <Loading />;
+
+  const course: ICourse = data?.course;
 
   return (
     <div className="py-section flex flex-col items-center gap-10 px-6 lg:px-16">
@@ -76,7 +85,7 @@ const CourseDetails = ({ params: { id } }: Props) => {
         <div className="w-full lg:w-1/2">
           <h4 className="text-2xl font-semibold mb-4">Course Videos</h4>
           <ul className="space-y-4">
-            {course.videos.map((video:IVideo) => (
+            {course.videos.map((video: IVideo) => (
               <li
                 key={video._id}
                 className="flex items-center justify-between p-4 bg-gray-100 rounded-lg hover:bg-gray-200 cursor-pointer"
@@ -86,7 +95,12 @@ const CourseDetails = ({ params: { id } }: Props) => {
                 }}
               >
                 <span>{video.name}</span>
-                <Image src={ICONS.play} alt="Play icon" width={24} height={24} />
+                <Image
+                  src={ICONS.play}
+                  alt="Play icon"
+                  width={24}
+                  height={24}
+                />
               </li>
             ))}
           </ul>
@@ -108,7 +122,6 @@ const CourseDetails = ({ params: { id } }: Props) => {
               <source src={currentVideo.url} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-           
           </div>
         </div>
       )}

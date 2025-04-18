@@ -87,7 +87,7 @@ export const uploadResume = async (file: File) => {
 };
 
 export const fetchUserData = async () => {
-  const response = await axios.get('https://api.medhrplus.com/api/v1/me', {
+  const response = await axios.get('http://localhost:7000/api/v1/me', {
     withCredentials: true,
   });
   return response.data;

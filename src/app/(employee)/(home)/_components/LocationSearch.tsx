@@ -14,7 +14,6 @@ const LocationSearch = ({
   const dropDownRef = useRef<HTMLDivElement>(null);
 
   const indianStates = [
-    "Dhaka",
     "Andhra Pradesh",
     "Arunachal Pradesh",
     "Assam",
@@ -73,7 +72,7 @@ const LocationSearch = ({
     <div ref={dropDownRef} className="relative mx-auto w-fit text-white">
       <form
         onClick={() => setOpen((prev) => !prev)}
-        className="px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 text-xl leading-6 rounded-2xl w-[277px] cursor-pointer 
+        className="px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 text-xl leading-6 rounded-2xl w-[300px] lg:w-[277px] cursor-pointer 
         transition-all duration-300 ease-in-out transform active:scale-95"
       >
         {open ? (
@@ -97,13 +96,11 @@ const LocationSearch = ({
       <div
         className={`${
           open ? "visible bg-white shadow-secondary-button" : "invisible"
-        } absolute top-12 z-50 w-full flex flex-col gap-2 p-3 rounded-b-2xl max-h-64 overflow-y-auto`}
-      >
+        } absolute top-12 z-50 w-full flex flex-col gap-2 p-3 rounded-b-2xl max-h-64 overflow-y-auto`}>
         {filteredItems.map((item, idx) => (
           <label
             key={idx}
-            className="flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium cursor-pointer"
-          >
+            className="flex items-center gap-2 px-3 py-2 rounded-md bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-medium cursor-pointer">
             <input
               type="radio"
               name="location"

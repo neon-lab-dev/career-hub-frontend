@@ -72,6 +72,7 @@ const config: Config = {
           800: "#303d5c",
           900: "#2c364e",
           925: "#303D5C",
+          930 : "#3B3B3E",
           950: "#161a27",
         },
         neutral: {
@@ -105,7 +106,6 @@ const config: Config = {
         },
         warning: {
           50: "#FFC244",
-          // 100: "#1ACD81",
         },
         error: {
           500: "#FF3333",

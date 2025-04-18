@@ -49,7 +49,7 @@ const filtersConfig = [
   {
     label: "Designation",
     items: [
-      "Frontend Developer",
+      "Web Development",
       "Backend Developer",
       "Fullstack Developer",
       "UI/UX Designer",

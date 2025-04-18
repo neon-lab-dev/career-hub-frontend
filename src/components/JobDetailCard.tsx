@@ -27,7 +27,7 @@ const JobDetailCard = ({
   return (
     <div
       className={twMerge(
-        "max-w-[450px] min-h-[600px] xl:min-h-[530px] bg-white font-plus-jakarta-sans border border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500  transition-all duration-300 ease-in-out transform hover:scale-105",
+        "max-w-[450px] min-h-[600px] xl:min-h-[530px] bg-white font-plus-jakarta-sans border border-neutral-100 rounded-2xl shadow-job-card-shadow relative hover:border-primary-500  transition-all duration-300 ease-in-out transform hover:scale-105 flex flex-col justify-between",
         wrapperClassName
       )}
     >
