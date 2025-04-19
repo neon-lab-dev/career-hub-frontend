@@ -5,7 +5,7 @@ import Image from "next/image";
 const CourseCard = () => {
   return (
     <div
-      className={`bg-white w-full max-w-[350px] h-[397px] rounded-3xl border border-neutral-300 shadow-job-card-shadow font-plus-jakarta-sans flex flex-col cursor-pointer relative group overflow-hidden`}
+      className={`bg-white w-full max-w-[350px] h-[355px] rounded-3xl border border-neutral-300 shadow-job-card-shadow font-plus-jakarta-sans flex flex-col cursor-pointer relative group overflow-hidden`}
     >
       <Image src={IMAGES.courseImg} alt="" className="w-full max-h-[207px] object-cover rounded-t-3xl" />
       <div className="p-5">
@@ -19,7 +19,7 @@ const CourseCard = () => {
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
           Learn to create LMS platform using MERN Stack
         </h1>
-
+{/* 
         <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
           <div className="flex items-center gap-2">
             <Image
@@ -37,7 +37,7 @@ const CourseCard = () => {
             />
             <p>20 Lessons</p>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* Hover card */}
@@ -55,7 +55,7 @@ const CourseCard = () => {
           Learn to create LMS platform using MERN Stack
         </h1>
 
-        <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
+        {/* <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
           <div className="flex items-center gap-2 translate-y-[-100px] group-hover:translate-y-0 transition-all duration-700 opacity-0 group-hover:opacity-100">
             <Image
               src={ICONS.student}
@@ -72,7 +72,7 @@ const CourseCard = () => {
             />
             <p>20 Lessons</p>
           </div>
-        </div>
+        </div> */}
 
         <p className="text-neutral-400 text-[15px] mt-6 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste odio vel

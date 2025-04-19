@@ -42,7 +42,7 @@ const EmployeeProfileDetails = ({ params }: Props) => {
           sendHiredEmail(userId, companyName),
         onSuccess: () => {
           toast.success("Email sent successfully!");
-          router.push("/r/find-candidates");
+          router.push("/employer/find-candidates");
         },
         onError: (error: any) => {
           toast.error(error?.message || "Failed to send email.");
@@ -58,10 +58,10 @@ const EmployeeProfileDetails = ({ params }: Props) => {
 
         const blob = await pdf(
           <CertificateDocument
-            name="Salmaan Ahmed K N"
+            name={data?.full_name as string}
             from="XXXX"
             role="YYY"
-            company="ZZZZZ"
+            company={employerProfile?.user?.companyDetails[0]?.companyName as string}
             certId="CH-UIUX-2023-234"
             issueDate="SEPTEMBER 6, 2023"
           />

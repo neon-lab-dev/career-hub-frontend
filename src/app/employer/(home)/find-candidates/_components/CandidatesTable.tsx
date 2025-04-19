@@ -111,12 +111,12 @@ const CandidatesTable:React.FC<TCandidatesTableProps> = ({className, candidates,
                       </div>
                       {dropdownOpenId === candidate._id && (
                         <div className="absolute right-0 mt-48 w-48 p-4 rounded-xl bg-white border shadow-lg z-10">
-                          <Link href={`/employer/dashboard/${candidate._id}`}>
+                          {/* <Link href={`/employer/dashboard/${candidate._id}`}>
                             <div className="flex items-center gap-2 text-sm p-2">
                               <Image src={IMAGES.doc} alt="Role Icon" />
                               <span>Send Email</span>
                             </div>
-                          </Link>
+                          </Link> */}
                           <Link href={`/employer/find-candidates/${candidate?._id}`}>
                             <div className="flex items-center gap-2 text-sm p-2">
                               <Image src={IMAGES.view} alt="Role Icon" />

@@ -39,7 +39,7 @@ const JobCard = ({
         <div className="bg-primary-550 p-2 rounded-full size-10 flex items-center justify-center text-white">
           <p className="text-xs xl:text-[16px] -tracking-[0.32px]">
             {job?.companyDetails?.companyName
-              ? job.companyDetails.companyName.charAt(0)
+              ? job?.companyDetails?.companyName?.charAt(0)
               : "?"}
           </p>
         </div>
@@ -48,7 +48,7 @@ const JobCard = ({
             {job.title}
           </h3>
           <div className="flex items-center text-xs gap-2 xl:text-[18px] text-neutral-400">
-            <span>{job.companyDetails.companyName}</span>
+            <span className="capitalize">{job?.companyDetails?.companyName}</span>
             <div className="w-[5px] h-[5px] bg-neutral-400 rounded-full" />
             <span>{job.locationType}</span>
           </div>

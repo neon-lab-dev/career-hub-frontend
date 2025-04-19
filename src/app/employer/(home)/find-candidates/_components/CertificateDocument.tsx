@@ -134,13 +134,13 @@ export const CertificateDocument = ({
           Certificate of Selection
         </Text>
         <Text style={styles.subtitle}>
-          This certificate is proudly presented to
-        </Text>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.description}>
-          from {from} has successfully secured {role} at {company} through
-          career hub
-        </Text>
+  This certificate is proudly awarded to
+</Text>
+<Text style={styles.name}>{name}</Text>
+<Text style={styles.description}>
+  in recognition of successfully securing the position of {role} at {company} through MeDHr+.
+</Text>
+
         <Image
           src="https://i.ibb.co.com/6J49LW7j/pngwing-com.png"
           style={{ width: 160, height: 40, marginTop: 30, alignSelf: "center" }}

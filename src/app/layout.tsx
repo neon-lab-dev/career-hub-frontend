@@ -6,7 +6,7 @@ import StoreProvider from "@/providers/StoreProvider";
 import AuthProvider from "@/providers/AuthProvider";
 
 export const metadata = {
-  title: "MeDHr",
+  title: "MeDHr+",
   description: "Explore job and internships opportunities at MeDhr.",
 };
 
