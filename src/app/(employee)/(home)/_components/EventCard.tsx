@@ -9,7 +9,7 @@ const EventCard: React.FC<TEventCardProps> = ({ wrapperClassName }) => {
   return (
     <div
       className={twMerge(
-        "max-w-[340px] h-auto font-plus-jakarta-sans rounded-2xl group",
+        "max-w-[340px] w-full h-auto font-plus-jakarta-sans rounded-2xl group",
         wrapperClassName
       )}
     >
@@ -25,10 +25,10 @@ const EventCard: React.FC<TEventCardProps> = ({ wrapperClassName }) => {
       <div className="flex items-center gap-2 mt-[18px]">
         <div className="flex items-center gap-2">
           <Image src={ICONS.calender} alt="" className="size-[18px]" />
-          <p className="text-neutral-400 text-[15px]">May 20, 2025</p>
+          <p className="text-neutral-400 text-xs sm:text-[15px]">May 20, 2025</p>
         </div>
         <div className="bg-neutral-400 size-[5px] rounded-full"></div>
-        <p className="text-neutral-400 text-[15px]">10PM</p>
+        <p className="text-neutral-400 text-xs sm:text-[15px]">10PM</p>
       </div>
 
       {/* Event Name */}
@@ -37,7 +37,7 @@ const EventCard: React.FC<TEventCardProps> = ({ wrapperClassName }) => {
       </h1>
 
       {/* Company Info */}
-      <div className="flex items-center gap-2 mt-2 text-neutral-400 text-[15px]">
+      <div className="flex items-center gap-2 mt-4 sm:mt-2 text-neutral-400 text-xs sm:text-[15px]">
         <div className="flex gap-2">
           <Image
             src={ICONS.company}
@@ -50,7 +50,7 @@ const EventCard: React.FC<TEventCardProps> = ({ wrapperClassName }) => {
         <p className="">Ahmedabad, India</p>
       </div>
 
-      <div className="flex items-center gap-[10px] mt-3">
+      <div className="flex items-center gap-[10px] mt-4 sm:mt-3">
         <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-500/5 rounded-[999px]">
           Figma
         </div>

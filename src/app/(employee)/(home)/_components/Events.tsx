@@ -1,40 +1,90 @@
+"use client";
 import React from "react";
 import EventCard from "./EventCard";
 import NoDataFound from "@/components/NoDataFound";
 import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
 import Image from "next/image";
-import { IMAGES } from "@/assets";
+import { ICONS, IMAGES } from "@/assets";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import Container from "@/components/Container";
 
 const Events = () => {
   const events = [1, 2, 3, 4, 5, 5];
   return (
-    <div className="py-section flex flex-col items-center justify-center gap-14 bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
+    <div className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
       <Image
         src={IMAGES.linnerBg}
         alt=""
         className="absolute top-0 bottom-0 right-0 left-0 z-0 h-full w-full opacity-20"
       />
-      <SectionHeading
-        highlightedText="Events"
-        normalText="Happening for you!"
-        align="left"
-      />
-      {events?.length < 1 ? (
-        <NoDataFound message="No Events Available" />
-      ) : (
-        <div className="w-full overflow-hidden wrapper-left z-10">
-          <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
-            {events?.map((event, index: number) => (
-              <div key={index} className="carousel-item">
-                <EventCard
-                  wrapperClassName=""
-                  // {...event}
+      <Container>
+      <div className="py-section flex flex-col items-center justify-center gap-14">
+        <SectionHeading
+          highlightedText="Events"
+          normalText="Happening for you!"
+          align="left"
+        />
+
+        {events?.length < 1 ? (
+          <NoDataFound message="No Events Available" />
+        ) : (
+          <div className="w-full">
+            <Swiper
+              spaceBetween={20}
+              slidesPerView={1}
+              navigation={{
+                prevEl: "#prevProjectButton",
+                nextEl: "#nextProjectButton",
+              }}
+              modules={[Navigation, Pagination]}
+              pagination={{
+                clickable: true,
+              }}
+              breakpoints={{
+                360: { slidesPerView: 1 },
+                425: { slidesPerView: 1 },
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+                1366: { slidesPerView: 3.8 },
+              }}
+              className="w-full mt-10"
+            >
+              {events?.map((event, index: number) => (
+                <SwiperSlide key={index} className="mb-10 w-full">
+                  <EventCard
+                    wrapperClassName=""
+                    // {...event}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <button
+                id="prevProjectButton"
+                className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+              >
+                <Image
+                  src={ICONS.rightArrowDark}
+                  alt=""
+                  className="size-6 rotate-180"
                 />
-              </div>
-            ))}
+              </button>
+              <button
+                id="nextProjectButton"
+                className="p-2 rounded-lg bg-primary-500 border border-primary-10 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+              >
+                <Image src={ICONS.rightArrow2} alt="" className="size-6" />
+              </button>
+            </div>
           </div>
+        )}
         </div>
-      )}
+      </Container>
     </div>
   );
 };

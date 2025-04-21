@@ -30,7 +30,9 @@ const AvailableCourses = () => {
         align="left"
       />
       {
-        data?.courses?.length > 0 ?
+        data?.courses?.length < 1 ?
+        <NoDataFound message="No Course Available" />
+        :
         <div className="w-full">
         <Swiper
           spaceBetween={20}
@@ -77,9 +79,7 @@ const AvailableCourses = () => {
             <Image src={ICONS.rightArrow2} alt="" className="size-6" />
           </button>
         </div>
-      </div>
-      :
-      <NoDataFound message="No Course Available" />
+      </div>      
       }
      
     </div>

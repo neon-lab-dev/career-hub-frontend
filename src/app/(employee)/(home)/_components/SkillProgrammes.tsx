@@ -39,7 +39,9 @@ const SkillProgrammes = () => {
           align="left"
         />
         {
-          data?.skills?.length > 1 ?
+          data?.skills?.length < 1 ?
+          <NoDataFound message="No Skill Programmes Available" />
+          :
           <div className="w-full">
           <Swiper
             spaceBetween={20}
@@ -87,8 +89,6 @@ const SkillProgrammes = () => {
             </button>
           </div>
         </div>
-        :
-        <NoDataFound message="No Skill Programmes Available" />
         }
 
         {/* Video Modal */}
