@@ -7,10 +7,19 @@ import { COURSE_DETAILS } from "@/mockData/course";
 import CourseCard from "./CourseCard";
 import NoDataFound from "./NoDataFound";
 import SectionHeading from "./Reusable/SectionHeading/SectionHeading";
+import Image from "next/image";
+import { IMAGES } from "@/assets";
 
 const TrendingCourseToday = () => {
   return (
-    <div className="max-lg:px-4 max-w-full 2xl:max-w-[1440px] mx-auto">
+    <div className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
+      <Image
+        src={IMAGES.linnerBg}
+        alt=""
+        className="absolute top-0 bottom-0 right-0 left-0 z-0 h-full w-full opacity-20"
+      />
+      <div className="max-lg:px-4 max-w-full 2xl:max-w-[1440px] mx-auto">
+      
       <div className="py-section flex flex-col items-center justify-center gap-14">
       <SectionHeading
         highlightedText="Trending"
@@ -63,6 +72,7 @@ const TrendingCourseToday = () => {
         </Swiper>
       </div>
       }
+    </div>
     </div>
     </div>
   );

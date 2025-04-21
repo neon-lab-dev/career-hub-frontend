@@ -102,8 +102,8 @@ const CandidatesTable:React.FC<TCandidatesTableProps> = ({className, candidates,
                   <td>
                     <div className="flex items-center gap-2">
                       {
-                        candidate?.address?.length > 0 ?
-                        <span>{candidate?.address[0]?.street} {candidate?.address[0]?.city} {candidate?.address[0]?.postalCode} {candidate?.address[0]?.state} {candidate?.address[0]?.country}</span>
+                        candidate?.address ?
+                        <span>{candidate?.address?.street} {candidate?.address?.city} {candidate?.address?.postalCode} {candidate?.address?.state} {candidate?.address?.country}</span>
                         :
                         <span>Not available</span>
                       }
@@ -127,7 +127,7 @@ const CandidatesTable:React.FC<TCandidatesTableProps> = ({className, candidates,
                         <Image src={IMAGES.menudots} alt="Menu Icon" />
                       </div>
                       {dropdownOpenId === candidate._id && (
-                        <div className="absolute right-0 mt-48 w-48 p-4 rounded-xl bg-white border shadow-lg z-10">
+                        <div className="absolute right-0 mt-28 w-48 p-4 rounded-xl bg-white border shadow-lg z-10">
                           {/* <Link href={`/employer/dashboard/${candidate._id}`}>
                             <div className="flex items-center gap-2 text-sm p-2">
                               <Image src={IMAGES.doc} alt="Role Icon" />
