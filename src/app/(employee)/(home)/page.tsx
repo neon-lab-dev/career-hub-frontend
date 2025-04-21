@@ -13,12 +13,12 @@ const HomePage = () => {
   return (
     <div className="flex flex-col">
       <HeroComponent />
+      <SkillProgrammes/>
+      <TrendingToday />
       <LatestJobs />
       <LatestInternships />
       <AvailableCourses/>
       <Events/>
-      <TrendingToday />
-      <SkillProgrammes/>
       <OurValuableHiringPartners />
       <WhatWeDoComponent />
     </div>

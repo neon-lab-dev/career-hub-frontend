@@ -8,6 +8,7 @@ import ForgotPassword from "./ForgotPassword";
 import ConfirmationEmail from "./ConfirmationEmail";
 import { useAppDispatch, useAppSelector } from "@/hooks/store";
 import { closeAuthModal, setActiveTab } from "@/store/slices/authSlice";
+import { IAuthTabs } from "@/types/auth";
 
 const AuthModal = () => {
   const [email, setEmail] = useState<string>("");
@@ -16,6 +17,7 @@ const AuthModal = () => {
   );
   const dispatch = useAppDispatch();
   const [confirmationEmail, setConfirmationEmail] = useState<string>("");
+  const tabButtons = ["STUDENT", "EMPLOYER"];
   return (
     <div className="mx-auto  flex items-center justify-center m-10">
       <div
@@ -82,32 +84,25 @@ const AuthModal = () => {
 
           <div className="flex flex-col gap-8 mt-8">
             {authModalType === "LOGIN" || authModalType === "SIGNUP" ? (
-              <div>
+              <div className="">
                 {/* Tab btn */}
-                <div className="py-3 flex justify-center gap-8 rounded-lg border-[1px] border-secondary-100">
-                  <button
+                <div className="flex justify-between items-center rounded-lg border border-secondary-100 h-[50px]">
+                  {
+                    tabButtons?.map((btn) => 
+                      <button
+                      key={btn}
                     onClick={() => {
-                      dispatch(setActiveTab("STUDENT"));
+                      dispatch(setActiveTab(btn as IAuthTabs));
                     }}
-                    className={`text-base font-500 text-center flex-1 ${
-                      activeTab === "STUDENT"
-                        ? "text-primary-500"
-                        : "text-secondary-400"
+                    className={`text-base font-500 text-center flex-1 transition-all duration-300 h-12 rounded-lg ${
+                      activeTab === btn
+                       ? "text-white bg-primary-500"
+                        : "text-secondary-400 bg-white px-5 "
                     }`}>
-                    Aspirants
+                    {btn}
                   </button>
-                  <button
-                    onClick={() => {
-                      dispatch(setActiveTab("EMPLOYER"));
-                    }}
-                    className={`text-base font-500 text-center flex-1 ${
-                      activeTab === "EMPLOYER"
-                        ? "text-primary-500"
-                        : "text-secondary-400"
-                    }`}
-                  >
-                    Organization
-                  </button>
+                    )
+                  }
                 </div>
               </div>
             ) : (
