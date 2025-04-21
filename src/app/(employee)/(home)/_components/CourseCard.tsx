@@ -1,13 +1,31 @@
+"use client";
 import { ICONS, IMAGES } from "@/assets";
 import Button from "@/components/Button";
 import Image from "next/image";
+import Link from "next/link";
 
-const CourseCard = () => {
+type TCourseCardProps = {
+  name : string;
+  thumbnail : { url: string };
+  description : string;
+  href? : string;
+}
+
+const CourseCard:React.FC<TCourseCardProps> = ({name, thumbnail, description, href}) => {
   return (
     <div
       className={`bg-white w-full max-w-[350px] h-[355px] rounded-3xl border border-neutral-300 shadow-job-card-shadow font-plus-jakarta-sans flex flex-col cursor-pointer relative group overflow-hidden`}
     >
-      <Image src={IMAGES.courseImg} alt="" className="w-full max-h-[207px] object-cover rounded-t-3xl" />
+      <div className="relative w-full max-h-[207px] h-[207px] rounded-t-3xl overflow-hidden">
+  <Image
+    src={thumbnail?.url ? thumbnail?.url : IMAGES.courseImg}
+    alt=""
+    fill
+    className="object-cover rounded-t-3xl"
+    sizes="(max-width: 768px) 100vw, 100vw"
+  />
+</div>
+
       <div className="p-5">
         <div className="flex items-center gap-3">
           <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">
@@ -17,7 +35,7 @@ const CourseCard = () => {
         </div>
         {/* Course Name */}
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
-          Learn to create LMS platform using MERN Stack
+         {name}
         </h1>
 {/* 
         <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
@@ -52,7 +70,7 @@ const CourseCard = () => {
         </div>
 
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
-          Learn to create LMS platform using MERN Stack
+         {name}
         </h1>
 
         {/* <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
@@ -75,13 +93,16 @@ const CourseCard = () => {
         </div> */}
 
         <p className="text-neutral-400 text-[15px] mt-6 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste odio vel
-          repellendus natus magnam nulla quibusdam iure fugiat veniam dolor.
+        {description?.length > 50
+                    ? `${description.slice(0, 50)}...`
+                    : description}
         </p>
 
-        <Button variant="normal" className="px-6 py-[10px] w-fit mt-7">
+       <Link href={href ? href : "/"}>
+       <Button variant="normal" className="px-6 py-[10px] w-fit mt-7">
           View Details
         </Button>
+       </Link>
       </div>
     </div>
   );

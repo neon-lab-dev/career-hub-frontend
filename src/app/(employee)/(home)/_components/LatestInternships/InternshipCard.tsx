@@ -39,20 +39,18 @@ const InternshipCard: React.FC<TInternshipCardProps> = ({
             className="size-8 object-cover"
           /> */}
           <div className="size-12 rounded-md bg-primary-50 text-primary-500 border border-primary-500/20 flex items-center justify-center">
-          <h1 className="text-sm font-700">
-            {job?.companyDetails?.companyName
-              ?.split(" ")
-              .map((word) => word[0])
-              .join("")
-              .toUpperCase()}
-          </h1>
-        </div>
+            <h1 className="text-sm font-700">
+              {job?.companyDetails?.companyName
+                ?.split(" ")
+                .map((word) => word[0])
+                .join("")
+                .toUpperCase()}
+            </h1>
+          </div>
           <p className="text-neutral-400">{job?.companyDetails?.companyName}</p>
         </div>
 
-        <h1 className="text-neutral-900 text-xl font-700 mt-4">
-        {job?.title}
-        </h1>
+        <h1 className="text-neutral-900 text-xl font-700 mt-4">{job?.title}</h1>
 
         {/* Job details */}
         <div className="flex flex-col gap-5 mt-6">
@@ -82,13 +80,14 @@ const InternshipCard: React.FC<TInternshipCardProps> = ({
         <div className="mt-6">
           <p className="text-neutral-400">Required Skills:</p>
           <div className="flex items-center gap-[10px] mt-2">
-            {
-              job?.requiredSkills?.map(skill => 
-                <div key={skill} className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px] capitalize">
-              {skill}
-            </div>
-              )
-            }
+            {job?.requiredSkills?.map((skill) => (
+              <div
+                key={skill}
+                className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px] capitalize"
+              >
+                {skill}
+              </div>
+            ))}
           </div>
         </div>
 

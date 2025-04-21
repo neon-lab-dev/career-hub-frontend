@@ -38,7 +38,9 @@ const SkillProgrammes = () => {
           normalText="Programmes⚡"
           align="left"
         />
-        <div className="w-full">
+        {
+          data?.skills?.length > 1 ?
+          <div className="w-full">
           <Swiper
             spaceBetween={20}
             slidesPerView={1}
@@ -60,16 +62,16 @@ const SkillProgrammes = () => {
             }}
             className="w-full mt-10"
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8]?.map((course) => (
-              <SwiperSlide key={course} className="mb-10 w-full">
-                <CourseCard />
+            {data?.skills?.map((skillProgramme:any) => (
+              <SwiperSlide key={skillProgramme?._id} className="mb-10 w-full">
+                <CourseCard {...skillProgramme} />
               </SwiperSlide>
             ))}
           </Swiper>
           <div className="flex items-center justify-center gap-4 mt-6">
             <button
               id="prevProjectButton"
-              className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition duration-300"
+              className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
             >
               <Image
                 src={ICONS.rightArrowDark}
@@ -79,34 +81,15 @@ const SkillProgrammes = () => {
             </button>
             <button
               id="nextProjectButton"
-              className="p-2 rounded-lg bg-primary-500 border border-primary-10 hover:bg-primary-10/80 transition duration-300"
+              className="p-2 rounded-lg bg-primary-500 border border-primary-10 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
             >
               <Image src={ICONS.rightArrow2} alt="" className="size-6" />
             </button>
           </div>
         </div>
-        {/* {
-        !data?.skills ||
-        data?.skills?.length < 1 ?
-        <NoDataFound message="No Skill Programmes Available" /> :
-        <div className="w-full overflow-x-scroll wrapper-left">
-        <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
-        <CourseCard />
-          {data?.skills?.map((skill:ISkill) => (
-            <div key={skill._id} className="carousel-item">
-              <Image 
-                onClick={() => handleOpenVideoModal(skill.video.url)}
-                width={400} 
-                height={400} 
-                src={skill.thumbnail.url} 
-                alt={skill.name} 
-                className="rounded-2xl cursor-pointer" 
-              /> 
-            </div>
-          ))}
-        </div>
-      </div>
-      } */}
+        :
+        <NoDataFound message="No Skill Programmes Available" />
+        }
 
         {/* Video Modal */}
         {openVideoModal && (
