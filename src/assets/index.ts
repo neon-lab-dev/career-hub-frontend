@@ -58,6 +58,8 @@ import sendArrow from "@/assets/icons/send-arrow.svg";
 import download2 from "@/assets/icons/download.svg";
 import student from "@/assets/icons/student.svg";
 import lesson from "@/assets/icons/lesson.svg";
+import rightArrow2 from "@/assets/icons/right-arrow2.svg";
+import rightArrowDark from "@/assets/icons/right-arrow-dark.svg";
 
 import behance from "@/assets/icons/social media/behance.svg";
 import discord from "@/assets/icons/social media/discord.svg";
@@ -159,6 +161,8 @@ export const ICONS = {
   addCircleGray,
   radioButtonChecked,
   radioButtonUnchecked,
+  rightArrow2,
+  rightArrowDark,
 
   // Social Icons
   facebook,

@@ -41,7 +41,7 @@ const CourseCard = () => {
       </div>
 
       {/* Hover card */}
-      <div className="flex flex-col bg-neutral-450 rounded-3xl absolute bottom-0 w-full h-full translate-y-full group-hover:translate-y-0 transition-all duration-[600ms] overflow-hidden p-7">
+      <div className="flex flex-col bg-neutral-450 rounded-3xl absolute bottom-0 w-full h-full translate-y-full group-hover:translate-y-0 transition-all duration-[600ms] overflow-hidden p-5">
         <div className="flex items-center gap-3">
           <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-white w-fit rounded-md translate-y-[-50px] group-hover:translate-y-0 transition-all duration-700 opacity-0 group-hover:opacity-100">
             For All Levels
