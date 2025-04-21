@@ -23,19 +23,13 @@ const Address:React.FC<TCurrentlyLookingForFormProps> = ({ register, errors }) =
       <h1 className="registration-form-heading mb-4">
       Where do you live currently?
       </h1>
-      <TextInput
-        label="Street Address"
-        placeholder="ex: new york, USA"
-        error={errors.address?.street}
-        {...register("address.street", {required : "Street address is required"})}
-        isRequired={false}
-      />
+
       <div className="flex items-center gap-5">
-        <TextInput
-          label="City"
-          placeholder="ex: new york"
-          error={errors.address?.city}
-          {...register("address.city", {required : "City is required"})}
+      <TextInput
+          label="Country"
+          placeholder="ex: America"
+          error={errors.address?.country}
+          {...register("address.country", {required : "Country is required"})}
           isRequired={false}
         />
         <TextInput
@@ -47,7 +41,7 @@ const Address:React.FC<TCurrentlyLookingForFormProps> = ({ register, errors }) =
         />
       </div>
       <div className="flex items-center gap-5">
-        <TextInput
+      <TextInput
           label="State"
           placeholder="ex: new york"
           error={errors.address?.state}
@@ -55,13 +49,20 @@ const Address:React.FC<TCurrentlyLookingForFormProps> = ({ register, errors }) =
           isRequired={false}
         />
         <TextInput
-          label="Country"
-          placeholder="ex: America"
-          error={errors.address?.country}
-          {...register("address.country", {required : "Country is required"})}
+          label="City"
+          placeholder="ex: new york"
+          error={errors.address?.city}
+          {...register("address.city", {required : "City is required"})}
           isRequired={false}
         />
       </div>
+      <TextInput
+        label="Street Address"
+        placeholder="ex: new york, USA"
+        error={errors.address?.street}
+        {...register("address.street", {required : "Street address is required"})}
+        isRequired={false}
+      />
     </div>
   );
 };

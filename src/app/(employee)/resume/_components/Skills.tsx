@@ -16,7 +16,7 @@ const Skills = ({ skills = [] }) => {
                         </Chip>
                     </div>
                     <hr className='pb-10 mx-4' />
-                    <div className="flex justify-start flex-wrap items-start border-2 border-neutral-100 p-6 max-md:p-1 rounded-xl">
+                    <div className="flex justify-start gap-3 flex-wrap items-start border-2 border-neutral-100 p-6 max-md:p-1 rounded-xl">
                         {skills.length > 0 ? (
                             skills.map((skill,id) => (
                                 <div key={id} className='flex items-center gap-3'>

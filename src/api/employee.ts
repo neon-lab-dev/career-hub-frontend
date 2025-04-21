@@ -76,6 +76,11 @@ export const handleGetAppliedJobsByEmployeeService = async (): Promise<
   });
 };
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+
+/*******  aa8e44ba-7beb-415a-85f0-ca2757f4653c  *******/
+
 export const uploadResume = async (file: File) => {
   const fileData = new FormData();
   fileData.append('file', file);
@@ -87,7 +92,7 @@ export const uploadResume = async (file: File) => {
 };
 
 export const fetchUserData = async () => {
-  const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/me', {
+  const response = await axios.get('http://localhost:7000/api/v1/me', {
     withCredentials: true,
   });
   return response.data;
