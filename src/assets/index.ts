@@ -58,6 +58,12 @@ import sendArrow from "@/assets/icons/send-arrow.svg";
 import download2 from "@/assets/icons/download.svg";
 import student from "@/assets/icons/student.svg";
 import lesson from "@/assets/icons/lesson.svg";
+import rightArrow2 from "@/assets/icons/right-arrow2.svg";
+import rightArrowDark from "@/assets/icons/right-arrow-dark.svg";
+import locationFooter from "@/assets/icons/location-footer.svg";
+import phoneFooter from "@/assets/icons/phone-footer.svg";
+import emailFooter from "@/assets/icons/email-footer.svg";
+import upArrow from "@/assets/icons/up-arrow.svg";
 
 import behance from "@/assets/icons/social media/behance.svg";
 import discord from "@/assets/icons/social media/discord.svg";
@@ -86,6 +92,7 @@ import internshipCardBg from "@/assets/images/internship-card-bg.png";
 import courseImg from "@/assets/images/course-img.png";
 import eventImg from "@/assets/images/event-img.png";
 import linnerBg from "@/assets/images/linner-bg.png";
+import linnerBg2 from "@/assets/images/linner-bg2.png";
 
 export const IMAGES = {
   medHr,
@@ -125,6 +132,7 @@ export const IMAGES = {
   courseImg,
   eventImg,
   linnerBg,
+  linnerBg2,
 };
 
 export const ICONS = {
@@ -159,6 +167,12 @@ export const ICONS = {
   addCircleGray,
   radioButtonChecked,
   radioButtonUnchecked,
+  rightArrow2,
+  rightArrowDark,
+  locationFooter,
+  phoneFooter,
+  emailFooter,
+  upArrow,
 
   // Social Icons
   facebook,

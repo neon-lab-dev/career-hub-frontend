@@ -7,7 +7,13 @@ import Link from "next/link";
 import CourseCard from "./CourseCard";
 import NoDataFound from "@/components/NoDataFound";
 import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
-import { IMAGES } from "@/assets";
+import { ICONS, IMAGES } from "@/assets";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination } from "swiper/modules";
+import Container from "@/components/Container";
 
 const AvailableCourses = () => {
   const { isLoading, data } = useQuery({
@@ -16,53 +22,68 @@ const AvailableCourses = () => {
   });
 
   return (
-    <div className="py-section flex flex-col items-center justify-center gap-14">
+    <Container>
+      <div id="courses" className="py-section flex flex-col items-center justify-center gap-14">
       <SectionHeading
         highlightedText="Courses"
         normalText="For You"
         align="left"
       />
-      {data?.courses?.length < 1 ? (
+      {
+        data?.courses?.length < 1 ?
         <NoDataFound message="No Course Available" />
-      ) : (
-        <div className="w-full overflow-x-scroll wrapper-left">
-          <div className="carousel carousel-center w-full p-4 space-x-6 bg-neutral rounded-box">
-            <CourseCard />
-            {data?.courses.map((course: ICourse) => (
-              <div
-                key={course._id}
-                className="carousel-item bg-white flex flex-col gap-3 rounded-xl shadow border p-3 max-w-[300px]"
-              >
-                <Image
-                  src={course.thumbnail.url}
-                  alt={course.name}
-                  width={300}
-                  height={300}
-                  className="rounded-xl cursor-pointer object-cover w-[300px] h-[300px]"
-                />
-
-                <h1 className="font-Poppins font-semibold text-[19.583px] sm:text-[24px] leading-[20.562px] sm:leading-[34.743px] -tracking-wide capitalize text-secondary-950">
-                  {course.name}
-                </h1>
-
-                <p className="font-Poppins font-normal text-[7.833px] md:text-[13.236px] leading-[13.897px] tracking-tight">
-                  {course.description.length > 70
-                    ? `${course.description.slice(0, 70)}...`
-                    : course.description}
-                </p>
-
-                <Link
-                  href={`/course/${course._id}`}
-                  className="font-Poppins text-center text-[6.854px] sm:text-[11.581px] font-medium px-[13px] sm:px-[23.162px] py-[6.85px] sm:py-[11.581px] rounded-[5.875px] sm:rounded-[9.927px] bg-primary-500 text-white w-full"
-                >
-                  View Details
-                </Link>
-              </div>
-            ))}
-          </div>
+        :
+        <div className="w-full">
+        <Swiper
+          spaceBetween={20}
+          slidesPerView={1}
+          navigation={{
+            prevEl: "#prevProjectButton",
+            nextEl: "#nextProjectButton",
+          }}
+          modules={[Navigation, Pagination]}
+          pagination={{
+            clickable: true,
+          }}
+          breakpoints={{
+            360: { slidesPerView: 1 },
+            425: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1366: { slidesPerView: 4 },
+          }}
+          className="w-full mt-10"
+        >
+          {data?.courses?.map((course:any) => (
+            <SwiperSlide key={course?._id} className="mb-16 w-full">
+              <CourseCard {...course} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className="flex items-center justify-center gap-4 mt-6">
+          <button
+            id="prevProjectButton"
+            className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+          >
+            <Image
+              src={ICONS.rightArrowDark}
+              alt=""
+              className="size-6 rotate-180"
+            />
+          </button>
+          <button
+            id="nextProjectButton"
+            className="p-2 rounded-lg bg-primary-500 border border-primary-10 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+          >
+            <Image src={ICONS.rightArrow2} alt="" className="size-6" />
+          </button>
         </div>
-      )}
+      </div>      
+      }
+     
     </div>
+    </Container>
   );
 };
 

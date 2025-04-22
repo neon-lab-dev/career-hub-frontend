@@ -76,6 +76,11 @@ export const handleGetAppliedJobsByEmployeeService = async (): Promise<
   });
 };
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+
+/*******  aa8e44ba-7beb-415a-85f0-ca2757f4653c  *******/
+
 export const uploadResume = async (file: File) => {
   const fileData = new FormData();
   fileData.append('file', file);

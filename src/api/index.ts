@@ -1,6 +1,6 @@
 // const baseUrl = "https://api.medhrplus.com/api/v1";
-const baseUrl = "https://carrerhub-backend.vercel.app/api/v1";
 // const baseUrl = "https://carrerhub-backend.vercel.app/api/v1";
+const baseUrl = "https://carrerhub-backend.vercel.app/api/v1";
 
 const api = {
   jobs: baseUrl + "/jobs",
@@ -22,6 +22,7 @@ const api = {
   withDrawApplication: baseUrl + "/withdraw/job", //:id
   employeedetails: baseUrl + "/user/details",
   RESUME_UPLOAD: baseUrl + "/resumes",
+  events: baseUrl + "/events",
 
 
   // for employers

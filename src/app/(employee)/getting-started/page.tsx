@@ -19,6 +19,8 @@ import { toast } from "sonner";
 import { useUpdateUserDetails } from "@/api/updateUserDetails";
 import { Oval } from "react-loader-spinner";
 import ProgressBar from "./_components/ProgressBar";
+import { useMutation } from "@tanstack/react-query";
+import { uploadResume } from "@/api/employee";
 
 export type TEducationDetails = {
   institutionName: string;
@@ -128,6 +130,16 @@ const GettingStarted = () => {
         phoneNumber: "",
         occupation: "",
       },
+    },
+  });
+
+  const { mutate: uploadResumeMutation, isError, error } = useMutation({
+    mutationFn: uploadResume,
+    onSuccess: () => {
+      toast.success('Resume uploaded successfully');
+    },
+    onError: (error: any) => {
+      toast.error(`Error uploading file: ${error.response?.data?.message || error.message}`);
     },
   });
 
@@ -261,6 +273,9 @@ const GettingStarted = () => {
 
       try {
         setIsSubmitting(true);
+        if (step === 12 && selectedResume) {
+          await uploadResumeMutation(selectedResume);
+        }
         await updateUserDetails(formData);
        if(step !== 12){
         toast.success("Details Updated! Go to next step.");

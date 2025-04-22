@@ -6,7 +6,7 @@ import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
 import SkillProgrammes from "./_components/SkillProgrammes";
 import AvailableCourses from './_components/AvailableCourses';
 import LatestJobs from "./_components/LatestJobs/LatestJobs";
-import LatestInternships from "./_components/LatestInternships";
+import LatestInternships from "./_components/LatestInternships/LatestInternships";
 import Events from "./_components/Events";
 
 const HomePage = () => {

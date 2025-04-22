@@ -102,7 +102,7 @@ const EmployeeProfileDetails = ({ params }: Props) => {
             </h1>
           </div>
           <Button
-          onClick={handleSendEmail}
+          // onClick={handleSendEmail}
             variant="normal"
             className="px-4 py-3 flex items-center gap-1"
           >
@@ -129,7 +129,9 @@ const EmployeeProfileDetails = ({ params }: Props) => {
               <p className="text-[#5B5C6E] mt-[6px]">CCN Polytechnic</p>
             </div>
           </div>
-          <Link href={data?.resumes?.url ? data?.resumes?.url : ""} className="flex items-center gap-2 px-6 py-4 bg-[#D0D7E7] border border-[#778DB9] text-[#303D5C] font-500 rounded-[14px] cursor-pointer">
+          {
+            data?.resumes?.url ?
+            <Link href={data?.resumes?.url ? data?.resumes?.url : ""} className="flex items-center gap-2 px-6 py-4 bg-[#D0D7E7] border border-[#778DB9] text-[#303D5C] font-500 rounded-[14px] cursor-pointer">
             Download Resume
             <Image
               src={ICONS.download2}
@@ -137,6 +139,12 @@ const EmployeeProfileDetails = ({ params }: Props) => {
               className="size-4"
             />
           </Link>
+          :
+          <div className="flex items-center gap-2 px-6 py-4 bg-[#D0D7E7] border border-[#778DB9] text-[#303D5C] font-500 rounded-[14px]">
+            No resume added
+          </div>
+          }
+          
         </div>
 
         {/* Rest sections */}

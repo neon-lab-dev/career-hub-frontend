@@ -37,7 +37,7 @@ const EducationDetails = ({education} : {education:TEducationDetails[]}) => {
       </div>
         )
         :
-        "Np education details added"
+        "No education details added"
       }
       </div>
     </div>
