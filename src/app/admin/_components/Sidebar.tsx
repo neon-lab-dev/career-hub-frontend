@@ -17,7 +17,7 @@ const Sidebar = ({ navLinks }: { navLinks: INavLink[] }) => {
   const pathname = usePathname();
 
   return (
-    <div className="w-[177px] pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 flex flex-col gap-16 h-full">
+    <div className="w-[270px] pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 flex flex-col gap-16 h-full">
         <Link href="/" className="size-[80px]"><Image src={IMAGES.medHr} alt="medHr" /></Link>
 
       <div className="flex flex-col gap-3">

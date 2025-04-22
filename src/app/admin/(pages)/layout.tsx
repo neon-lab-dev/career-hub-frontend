@@ -27,6 +27,10 @@ const navLinks = [
     label: "Courses",
     path: "/admin/courses",
   },
+  {
+    label: "Events",
+    path: "/admin/events",
+  },
 ];
 
 const AdminLayout = ({ children }: { children: React.ReactNode }) => {

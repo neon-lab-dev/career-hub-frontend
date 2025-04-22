@@ -157,7 +157,7 @@ const SkillProgramme = () => {
   };
 
   return (
-    <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
+    <div className="bg-neutral-450 p-6 flex flex-col gap-[51px]">
       {/* <div className="flex items-center gap-5">
         <KPICard
           classNames="w-full max-w-full"
