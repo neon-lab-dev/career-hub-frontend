@@ -35,8 +35,8 @@ const EventsPage = () => {
           toast.success("Event deleted successfully");
           queryClient.invalidateQueries({ queryKey: ["events"] });
         },
-        onError: (error: string) => {
-          toast.error(error);
+        onError: (error: unknown) => {
+          toast.error(error as string);
         },
       });
       
@@ -111,7 +111,7 @@ const EventsPage = () => {
           {/* Search field */}
           <SearchInput
             placeholder="Search event"
-            icon={ICONS.search}
+            icon={ICONS.searchGray}
             onChange={(e) => {
               debouncedSetKeyword(e.target.value);
             }}

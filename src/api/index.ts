@@ -62,7 +62,8 @@ const api = {
   getSingleCourse: baseUrl + "/courses",
   deleteCourse: baseUrl + "/courses",
   video: baseUrl + "/video",
-  deleteEvent: baseUrl + "/admin/events",
+  deleteEvent: baseUrl + "/admin/events", //:id
+  createEvent: baseUrl + "/admin/events/create-event",
 
 
 };
