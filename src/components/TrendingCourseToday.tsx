@@ -15,7 +15,7 @@ const TrendingCourseToday = () => {
   return (
     <div id="trending-today" className="bg-gradient-to-r from-slate-50 to-blue-50 relative">
       <Image
-        src={IMAGES.linnerBg}
+        src={IMAGES.linnerBg2}
         alt=""
         className="absolute top-0 bottom-0 right-0 left-0 z-0 h-full w-full opacity-20"
       />

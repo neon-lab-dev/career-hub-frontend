@@ -92,6 +92,7 @@ import internshipCardBg from "@/assets/images/internship-card-bg.png";
 import courseImg from "@/assets/images/course-img.png";
 import eventImg from "@/assets/images/event-img.png";
 import linnerBg from "@/assets/images/linner-bg.png";
+import linnerBg2 from "@/assets/images/linner-bg2.png";
 
 export const IMAGES = {
   medHr,
@@ -131,6 +132,7 @@ export const IMAGES = {
   courseImg,
   eventImg,
   linnerBg,
+  linnerBg2,
 };
 
 export const ICONS = {
