@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import Container from "./Container";
 
 const Footer = () => {
   const router = useRouter();
@@ -93,8 +94,6 @@ const handleClick = (link: any) => {
     
   ];
   
-  
-
   const contactInfo = [
     {
       icon: ICONS.locationFooter,
@@ -125,9 +124,9 @@ const handleClick = (link: any) => {
     },
   ];
   return (
-    <div className="bg-secondary-900 font-plus-jakarta-sans">
-      <div className="py-10 max-width m-auto">
-        <div className="flex justify-between gap-20">
+      <div className="bg-secondary-900 font-plus-jakarta-sans py-10">
+    <Container>
+        <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-20">
           {/* Left side logo and description */}
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">
             <Image src={IMAGES.careerHublogo} alt="logo" className=" w-64" />
@@ -151,7 +150,7 @@ const handleClick = (link: any) => {
             </div>
           </div>
           {/* Right side links */}
-          <div className="flex gap-20">
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-20">
             {footerLinks?.map((item) => (
               <div key={item?.heading} className="flex flex-col gap-1">
                 <span className="text-white font-semibold text-[22px]">
@@ -211,7 +210,7 @@ const handleClick = (link: any) => {
         </div>
         <hr className="border border-secondary-960/40 w-full h-[2px] my-6" />
 
-        <div className="flex flex-col md:flex-row items-center justify-between">
+        <div className="flex items-center justify-between">
           <p className="text-secondary-960">@ All rights reserved by MeDHr+</p>
           {/* Scroll to top button */}
           <button
@@ -230,7 +229,7 @@ const handleClick = (link: any) => {
             />
           </button>
         </div>
-      </div>
+    </Container>
     </div>
   );
 };

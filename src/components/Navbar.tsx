@@ -322,12 +322,12 @@ const Navbar = () => {
               </div>
             )}
             <hr />
-            <ul className="flex gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold max-lg:hidden font-poppins">
+            <ul className="flex flex-col gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold font-poppins">
               {navItems.map((item, index) => (
                 <li
                   key={index}
                   onClick={item.onClick}
-                  className="hover:text-primary-500 transition duration-300 max-xl:text-[13px] cursor-pointer px-2 py-1"
+                  className="hover:text-primary-500 transition duration-300 cursor-pointer px-2 py-1"
                 >
                   {item.text}
                 </li>
@@ -335,12 +335,12 @@ const Navbar = () => {
             </ul>
 
             <hr />
-            <ul className="text-[20px] text-neutral-600 font-semibold">
+            <ul className="flex flex-col gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold font-poppins">
               {studentProfile &&
                 pfileItems.map((item, index) => (
                   <li
                     key={index}
-                    className="hover:text-primary-500 py-1 font-bold"
+                     className="hover:text-primary-500 transition duration-300 cursor-pointer px-2 py-1"
                   >
                     <Link href={item.href}>
                       <div>{item.text}</div>
