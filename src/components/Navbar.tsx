@@ -21,14 +21,6 @@ import { toast } from "sonner";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
-const navItems = [
-  { text: "Home", href: "/" },
-  { text: "Internships", href: "/internships" },
-  { text: "Jobs", href: "/jobs" },
-  { text: "Skill programs", href: "" },
-  { text: "Courses", href: "" },
-];
-
 const pfileItems = [
   { text: "My Applications", href: "/applications" },
   { text: "Edit Resume", href: "/resume" },
@@ -38,6 +30,35 @@ const Navbar = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = React.useState(false);
   const router = useRouter();
   const pathname = usePathname();
+
+  const navItems = [
+    {
+      text: "Home",
+      onClick: () => router.push("/"),
+    },
+    {
+      text: "Internships",
+      onClick: () => router.push("/internships"),
+    },
+    {
+      text: "Jobs",
+      onClick: () => router.push("/jobs"),
+    },
+    {
+      text: "Skill programs",
+      onClick: () => {
+        const section = document.getElementById("skill-programme");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      },
+    },
+    {
+      text: "Courses",
+      onClick: () => {
+        const section = document.getElementById("courses");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      },
+    },
+  ];
   const { isAuthModalOpen, activeTab, employerProfile, studentProfile } =
     useAppSelector((state) => state.auth);
   const queryClient = useQueryClient();
@@ -76,18 +97,28 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center  bg-white py-6  max-lg:px-4 wrapper max-width m-auto">
+      <div
+        id="navbar"
+        className="flex justify-between items-center  bg-white py-6  max-lg:px-4 wrapper max-width m-auto"
+      >
         <div className="flex items-center gap-8 font-Poppins">
           <span className="text-3xl font-bold pr-6">
-            <Link href="/"><Image src={IMAGES.careerHublogo} alt="logo" className="w-[220px] max-md:w-[120px]" /></Link>
+            <Link href="/">
+              <Image
+                src={IMAGES.careerHublogo}
+                alt="logo"
+                className="w-[220px] max-md:w-[120px]"
+              />
+            </Link>
           </span>
           <ul className="flex gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold max-lg:hidden font-poppins">
             {navItems.map((item, index) => (
               <li
                 key={index}
-                className="hover:text-primary-500 transition duration-300 max-xl:text-[13px]"
+                onClick={item.onClick}
+                className="hover:text-primary-500 transition duration-300 max-xl:text-[13px] cursor-pointer px-2 py-1"
               >
-                <Link href={item.href}>{item.text}</Link>
+                {item.text}
               </li>
             ))}
           </ul>
@@ -291,15 +322,18 @@ const Navbar = () => {
               </div>
             )}
             <hr />
-            <ul className=" text-[20px] text-neutral-600 font-semibold">
+            <ul className="flex gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold max-lg:hidden font-poppins">
               {navItems.map((item, index) => (
-                <li key={index} className="hover:text-primary-500 px-2 py-1">
-                  <Link href={item.href}>
-                    <div>{item.text}</div>
-                  </Link>
+                <li
+                  key={index}
+                  onClick={item.onClick}
+                  className="hover:text-primary-500 transition duration-300 max-xl:text-[13px] cursor-pointer px-2 py-1"
+                >
+                  {item.text}
                 </li>
               ))}
             </ul>
+
             <hr />
             <ul className="text-[20px] text-neutral-600 font-semibold">
               {studentProfile &&

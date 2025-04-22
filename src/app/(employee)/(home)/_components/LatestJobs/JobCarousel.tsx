@@ -12,10 +12,6 @@ const JobCarousel = ({jobs} : {jobs:any[]}) => {
         <Swiper
           spaceBetween={20}
           slidesPerView={1}
-          navigation={{
-            prevEl: "#prevProjectButton",
-            nextEl: "#nextProjectButton",
-          }}
           modules={[Navigation, Pagination]}
           pagination={{
             clickable: true,

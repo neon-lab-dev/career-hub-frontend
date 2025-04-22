@@ -31,7 +31,7 @@ const SkillProgrammes = () => {
 
   return (
     <Container>
-      <div className="py-section flex flex-col items-center justify-center gap-14">
+      <div id="skill-programme" className="py-section flex flex-col items-center justify-center gap-14">
         <SectionHeading
           highlightedText="Skill"
           normalText="Programmes⚡"

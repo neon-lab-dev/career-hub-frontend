@@ -36,8 +36,8 @@ const EventCard: React.FC<TEventCardProps> = ({
   company,
   skillCovered,
 }) => {
+  
   const [expanded, setExpanded] = useState(false);
-
   const visibleSkills = expanded ? skillCovered : skillCovered.slice(0, 2);
   const hasMore = skillCovered.length > 2;
   return (

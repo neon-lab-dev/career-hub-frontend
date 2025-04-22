@@ -1,18 +1,28 @@
+"use client";
 import { ICONS, IMAGES } from "@/assets";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Footer = () => {
+  const router = useRouter();
+
+const handleClick = (link: any) => {
+  if (link.type === "scroll") {
+    const section = document.getElementById(link.targetId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  } else if (link.type === "route") {
+    router.push(link.href);
+  }
+};
   // Define the array of other links
   const resourcesLinks = [
     { name: "Privacy Policy", href: "/privacy-policy" },
     { name: "Terms of Use", href: "/terms-and-conditions" },
     { name: "Refund Policy", href: "/refund-policy" },
-  ];
-  const companyLinks = [
-    { name: "About us", href: "/about-us" },
-    { name: "Contact us", href: "/contact-us" },
   ];
 
   const footerLinks = [
@@ -32,52 +42,122 @@ const Footer = () => {
       ],
     },
   ];
+
+  const importantLinks = [
+    {
+      label: "Jobs",
+      icon: "/icons/jobs.svg",
+      action: () => {
+        window.location.href = "/jobs";
+      },
+    },
+    {
+      label: "Internship",
+      icon: "/icons/internship.svg",
+      action: () => {
+        window.location.href = "/internship";
+      },
+    },
+    {
+      label: "Skill Programme",
+      icon: "/icons/skill.svg",
+      action: () => {
+        const section = document.getElementById("skill-programme");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      },
+    },
+    {
+      label: "Courses",
+      icon: "/icons/courses.svg",
+      action: () => {
+        const section = document.getElementById("courses");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      },
+    },
+    {
+      label: "Trending Today",
+      icon: "/icons/trending.svg",
+      action: () => {
+        const section = document.getElementById("trending-today");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      },
+    },
+    {
+      label: "Events",
+      icon: "/icons/events.svg",
+      action: () => {
+        const section = document.getElementById("events");
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      },
+    },
+    
+  ];
+  
+  
+
+  const contactInfo = [
+    {
+      icon: ICONS.locationFooter,
+      text: "123 Digital Avenue San Francisco, CA 94103",
+    },
+    {
+      icon: ICONS.phoneFooter,
+      text: "+9134723643",
+      href: "callto:+9134723643",
+    },
+    {
+      icon: ICONS.emailFooter,
+      text: "infomedhrplus@gmail.com",
+      href: "mailto:infomedhrplus@gmail.com",
+    },
+  ];
+
+  const socialLinks = [
+    {
+      name: "Facebook",
+      icon: ICONS.facebook,
+      href: "https://www.facebook.com/profile.php?id=61572524423643",
+    },
+    {
+      name: "Instagram",
+      icon: ICONS.instagram,
+      href: "https://www.instagram.com/medhrplus/",
+    },
+  ];
   return (
-    <div className="bg-secondary-900 font-Poppins">
+    <div className="bg-secondary-900 font-plus-jakarta-sans">
       <div className="py-10 max-width m-auto">
-        <div className="flex justify-between max-lg:flex-col mx-[160px] max-lg:mx-10 max-lg:gap-12">
+        <div className="flex justify-between gap-20">
+          {/* Left side logo and description */}
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">
             <Image src={IMAGES.careerHublogo} alt="logo" className=" w-64" />
-            <p className="text-white">
-              Email :{" "}
-              <a
-                href="mailto:infomedhrplus@gmail.com"
-                className="hover:underline"
-              >
-                infomedhrplus@gmail.com
-              </a>
+            <p className="text-secondary-960">
+              Medhrplus is an online platform for organisations and for
+              aspirants, where both update their credentials and connect in
+              between from their dedicated dashboards.
             </p>
 
             <div className="flex items-center gap-5">
-              <a
-                href="https://www.facebook.com/profile.php?id=61572524423643"
-                target="_blank"
-              >
-                <Image
-                  src={ICONS.facebook}
-                  alt="facebook-icon"
-                  className="size-8"
-                />
-              </a>
-              <a href="https://www.instagram.com/medhrplus/" target="_blank">
-                <Image
-                  src={ICONS.instagram}
-                  alt="facebook-icon"
-                  className="size-8"
-                />
-              </a>
+              {socialLinks?.map((item) => (
+                <a
+                  key={item?.name}
+                  href={item?.href}
+                  target="_blank"
+                  className="size-10 rounded-full bg-secondary-960/60 flex items-center justify-center cursor-pointer hover:bg-primary-500 transition duration-300"
+                >
+                  <Image src={item?.icon} alt={item?.name} className="size-5" />
+                </a>
+              ))}
             </div>
           </div>
+          {/* Right side links */}
           <div className="flex gap-20">
             {footerLinks?.map((item) => (
-              <div
-                key={item?.heading}
-                className="flex flex-col gap-1 font-poppins"
-              >
+              <div key={item?.heading} className="flex flex-col gap-1">
                 <span className="text-white font-semibold text-[22px]">
                   {item?.heading}
                 </span>
-                <ul className="text-secondary-400 flex flex-col gap-2 mt-3">
+                <ul className="text-secondary-960 flex flex-col gap-4 mt-3">
                   {/* Using map to render other links */}
                   {item?.links.map((link, index) => (
                     <li key={index}>
@@ -89,7 +169,66 @@ const Footer = () => {
                 </ul>
               </div>
             ))}
+
+<div className="flex flex-col gap-1">
+  <span className="text-white font-semibold text-[22px]">
+    Important Links
+  </span>
+  <div className="text-secondary-960 flex flex-col gap-4 mt-3">
+    {importantLinks.map((item, index) => (
+      <div key={index} className="flex gap-2 cursor-pointer" onClick={item.action}>
+        {/* <Image src={item.icon} width={20} height={20} alt="" className="size-5 mt-1" /> */}
+        <span className="hover:underline">
+          {item.label}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
+
+
+            <div className="flex flex-col gap-1">
+              <span className="text-white font-semibold text-[22px]">
+                Contact Info
+              </span>
+              <div className="text-secondary-960 flex flex-col gap-4 mt-3">
+                {/* Using map to render other links */}
+                {contactInfo?.map((item, index) => (
+                  <div key={index} className="flex gap-2">
+                    <Image src={item?.icon} alt={""} className="size-5 mt-1" />
+                    <a
+                      href={item?.href ? item?.href : "/"}
+                      target="_blank"
+                      className="hover:underline max-w-[200px]"
+                    >
+                      {item?.text}
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
+        </div>
+        <hr className="border border-secondary-960/40 w-full h-[2px] my-6" />
+
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <p className="text-secondary-960">@ All rights reserved by MeDHr+</p>
+          {/* Scroll to top button */}
+          <button
+            onClick={() => {
+              const navbar = document.getElementById("navbar");
+              if (navbar) {
+                navbar.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="size-10 rounded-full bg-primary-500 flex items-center justify-center cursor-pointer hover:bg-primary-500 transition duration-300"
+          >
+            <Image
+              src={ICONS.upArrow}
+              alt=""
+              className="size-5 animate-bounce"
+            />
+          </button>
         </div>
       </div>
     </div>

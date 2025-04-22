@@ -38,82 +38,89 @@ export type TEvents = {
   __v: number;
 };
 
-
 const Events = () => {
-  const { isLoading, data:events } = useQuery({
+  const { isLoading, data: events } = useQuery({
     queryKey: ["events"],
     queryFn: getAllEvents,
   });
   console.log(events);
   return (
-    <div className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
+    <div id="events" className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
       <Image
         src={IMAGES.linnerBg}
         alt=""
         className="absolute top-0 bottom-0 right-0 left-0 z-0 h-full w-full opacity-20"
       />
       <Container>
-      <div className="py-section flex flex-col items-center justify-center gap-14">
-        <SectionHeading
-          highlightedText="Events"
-          normalText="Happening for you!"
-          align="left"
-        />
+        <div className="py-section flex flex-col items-center justify-center gap-14">
+          <SectionHeading
+            highlightedText="Events"
+            normalText="Happening for you!"
+            align="left"
+          />
 
-        {events?.length < 1 ? (
-          <NoDataFound message="No Events Available" />
-        ) : (
-          <div className="w-full">
-            <Swiper
-              spaceBetween={20}
-              slidesPerView={1}
-              navigation={{
-                prevEl: "#prevProjectButton",
-                nextEl: "#nextProjectButton",
-              }}
-              modules={[Navigation, Pagination]}
-              pagination={{
-                clickable: true,
-              }}
-              breakpoints={{
-                360: { slidesPerView: 1 },
-                425: { slidesPerView: 1 },
-                640: { slidesPerView: 2 },
-                768: { slidesPerView: 2 },
-                1024: { slidesPerView: 3 },
-                1366: { slidesPerView: 3.8 },
-              }}
-              className="w-full mt-10"
-            >
-              {events?.data?.map((event:TEvents, index: number) => (
-                <SwiperSlide key={index} className="mb-10 w-full">
-                  <EventCard
-                  isLoading={isLoading}
-                    {...event}
+          {events?.length < 1 ? (
+            <NoDataFound message="No Events Available" />
+          ) : (
+            <div className="w-full">
+              <Swiper
+                spaceBetween={20}
+                slidesPerView={1}
+                navigation={{
+                  prevEl: "#prevProjectButton",
+                  nextEl: "#nextProjectButton",
+                }}
+                modules={[Navigation, Pagination]}
+                pagination={{
+                  clickable: true,
+                }}
+                breakpoints={{
+                  360: { slidesPerView: 1 },
+                  425: { slidesPerView: 1 },
+                  640: { slidesPerView: 2 },
+                  768: { slidesPerView: 2 },
+                  1024: { slidesPerView: 3 },
+                  1366: { slidesPerView: 3.8 },
+                }}
+                className="w-full mt-10 custom-swiper"
+              >
+                {events?.data?.map((event: TEvents, index: number) => (
+                  <SwiperSlide key={index} className="mb-10 w-full">
+                    <EventCard isLoading={isLoading} {...event} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+                {/* Changing the dots color */}
+              <style jsx global>{`
+                .swiper-pagination-bullet {
+                  background-color: #2c364e !important;
+                }
+
+                .swiper-pagination-bullet-active {
+                  background-color: #f9533a !important;
+                }
+              `}</style>
+
+              <div className="flex items-center justify-center gap-4 mt-6">
+                <button
+                  id="prevProjectButton"
+                  className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+                >
+                  <Image
+                    src={ICONS.rightArrowDark}
+                    alt=""
+                    className="size-6 rotate-180"
                   />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-            <div className="flex items-center justify-center gap-4 mt-6">
-              <button
-                id="prevProjectButton"
-                className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
-              >
-                <Image
-                  src={ICONS.rightArrowDark}
-                  alt=""
-                  className="size-6 rotate-180"
-                />
-              </button>
-              <button
-                id="nextProjectButton"
-                className="p-2 rounded-lg bg-primary-500 border border-primary-10 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
-              >
-                <Image src={ICONS.rightArrow2} alt="" className="size-6" />
-              </button>
+                </button>
+                <button
+                  id="nextProjectButton"
+                  className="p-2 rounded-lg bg-primary-500 border border-primary-10 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+                >
+                  <Image src={ICONS.rightArrow2} alt="" className="size-6" />
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </Container>
     </div>

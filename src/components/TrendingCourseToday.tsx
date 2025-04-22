@@ -1,8 +1,9 @@
 "use client"
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { COURSE_DETAILS } from "@/mockData/course";
 import CourseCard from "./CourseCard";
 import NoDataFound from "./NoDataFound";
@@ -12,13 +13,13 @@ import { IMAGES } from "@/assets";
 
 const TrendingCourseToday = () => {
   return (
-    <div className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
+    <div id="trending-today" className="bg-gradient-to-r from-slate-50 to-blue-50 relative">
       <Image
         src={IMAGES.linnerBg}
         alt=""
         className="absolute top-0 bottom-0 right-0 left-0 z-0 h-full w-full opacity-20"
       />
-      <div className="max-lg:px-4 max-w-full 2xl:max-w-[1440px] mx-auto">
+      <div className="max-lg:px-4 max-w-full 2xl:max-w-[1300px] mx-auto">
       
       <div className="py-section flex flex-col items-center justify-center gap-14">
       <SectionHeading
@@ -31,10 +32,16 @@ const TrendingCourseToday = () => {
         <NoDataFound message="No Course Available" /> :
         <div className="w-full">
         <Swiper
-          modules={[Navigation]}
           spaceBetween={0}
           slidesPerView={1}
-          navigation
+          modules={[Navigation, Pagination, Autoplay]}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{
+            delay: 3000, // 3 seconds
+            disableOnInteraction: false, // keeps autoplay even after manual swipe
+          }}
           breakpoints={{
             320: {
               slidesPerView: 1,
@@ -55,14 +62,14 @@ const TrendingCourseToday = () => {
               slidesPerView: 1
             },
             1024: {
-              slidesPerView: 1.4
+              slidesPerView: 1.6
             },
             1280: {
               slidesPerView: 2
             },
           }}>
           {COURSE_DETAILS.map((details, index) => (
-            <SwiperSlide key={index} className="flex items-center justify-center w-full">
+            <SwiperSlide key={index} className="flex items-center justify-center w-full mb-16">
               <CourseCard
                 courseDetails={details}
                 variant={index % 2 === 0 ? "A" : "B"}

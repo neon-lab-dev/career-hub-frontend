@@ -60,6 +60,10 @@ import student from "@/assets/icons/student.svg";
 import lesson from "@/assets/icons/lesson.svg";
 import rightArrow2 from "@/assets/icons/right-arrow2.svg";
 import rightArrowDark from "@/assets/icons/right-arrow-dark.svg";
+import locationFooter from "@/assets/icons/location-footer.svg";
+import phoneFooter from "@/assets/icons/phone-footer.svg";
+import emailFooter from "@/assets/icons/email-footer.svg";
+import upArrow from "@/assets/icons/up-arrow.svg";
 
 import behance from "@/assets/icons/social media/behance.svg";
 import discord from "@/assets/icons/social media/discord.svg";
@@ -163,6 +167,10 @@ export const ICONS = {
   radioButtonUnchecked,
   rightArrow2,
   rightArrowDark,
+  locationFooter,
+  phoneFooter,
+  emailFooter,
+  upArrow,
 
   // Social Icons
   facebook,

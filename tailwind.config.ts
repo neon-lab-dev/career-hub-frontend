@@ -74,6 +74,7 @@ const config: Config = {
           925: "#303D5C",
           930 : "#3B3B3E",
           950: "#161a27",
+          960: "#91A0B5",
         },
         neutral: {
           50: "#f7f7f8",

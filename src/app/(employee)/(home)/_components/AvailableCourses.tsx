@@ -23,7 +23,7 @@ const AvailableCourses = () => {
 
   return (
     <Container>
-      <div className="py-section flex flex-col items-center justify-center gap-14">
+      <div id="courses" className="py-section flex flex-col items-center justify-center gap-14">
       <SectionHeading
         highlightedText="Courses"
         normalText="For You"
