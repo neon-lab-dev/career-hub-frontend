@@ -8,23 +8,7 @@ import Container from "./Container";
 
 const Footer = () => {
   const router = useRouter();
-
-const handleClick = (link: any) => {
-  if (link.type === "scroll") {
-    const section = document.getElementById(link.targetId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  } else if (link.type === "route") {
-    router.push(link.href);
-  }
-};
   // Define the array of other links
-  const resourcesLinks = [
-    { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Terms of Use", href: "/terms-and-conditions" },
-    { name: "Refund Policy", href: "/refund-policy" },
-  ];
 
   const footerLinks = [
     {
@@ -91,9 +75,8 @@ const handleClick = (link: any) => {
         if (section) section.scrollIntoView({ behavior: "smooth" });
       },
     },
-    
   ];
-  
+
   const contactInfo = [
     {
       icon: ICONS.locationFooter,
@@ -124,8 +107,8 @@ const handleClick = (link: any) => {
     },
   ];
   return (
-      <div className="bg-secondary-900 font-plus-jakarta-sans py-10">
-    <Container>
+    <div className="bg-secondary-900 font-plus-jakarta-sans py-10">
+      <Container>
         <div className="flex flex-col lg:flex-row justify-between gap-10 lg:gap-20">
           {/* Left side logo and description */}
           <div className="w-[400px] max-lg:w-[250px] flex flex-col gap-4 text-white">
@@ -169,22 +152,22 @@ const handleClick = (link: any) => {
               </div>
             ))}
 
-<div className="flex flex-col gap-1">
-  <span className="text-white font-semibold text-[22px]">
-    Important Links
-  </span>
-  <div className="text-secondary-960 flex flex-col gap-4 mt-3">
-    {importantLinks.map((item, index) => (
-      <div key={index} className="flex gap-2 cursor-pointer" onClick={item.action}>
-        {/* <Image src={item.icon} width={20} height={20} alt="" className="size-5 mt-1" /> */}
-        <span className="hover:underline">
-          {item.label}
-        </span>
-      </div>
-    ))}
-  </div>
-</div>
-
+            <div className="flex flex-col gap-1">
+              <span className="text-white font-semibold text-[22px]">
+                Important Links
+              </span>
+              <div className="text-secondary-960 flex flex-col gap-4 mt-3">
+                {importantLinks.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-2 cursor-pointer"
+                    onClick={item.action}
+                  >
+                    <span className="hover:underline">{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             <div className="flex flex-col gap-1">
               <span className="text-white font-semibold text-[22px]">
@@ -210,6 +193,7 @@ const handleClick = (link: any) => {
         </div>
         <hr className="border border-secondary-960/40 w-full h-[2px] my-6" />
 
+          {/* Copyright and scroll to top button */}
         <div className="flex items-center justify-between">
           <p className="text-secondary-960">@ All rights reserved by MeDHr+</p>
           {/* Scroll to top button */}
@@ -229,7 +213,7 @@ const handleClick = (link: any) => {
             />
           </button>
         </div>
-    </Container>
+      </Container>
     </div>
   );
 };
