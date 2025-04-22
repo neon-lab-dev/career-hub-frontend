@@ -22,6 +22,7 @@ const api = {
   withDrawApplication: baseUrl + "/withdraw/job", //:id
   employeedetails: baseUrl + "/user/details",
   RESUME_UPLOAD: baseUrl + "/resumes",
+  events: baseUrl + "/events",
 
 
   // for employers

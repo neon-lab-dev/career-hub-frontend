@@ -11,9 +11,40 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
 import Container from "@/components/Container";
+import { useQuery } from "@tanstack/react-query";
+import { getAllEvents } from "@/api/events";
+
+export type TEvents = {
+  _id: string;
+  eventName: string;
+  date: string;
+  time: string;
+  company: {
+    companyName: string;
+    companyLocation: string;
+    _id: string;
+  };
+  skillCovered: string[];
+  image: {
+    fileId: string;
+    name: string;
+    url: string;
+  };
+  createdBy: {
+    _id: string;
+    full_name: string;
+    email: string;
+  };
+  __v: number;
+};
+
 
 const Events = () => {
-  const events = [1, 2, 3, 4, 5, 5];
+  const { isLoading, data:events } = useQuery({
+    queryKey: ["events"],
+    queryFn: getAllEvents,
+  });
+  console.log(events);
   return (
     <div className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
       <Image
@@ -54,11 +85,11 @@ const Events = () => {
               }}
               className="w-full mt-10"
             >
-              {events?.map((event, index: number) => (
+              {events?.data?.map((event:TEvents, index: number) => (
                 <SwiperSlide key={index} className="mb-10 w-full">
                   <EventCard
-                    wrapperClassName=""
-                    // {...event}
+                  isLoading={isLoading}
+                    {...event}
                   />
                 </SwiperSlide>
               ))}

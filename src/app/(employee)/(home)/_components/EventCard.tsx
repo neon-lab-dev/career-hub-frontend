@@ -1,39 +1,80 @@
-import { ICONS, IMAGES } from "@/assets";
+/* eslint-disable @next/next/no-img-element */
+"use client";
+import { ICONS } from "@/assets";
+import { convertDate } from "@/helpers/convertDate";
 import Image from "next/image";
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 type TEventCardProps = {
   wrapperClassName?: string;
+  isLoading : boolean;
+  _id: string;
+  eventName: string;
+  image: {
+    fileId: string;
+    name: string;
+    url: string;
+  };
+  date: string;
+  time: string;
+  company: {
+    companyName: string;
+    companyLocation: string;
+    _id: string;
+  };
+  skillCovered: string[];
 };
-const EventCard: React.FC<TEventCardProps> = ({ wrapperClassName }) => {
+const EventCard: React.FC<TEventCardProps> = ({
+  wrapperClassName,
+  isLoading,
+  _id,
+  eventName,
+  image,
+  date,
+  time,
+  company,
+  skillCovered,
+}) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const visibleSkills = expanded ? skillCovered : skillCovered.slice(0, 2);
+  const hasMore = skillCovered.length > 2;
   return (
     <div
       className={twMerge(
-        "max-w-[340px] w-full h-auto font-plus-jakarta-sans rounded-2xl group",
+        `max-w-[340px] w-full h-auto font-plus-jakarta-sans rounded-2xl group`,
         wrapperClassName
       )}
     >
-      <div className="max-h-[348px] w-full rounded-2xl border border-neutral-400/40">
-        <Image
-          src={IMAGES.eventImg}
+      <div className="h-[348px] w-full rounded-2xl border border-neutral-400/40 overflow-hidden">
+        {
+          isLoading ?
+          <div className="bg-gray-300 w-full h-[348px] animate-pulse rounded-2xl"></div>
+          :
+          <img
+          src={image?.url}
           alt=""
-          className="w-full object-cover rounded-2xl transition-all duration-300 ease-in-out transform group-hover:scale-105"
+          className="h-full w-full object-cover rounded-2xl transition-all duration-300 ease-in-out transform group-hover:scale-105"
         />
+        }
       </div>
 
       {/* Event date */}
       <div className="flex items-center gap-2 mt-[18px]">
         <div className="flex items-center gap-2">
           <Image src={ICONS.calender} alt="" className="size-[18px]" />
-          <p className="text-neutral-400 text-xs sm:text-[15px]">May 20, 2025</p>
+          <p className="text-neutral-400 text-xs sm:text-[15px]">
+            {convertDate(date)}
+          </p>
         </div>
         <div className="bg-neutral-400 size-[5px] rounded-full"></div>
-        <p className="text-neutral-400 text-xs sm:text-[15px]">10PM</p>
+        <p className="text-neutral-400 text-xs sm:text-[15px]">{time}</p>
       </div>
 
       {/* Event Name */}
       <h1 className="text-neutral-900 text-lg font-700 leading-6 mt-3">
-        Build with AI Demo Day
+        {eventName}
       </h1>
 
       {/* Company Info */}
@@ -44,20 +85,32 @@ const EventCard: React.FC<TEventCardProps> = ({ wrapperClassName }) => {
             alt=""
             className="size-5 object-cover rounded-full"
           />
-          <p className="">Talkwisely Platforms</p>
+          <p className="">{company?.companyName}</p>
         </div>
         <div className="bg-neutral-400 size-[5px] rounded-full"></div>
-        <p className="">Ahmedabad, India</p>
+        <p className="">{company?.companyLocation}</p>
       </div>
 
-      <div className="flex items-center gap-[10px] mt-4 sm:mt-3">
-        <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-500/5 rounded-[999px]">
-          Figma
-        </div>
-        <div className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-500/5 rounded-[999px]">
-          Figma
-        </div>
+      <div className="w-full mt-4 sm:mt-3">
+      <div className="flex flex-wrap items-center gap-[10px]">
+        {visibleSkills.map((skill) => (
+          <div
+            key={skill}
+            className="px-3 py-[6px] text-secondary-600 font-500 text-xs bg-neutral-500/5 rounded-[999px] text-nowrap"
+          >
+            {skill}
+          </div>
+        ))}
+        {hasMore && (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="text-primary-500 text-xs font-medium underline transition hover:text-primary-600"
+          >
+            {expanded ? "See less" : "See more"}
+          </button>
+        )}
       </div>
+    </div>
     </div>
   );
 };

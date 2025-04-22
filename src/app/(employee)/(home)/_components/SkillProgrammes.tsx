@@ -23,7 +23,6 @@ const SkillProgrammes = () => {
     queryKey: ["skillprogrammes"],
     queryFn: getAllSkillProgrammes,
   });
-  console.log(data);
 
   const handleOpenVideoModal = (videoUrl: string) => {
     setSelectedVideoUrl(videoUrl);
