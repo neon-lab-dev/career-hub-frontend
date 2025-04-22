@@ -43,7 +43,6 @@ const Events = () => {
     queryKey: ["events"],
     queryFn: getAllEvents,
   });
-  console.log(events);
   return (
     <div id="events" className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
       <Image
