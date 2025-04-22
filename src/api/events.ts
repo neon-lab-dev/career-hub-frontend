@@ -16,3 +16,20 @@ export const getAllEvents = async (): Promise<any> => {
         });
     });
   };
+
+  // Function to delete a event by its id
+  // This is for admin only
+export const deleteEvent = async (id: string): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(`${api.deleteEvent}/${id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        resolve()
+      })
+      .catch((err) => {
+        reject(err?.response?.message ?? "Failed to delete event");
+      });
+  });
+};

@@ -1,6 +1,6 @@
 "use client"
-import { getAllEvents } from '@/api/events';
-import { useQuery } from '@tanstack/react-query';
+import { deleteEvent, getAllEvents } from '@/api/events';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import SearchInput from '../../_components/SearchInput';
 import { useCallback, useState } from 'react';
 import debounce from '@/helpers/debounce';
@@ -10,8 +10,11 @@ import Loading from '@/components/Loading';
 import Table from '@/components/Table';
 import Image from 'next/image';
 import { TEvents } from '@/app/(employee)/(home)/_components/Events';
+import { convertDate } from '@/helpers/convertDate';
+import { toast } from 'sonner';
 
 const EventsPage = () => {
+  const queryClient = useQueryClient();
     const [keyword, setKeyword] = useState("");
     const { isLoading, data: events } = useQuery({
         queryKey: ["events"],
@@ -25,14 +28,35 @@ const EventsPage = () => {
         []
       );
 
+      // Delete event
+      const { mutate: deleteEventMutation, isPending: isEventDeleting } = useMutation<string, unknown, string>({
+        mutationFn: (eventId: string) => deleteEvent(eventId),
+        onSuccess: () => {
+          toast.success("Event deleted successfully");
+          queryClient.invalidateQueries({ queryKey: ["events"] });
+        },
+        onError: (error: string) => {
+          toast.error(error);
+        },
+      });
+      
+    
+      // Delete event
+      const handleDeleteEvent = (eventId: string) => {
+        deleteEventMutation(eventId);
+      };      
+
       // Table headers
   const eventsTableHeaders = [
-    { header: "Name", accessor: "name" },
-    { header: "Posted Date", accessor: "postedDate" },
+    { header: "Event Name", accessor: "eventName" },
+    { header: "Company Name", accessor: "companyName" },
+    { header: "Company Location", accessor: "companyLocation" },
+    { header: "Date and Time", accessor: "dateAndTime" },
+    { header: "Skills Covered", accessor: "skillCovered" },
     { header: "Actions", accessor: "actions" },
   ];
 
-  const renderCustomCell = (column, item) => {
+  const renderCustomCell = (column:any, item:any) => {
     if (column.accessor === "actions") {
       return (
         <div key="actions">
@@ -53,7 +77,7 @@ const EventsPage = () => {
             >
               <li>
                 <Link
-                  href={`/admin/skill-programmes/${item.actions}`}
+                  href={`/admin/event/${item.actions}`}
                   className="flex gap-2"
                 >
                   {/* <Image src={eye} alt="eye-icon" /> */}
@@ -62,13 +86,14 @@ const EventsPage = () => {
               </li>
               <li>
                 <button
-                  // onClick={() => {
-                  //   handleDeleteSkill(item.actions);
-                  // }}
+                  onClick={() => {
+                    console.log("Hello")
+                    handleDeleteEvent(item.actions);
+                  }}
                   className="flex gap-2 text-red-500"
                 >
                   {/* <Image src={trash} alt="eye-icon" /> */}
-                  <span>Delete</span>
+                  <span>{isEventDeleting ? "Deleting..." : "Delete"}</span>
                 </button>
               </li>
             </ul>
@@ -108,9 +133,12 @@ const EventsPage = () => {
             headers={eventsTableHeaders}
             data={
               events?.data?.map((event:TEvents) => ({
-                name: event?.eventName,
-                postedDate: new Date(event.createdAt).toDateString(),
-                actions: event._id,
+                eventName: event?.eventName,
+                companyName: event?.company?.companyName,
+                companyLocation: event?.company?.companyLocation,
+                dateAndTime: `${convertDate(event?.date)} at ${event?.time}`,
+                skillCovered: event?.skillCovered?.join(", "),
+                actions: event?._id,
               })) 
               // as DataItem[]
             }
