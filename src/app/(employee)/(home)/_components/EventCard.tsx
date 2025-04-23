@@ -3,6 +3,7 @@
 import { ICONS } from "@/assets";
 import { convertDate } from "@/helpers/convertDate";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -11,6 +12,7 @@ type TEventCardProps = {
   isLoading : boolean;
   _id: string;
   eventName: string;
+  eventUrl: string;
   image: {
     fileId: string;
     name: string;
@@ -30,6 +32,7 @@ const EventCard: React.FC<TEventCardProps> = ({
   isLoading,
   _id,
   eventName,
+  eventUrl,
   image,
   date,
   time,
@@ -52,16 +55,18 @@ const EventCard: React.FC<TEventCardProps> = ({
           isLoading ?
           <div className="bg-gray-300 w-full h-[348px] animate-pulse rounded-2xl"></div>
           :
+          <Link href={eventUrl} target="_blank">
           <img
           src={image?.url}
           alt=""
           className="h-full w-full object-cover rounded-2xl transition-all duration-300 ease-in-out transform group-hover:scale-105"
         />
+          </Link>
         }
       </div>
 
       {/* Event date */}
-      <div className="flex items-center gap-2 mt-[18px]">
+      <div className="flex items-center gap-2 mt-[18px] mb-3">
         <div className="flex items-center gap-2">
           <Image src={ICONS.calender} alt="" className="size-[18px]" />
           <p className="text-neutral-400 text-xs sm:text-[15px]">
@@ -73,9 +78,9 @@ const EventCard: React.FC<TEventCardProps> = ({
       </div>
 
       {/* Event Name */}
-      <h1 className="text-neutral-900 text-lg font-700 leading-6 mt-3">
+      <Link href={eventUrl} target="_blank" className="text-neutral-900 hover:underline text-lg font-700 leading-6">
         {eventName}
-      </h1>
+      </Link>
 
       {/* Company Info */}
       <div className="flex items-center gap-2 mt-4 sm:mt-2 text-neutral-400 text-xs sm:text-[15px]">
