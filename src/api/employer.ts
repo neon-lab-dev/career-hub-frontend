@@ -15,7 +15,7 @@ export const handleGetAllCandidatesService = async (
   Object.entries(filters).forEach(([key, value]) => {
     if (value) {
       if (Array.isArray(value)) {
-        value.forEach((v) => params.append(key, v)); // append each value
+        value.forEach((v) => params.append(key, v));
       } else {
         params.append(key, value);
       }

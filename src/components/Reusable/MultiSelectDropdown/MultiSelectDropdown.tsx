@@ -40,7 +40,7 @@ const MultiSelectDropdown: React.FC<TMultiSelectDropdownProps> = ({
       <button
         onClick={() => setOpen((prev) => !prev)}
        className="px-4 py-[14px] bg-white border border-[#CAD5E2] flex items-center justify-between leading-6 rounded-lg w-[277px] cursor-pointer 
-        transition-all duration-300 ease-in-out transform active:scale-95 text-[#1D293D] text-xl font-500"
+        transition-all duration-300 ease-in-out transform active:scale-95 text-[#1D293D] font-500"
       >
         {selectedData.length > 0 ? selectedData.join(", ") : label}
         <Image src={icon} alt="dropdown-icon" className="size-6" />
@@ -48,7 +48,7 @@ const MultiSelectDropdown: React.FC<TMultiSelectDropdownProps> = ({
 
       <div
         className={`${
-          open ? "visible bg-white shadow-secondary-button" : "invisible"
+          open ? "visible bg-white shadow-secondary-button max-h-96 overflow-y-auto" : "invisible"
         } absolute top-12 z-50 w-full flex flex-col gap-2 p-3 rounded-b-2xl`}
       >
         {items.map((item, idx) => (

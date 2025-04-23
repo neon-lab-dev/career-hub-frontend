@@ -8,21 +8,23 @@ type TCurrentlyLookingForProps = {
   onChange: (data: string[]) => void;
 };
 
-const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({ onChange }) => {
+const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({
+  onChange,
+}) => {
   // Interests
   const interests = [
     "Shadow Internship",
-  "Practice Internship",
-  "Training Program / Course",
-  "Online Programs",
-  "Certification Course",
-  "Fellowship/scholarships",
-  "Events",
-  "Diploma Course",
-  "Bachelor Degree",
-  "Master Degree",
-  "Jobs",
-  "Business Proposal"
+    "Practice Internship",
+    "Training Program / Course",
+    "Online Programs",
+    "Certification Course",
+    "Fellowship/scholarships",
+    "Events",
+    "Diploma Course",
+    "Bachelor Degree",
+    "Master Degree",
+    "Jobs",
+    "Business Proposal",
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,7 +50,9 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({ onChange }) 
 
   return (
     <div className="flex flex-col gap-9 mt-12 font-plus-jakarta-sans">
-      <h1 className="registration-form-heading">What are you currently looking for?</h1>
+      <h1 className="registration-form-heading">
+        What are you currently looking for?
+      </h1>
 
       {/* Search Input */}
       <div className="relative max-w-[633px] w-full">
@@ -68,8 +72,12 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({ onChange }) 
 
       {/* Add Custom Interest */}
       {searchTerm &&
-        !interests.map((i) => i.toLowerCase()).includes(searchTerm.toLowerCase()) &&
-        !selected.map((i) => i.toLowerCase()).includes(searchTerm.toLowerCase()) && (
+        !interests
+          .map((i) => i.toLowerCase())
+          .includes(searchTerm.toLowerCase()) &&
+        !selected
+          .map((i) => i.toLowerCase())
+          .includes(searchTerm.toLowerCase()) && (
           <div>
             <Chip
               variant="add"

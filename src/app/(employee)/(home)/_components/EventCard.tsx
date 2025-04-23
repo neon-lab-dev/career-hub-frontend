@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 
 type TEventCardProps = {
   wrapperClassName?: string;
-  isLoading : boolean;
+  isLoading: boolean;
   _id: string;
   eventName: string;
   eventUrl: string;
@@ -39,7 +39,6 @@ const EventCard: React.FC<TEventCardProps> = ({
   company,
   skillCovered,
 }) => {
-  
   const [expanded, setExpanded] = useState(false);
   const visibleSkills = expanded ? skillCovered : skillCovered.slice(0, 2);
   const hasMore = skillCovered.length > 2;
@@ -51,18 +50,17 @@ const EventCard: React.FC<TEventCardProps> = ({
       )}
     >
       <div className="h-[348px] w-full rounded-2xl border border-neutral-400/40 overflow-hidden">
-        {
-          isLoading ?
+        {isLoading ? (
           <div className="bg-gray-300 w-full h-[348px] animate-pulse rounded-2xl"></div>
-          :
+        ) : (
           <Link href={eventUrl} target="_blank">
-          <img
-          src={image?.url}
-          alt=""
-          className="h-full w-full object-cover rounded-2xl transition-all duration-300 ease-in-out transform group-hover:scale-105"
-        />
+            <img
+              src={image?.url}
+              alt=""
+              className="h-full w-full object-cover rounded-2xl transition-all duration-300 ease-in-out transform group-hover:scale-105"
+            />
           </Link>
-        }
+        )}
       </div>
 
       {/* Event date */}
@@ -78,7 +76,11 @@ const EventCard: React.FC<TEventCardProps> = ({
       </div>
 
       {/* Event Name */}
-      <Link href={eventUrl} target="_blank" className="text-neutral-900 hover:underline text-lg font-700 leading-6">
+      <Link
+        href={eventUrl}
+        target="_blank"
+        className="text-neutral-900 hover:underline text-lg font-700 leading-6"
+      >
         {eventName}
       </Link>
 
@@ -97,25 +99,25 @@ const EventCard: React.FC<TEventCardProps> = ({
       </div>
 
       <div className="w-full mt-4 sm:mt-3">
-      <div className="flex flex-wrap items-center gap-[10px]">
-        {visibleSkills.map((skill) => (
-          <div
-            key={skill}
-            className="px-3 py-[6px] text-secondary-600 font-500 text-xs bg-neutral-500/5 rounded-[999px] text-nowrap"
-          >
-            {skill}
-          </div>
-        ))}
-        {hasMore && (
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="text-primary-500 text-xs font-medium underline transition hover:text-primary-600"
-          >
-            {expanded ? "See less" : "See more"}
-          </button>
-        )}
+        <div className="flex flex-wrap items-center gap-[10px]">
+          {visibleSkills.map((skill) => (
+            <div
+              key={skill}
+              className="px-3 py-[6px] text-secondary-600 font-500 text-xs bg-neutral-500/5 rounded-[999px] text-nowrap"
+            >
+              {skill}
+            </div>
+          ))}
+          {hasMore && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="text-primary-500 text-xs font-medium underline transition hover:text-primary-600"
+            >
+              {expanded ? "See less" : "See more"}
+            </button>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };
