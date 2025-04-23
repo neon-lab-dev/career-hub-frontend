@@ -70,8 +70,8 @@ const Address: React.FC<TCurrentlyLookingForFormProps> = ({
         Where do you live currently?
       </h1>
 
-      <div className="flex items-center gap-5">
-        <div className="w-[50%] md:w-full">
+      <div className="flex flex-col md:flex-row items-center gap-5">
+        <div className="w-full md:w-[50%]">
         <DropdownInput
           label="Country"
           options={countryOptions}
@@ -84,7 +84,7 @@ const Address: React.FC<TCurrentlyLookingForFormProps> = ({
           error={errors.address?.country?.message}
         />
         </div>
-        <div className="w-[50%] md:w-full">
+        <div className="md:w-[50%] w-full">
         <TextInput
           label="Post/ZIP Code"
           placeholder="ex: 35012"
@@ -97,8 +97,8 @@ const Address: React.FC<TCurrentlyLookingForFormProps> = ({
         </div>
       </div>
 
-      <div className="flex items-center gap-5">
-        <div className="w-[50%] md:w-full">
+      <div className="flex flex-col md:flex-row items-center gap-5">
+        <div className="w-full md:w-[50%]">
         <DropdownInput
           label="State"
           options={stateOptions}
@@ -110,7 +110,7 @@ const Address: React.FC<TCurrentlyLookingForFormProps> = ({
           error={errors.address?.state?.message}
         />
         </div>
-        <div className="w-[50%] md:w-full">
+        <div className="w-full md:w-[50%]">
         <DropdownInput
           label="City"
           options={cityOptions}
