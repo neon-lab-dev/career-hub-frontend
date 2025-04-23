@@ -91,7 +91,7 @@ const UpdateEventPage = ({ id }: { id: string }) => {
 
     try {
       await axios.put(
-        `http://localhost:7000/api/v1/admin/events/update/${id}`,
+        `https://carrerhub-backend.vercel.app/api/v1/admin/events/update/${id}`,
         formData,
         {
           withCredentials: true,
