@@ -12,16 +12,17 @@ const CurrentlyLookingFor: React.FC<TCurrentlyLookingForProps> = ({ onChange }) 
   // Interests
   const interests = [
     "Shadow Internship",
-    "Practice Internship",
-    "Training Program / Course",
-    "Online Programs",
-    "Certification Course",
-    "Fellowship/Scholarships",
-    "Events",
-    "Diploma Course",
-    "Bachelor Degree",
-    "Master Degree",
-    "Jobs",
+  "Practice Internship",
+  "Training Program / Course",
+  "Online Programs",
+  "Certification Course",
+  "Fellowship/scholarships",
+  "Events",
+  "Diploma Course",
+  "Bachelor Degree",
+  "Master Degree",
+  "Jobs",
+  "Business Proposal"
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
