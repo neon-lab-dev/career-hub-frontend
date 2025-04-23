@@ -11,6 +11,7 @@ import Loading from "@/components/Loading";
 import Image from "next/image";
 import NotFound from "@/components/NotFound";
 import { toast } from "sonner";
+import { Oval } from "react-loader-spinner";
 
 type EventFormValues = {
   eventName: string;
@@ -39,24 +40,22 @@ const UpdateEventPage = ({ id }: { id: string }) => {
 
   const [isEditExpanded, setIsEditExpanded] = useState<boolean>(false);
   const [skillInput, setSkillInput] = useState("");
-  const [selectedSkills, setSelectedSkills] = useState<string[]>(event?.data?.skillCovered);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>(
+    event?.data?.skillCovered
+  );
 
-  
-  
-   
-    console.log(event)
+  console.log(event);
 
-    useEffect(() => {
-      if (event?.data) {
-        setValue("eventName", event?.data?.eventName);
-        setValue("date", event?.data?.date);
-        setValue("time", event?.data?.time);
-        setValue("companyName", event?.data?.company?.companyName);
-        setValue("companyLocation", event?.data?.company?.companyLocation);
-        setSelectedSkills(event?.data?.skillCovered);
-      }
-    }, [event, setValue, setSelectedSkills]);
-  
+  useEffect(() => {
+    if (event?.data) {
+      setValue("eventName", event?.data?.eventName);
+      setValue("date", event?.data?.date);
+      setValue("time", event?.data?.time);
+      setValue("companyName", event?.data?.company?.companyName);
+      setValue("companyLocation", event?.data?.company?.companyLocation);
+      setSelectedSkills(event?.data?.skillCovered);
+    }
+  }, [event, setValue, setSelectedSkills]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && skillInput.trim()) {
@@ -71,12 +70,16 @@ const UpdateEventPage = ({ id }: { id: string }) => {
   };
 
   const handleRemoveSkill = (skillToRemove: string) => {
-    const updatedSkills = selectedSkills.filter(skill => skill !== skillToRemove);
+    const updatedSkills = selectedSkills.filter(
+      (skill) => skill !== skillToRemove
+    );
     setSelectedSkills(updatedSkills);
     setValue("skillCovered", updatedSkills);
   };
 
+    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const onSubmitEvent = async (data: EventFormValues) => {
+    setIsSubmitting(true);
     const formData = new FormData();
     formData.append("eventName", data.eventName);
     formData.append("date", data.date);
@@ -89,14 +92,21 @@ const UpdateEventPage = ({ id }: { id: string }) => {
     }
 
     try {
-      await axios.put(`http://localhost:7000/api/v1/admin/events/update/${id}`, formData,  {
-        withCredentials: true,
-      });
+      await axios.put(
+        `http://localhost:7000/api/v1/admin/events/update/${id}`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
       toast.success("Event updated successfully!");
       router.push("/admin/events");
-      window.location.reload();
     } catch (error) {
       console.error("Failed to update event:", error);
+      setIsSubmitting(false);
+    }
+    finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -147,7 +157,9 @@ const UpdateEventPage = ({ id }: { id: string }) => {
       />
 
       <div className="w-full">
-        <label className="font-semibold text-sm mb-1 block">Skills Covered</label>
+        <label className="font-semibold text-sm mb-1 block">
+          Skills Covered
+        </label>
         <input
           type="text"
           value={skillInput}
@@ -176,35 +188,40 @@ const UpdateEventPage = ({ id }: { id: string }) => {
         <input type="hidden" {...register("skillCovered")} />
       </div>
 
-      <div>
-                  {
-                    event?.data?.image?.url ?
-                    <div className="relative w-[400px] h-[384px]">
-                      <img
-                        src={event?.data?.image?.url}
-                        className="object-cover"
-                        alt={event?.data?.image?.name}
-                        className="h-full w-full object-cover"
-                      />
-                      <div onClick={() => setIsEditExpanded(!isEditExpanded)} className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer">Edit</div>
-                    </div>
-                    :
-                    ""
-                  }
-                </div>
+      
 
-      {
-        isEditExpanded &&
+      {isEditExpanded ?
         <div className="flex flex-col gap-1">
-        <label className="font-semibold text-sm">Event Image</label>
-        <input
-          type="file"
-          accept="image/*"
-          {...register("image")}
-          className="mt-1"
-        />
-        {errors.image && (
-          <p className="text-red-500 text-sm">{errors.image.message}</p>
+          <label className="font-semibold text-sm">Upload New Event Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            {...register("image")}
+            className="mt-1"
+          />
+          {errors.image && (
+            <p className="text-red-500 text-sm">{errors.image.message}</p>
+          )}
+        </div>
+        :
+        <div>
+        {event?.data?.image?.url ? (
+          <div className="relative w-[400px] h-[384px]">
+            <img
+              src={event?.data?.image?.url}
+              className="object-cover"
+              alt={event?.data?.image?.name}
+              className="h-full w-full object-cover"
+            />
+            <div
+              onClick={() => setIsEditExpanded(!isEditExpanded)}
+              className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
+            >
+              Edit
+            </div>
+          </div>
+        ) : (
+          ""
         )}
       </div>
       }
@@ -213,7 +230,7 @@ const UpdateEventPage = ({ id }: { id: string }) => {
         type="submit"
         className="bg-primary-600 text-white px-4 py-3 rounded-md"
       >
-        Update Event
+        {isSubmitting ? <Oval height="25" width="25" color="white" strokeWidth="5" /> : "Update Event"}
       </button>
     </form>
   );
