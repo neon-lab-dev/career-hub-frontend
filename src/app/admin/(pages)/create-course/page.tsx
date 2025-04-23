@@ -18,7 +18,6 @@ type CourseFormData = {
 
 const CreateCourse = () => {
   const [videoIds, setVideoIds] = useState<string[]>([]);
-  console.log(videoIds);
 
   // Video Upload Form Handling
   const { register: videoRegister, handleSubmit: videoHandleSubmit, formState: { errors: videoErrors } } = useForm<VideoFormData>();
@@ -26,8 +25,6 @@ const CreateCourse = () => {
   const videoMutation = useMutation({
     mutationFn: async (data: FormData) => {
       try {
-        console.log('FormData being sent:', data);
-
         const response = await axios.post(
           "https://api.medhrplus.com/api/v1/video/create", 
           data, 
@@ -38,8 +35,6 @@ const CreateCourse = () => {
             withCredentials: true,
           }
         );
-
-        console.log('API response:', response);
         return response.data;
         
       } catch (error) {
@@ -48,7 +43,6 @@ const CreateCourse = () => {
       }
     },
     onSuccess: (data) => {
-      console.log('Success data:', data);
       setVideoIds((prev) => [...prev, data?.video?._id]);
       toast.success("Video uploaded successfully!");
     },

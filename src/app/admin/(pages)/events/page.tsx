@@ -88,7 +88,6 @@ const EventsPage = () => {
               <li>
                 <button
                   onClick={() => {
-                    console.log("Hello");
                     handleDeleteEvent(item.actions);
                   }}
                   className="flex gap-2 text-red-500"

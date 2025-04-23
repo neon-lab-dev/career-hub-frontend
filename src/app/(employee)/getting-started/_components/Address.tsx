@@ -30,7 +30,6 @@ const Address: React.FC<TCurrentlyLookingForFormProps> = ({
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [stateOptions, setStateOptions] = useState<string[]>([]);
   const [cityOptions, setCityOptions] = useState<string[]>([]);
-  console.log(selectedCountry);
 
   // Static country list
   const countryOptions = locationData.map((c) => c.countryName);

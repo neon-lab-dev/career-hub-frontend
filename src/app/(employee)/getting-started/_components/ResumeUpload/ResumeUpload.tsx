@@ -19,7 +19,6 @@ const ResumeUpload: React.FC<TResumeUploadProps> = ({ selectedResume, setSelecte
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file)
     if (file) {
       setSelectedResume(file);
     }

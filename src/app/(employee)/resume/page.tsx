@@ -43,7 +43,6 @@ const Dashboard = () => {
   }
 
   const { avatar, full_name, education, resumes, projects, experience, certifications, skills } = data.user;
-  console.log(data)
 
   const avatarUrl = avatar?.url || '/path/to/default-avatar.png'; // Provide a valid path for default avatar
   const resumeUrl = resumes?.url; // Provide a valid path or URL for default resume

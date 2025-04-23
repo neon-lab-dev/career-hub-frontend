@@ -35,7 +35,6 @@ const EmployeeProfileDetails = ({ params }: Props) => {
         queryKey: ["employerProfileData", id],
         queryFn: () => fetchEmployerProfileData(),
       });
-      console.log(employerProfile)
 
       const { mutate } = useMutation({
         mutationFn: ({ userId, companyName }: { userId: string; companyName: string }) =>

@@ -51,7 +51,6 @@ const Profile: React.FC<ProfileProps> = ({
     mutationFn: updateProfile,
     onSuccess: () => {
       setIsModalOpen(false);
-      console.log("Profile updated successfully");
     },
     onError: (error) => {
       console.error("Error updating profile:", error);

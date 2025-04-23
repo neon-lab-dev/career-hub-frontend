@@ -13,7 +13,6 @@ type TCandidatesTableProps = {
 }
 
 const CandidatesTable:React.FC<TCandidatesTableProps> = ({className, candidates, isLoading}) => {
-  console.log(candidates);
     const [dropdownOpenId, setDropdownOpenId] = useState<string | null>(null);
 
   const handleMenuClick = (id: string) => {

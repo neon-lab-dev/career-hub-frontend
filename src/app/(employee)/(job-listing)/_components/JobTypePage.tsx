@@ -23,10 +23,7 @@ const JobTypePage = ({jobType} : {jobType:string}) => {
     const employmentType = searchParams.get("employmentType");
     const locationType = searchParams.get("locationType");
     const location = searchParams.get("location"); // Use .get to fetch a single value
-    
-    console.log("employmentType:", employmentType);
-    console.log("Job Type:", locationType);
-    console.log("location:", location);  // This will be a string, not an array
+
   
     setQueryParams((prev) => ({
       ...prev,

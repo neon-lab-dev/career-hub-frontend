@@ -17,6 +17,7 @@ import { getAllEvents } from "@/api/events";
 export type TEvents = {
   _id: string;
   eventName: string;
+  eventUrl: string;
   date: string;
   time: string;
   company: {

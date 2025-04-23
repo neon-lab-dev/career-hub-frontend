@@ -20,7 +20,6 @@ const JobCard = ({
   job,
   isApplied,
 }: Props) => {
-  console.log(job)
   if (!job) return null;
   return (
     <div

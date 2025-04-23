@@ -10,7 +10,6 @@ export const handleGetAllCandidatesService = async (
   filters: Record<string, string | null>
 ): Promise<any[]> => {
   const params = new URLSearchParams();
-  console.log("Incoming filters:", filters);
 
   Object.entries(filters).forEach(([key, value]) => {
     if (value) {
