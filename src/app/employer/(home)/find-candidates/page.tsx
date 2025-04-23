@@ -10,11 +10,86 @@ import MultiSelectDropdown from "@/components/Reusable/MultiSelectDropdown/Multi
 import { useQuery } from "@tanstack/react-query";
 
 const filtersConfig = [
+  // {
+  //   label: "Gender",
+  //   items: ["Male", "Female", "Other"],
+  //   icon: ICONS.downArrow,
+  //   key: "gender",
+  // },
   {
-    label: "Gender",
-    items: ["Male", "Female", "Other"],
+    label: "Designation Type",
+    items: ["Medical", "Paramedical", "Paramedical Diploma", "Other"],
     icon: ICONS.downArrow,
-    key: "gender",
+    key: "designationType",
+  },
+  {
+    label: "Course Name",
+    items: [
+      // Medical Courses
+      "Ayurvedic Medicine and Surgery",
+      "Dental Surgery",
+      "Medicine and Bachelor of Surgery",
+      "Naturopathy and Yoga Sciences",
+      "Siddha Medicine and Surgery",
+      "Unani Medicine and Surgery",
+      // Paramedical Courses
+      "Anaesthesia Technology",
+      "Audiology and Speech Therapy",
+      "Biomedical Engineering",
+      "Biotechnology",
+      "Cardiac or Cardiovascular Technology",
+      "Dialysis Technology",
+      "Healthcare Management",
+      "Medical Laboratory Technology",
+      "Medical Record Technology",
+      "Microbiology",
+      "Nursing and Midwifery",
+      "Nutrition and Dietetics",
+      "Occupational Therapy",
+      "Operation Theater Technology",
+      "Ophthalmic Technology",
+      "Optometry",
+      "Physiotherapy",
+      "Psychology",
+      "Radiography and Medical Imaging",
+      "Respiratory Therapy",
+      "X-Ray Technology",
+      // Paramedical Diploma Courses
+      "Anaesthesia Technology",
+      "Dialysis Technology",
+      "ECG Technology",
+      "Hearing Language and Speech",
+      "Medical Laboratory Technology",
+      "Medical Record Technology",
+      "Nursing Care Assistance",
+      "Operation Theatre Technology",
+      "Ophthalmic Technology",
+      "Physiotherapy",
+      "Radiography and Medical Imaging",
+      "Sanitary Inspection",
+      "X-Ray Technology",
+    ],
+    icon: ICONS.downArrow,
+    key: "courseName",
+  },
+  {
+    label: "Field of Interest",
+    items: [
+      "Shadow Internship",
+      "Practice Internship",
+      "Training Program / Course",
+      "Online Programs",
+      "Certification Course",
+      "Fellowship/scholarships",
+      "Events",
+      "Diploma Course",
+      "Bachelor Degree",
+      "Master Degree",
+      "Jobs",
+      "Business Proposal",
+    ],
+    icon: ICONS.downArrow,
+    key: "currentlyLookingFor",
   },
   {
     label: "Country",
@@ -67,7 +142,13 @@ const FindCandidates = () => {
   const handleSelect = (key: string, value: string) => {
     setFilters((prev) => {
       const existing = prev[key];
-      if (key === "skills" || key === "language") {
+      if (
+        key === "skills" ||
+        key === "language" ||
+        key === "currentlyLookingFor" ||
+        key === "designationType" ||
+        key === "courseName"
+      ) {
         const updatedArray = Array.isArray(existing) ? [...existing] : [];
         return {
           ...prev,
@@ -88,7 +169,7 @@ const FindCandidates = () => {
     queryKey: ["candidates", filters],
     queryFn: () =>
       handleGetAllCandidatesService(filters as Record<string, string | null>),
-    enabled: false, // Disable automatic fetching
+    enabled: false, // Disabling automatic fetching
   });
 
   const handleClearFilter = () => {
@@ -116,7 +197,11 @@ const FindCandidates = () => {
 
         {/* Filter Dropdowns */}
         {filtersConfig.map(({ label, items, icon, key }) =>
-          key === "skills" || key === "language" ? (
+          key === "skills" ||
+          key === "language" ||
+          key === "currentlyLookingFor" ||
+          key === "designationType" ||
+          key === "courseName" ? (
             <MultiSelectDropdown
               key={key}
               label={label}

@@ -3,14 +3,16 @@
 import { ICONS } from "@/assets";
 import { convertDate } from "@/helpers/convertDate";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 type TEventCardProps = {
   wrapperClassName?: string;
-  isLoading : boolean;
+  isLoading: boolean;
   _id: string;
   eventName: string;
+  eventUrl: string;
   image: {
     fileId: string;
     name: string;
@@ -30,13 +32,13 @@ const EventCard: React.FC<TEventCardProps> = ({
   isLoading,
   _id,
   eventName,
+  eventUrl,
   image,
   date,
   time,
   company,
   skillCovered,
 }) => {
-  
   const [expanded, setExpanded] = useState(false);
   const visibleSkills = expanded ? skillCovered : skillCovered.slice(0, 2);
   const hasMore = skillCovered.length > 2;
@@ -48,20 +50,21 @@ const EventCard: React.FC<TEventCardProps> = ({
       )}
     >
       <div className="h-[348px] w-full rounded-2xl border border-neutral-400/40 overflow-hidden">
-        {
-          isLoading ?
+        {isLoading ? (
           <div className="bg-gray-300 w-full h-[348px] animate-pulse rounded-2xl"></div>
-          :
-          <img
-          src={image?.url}
-          alt=""
-          className="h-full w-full object-cover rounded-2xl transition-all duration-300 ease-in-out transform group-hover:scale-105"
-        />
-        }
+        ) : (
+          <Link href={eventUrl} target="_blank">
+            <img
+              src={image?.url}
+              alt=""
+              className="h-full w-full object-cover rounded-2xl transition-all duration-300 ease-in-out transform group-hover:scale-105"
+            />
+          </Link>
+        )}
       </div>
 
       {/* Event date */}
-      <div className="flex items-center gap-2 mt-[18px]">
+      <div className="flex items-center gap-2 mt-[18px] mb-3">
         <div className="flex items-center gap-2">
           <Image src={ICONS.calender} alt="" className="size-[18px]" />
           <p className="text-neutral-400 text-xs sm:text-[15px]">
@@ -73,9 +76,13 @@ const EventCard: React.FC<TEventCardProps> = ({
       </div>
 
       {/* Event Name */}
-      <h1 className="text-neutral-900 text-lg font-700 leading-6 mt-3">
+      <Link
+        href={eventUrl}
+        target="_blank"
+        className="text-neutral-900 hover:underline text-lg font-700 leading-6"
+      >
         {eventName}
-      </h1>
+      </Link>
 
       {/* Company Info */}
       <div className="flex items-center gap-2 mt-4 sm:mt-2 text-neutral-400 text-xs sm:text-[15px]">
@@ -92,25 +99,25 @@ const EventCard: React.FC<TEventCardProps> = ({
       </div>
 
       <div className="w-full mt-4 sm:mt-3">
-      <div className="flex flex-wrap items-center gap-[10px]">
-        {visibleSkills.map((skill) => (
-          <div
-            key={skill}
-            className="px-3 py-[6px] text-secondary-600 font-500 text-xs bg-neutral-500/5 rounded-[999px] text-nowrap"
-          >
-            {skill}
-          </div>
-        ))}
-        {hasMore && (
-          <button
-            onClick={() => setExpanded(!expanded)}
-            className="text-primary-500 text-xs font-medium underline transition hover:text-primary-600"
-          >
-            {expanded ? "See less" : "See more"}
-          </button>
-        )}
+        <div className="flex flex-wrap items-center gap-[10px]">
+          {visibleSkills.map((skill) => (
+            <div
+              key={skill}
+              className="px-3 py-[6px] text-secondary-600 font-500 text-xs bg-neutral-500/5 rounded-[999px] text-nowrap"
+            >
+              {skill}
+            </div>
+          ))}
+          {hasMore && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="text-primary-500 text-xs font-medium underline transition hover:text-primary-600"
+            >
+              {expanded ? "See less" : "See more"}
+            </button>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };

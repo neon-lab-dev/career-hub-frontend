@@ -53,7 +53,6 @@ const Dashboard = () => {
     queryKey: ["employer-data"],
     queryFn: fetchEmployerData,
   });
-  console.log(data);
 
   const updateUserMutation = useMutation({
     mutationFn: updateEmployerData,

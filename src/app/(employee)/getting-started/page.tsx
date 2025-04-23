@@ -269,8 +269,6 @@ const GettingStarted = () => {
         resume: selectedResume,
       };
 
-      console.log("Final Submit:", formData);
-
       try {
         setIsSubmitting(true);
         if (step === 12 && selectedResume) {

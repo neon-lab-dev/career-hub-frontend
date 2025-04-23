@@ -14,7 +14,6 @@ import ApplyJob from "./_components/ApplyJob";
 const JobIdPage = async ({ params }: { params: Promise<{ jobType: string; jobId: string }> }) => {
   const resolvedParams = await params;
   const { jobType, jobId } = resolvedParams;
-  console.log(params)
 
   if (!AVAILABLE_JOB_TYPES.includes(jobType)) return <NotFound/>;
 

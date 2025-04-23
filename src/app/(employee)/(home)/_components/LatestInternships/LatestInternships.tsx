@@ -11,7 +11,6 @@ import Container from "@/components/Container";
 
 const LatestInternships = async () => {
   const internships = await getLatestInternships();
-  console.log(internships);
   return (
     <div className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
       <Image

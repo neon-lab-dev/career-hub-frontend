@@ -73,9 +73,6 @@ const ResumeWorkExpModel = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form Data:', formData);
-    console.log('Existing Data:', existingData);
-
     if (Array.isArray(existingData.workExperience)) {
       const updatedData = {
         ...existingData,

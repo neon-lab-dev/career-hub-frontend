@@ -16,7 +16,6 @@ const Table = <T,>({
   renderCustomCell,
   className,
 }: TableProps<T>) => {
-  console.log(data);
   return (
     <div
       className={twMerge(

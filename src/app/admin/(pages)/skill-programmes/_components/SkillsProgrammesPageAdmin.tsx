@@ -31,8 +31,6 @@ const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
     queryFn: () => getSingleSkill(id),
   });
 
-  console.log(skill)
-
   // Video Update Form Handling
   const videoMutation = useMutation({
     mutationFn: async (data: FormData) => {
@@ -47,8 +45,6 @@ const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
             withCredentials: true,
           }
         );
-
-        console.log('API response:', response);
         return response.data;
 
       } catch (error) {
@@ -57,7 +53,6 @@ const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
       }
     },
     onSuccess: (data) => {
-      console.log('Success data:', data);
       setVideoId(data?.video?._id);
       toast.success("Video updated successfully!");
     },

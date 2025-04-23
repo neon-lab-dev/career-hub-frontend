@@ -20,16 +20,12 @@ type SkillFormData = {
 
 const CreateSkillProgramme = () => {
   const [videoId, setVideoId] = useState<string | null>(null);
-  console.log(videoId)
-
   // Video Upload Form Handling
   const { register: videoRegister, handleSubmit: videoHandleSubmit, formState: { errors: videoErrors } } = useForm<VideoFormData>();
 
   const videoMutation = useMutation({
     mutationFn: async (data: FormData) => {
-      try {
-        console.log('FormData being sent:', data);
-  
+      try {  
         const response = await axios.post(
           "https://api.medhrplus.com/api/v1/video/create", 
           data, 
@@ -40,8 +36,6 @@ const CreateSkillProgramme = () => {
             withCredentials: true,
           }
         );
-
-        console.log('API response:', response);
         return response.data;
         
       } catch (error) {
@@ -50,7 +44,6 @@ const CreateSkillProgramme = () => {
       }
     },
     onSuccess: (data) => {
-      console.log('Success data:', data);
       setVideoId(data?.video?._id);
       toast.success("Video uploaded successfully!");
     },

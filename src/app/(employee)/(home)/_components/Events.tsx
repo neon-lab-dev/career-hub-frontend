@@ -17,6 +17,7 @@ import { getAllEvents } from "@/api/events";
 export type TEvents = {
   _id: string;
   eventName: string;
+  eventUrl: string;
   date: string;
   time: string;
   company: {
@@ -58,7 +59,7 @@ const Events = () => {
             align="left"
           />
 
-          {events?.length < 1 ? (
+          {events?.data?.length < 1 ? (
             <NoDataFound message="No Events Available" />
           ) : (
             <div className="w-full">

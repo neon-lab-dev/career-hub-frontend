@@ -36,7 +36,7 @@ const PersonalInfoForm:React.FC<TPersonalInfoFormProps> = ({ register, errors })
         {...register("dob" , {required : "Datre of birth is required"})}
         isRequired={false}
       />
-      <div className="flex items-center gap-5">
+      <div className="flex flex-col md:flex-row items-center gap-5">
         <TextInput
           label="Guardian Name"
           placeholder="Smith John"
@@ -53,13 +53,20 @@ const PersonalInfoForm:React.FC<TPersonalInfoFormProps> = ({ register, errors })
           isRequired={false}
         />
       </div>
-      <DropdownInput
+      {/* <DropdownInput
         label="Occupation"
         {...register("guardian.occupation" ,{required : "Occupation is required"})}
         error={errors.guardian?.occupation}
         options={["Teacher", "Engineer", "Other"]}
         isRequired={false}
-      />
+      /> */}
+       <TextInput
+          label="Occupation"
+          placeholder="Ex: Teacher, Engineer, Doctor, Farmer"
+          error={errors.guardian?.occupation}
+          {...register("guardian.occupation" ,{required : "Occupation is required"})}
+          isRequired={false}
+        />
     </div>
   );
 };

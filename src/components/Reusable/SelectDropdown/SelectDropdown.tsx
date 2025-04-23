@@ -42,7 +42,7 @@ const SelectDropdown: React.FC<TSelectDropdownProps> = ({
       <button
         onClick={() => setOpen((prev) => !prev)}
         className="px-4 py-[14px] bg-white border border-[#CAD5E2] flex items-center justify-between leading-6 rounded-lg w-[277px] cursor-pointer 
-        transition-all duration-300 ease-in-out transform active:scale-95 text-[#1D293D] text-xl font-500"
+        transition-all duration-300 ease-in-out transform active:scale-95 text-[#1D293D] font-500"
       >
         {selectedData ? selectedData : label}
         <Image src={icon} alt="dropdown-icon" className="size-6" />

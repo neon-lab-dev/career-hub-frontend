@@ -96,8 +96,6 @@ const Page = () => {
         companyDetails: formData.companyDetails || [],
       };
 
-      console.log("🚀 Final Payload:", finalPayload);
-
       mutation.mutate(finalPayload);
       setLoading(false);
     }

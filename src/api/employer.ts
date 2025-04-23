@@ -10,12 +10,11 @@ export const handleGetAllCandidatesService = async (
   filters: Record<string, string | null>
 ): Promise<any[]> => {
   const params = new URLSearchParams();
-  console.log("Incoming filters:", filters);
 
   Object.entries(filters).forEach(([key, value]) => {
     if (value) {
       if (Array.isArray(value)) {
-        value.forEach((v) => params.append(key, v)); // append each value
+        value.forEach((v) => params.append(key, v));
       } else {
         params.append(key, value);
       }

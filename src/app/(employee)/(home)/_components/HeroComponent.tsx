@@ -17,11 +17,9 @@ const HeroComponent = () => {
     string | null
   >(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-  console.log(selectedLocation);
 
   const handleCategorySelect = (category: string) => {
     setSelectedEmploymentType(category);
-    console.log("Selected:", category);
   };
   const handleLocationTypeSelect = (jobType: string) => {
     setSelectedLocationType(jobType);
