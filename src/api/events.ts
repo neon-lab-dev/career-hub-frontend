@@ -1,5 +1,6 @@
 import axios from "axios";
 import api from ".";
+import { EventType } from "react-hook-form";
 
 // Get all skill programmes
 export const getAllEvents = async (): Promise<any> => {
@@ -16,6 +17,24 @@ export const getAllEvents = async (): Promise<any> => {
         });
     });
   };
+
+  export const getEventById = async (
+    id: string
+  ): Promise<EventType> => {  // Use the EventType here instead of string
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`${api.getSingleEventById}/${id}`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          resolve(res.data ?? {});  // Ensure it resolves to the correct event data
+        })
+        .catch((err) => {
+          reject(err?.response?.data?.message ?? "Something went wrong");
+        });
+    });
+  };
+  
 
   // Function to delete a event by its id
   // This is for admin only

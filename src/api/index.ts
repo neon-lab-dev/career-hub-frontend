@@ -23,7 +23,7 @@ const api = {
   employeedetails: baseUrl + "/user/details",
   RESUME_UPLOAD: baseUrl + "/resumes",
   events: baseUrl + "/events",
-
+  getSingleEventById : baseUrl + "/event",
 
   // for employers
   employerJob: baseUrl + "/employeer/job",

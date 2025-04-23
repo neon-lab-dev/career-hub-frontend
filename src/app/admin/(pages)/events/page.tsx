@@ -77,7 +77,7 @@ const EventsPage = () => {
             >
               <li>
                 <Link
-                  href={`/admin/event/${item.actions}`}
+                  href={`/admin/events/${item.actions}`}
                   className="flex gap-2"
                 >
                   {/* <Image src={eye} alt="eye-icon" /> */}
