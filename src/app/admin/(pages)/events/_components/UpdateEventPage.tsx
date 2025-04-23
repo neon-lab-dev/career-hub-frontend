@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable react/jsx-no-duplicate-props */
 "use client";
 import { useEffect, useState } from "react";
@@ -6,9 +7,8 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import TextInput from "@/components/Reusable/TextInput/TextInput";
 import { useQuery } from "@tanstack/react-query";
-import { getAllEvents, getEventById } from "@/api/events";
+import { getEventById } from "@/api/events";
 import Loading from "@/components/Loading";
-import Image from "next/image";
 import NotFound from "@/components/NotFound";
 import { toast } from "sonner";
 import { Oval } from "react-loader-spinner";
@@ -44,8 +44,6 @@ const UpdateEventPage = ({ id }: { id: string }) => {
     event?.data?.skillCovered
   );
 
-  console.log(event);
-
   useEffect(() => {
     if (event?.data) {
       setValue("eventName", event?.data?.eventName);
@@ -77,7 +75,7 @@ const UpdateEventPage = ({ id }: { id: string }) => {
     setValue("skillCovered", updatedSkills);
   };
 
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const onSubmitEvent = async (data: EventFormValues) => {
     setIsSubmitting(true);
     const formData = new FormData();
@@ -104,8 +102,7 @@ const UpdateEventPage = ({ id }: { id: string }) => {
     } catch (error) {
       console.error("Failed to update event:", error);
       setIsSubmitting(false);
-    }
-    finally {
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -188,11 +185,11 @@ const UpdateEventPage = ({ id }: { id: string }) => {
         <input type="hidden" {...register("skillCovered")} />
       </div>
 
-      
-
-      {isEditExpanded ?
+      {isEditExpanded ? (
         <div className="flex flex-col gap-1">
-          <label className="font-semibold text-sm">Upload New Event Image</label>
+          <label className="font-semibold text-sm">
+            Upload New Event Image
+          </label>
           <input
             type="file"
             accept="image/*"
@@ -203,34 +200,37 @@ const UpdateEventPage = ({ id }: { id: string }) => {
             <p className="text-red-500 text-sm">{errors.image.message}</p>
           )}
         </div>
-        :
+      ) : (
         <div>
-        {event?.data?.image?.url ? (
-          <div className="relative w-[400px] h-[384px]">
-            <img
-              src={event?.data?.image?.url}
-              className="object-cover"
-              alt={event?.data?.image?.name}
-              className="h-full w-full object-cover"
-            />
-            <div
-              onClick={() => setIsEditExpanded(!isEditExpanded)}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
-            >
-              Edit
+          {event?.data?.image?.url ? (
+            <div className="relative w-[400px] h-[384px]">
+              <img
+                src={event?.data?.image?.url}
+                className="object-cover h-full w-full"
+                alt={event?.data?.image?.name}
+              />
+              <div
+                onClick={() => setIsEditExpanded(!isEditExpanded)}
+                className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
+              >
+                Edit
+              </div>
             </div>
-          </div>
-        ) : (
-          ""
-        )}
-      </div>
-      }
+          ) : (
+            ""
+          )}
+        </div>
+      )}
 
       <button
         type="submit"
         className="bg-primary-600 text-white px-4 py-3 rounded-md"
       >
-        {isSubmitting ? <Oval height="25" width="25" color="white" strokeWidth="5" /> : "Update Event"}
+        {isSubmitting ? (
+          <Oval height="25" width="25" color="white" strokeWidth="5" />
+        ) : (
+          "Update Event"
+        )}
       </button>
     </form>
   );

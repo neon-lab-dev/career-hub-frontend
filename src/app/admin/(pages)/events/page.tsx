@@ -1,52 +1,52 @@
-"use client"
-import { deleteEvent, getAllEvents } from '@/api/events';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import SearchInput from '../../_components/SearchInput';
-import { useCallback, useState } from 'react';
-import debounce from '@/helpers/debounce';
-import { ICONS, IMAGES } from '@/assets';
+"use client";
+import { deleteEvent, getAllEvents } from "@/api/events";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import SearchInput from "../../_components/SearchInput";
+import { useCallback, useState } from "react";
+import debounce from "@/helpers/debounce";
+import { ICONS, IMAGES } from "@/assets";
 import Link from "next/link";
-import Loading from '@/components/Loading';
-import Table from '@/components/Table';
-import Image from 'next/image';
-import { TEvents } from '@/app/(employee)/(home)/_components/Events';
-import { convertDate } from '@/helpers/convertDate';
-import { toast } from 'sonner';
+import Loading from "@/components/Loading";
+import Table from "@/components/Table";
+import Image from "next/image";
+import { TEvents } from "@/app/(employee)/(home)/_components/Events";
+import { convertDate } from "@/helpers/convertDate";
+import { toast } from "sonner";
 
 const EventsPage = () => {
   const queryClient = useQueryClient();
-    const [keyword, setKeyword] = useState("");
-    const { isLoading, data: events } = useQuery({
-        queryKey: ["events"],
-        queryFn: getAllEvents,
-      });
+  const [keyword, setKeyword] = useState("");
+  const { isLoading, data: events } = useQuery({
+    queryKey: ["events"],
+    queryFn: getAllEvents,
+  });
 
-      const debouncedSetKeyword = useCallback(
-        debounce((queryParams) => {
-          setKeyword(queryParams);
-        }),
-        []
-      );
+  const debouncedSetKeyword = useCallback(
+    debounce((queryParams) => {
+      setKeyword(queryParams);
+    }),
+    []
+  );
 
-      // Delete event
-      const { mutate: deleteEventMutation, isPending: isEventDeleting } = useMutation<string, unknown, string>({
-        mutationFn: (eventId: string) => deleteEvent(eventId),
-        onSuccess: () => {
-          toast.success("Event deleted successfully");
-          queryClient.invalidateQueries({ queryKey: ["events"] });
-        },
-        onError: (error: unknown) => {
-          toast.error(error as string);
-        },
-      });
-      
-    
-      // Delete event
-      const handleDeleteEvent = (eventId: string) => {
-        deleteEventMutation(eventId);
-      };      
+  // Delete event
+  const { mutate: deleteEventMutation, isPending: isEventDeleting } =
+    useMutation<string, unknown, string>({
+      mutationFn: (eventId: string) => deleteEvent(eventId),
+      onSuccess: () => {
+        toast.success("Event deleted successfully");
+        queryClient.invalidateQueries({ queryKey: ["events"] });
+      },
+      onError: (error: unknown) => {
+        toast.error(error as string);
+      },
+    });
 
-      // Table headers
+  // Delete event
+  const handleDeleteEvent = (eventId: string) => {
+    deleteEventMutation(eventId);
+  };
+
+  // Table headers
   const eventsTableHeaders = [
     { header: "Event Name", accessor: "eventName" },
     { header: "Company Name", accessor: "companyName" },
@@ -56,13 +56,14 @@ const EventsPage = () => {
     { header: "Actions", accessor: "actions" },
   ];
 
-  const renderCustomCell = (column:any, item:any) => {
+  // Table action buttons
+  const renderCustomCell = (column: any, item: any) => {
     if (column.accessor === "actions") {
       return (
         <div key="actions">
           <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button">
-                <Image src={IMAGES.menudots} alt="menu-dots-icon" />
+              <Image src={IMAGES.menudots} alt="menu-dots-icon" />
             </div>
             {/* <div tabIndex={0} role="button">
               {jobThatIsBeingDeleted === item.actions && isPending ? (
@@ -87,7 +88,7 @@ const EventsPage = () => {
               <li>
                 <button
                   onClick={() => {
-                    console.log("Hello")
+                    console.log("Hello");
                     handleDeleteEvent(item.actions);
                   }}
                   className="flex gap-2 text-red-500"
@@ -104,49 +105,49 @@ const EventsPage = () => {
     return item[column.accessor];
   };
 
+  return (
+    <div className="bg-neutral-450 p-6 flex flex-col gap-[51px]">
+      <div className="flex items-center justify-between px-4">
+        {/* Search field */}
+        <SearchInput
+          placeholder="Search event"
+          icon={ICONS.searchGray}
+          onChange={(e) => {
+            debouncedSetKeyword(e.target.value);
+          }}
+        />
 
-    return (
-        <div className="bg-neutral-450 p-6 flex flex-col gap-[51px]">
-             <div className="flex items-center justify-between px-4">
-          {/* Search field */}
-          <SearchInput
-            placeholder="Search event"
-            icon={ICONS.searchGray}
-            onChange={(e) => {
-              debouncedSetKeyword(e.target.value);
-            }}
-          />
+        {/* Create event button */}
+        <Link
+          href={"/admin/create-event"}
+          className="bg-neutral-450 border border-neutral-550 rounded-[10px] font-plus-jakarta-sans text-base font-500 text-secondary-925 px-4 pt-3 pb-[14px]"
+        >
+          Create Event
+        </Link>
+      </div>
 
-          {/* Create event button */}
-          <Link href={"/admin/create-event"}
-        className="bg-neutral-450 border border-neutral-550 rounded-[10px] font-plus-jakarta-sans text-base font-500 text-secondary-925 px-4 pt-3 pb-[14px]"
-      >
-        Create Event
-      </Link>
-        </div>
-
-        {isLoading ? (
-          <Loading className="h-40" />
-        ) : (
-          <Table
-            className="w-full max-w-full pb-32"
-            headers={eventsTableHeaders}
-            data={
-              events?.data?.map((event:TEvents) => ({
-                eventName: event?.eventName,
-                companyName: event?.company?.companyName,
-                companyLocation: event?.company?.companyLocation,
-                dateAndTime: `${convertDate(event?.date)} at ${event?.time}`,
-                skillCovered: event?.skillCovered?.join(", "),
-                actions: event?._id,
-              })) 
-              // as DataItem[]
-            }
-            renderCustomCell={renderCustomCell}
-          />
-        )}
-        </div>
-    );
+      {isLoading ? (
+        <Loading className="h-40" />
+      ) : (
+        <Table
+          className="w-full max-w-full pb-32"
+          headers={eventsTableHeaders}
+          data={
+            events?.data?.map((event: TEvents) => ({
+              eventName: event?.eventName,
+              companyName: event?.company?.companyName,
+              companyLocation: event?.company?.companyLocation,
+              dateAndTime: `${convertDate(event?.date)} at ${event?.time}`,
+              skillCovered: event?.skillCovered?.join(", "),
+              actions: event?._id,
+            }))
+            // as DataItem[]
+          }
+          renderCustomCell={renderCustomCell}
+        />
+      )}
+    </div>
+  );
 };
 
 export default EventsPage;

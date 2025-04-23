@@ -20,14 +20,14 @@ export const getAllEvents = async (): Promise<any> => {
 
   export const getEventById = async (
     id: string
-  ): Promise<EventType> => {  // Use the EventType here instead of string
+  ): Promise<any> => {
     return new Promise((resolve, reject) => {
       axios
         .get(`${api.getSingleEventById}/${id}`, {
           withCredentials: true,
         })
         .then((res) => {
-          resolve(res.data ?? {});  // Ensure it resolves to the correct event data
+          resolve(res.data ?? {});
         })
         .catch((err) => {
           reject(err?.response?.data?.message ?? "Something went wrong");
