@@ -5,26 +5,31 @@ import Image from "next/image";
 import Link from "next/link";
 
 type TCourseCardProps = {
-  name : string;
-  thumbnail : { url: string };
-  description : string;
-  href? : string;
-}
+  name: string;
+  thumbnail: { url: string };
+  description: string;
+  href?: string;
+};
 
-const CourseCard:React.FC<TCourseCardProps> = ({name, thumbnail, description, href}) => {
+const CourseCard: React.FC<TCourseCardProps> = ({
+  name,
+  thumbnail,
+  description,
+  href,
+}) => {
   return (
     <div
       className={`bg-white w-full max-w-[350px] h-[355px] rounded-3xl border border-neutral-300 shadow-job-card-shadow font-plus-jakarta-sans flex flex-col cursor-pointer relative group overflow-hidden`}
     >
       <div className="relative w-full max-h-[207px] h-[207px] rounded-t-3xl overflow-hidden">
-  <Image
-    src={thumbnail?.url ? thumbnail?.url : IMAGES.courseImg}
-    alt=""
-    fill
-    className="object-cover rounded-t-3xl"
-    sizes="(max-width: 768px) 100vw, 100vw"
-  />
-</div>
+        <Image
+          src={thumbnail?.url ? thumbnail?.url : IMAGES.courseImg}
+          alt=""
+          fill
+          className="object-cover rounded-t-3xl"
+          sizes="(max-width: 768px) 100vw, 100vw"
+        />
+      </div>
 
       <div className="p-5">
         <div className="flex items-center gap-3">
@@ -35,9 +40,11 @@ const CourseCard:React.FC<TCourseCardProps> = ({name, thumbnail, description, hr
         </div>
         {/* Course Name */}
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
-         {name}
+          {name}
         </h1>
-{/* 
+
+        {/* Student and lesson */}
+        {/* 
         <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
           <div className="flex items-center gap-2">
             <Image
@@ -70,7 +77,7 @@ const CourseCard:React.FC<TCourseCardProps> = ({name, thumbnail, description, hr
         </div>
 
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
-         {name}
+          {name}
         </h1>
 
         {/* <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
@@ -93,16 +100,16 @@ const CourseCard:React.FC<TCourseCardProps> = ({name, thumbnail, description, hr
         </div> */}
 
         <p className="text-neutral-400 text-[15px] mt-6 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
-        {description?.length > 50
-                    ? `${description.slice(0, 50)}...`
-                    : description}
+          {description?.length > 50
+            ? `${description.slice(0, 50)}...`
+            : description}
         </p>
 
-       <Link href={href ? href : "/"}>
-       <Button variant="normal" className="px-6 py-[10px] w-fit mt-7">
-          View Details
-        </Button>
-       </Link>
+        <Link href={href ? href : "/"}>
+          <Button variant="normal" className="px-6 py-[10px] w-fit mt-7">
+            View Details
+          </Button>
+        </Link>
       </div>
     </div>
   );
