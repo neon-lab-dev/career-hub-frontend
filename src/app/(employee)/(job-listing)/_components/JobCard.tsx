@@ -1,5 +1,4 @@
-import { IMAGES } from "@/assets";
-import Image from "next/image";
+
 import React from "react";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
