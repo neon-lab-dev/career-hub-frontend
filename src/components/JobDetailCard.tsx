@@ -83,16 +83,17 @@ const JobDetailCard = ({
         </div>
 
         {/* Required skills */}
-        <div className="flex items-center gap-[10px] mt-[18px]">
-          {job?.requiredSkills?.map((skill) => (
-            <div
-              key={skill}
-              className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px] capitalize"
-            >
-              {skill}
-            </div>
-          ))}
-        </div>
+        <div className="flex items-center gap-[10px] mt-[18px] overflow-x-auto hide-scrollbar">
+  {job?.requiredSkills?.map((skill) => (
+    <div
+      key={skill}
+      className="px-3 py-[6px] text-secondary-600 font-500 text-sm bg-neutral-450 rounded-[999px] capitalize whitespace-nowrap"
+    >
+      {skill}
+    </div>
+  ))}
+</div>
+
 
         {/* hr */}
         <hr className="w-full border border-neutral-100 h-[2px] my-6" />
