@@ -20,7 +20,20 @@ const HeroComponent = () => {
 
   const handleCategorySelect = (category: string) => {
     setSelectedEmploymentType(category);
+
+    if (
+      category.toLowerCase() === "courses" ||
+      category.toLowerCase() === "skill programme"
+    ) {
+      const element = document.getElementById(
+        category.toLowerCase().replace(" ", "-")
+      );
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
+
   const handleLocationTypeSelect = (jobType: string) => {
     setSelectedLocationType(jobType);
   };
@@ -42,37 +55,40 @@ const HeroComponent = () => {
   };
 
   const [text, setText] = useState("");
-const [hasAnimated, setHasAnimated] = useState(false);
-const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
 
-const fullText = "Health Care";
+  const fullText = "Health Care";
 
-useEffect(() => {
-  if (inView && !hasAnimated) {
-    let index = 0;
-    let currentText = "";
+  useEffect(() => {
+    if (inView && !hasAnimated) {
+      let index = 0;
+      let currentText = "";
 
-    const interval = setInterval(() => {
-      if (index < fullText.length) {
-        currentText += fullText[index];
-        setText(currentText);
-        index++;
-      } else {
-        clearInterval(interval);
-        setHasAnimated(true);
-      }
-    }, 100);
+      const interval = setInterval(() => {
+        if (index < fullText.length) {
+          currentText += fullText[index];
+          setText(currentText);
+          index++;
+        } else {
+          clearInterval(interval);
+          setHasAnimated(true);
+        }
+      }, 100);
 
-    return () => clearInterval(interval); // cleanup just in case
-  }
-}, [inView, hasAnimated]);
+      return () => clearInterval(interval);
+    }
+  }, [inView, hasAnimated]);
 
   return (
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
       <div className="flex flex-col gap-[40px] xl:gap-28 wrapper">
         <div className="flex flex-col sm:items-center gap-5 justify-center sm:text-center ">
           {/* Title */}
-          <h1 ref={ref} className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700 leading-10 xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl text-center">
+          <h1
+            ref={ref}
+            className="text-secondary-950 text-3xl sm:text-4xl lg:text-5xl xl:text-[50px] font-700 leading-10 xl:leading-[70px] tracking-[-1.28px] relative max-w-sm xl:max-w-none sm:max-w-lg md:max-w-3xl text-center"
+          >
             <span>Start your career in</span>{" "}
             <span className="highlight text-white">{text}</span> Today{" "}
             <br className="hidden xl:block" />
@@ -102,7 +118,13 @@ useEffect(() => {
           <div className="xl:flex gap-3 items-center justify-center mt-7 hidden">
             <FilterDropdown
               label="Employment Type"
-              items={["Full-Time", "Part-Time", "Internship"]}
+              items={[
+                "Full-Time",
+                "Part-Time",
+                "Internship",
+                "Courses",
+                "Skill Programme",
+              ]}
               icon={ICONS.downArrow}
               onSelect={handleCategorySelect}
               selectedData={selectedEmploymentType}
@@ -133,14 +155,18 @@ useEffect(() => {
               onClick={handleSearch}
             >
               <span className="text-white text-base font-500 xl:text-xl block xl:hidden">
-              Search
+                Search
               </span>
-              
-              <Image src={ICONS.search} alt="search-icon" className="size-4 xl:size-6" />
+
+              <Image
+                src={ICONS.search}
+                alt="search-icon"
+                className="size-4 xl:size-6"
+              />
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-center justify-center max-w-[620px] xl:max-w-[1300px] mx-auto mt-7 block xl:hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-center justify-center max-w-[620px] xl:max-w-[1300px] mx-auto mt-7 xl:hidden">
             <FilterDropdown
               label="Employment Type"
               items={["Full-Time", "Part-Time", "Internship"]}
@@ -174,9 +200,9 @@ useEffect(() => {
               onClick={handleSearch}
             >
               <span className="text-white text-base font-500 xl:text-xl block xl:hidden">
-              Search
+                Search
               </span>
-              
+
               <Image src={ICONS.search} alt="search-icon" className="size-4" />
             </Button>
           </div>
