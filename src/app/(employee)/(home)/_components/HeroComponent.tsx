@@ -169,7 +169,9 @@ const HeroComponent = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-center justify-center max-w-[620px] xl:max-w-[1300px] mx-auto mt-7 xl:hidden">
             <FilterDropdown
               label="Employment Type"
-              items={["Full-Time", "Part-Time", "Internship"]}
+              items={["Full-Time", "Part-Time", "Internship",
+                "Courses",
+                "Skill Programme"]}
               icon={ICONS.downArrow}
               onSelect={handleCategorySelect}
               selectedData={selectedEmploymentType}
