@@ -10,18 +10,23 @@ import { useInView } from "react-intersection-observer";
 
 const HeroComponent = () => {
   const router = useRouter();
-  const [selectedEmploymentType, setSelectedEmploymentType] = useState<string | null>(null);
-  const [selectedEmploymentTypeCategory, setSelectedEmploymentTypeCategory] = useState<string | null>(null);
-  const [selectedLocationType, setSelectedLocationType] = useState<string | null>(null);
+  const [selectedEmploymentType, setSelectedEmploymentType] = useState<
+    string | null
+  >(null);
+  const [selectedEmploymentTypeCategory, setSelectedEmploymentTypeCategory] =
+    useState<string | null>(null);
+  const [selectedLocationType, setSelectedLocationType] = useState<
+    string | null
+  >(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-  
+
   const [categoryOptions, setCategoryOptions] = useState<string[]>([]); // Dynamic options for Category Typ
-  
+
   // Handle when Employment Type (Job, Internship, etc.) is selected
   const handleCategorySelect = (category: string) => {
     setSelectedEmploymentType(category);
     setSelectedEmploymentTypeCategory(null);
-  
+
     if (category.toLowerCase() === "job") {
       setCategoryOptions(["Full-Time", "Part-Time", "Contract"]);
     } else if (category.toLowerCase() === "internship") {
@@ -29,39 +34,45 @@ const HeroComponent = () => {
     } else {
       setCategoryOptions([]);
     }
-  
-    if (category.toLowerCase() === "courses" || category.toLowerCase() === "skill programme") {
-      const element = document.getElementById(category.toLowerCase().replace(" ", "-"));
+
+    if (
+      category.toLowerCase() === "courses" ||
+      category.toLowerCase() === "skill programme"
+    ) {
+      const element = document.getElementById(
+        category.toLowerCase().replace(" ", "-")
+      );
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
     }
   };
-  
+
   // Handle when Category Type (Full-Time, etc.) is selected
   const handleEmploymentTypeCategorySelect = (category: string) => {
     setSelectedEmploymentTypeCategory(category);
   };
-  
+
   // Handle Location Type select
   const handleLocationTypeSelect = (locationType: string) => {
     setSelectedLocationType(locationType);
   };
-  
+
   // Handle Search button click
   const handleSearch = () => {
     const params = new URLSearchParams();
-  
+
     // 👇 Only sending employmentTypeCategory, NOT employmentType
-    if (selectedEmploymentTypeCategory) params.set("employmentTypeCategory", selectedEmploymentTypeCategory);
+    if (selectedEmploymentTypeCategory)
+      params.set("employmentTypeCategory", selectedEmploymentTypeCategory);
     if (selectedLocationType) params.set("locationType", selectedLocationType);
     if (selectedLocation) params.set("location", selectedLocation);
-  
+
     const path =
       selectedEmploymentType?.toLowerCase() === "internship"
         ? "/internship"
         : "/jobs";
-  
+
     router.push(`${path}?${params.toString()}`);
   };
 
@@ -127,25 +138,24 @@ const HeroComponent = () => {
           </p>
 
           <div className="xl:flex gap-3 items-center justify-center mt-7 hidden z-10">
-          <FilterDropdown
-    label="Employment Type"
-    items={["Job", "Internship", "Courses", "Skill Programme"]}
-    icon={ICONS.downArrow}
-    onSelect={handleCategorySelect}
-    selectedData={selectedEmploymentType}
-  />
+            <FilterDropdown
+              label="Employment Type"
+              items={["Job", "Internship", "Courses", "Skill Programme"]}
+              icon={ICONS.downArrow}
+              onSelect={handleCategorySelect}
+              selectedData={selectedEmploymentType}
+            />
 
-  {/* Category Type Dropdown — only show when options are available */}
-  {categoryOptions.length > 0 && (
-    <FilterDropdown
-      label="Category Type"
-      items={categoryOptions}
-      icon={ICONS.downArrow}
-      onSelect={handleEmploymentTypeCategorySelect}
-      selectedData={selectedEmploymentTypeCategory}
-    />
-  )}
-
+            {/* Category Type Dropdown — only show when options are available */}
+            {categoryOptions.length > 0 && (
+              <FilterDropdown
+                label="Category Type"
+                items={categoryOptions}
+                icon={ICONS.downArrow}
+                onSelect={handleEmploymentTypeCategorySelect}
+                selectedData={selectedEmploymentTypeCategory}
+              />
+            )}
 
             <FilterDropdown
               label="Location Type"
@@ -186,23 +196,22 @@ const HeroComponent = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-center justify-center max-w-[620px] xl:max-w-[1300px] mx-auto mt-7 xl:hidden">
             <FilterDropdown
-            label="Employment Type"
-            items={["Job", "Internship", "Courses", "Skill Programme"]}
-            icon={ICONS.downArrow}
-            onSelect={handleCategorySelect}
-            selectedData={selectedEmploymentType}
-          />
-            
-            
-            {categoryOptions.length > 0 && (
-            <FilterDropdown
-              label="Category Type"
-              items={categoryOptions}
+              label="Employment Type"
+              items={["Job", "Internship", "Courses", "Skill Programme"]}
               icon={ICONS.downArrow}
-              onSelect={handleEmploymentTypeCategorySelect}
-              selectedData={selectedEmploymentTypeCategory}
+              onSelect={handleCategorySelect}
+              selectedData={selectedEmploymentType}
             />
-          )}
+
+            {categoryOptions.length > 0 && (
+              <FilterDropdown
+                label="Category Type"
+                items={categoryOptions}
+                icon={ICONS.downArrow}
+                onSelect={handleEmploymentTypeCategorySelect}
+                selectedData={selectedEmploymentTypeCategory}
+              />
+            )}
             <FilterDropdown
               label="Location Type"
               items={["Remote", "On Site"]}
