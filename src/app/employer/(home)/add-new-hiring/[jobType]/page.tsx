@@ -19,6 +19,7 @@ type FormData = {
     locationType: string;
     location: string;
     employmentType: string;
+    employmentTypeCategory: string;
     employmentDuration: number;
     salary: number;
     applicationDeadline: string;
@@ -79,8 +80,10 @@ const Page = () => {
     };
 
     const validLocationTypes = ["Remote", "Onsite", "Hybrid"];
-    const validEmploymentTypes = ["Full-Time", "Part-Time", "Contract"];
+    const validEmploymentTypes = ["Job"];
+    const jobTypes = ["Full-Time", "Part-Time", "Contract"];
     const internshipEmploymentTypes = ["Internship"];
+    const internshipTypes = ["Shadow Internship", "Practice Internship"];
 
     return (
         <div className="p-6 bg-[#f5f6fa]">
@@ -191,14 +194,14 @@ const Page = () => {
                             {errors.location && <p className="text-red-500">{errors.location.message}</p>}
                         </div>
                     </div>
-                    <div className="flex justify-center mt-8 gap-6">
+                    <div className="flex justify-center mt-8 gap-6 w-full">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="employmentType">
                                 <span className="text-lg">Employment Type</span>
                             </label>
                             <select
                                 {...register("employmentType", { required: "Employment type is required" })}
-                                className="p-3 border rounded-xl w-[370px]"
+                                className="p-3 border rounded-xl w-full"
                             >
                                 <option value="">Select Employment Type</option>
                                 {(pathname === "/employer/add-new-hiring/job" ? validEmploymentTypes : internshipEmploymentTypes).map((type) => (
@@ -211,6 +214,24 @@ const Page = () => {
                             {errors.employmentType && <p className="text-red-500">{errors.employmentType.message}</p>}
                         </div>
                         <div className="flex flex-col gap-2">
+                            <label htmlFor="employmentTypeCategory">
+                                <span className="text-lg">Job Type</span>
+                            </label>
+                            <select
+                                {...register("employmentTypeCategory", { required: "Job type is required" })}
+                                className="p-3 border rounded-xl w-full"
+                            >
+                                <option value="">Select Employment Type</option>
+                                {(pathname === "/employer/add-new-hiring/job" ? jobTypes : internshipTypes).map((type) => (
+                                    <option key={type} value={type}>
+                                        {type}
+                                    </option>
+                                ))}
+
+                            </select>
+                            {errors.employmentTypeCategory && <p className="text-red-500">{errors.employmentTypeCategory.message}</p>}
+                        </div>
+                        <div className="flex flex-col gap-2">
                             <label htmlFor="employmentDuration">
                                 <span className="text-lg">Employment Duration (in years)</span>
                             </label>
@@ -218,11 +239,15 @@ const Page = () => {
                                 type="number"
                                 {...register("employmentDuration", { required: "Employment duration is required", valueAsNumber: true })}
                                 placeholder="e.g., 3"
-                                className="p-3 border rounded-xl w-[370px]"
+                                className="p-3 border rounded-xl w-full"
                             />
                             {errors.employmentDuration && <p className="text-red-500">{errors.employmentDuration.message}</p>}
                         </div>
                     </div>
+
+                   
+
+
                     <div className="flex justify-center mt-8 gap-6">
                         <div className="flex flex-col gap-2">
                             <label htmlFor="salary">
