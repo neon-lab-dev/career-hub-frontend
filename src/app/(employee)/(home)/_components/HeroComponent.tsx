@@ -7,6 +7,7 @@ import Button from "@/components/Button";
 import LocationSearch from "./LocationSearch";
 import { useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
+import EmploymentTypeFilter from "./EmploymentTypeFilter";
 
 const HeroComponent = () => {
   const router = useRouter();
@@ -19,10 +20,7 @@ const HeroComponent = () => {
     string | null
   >(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-
   const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
-  const [courseOptions] = useState();
-  const [skillProgrammeOptions] = useState();
 
   // Handle when Employment Type (Job, Internship, etc.) is selected
   const handleCategorySelect = (category: string) => {
@@ -46,23 +44,36 @@ const HeroComponent = () => {
     } else {
       setCategoryOptions([]);
     }
+  };
 
-    if (
-      category.toLowerCase() === "course" ||
-      category.toLowerCase() === "Skill Programmes"
-    ) {
-      const element = document.getElementById(
-        category.toLowerCase().replace(" ", "-")
-      );
+  const handleEmploymentTypeCategorySelect = (category: string) => {
+    setSelectedEmploymentTypeCategory(category);
+
+    // 👇 NEW Scroll behavior based on selected category
+    const skillProgrammesCategories = [
+      "Offline",
+      "Online",
+      "Fellowship",
+      "Scholarships",
+    ];
+    const courseCategories = ["Certificate", "Diploma", "Bachelor", "Master"];
+
+    let scrollTargetId = "";
+
+    if (skillProgrammesCategories.includes(category)) {
+      scrollTargetId = "skill-programme"; // id should match your section id
+    } else if (courseCategories.includes(category)) {
+      scrollTargetId = "courses"; // id should match your section id
+    } else if (category === "Events") {
+      scrollTargetId = "events"; // id should match your section id
+    }
+
+    if (scrollTargetId) {
+      const element = document.getElementById(scrollTargetId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
     }
-  };
-
-  // Handle when Category Type (Full-Time, etc.) is selected
-  const handleEmploymentTypeCategorySelect = (category: string) => {
-    setSelectedEmploymentTypeCategory(category);
   };
 
   // Handle Location Type select
@@ -88,6 +99,7 @@ const HeroComponent = () => {
     router.push(`${path}?${params.toString()}`);
   };
 
+  // For text animation
   const [text, setText] = useState("");
   const [hasAnimated, setHasAnimated] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
@@ -124,9 +136,6 @@ const HeroComponent = () => {
       children: ["Shadow Internship", "Practice Internship"],
     },
     {
-      label: "Contract", // No dropdown needed
-    },
-    {
       label: "Course",
       children: ["Certificate", "Diploma", "Bachelor", "Master"],
     },
@@ -135,27 +144,6 @@ const HeroComponent = () => {
       children: ["Offline", "Online", "Fellowship", "Scholarships", "Events"],
     },
   ];
-
-  const [open, setOpen] = useState(false);
-  const dropDownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        dropDownRef.current &&
-        !dropDownRef.current.contains(e.target as Node)
-      ) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleSelect = (item: string) => {
-    setOpen(false);
-    // onSelect?.(item);
-  };
 
   return (
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
@@ -193,82 +181,17 @@ const HeroComponent = () => {
           </p>
 
           <div className="xl:flex gap-3 items-center justify-center mt-7 hidden z-10">
-            <div
-              ref={dropDownRef}
-              className="relative mx-auto w-fit text-white"
-            >
-              <button
-                onClick={() => setOpen((prev) => !prev)}
-                className="px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 text-xl leading-6 rounded-2xl w-[300px] lg:w-[277px] cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap"
-              >
-                {selectedEmploymentTypeCategory ||
-                  selectedEmploymentType ||
-                  "Employment Type"}
-                <Image
-                  src={ICONS.downArrow}
-                  alt="dropdown-icon"
-                  className="size-6"
-                />
-              </button>
-
-              <div
-                className={`${
-                  open
-                    ? "visible bg-white shadow-secondary-button"
-                    : "invisible"
-                } absolute top-12 z-50 w-full flex flex-col gap-2 p-3 rounded-b-2xl`}
-              >
-                {/* If a parent is selected and has children, show its children */}
-                {selectedEmploymentType && categoryOptions.length > 0 ? (
-                  <>
-                    {categoryOptions.map((child, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => {
-                          handleEmploymentTypeCategorySelect(child);
-                          setOpen(false);
-                        }}
-                        className={`rounded-md bg-neutral-100 text-neutral-700 font-medium text-start py-2 px-3 ${
-                          open
-                            ? "opacity-100 duration-500"
-                            : "opacity-0 duration-150"
-                        } hover:bg-neutral-200`}
-                        style={{
-                          transform: `translateY(${
-                            open ? 0 : (idx + 1) * 10
-                          }px)`,
-                        }}
-                      >
-                        {child}
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => setSelectedEmploymentType(null)}
-                      className="text-blue-600 text-sm mt-2 hover:underline"
-                    >
-                      ← Back
-                    </button>
-                  </>
-                ) : (
-                  employmentTypeOptions.map((item, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => handleCategorySelect(item.label)}
-                      className={`rounded-md bg-neutral-100 text-neutral-700 font-medium text-start py-2 px-3 ${
-                        open
-                          ? "opacity-100 duration-500"
-                          : "opacity-0 duration-150"
-                      } hover:bg-neutral-200`}
-                      style={{
-                        transform: `translateY(${open ? 0 : (idx + 1) * 10}px)`,
-                      }}
-                    >
-                      {item.label}
-                    </button>
-                  ))
-                )}
-              </div>
-            </div>
+            <EmploymentTypeFilter
+              selectedEmploymentTypeCategory={selectedEmploymentTypeCategory}
+              selectedEmploymentType={selectedEmploymentType}
+              setSelectedEmploymentType={setSelectedEmploymentType}
+              categoryOptions={categoryOptions}
+              employmentTypeOptions={employmentTypeOptions}
+              handleEmploymentTypeCategorySelect={
+                handleEmploymentTypeCategorySelect
+              }
+              handleCategorySelect={handleCategorySelect}
+            />
 
             <FilterDropdown
               label="Location Type"
@@ -308,23 +231,18 @@ const HeroComponent = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-center justify-center max-w-[620px] xl:max-w-[1300px] mx-auto mt-7 xl:hidden">
-            <FilterDropdown
-              label="Employment Type"
-              items={["Job", "Internship", "Courses", "Skill Programme"]}
-              icon={ICONS.downArrow}
-              onSelect={handleCategorySelect}
-              selectedData={selectedEmploymentType}
+            <EmploymentTypeFilter
+              selectedEmploymentTypeCategory={selectedEmploymentTypeCategory}
+              selectedEmploymentType={selectedEmploymentType}
+              setSelectedEmploymentType={setSelectedEmploymentType}
+              categoryOptions={categoryOptions}
+              employmentTypeOptions={employmentTypeOptions}
+              handleEmploymentTypeCategorySelect={
+                handleEmploymentTypeCategorySelect
+              }
+              handleCategorySelect={handleCategorySelect}
             />
 
-            {categoryOptions.length > 0 && (
-              <FilterDropdown
-                label="Category Type"
-                items={categoryOptions}
-                icon={ICONS.downArrow}
-                onSelect={handleEmploymentTypeCategorySelect}
-                selectedData={selectedEmploymentTypeCategory}
-              />
-            )}
             <FilterDropdown
               label="Location Type"
               items={["Remote", "On Site"]}
