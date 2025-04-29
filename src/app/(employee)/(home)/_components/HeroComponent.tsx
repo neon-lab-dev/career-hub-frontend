@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ICONS, IMAGES } from "@/assets";
 import FilterDropdown from "@/components/Reusable/FilterDropdown/FilterDropdown";
@@ -7,6 +7,7 @@ import Button from "@/components/Button";
 import LocationSearch from "./LocationSearch";
 import { useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
+import EmploymentTypeFilter from "./EmploymentTypeFilter";
 
 const HeroComponent = () => {
   const router = useRouter();
@@ -19,38 +20,60 @@ const HeroComponent = () => {
     string | null
   >(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-
-  const [categoryOptions, setCategoryOptions] = useState<string[]>([]); // Dynamic options for Category Typ
+  const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
 
   // Handle when Employment Type (Job, Internship, etc.) is selected
   const handleCategorySelect = (category: string) => {
     setSelectedEmploymentType(category);
     setSelectedEmploymentTypeCategory(null);
 
-    if (category.toLowerCase() === "job") {
+    if (category === "Job") {
       setCategoryOptions(["Full-Time", "Part-Time", "Contract"]);
-    } else if (category.toLowerCase() === "internship") {
+    } else if (category === "Internship") {
       setCategoryOptions(["Shadow Internship", "Practice Internship"]);
+    } else if (category === "Course") {
+      setCategoryOptions(["Certificate", "Diploma", "Bachelor", "Master"]);
+    } else if (category === "Skill Programmes") {
+      setCategoryOptions([
+        "Offline",
+        "Online",
+        "Fellowship",
+        "Scholarships",
+        "Events",
+      ]);
     } else {
       setCategoryOptions([]);
     }
+  };
 
-    if (
-      category.toLowerCase() === "courses" ||
-      category.toLowerCase() === "skill programme"
-    ) {
-      const element = document.getElementById(
-        category.toLowerCase().replace(" ", "-")
-      );
+  const handleEmploymentTypeCategorySelect = (category: string) => {
+    setSelectedEmploymentTypeCategory(category);
+
+    // 👇 NEW Scroll behavior based on selected category
+    const skillProgrammesCategories = [
+      "Offline",
+      "Online",
+      "Fellowship",
+      "Scholarships",
+    ];
+    const courseCategories = ["Certificate", "Diploma", "Bachelor", "Master"];
+
+    let scrollTargetId = "";
+
+    if (skillProgrammesCategories.includes(category)) {
+      scrollTargetId = "skill-programme"; // id should match your section id
+    } else if (courseCategories.includes(category)) {
+      scrollTargetId = "courses"; // id should match your section id
+    } else if (category === "Events") {
+      scrollTargetId = "events"; // id should match your section id
+    }
+
+    if (scrollTargetId) {
+      const element = document.getElementById(scrollTargetId);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
     }
-  };
-
-  // Handle when Category Type (Full-Time, etc.) is selected
-  const handleEmploymentTypeCategorySelect = (category: string) => {
-    setSelectedEmploymentTypeCategory(category);
   };
 
   // Handle Location Type select
@@ -76,6 +99,7 @@ const HeroComponent = () => {
     router.push(`${path}?${params.toString()}`);
   };
 
+  // For text animation
   const [text, setText] = useState("");
   const [hasAnimated, setHasAnimated] = useState(false);
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.5 });
@@ -101,6 +125,25 @@ const HeroComponent = () => {
       return () => clearInterval(interval);
     }
   }, [inView, hasAnimated]);
+
+  const employmentTypeOptions = [
+    {
+      label: "Job",
+      children: ["Full-Time", "Part-Time", "Contract"],
+    },
+    {
+      label: "Internship",
+      children: ["Shadow Internship", "Practice Internship"],
+    },
+    {
+      label: "Course",
+      children: ["Certificate", "Diploma", "Bachelor", "Master"],
+    },
+    {
+      label: "Skill Programmes",
+      children: ["Offline", "Online", "Fellowship", "Scholarships", "Events"],
+    },
+  ];
 
   return (
     <div className="pt-[136px] xl:pt-44 pb-28 bg-secondary-50">
@@ -138,24 +181,17 @@ const HeroComponent = () => {
           </p>
 
           <div className="xl:flex gap-3 items-center justify-center mt-7 hidden z-10">
-            <FilterDropdown
-              label="Employment Type"
-              items={["Job", "Internship", "Courses", "Skill Programme"]}
-              icon={ICONS.downArrow}
-              onSelect={handleCategorySelect}
-              selectedData={selectedEmploymentType}
+            <EmploymentTypeFilter
+              selectedEmploymentTypeCategory={selectedEmploymentTypeCategory}
+              selectedEmploymentType={selectedEmploymentType}
+              setSelectedEmploymentType={setSelectedEmploymentType}
+              categoryOptions={categoryOptions}
+              employmentTypeOptions={employmentTypeOptions}
+              handleEmploymentTypeCategorySelect={
+                handleEmploymentTypeCategorySelect
+              }
+              handleCategorySelect={handleCategorySelect}
             />
-
-            {/* Category Type Dropdown — only show when options are available */}
-            {categoryOptions.length > 0 && (
-              <FilterDropdown
-                label="Category Type"
-                items={categoryOptions}
-                icon={ICONS.downArrow}
-                onSelect={handleEmploymentTypeCategorySelect}
-                selectedData={selectedEmploymentTypeCategory}
-              />
-            )}
 
             <FilterDropdown
               label="Location Type"
@@ -195,23 +231,18 @@ const HeroComponent = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 items-center justify-center max-w-[620px] xl:max-w-[1300px] mx-auto mt-7 xl:hidden">
-            <FilterDropdown
-              label="Employment Type"
-              items={["Job", "Internship", "Courses", "Skill Programme"]}
-              icon={ICONS.downArrow}
-              onSelect={handleCategorySelect}
-              selectedData={selectedEmploymentType}
+            <EmploymentTypeFilter
+              selectedEmploymentTypeCategory={selectedEmploymentTypeCategory}
+              selectedEmploymentType={selectedEmploymentType}
+              setSelectedEmploymentType={setSelectedEmploymentType}
+              categoryOptions={categoryOptions}
+              employmentTypeOptions={employmentTypeOptions}
+              handleEmploymentTypeCategorySelect={
+                handleEmploymentTypeCategorySelect
+              }
+              handleCategorySelect={handleCategorySelect}
             />
 
-            {categoryOptions.length > 0 && (
-              <FilterDropdown
-                label="Category Type"
-                items={categoryOptions}
-                icon={ICONS.downArrow}
-                onSelect={handleEmploymentTypeCategorySelect}
-                selectedData={selectedEmploymentTypeCategory}
-              />
-            )}
             <FilterDropdown
               label="Location Type"
               items={["Remote", "On Site"]}
