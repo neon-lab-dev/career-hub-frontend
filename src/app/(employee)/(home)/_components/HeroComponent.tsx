@@ -59,11 +59,11 @@ const HeroComponent = () => {
     let scrollTargetId = "";
 
     if (skillProgrammesCategories.includes(category)) {
-      scrollTargetId = "skill-programme"; // id should match your section id
+      router.push("/skill-programmes");
     } else if (courseCategories.includes(category)) {
-      scrollTargetId = "courses"; // id should match your section id
+      router.push("/courses");
     } else if (category === "Events") {
-      scrollTargetId = "events"; // id should match your section id
+      scrollTargetId = "events";
     }
 
     if (scrollTargetId) {
