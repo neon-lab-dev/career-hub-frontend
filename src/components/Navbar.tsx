@@ -34,29 +34,23 @@ const Navbar = () => {
   const navItems = [
     {
       text: "Home",
-      onClick: () => router.push("/"),
+      path : "/"
     },
     {
       text: "Internships",
-      onClick: () => router.push("/internships"),
+      path : "/internships"
     },
     {
       text: "Jobs",
-      onClick: () => router.push("/jobs"),
+      path : "/jobs"
     },
     {
-      text: "Skill programs",
-      onClick: () => {
-        const section = document.getElementById("skill-programme");
-        if (section) section.scrollIntoView({ behavior: "smooth" });
-      },
+      text: "Skill Programmes",
+      path : "/skill-programmes"
     },
     {
       text: "Courses",
-      onClick: () => {
-        const section = document.getElementById("courses");
-        if (section) section.scrollIntoView({ behavior: "smooth" });
-      },
+      path : "/courses"
     },
   ];
   const { isAuthModalOpen, activeTab, employerProfile, studentProfile } =
@@ -113,13 +107,13 @@ const Navbar = () => {
           </span>
           <ul className="flex gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold max-lg:hidden font-poppins">
             {navItems.map((item, index) => (
-              <li
+              <Link
                 key={index}
-                onClick={item.onClick}
+                href={item.path}
                 className="hover:text-primary-500 transition duration-300 max-xl:text-[13px] cursor-pointer px-2 py-1"
               >
                 {item.text}
-              </li>
+              </Link>
             ))}
           </ul>
         </div>
@@ -324,13 +318,13 @@ const Navbar = () => {
             <hr />
             <ul className="flex flex-col gap-8 max-xl:gap-2 text-base text-neutral-600 font-semibold font-poppins">
               {navItems.map((item, index) => (
-                <li
+                <Link
                   key={index}
-                  onClick={item.onClick}
+                  href={item.path}
                   className="hover:text-primary-500 transition duration-300 cursor-pointer px-2 py-1"
                 >
                   {item.text}
-                </li>
+                </Link>
               ))}
             </ul>
 

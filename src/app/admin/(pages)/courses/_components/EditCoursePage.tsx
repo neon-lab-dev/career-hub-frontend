@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type TVideo = {
     _id: string;
@@ -33,6 +34,7 @@ type SkillFormData = {
   image: FileList;
 };
 const EditCoursePage = ({id} : {id:string}) => {
+  const router = useRouter();
     const [videoIds, setVideoIds] = useState<string[]>([]);
   const queryClient = useQueryClient();
   const { register: videoRegister, handleSubmit: videoHandleSubmit, formState: { errors: videoErrors } } = useForm<VideoFormData>();
@@ -51,7 +53,7 @@ const EditCoursePage = ({id} : {id:string}) => {
   const videoMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "https://api.medhrplus.com/api/v1/video/create",
+        "https://carrerhub-backend.vercel.app/api/v1/video/create",
         data,
         {
           headers: {
@@ -87,7 +89,7 @@ const EditCoursePage = ({id} : {id:string}) => {
     formData.append("videoId", videoId);
   
     axios.put(
-      `https://api.medhrplus.com/api/v1/courses/${id}`,
+      `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`,
       formData,
       {
         withCredentials: true,
@@ -124,7 +126,7 @@ const EditCoursePage = ({id} : {id:string}) => {
   const skillMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.put(
-        `https://api.medhrplus.com/api/v1/courses/${id}`,
+        `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`,
         data,
         {
           withCredentials: true,
@@ -134,6 +136,7 @@ const EditCoursePage = ({id} : {id:string}) => {
     },
     onSuccess: () => {
       toast.success("Course updated successfully!");
+      router.push("/admin/courses")
     },
     onError: () => {
       toast.error("Failed to update Course.");

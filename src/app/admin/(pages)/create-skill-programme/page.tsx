@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 type VideoFormData = {
   title: string;
@@ -19,6 +20,7 @@ type SkillFormData = {
 };
 
 const CreateSkillProgramme = () => {
+  const router = useRouter();
   const [videoId, setVideoId] = useState<string | null>(null);
   // Video Upload Form Handling
   const { register: videoRegister, handleSubmit: videoHandleSubmit, formState: { errors: videoErrors } } = useForm<VideoFormData>();
@@ -27,7 +29,7 @@ const CreateSkillProgramme = () => {
     mutationFn: async (data: FormData) => {
       try {  
         const response = await axios.post(
-          "https://api.medhrplus.com/api/v1/video/create", 
+          "https://carrerhub-backend.vercel.app/api/v1/video/create", 
           data, 
           {
             headers: {
@@ -77,7 +79,7 @@ const CreateSkillProgramme = () => {
   const skillMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "https://api.medhrplus.com/api/v1/skills/create", 
+        "https://carrerhub-backend.vercel.app/api/v1/skills/create", 
         data, 
         {
           withCredentials: true,
@@ -87,6 +89,7 @@ const CreateSkillProgramme = () => {
     },
     onSuccess: () => {
       toast.success("Skill programme created successfully!");
+      router.push("/admin/skill-programmes");
     },
     onError: () => {
       toast.error("Failed to create skill programme.");

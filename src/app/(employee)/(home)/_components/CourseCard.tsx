@@ -105,7 +105,7 @@ const CourseCard: React.FC<TCourseCardProps> = ({
             : description}
         </p>
 
-        <Link href={href ? href : "/"}>
+        <Link href={href ? href : ""}>
           <Button variant="normal" className="px-6 py-[10px] w-fit mt-7">
             View Details
           </Button>
