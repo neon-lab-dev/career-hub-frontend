@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type VideoFormData = {
     title: string;
@@ -23,6 +24,7 @@ type VideoFormData = {
   };
 
 const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
+  const router = useRouter();
     const { register: videoRegister, handleSubmit: videoHandleSubmit, formState: { errors: videoErrors } } = useForm<VideoFormData>();
   const [videoId, setVideoId] = useState<string | null>(null);
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
@@ -93,6 +95,7 @@ const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
     },
     onSuccess: () => {
       toast.success("Skill programme updated successfully!");
+      router.push("/admin/skill-programmes");
     },
     onError: () => {
       toast.error("Failed to update skill programme.");

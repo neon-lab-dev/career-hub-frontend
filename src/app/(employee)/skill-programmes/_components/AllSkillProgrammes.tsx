@@ -13,6 +13,7 @@ const AllSkillProgrammes = () => {
     });
   return (
     <Container>
+      <div className="mb-10">
       {isLoading ? (
         <div className="flex justify-center items-center">
           <Oval
@@ -29,12 +30,13 @@ const AllSkillProgrammes = () => {
       ) : data?.skills?.length < 1 ? (
         <NoDataFound message="No Course Available" />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8">
           {data?.skills?.map((course: any) => (
             <CourseCard key={course?._id} {...course} />
           ))}
         </div>
       )}
+      </div>
     </Container>
   );
 };

@@ -16,9 +16,7 @@ const HeroComponent = () => {
   >(null);
   const [selectedEmploymentTypeCategory, setSelectedEmploymentTypeCategory] =
     useState<string | null>(null);
-  const [selectedLocationType, setSelectedLocationType] = useState<
-    string | null
-  >(null);
+  const [selectedCountry, setSelectedCountry] = useState< string | null>(null);
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
   const [categoryOptions, setCategoryOptions] = useState<string[]>([]);
 
@@ -77,18 +75,17 @@ const HeroComponent = () => {
   };
 
   // Handle Location Type select
-  const handleLocationTypeSelect = (locationType: string) => {
-    setSelectedLocationType(locationType);
+  const handleCountrySelect = (country: string) => {
+    setSelectedCountry(country);
   };
 
   // Handle Search button click
   const handleSearch = () => {
     const params = new URLSearchParams();
 
-    // 👇 Only sending employmentTypeCategory, NOT employmentType
     if (selectedEmploymentTypeCategory)
       params.set("employmentTypeCategory", selectedEmploymentTypeCategory);
-    if (selectedLocationType) params.set("locationType", selectedLocationType);
+    // if (selectedLocationType) params.set("locationType", selectedLocationType);
     if (selectedLocation) params.set("location", selectedLocation);
 
     const path =
@@ -194,14 +191,15 @@ const HeroComponent = () => {
             />
 
             <FilterDropdown
-              label="Location Type"
-              items={["Remote", "On Site"]}
+              label="Locations"
+              items={["Canada", "Germany", "India"]}
               icon={ICONS.downArrow}
-              onSelect={handleLocationTypeSelect}
-              selectedData={selectedLocationType}
+              onSelect={handleCountrySelect}
+              selectedData={selectedCountry}
             />
 
             <LocationSearch
+            selectedCountry={selectedCountry}
               selectedLocation={selectedLocation}
               setSelectedLocation={setSelectedLocation}
             />
@@ -243,15 +241,16 @@ const HeroComponent = () => {
               handleCategorySelect={handleCategorySelect}
             />
 
-            <FilterDropdown
-              label="Location Type"
-              items={["Remote", "On Site"]}
+              <FilterDropdown
+              label="Locations"
+              items={["Canada", "Germany", "India"]}
               icon={ICONS.downArrow}
-              onSelect={handleLocationTypeSelect}
-              selectedData={selectedLocationType}
+              onSelect={handleCountrySelect}
+              selectedData={selectedCountry}
             />
 
             <LocationSearch
+            selectedCountry={selectedCountry}
               selectedLocation={selectedLocation}
               setSelectedLocation={setSelectedLocation}
             />
