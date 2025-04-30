@@ -191,7 +191,7 @@ const HeroComponent = () => {
             />
 
             <FilterDropdown
-              label="Locations"
+              label="Select Country"
               items={["Canada", "Germany", "India"]}
               icon={ICONS.downArrow}
               onSelect={handleCountrySelect}
@@ -242,7 +242,7 @@ const HeroComponent = () => {
             />
 
               <FilterDropdown
-              label="Locations"
+              label="Select Country"
               items={["Canada", "Germany", "India"]}
               icon={ICONS.downArrow}
               onSelect={handleCountrySelect}
