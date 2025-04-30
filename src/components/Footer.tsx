@@ -31,37 +31,30 @@ const Footer = () => {
   const importantLinks = [
     {
       label: "Jobs",
-      icon: "/icons/jobs.svg",
       action: () => {
         window.location.href = "/jobs";
       },
     },
     {
-      label: "Internship",
-      icon: "/icons/internship.svg",
+      label: "Internships",
       action: () => {
-        window.location.href = "/internship";
+        window.location.href = "/internships";
       },
     },
     {
-      label: "Skill Programme",
-      icon: "/icons/skill.svg",
+      label: "Skill Programmes",
       action: () => {
-        const section = document.getElementById("skill-programme");
-        if (section) section.scrollIntoView({ behavior: "smooth" });
+        window.location.href = "/skill-programmes";
       },
     },
     {
       label: "Courses",
-      icon: "/icons/courses.svg",
       action: () => {
-        const section = document.getElementById("courses");
-        if (section) section.scrollIntoView({ behavior: "smooth" });
+        window.location.href = "/courses";
       },
     },
     {
       label: "Trending Today",
-      icon: "/icons/trending.svg",
       action: () => {
         const section = document.getElementById("trending-today");
         if (section) section.scrollIntoView({ behavior: "smooth" });
@@ -69,7 +62,6 @@ const Footer = () => {
     },
     {
       label: "Events",
-      icon: "/icons/events.svg",
       action: () => {
         const section = document.getElementById("events");
         if (section) section.scrollIntoView({ behavior: "smooth" });
