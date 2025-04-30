@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 type VideoFormData = {
   title: string;
@@ -17,6 +18,7 @@ type CourseFormData = {
 };
 
 const CreateCourse = () => {
+  const router = useRouter();
   const [videoIds, setVideoIds] = useState<string[]>([]);
 
   // Video Upload Form Handling
@@ -26,7 +28,7 @@ const CreateCourse = () => {
     mutationFn: async (data: FormData) => {
       try {
         const response = await axios.post(
-          "https://api.medhrplus.com/api/v1/video/create", 
+          "https://carrerhub-backend.vercel.app/api/v1/video/create", 
           data, 
           {
             headers: {
@@ -73,7 +75,7 @@ const CreateCourse = () => {
   const courseMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "https://api.medhrplus.com/api/v1/courses/create",
+        "https://carrerhub-backend.vercel.app/api/v1/courses/create",
         data,
         {
           withCredentials: true,
@@ -83,6 +85,7 @@ const CreateCourse = () => {
     },
     onSuccess: () => {
       toast.success("Course created successfully!");
+      router.push("/admin/courses")
     },
     onError: () => {
       toast.error("Failed to create course.");
