@@ -3,11 +3,11 @@ import JobShareButton from "./_components/JobShareButtonComponent";
 import Link from "next/link";
 import { AVAILABLE_JOB_TYPES } from "@/constants/jobTypes";
 import SimilarJobsForYou from "./_components/SimilarJobsForYouComponent";
-import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
-import WhatWeDo from "@/components/WhatWeDo";
+// import TrendingCourseToday from "@/components/TrendingCourseToday";
+// import OurValuableHiringPartners from "@/components/OurValuableHiringPartners";
+// import WhatWeDo from "@/components/WhatWeDo";
 import SkillsAndExtraBenefits from "./_components/SkillsAndExtraBenefits";
 import { getJobById } from "@/api/jobs";
-import TrendingCourseToday from "@/components/TrendingCourseToday";
 import ApplyJob from "./_components/ApplyJob";
 
 
@@ -148,9 +148,9 @@ const JobIdPage = async ({ params }: { params: Promise<{ jobType: string; jobId:
                       Website
                     </Link>
                     <div className="h-2 w-2 rounded-full bg-secondary-100" />
-                    <Link href="#" target="_blank">
+                    <span>
                       {job.location}
-                    </Link>
+                    </span>
                   </div>
                   <div className="flex gap-6 items-center text-base font-500 text-secondary-400">
                     <span>{job.companyDetails.industryType}</span>
@@ -190,9 +190,9 @@ const JobIdPage = async ({ params }: { params: Promise<{ jobType: string; jobId:
         </div>
       </div>
       <SimilarJobsForYou title={job.title} type={jobType} ignore={jobId} />
-      <TrendingCourseToday />
+      {/* <TrendingCourseToday />
       <OurValuableHiringPartners />
-      <WhatWeDo />
+      <WhatWeDo /> */}
     </div>
   );
 };
