@@ -70,9 +70,10 @@ const Courses = () => {
 
   // Delete course
   const handleDeleteCourse = (id: string) => {
-    
     deleteCourse(id);
   };
+
+  console.log(data?.courses)
 
 
   // Table data

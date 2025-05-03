@@ -100,8 +100,8 @@ const CourseCard: React.FC<TCourseCardProps> = ({
         </div> */}
 
         <p className="text-neutral-400 text-[15px] mt-6 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
-          {description?.length > 50
-            ? `${description.slice(0, 50)}...`
+          {description?.length > 150
+            ? `${description.slice(0, 150)}...`
             : description}
         </p>
 

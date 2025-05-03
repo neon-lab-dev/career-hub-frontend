@@ -1,7 +1,5 @@
 import Container from "@/components/Container";
 import AllSkillProgrammes from "./_components/AllSkillProgrammes";
-
-
 const SkillProgrammesPage = () => {
     return (
         <div>

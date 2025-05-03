@@ -16,18 +16,11 @@ import { Navigation, Pagination } from "swiper/modules";
 import Container from "@/components/Container";
 
 const SkillProgrammes = () => {
-  const [openVideoModal, setOpenVideoModal] = useState(false);
-  const [selectedVideoUrl, setSelectedVideoUrl] = useState<string | null>(null);
 
   const { isLoading, data } = useQuery({
     queryKey: ["skillprogrammes"],
     queryFn: getAllSkillProgrammes,
   });
-
-  const handleOpenVideoModal = (videoUrl: string) => {
-    setSelectedVideoUrl(videoUrl);
-    setOpenVideoModal(true);
-  };
 
   return (
     <Container>
@@ -65,7 +58,7 @@ const SkillProgrammes = () => {
           >
             {data?.skills?.map((skillProgramme:any) => (
               <SwiperSlide key={skillProgramme?._id} className="mb-10 w-full">
-                <CourseCard {...skillProgramme} />
+                <CourseCard {...skillProgramme} href={`/skill-programmes/${skillProgramme?._id}`} />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -89,31 +82,6 @@ const SkillProgrammes = () => {
           </div>
         </div>
         }
-
-        {/* Video Modal */}
-        {openVideoModal && (
-          <div className="mx-auto w-fit">
-            <div
-              onClick={() => setOpenVideoModal(false)}
-              className="fixed z-[100] w-screen inset-0 grid place-items-center bg-black/20 backdrop-blur-sm duration-100 dark:bg-transparent"
-            >
-              <div
-                onClick={(e) => e.stopPropagation()}
-                className="relative w-[700px] h-fit rounded-lg bg-white drop-shadow-lg dark:bg-zinc-900 dark:text-white opacity-1 duration-300"
-              >
-                {/* Video Element */}
-                {selectedVideoUrl && (
-                  <video
-                    src={selectedVideoUrl}
-                    controls
-                    autoPlay
-                    className="w-full h-full rounded-lg"
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </Container>
   );

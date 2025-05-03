@@ -57,7 +57,7 @@ const AvailableCourses = () => {
         >
           {data?.courses?.map((course:any) => (
             <SwiperSlide key={course?._id} className="mb-16 w-full">
-              <CourseCard {...course} />
+              <CourseCard {...course} href={`/courses/${course?._id}`} />
             </SwiperSlide>
           ))}
         </Swiper>
