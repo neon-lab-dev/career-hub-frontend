@@ -154,6 +154,7 @@ const Page = () => {
   "Rheumatology",
   "Surgery",
   "Urology",
+
   "Lab Technician",
   "Blood Bank",
   "Biochemistry",
@@ -162,9 +163,11 @@ const Page = () => {
   "Pharmacology",
   "Radio diagnosis",
   "Radiographers",
+
   "OT Technicians",
 "Technicians CSSD",
 "Nursing",
+
 "Hospital Administration",
 "Laundry",
 "Pharmacist",
