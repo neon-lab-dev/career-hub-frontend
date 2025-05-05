@@ -99,7 +99,7 @@ const WorkExperienceModal: React.FC<TWorkExperienceModalProps> = ({
       <div className="flex flex-col gap-5 mt-5">
       <TextInput
             label="Designation"
-            placeholder="eg.,  MITRA Consultancy"
+            placeholder="eg.,  Senior Surgen"
             value={formValues.designation}
             onChange={(e) => handleChange("designation", e.target.value)}
           />
