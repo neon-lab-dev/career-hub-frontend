@@ -57,14 +57,14 @@ const EducationModal: React.FC<TEducationModalProps> = ({
     setSelectedDesignation("Medical");
   };
 
-  const designationTypes = ["Medical", "Paramedical", "Paramedical Diploma", "Other"];
+  const designationTypes = ["11/12th","Medical", "Paramedical Bachelor's", "Paramedical Diploma", "Other"];
 
   const medicalCourses = [
     "Ayurvedic Medicine and Surgery", "Dental Surgery", "Medicine and Bachelor of Surgery",
     "Naturopathy and Yoga Sciences", "Siddha Medicine and Surgery", "Unani Medicine and Surgery",
   ];
 
-  const paramedicalCourses = [
+  const paramedicalBachelorsCourses = [
     "Anaesthesia Technology", "Audiology and Speech Therapy", "Biomedical Engineering",
     "Biotechnology", "Cardiac or Cardiovascular Technology", "Dialysis Technology",
     "Healthcare Management", "Medical Laboratory Technology", "Medical Record Technology",
@@ -82,18 +82,18 @@ const EducationModal: React.FC<TEducationModalProps> = ({
 
   const options =
     selectedDesignation === "Medical" ? medicalCourses :
-    selectedDesignation === "Paramedical" ? paramedicalCourses :
+    selectedDesignation === "Paramedical Bachelor's" ? paramedicalBachelorsCourses :
     selectedDesignation === "Paramedical Diploma" ? paramedicalDiplomaCourses : [];
 
   return (
     <Modal heading="Designation" isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6 flex-wrap">
         {designationTypes.map((designation) => (
           <button
             key={designation}
             type="button"
             onClick={() => setSelectedDesignation(designation)}
-            className="flex items-center gap-1 cursor-pointer"
+            className="flex items-center gap-1 cursor-pointer text-nowrap"
           >
             <Image
               src={
@@ -131,7 +131,7 @@ const EducationModal: React.FC<TEducationModalProps> = ({
           value={formValues.city}
           onChange={(e) => handleChange("city", e.target.value)}
         />
-        {selectedDesignation !== "Other" ? (
+        {selectedDesignation !== "Other" && selectedDesignation !== "11/12th" ? (
           <DropdownInput
             label="Course"
             options={options}
@@ -141,8 +141,8 @@ const EducationModal: React.FC<TEducationModalProps> = ({
         ) : (
           <TextInput
             name="courseName"
-            label="Course"
-            placeholder="eg., Full stack web development"
+            label={selectedDesignation === "11/12th" ? "Department" : "Course"}
+            placeholder={selectedDesignation === "11/12th" ? "eg., Science" : "eg., Computer Science"}
             value={formValues.courseName}
             onChange={(e) => handleChange("courseName", e.target.value)}
           />
@@ -167,11 +167,11 @@ const EducationModal: React.FC<TEducationModalProps> = ({
           type="date"
           value={formValues.endDate}
           onChange={(e) => handleChange("endDate", e.target.value)}
-        />
+        />  
       </div>
 
       <div className="flex items-center gap-3 mt-6">
-        <Button variant="natural" className="px-6 py-3" onClick={() => setIsModalOpen(false)}>
+        <Button type="button" variant="natural" className="px-6 py-3" onClick={() => setIsModalOpen(false)}>
           Cancel
         </Button>
         <Button type="button" variant="normal" className="px-6 py-3" onClick={handleAdd}>

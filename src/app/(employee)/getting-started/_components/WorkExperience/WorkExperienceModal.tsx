@@ -97,13 +97,14 @@ const WorkExperienceModal: React.FC<TWorkExperienceModalProps> = ({
         noValidate
       >
       <div className="flex flex-col gap-5 mt-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <TextInput
+      <TextInput
             label="Designation"
             placeholder="eg.,  MITRA Consultancy"
             value={formValues.designation}
             onChange={(e) => handleChange("designation", e.target.value)}
           />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          
           <TextInput
             label="Company Name"
             placeholder="eg.,  MITRA Consultancy"
@@ -175,7 +176,7 @@ const WorkExperienceModal: React.FC<TWorkExperienceModalProps> = ({
         )}
       </div>
       <div className="flex items-center gap-3 mt-6">
-        <Button onClick={() => setIsModalOpen(false)} variant="natural" className="px-6 py-3">
+        <Button type="button" onClick={() => setIsModalOpen(false)} variant="natural" className="px-6 py-3">
           Cancel
         </Button>
         <Button onClick={handleAdd} type="button" variant="normal" className="px-6 py-3">

@@ -95,7 +95,7 @@ const CertificationModal:React.FC<TCertificationModalProps> = ({
       
       </div>
       <div className="flex items-center gap-3 mt-6">
-        <Button onClick={() => setIsModalOpen(false)} variant="natural" className="px-6 py-3">
+        <Button onClick={() => setIsModalOpen(false)} type="button" variant="natural" className="px-6 py-3">
           Cancel
         </Button>
         <Button onClick={handleAdd} type="button" variant="normal" className="px-6 py-3">
