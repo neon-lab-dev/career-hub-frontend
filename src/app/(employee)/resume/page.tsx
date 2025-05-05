@@ -17,6 +17,8 @@ const Dashboard = () => {
     queryFn: fetchUserData,
   });
 
+  console.log(data);
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-96">

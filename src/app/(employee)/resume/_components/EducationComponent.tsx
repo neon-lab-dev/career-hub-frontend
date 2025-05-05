@@ -2,14 +2,15 @@ import React from 'react';
 import { ICONS, IMAGES } from '@/assets';
 import Image from 'next/image';
 import ResumeEducationModel from './ResumeEducationModel';
+import { convertDate } from '@/helpers/convertDate';
 
 interface Education {
   institutionName: string;
-  degree: string;
-  fieldOfStudy: string;
+  courseName: string;
+  designationType: string;
   startDate: string;
   endDate: string;
-  gpa: string;
+  grade: string;
 }
 
 interface EducationComponentProps {
@@ -28,16 +29,16 @@ const EducationComponent: React.FC<EducationComponentProps> = ({ education }) =>
             <ResumeEducationModel />
           </div>
           <hr className='pb-10 mx-2' />
-          {education.length > 0 ? (
-            education.map((edu, index) => (
+          {education?.length > 0 ? (
+            education?.map((edu, index) => (
               <div key={index} className='flex max-md:flex-col justify-between border-2 border-neutral-100 p-6 rounded-xl mb-4'>
                 <div className='flex gap-4 items-center'>
                   <div className='flex-col flex justify-start items-start font-plus-jakarta-sans mb-6'>
                     <div className='flex gap-2'>
-                      <span className='text-neutral-950 text-xl max-md:text-sm font-600'>{edu.institutionName}</span>
+                      <span className='text-neutral-950 text-xl max-md:text-sm font-600'>{edu?.institutionName}</span>
                     </div>
-                    <span className='text-neutral-600 text-lg max-md:text-xs'>{edu.degree} in {edu.fieldOfStudy} | {edu.gpa}</span>
-                    <span className='text-neutral-600 text-lg max-md:text-xs'>{edu.startDate} - {edu.endDate}</span>
+                    <span className='text-neutral-600 text-lg max-md:text-xs'>{edu?.courseName} in {edu?.designationType} | {edu?.grade}</span>
+                    <span className='text-neutral-600 text-lg max-md:text-xs'>{convertDate(edu?.startDate)} - {convertDate(edu?.endDate)}</span>
                   </div>
                 </div>
               </div>
