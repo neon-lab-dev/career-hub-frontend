@@ -293,7 +293,7 @@ const Signup = () => {
 
   const onSubmit = async (data: any) => {
     setData(data);
-    if (activeTab === "STUDENT") {
+    if (activeTab === "Aspirants") {
       employee.mutate(data);
     } else {
       employer.mutate(data);
