@@ -753,4 +753,130 @@ export const locationData = [
       },
     ],
   },
+  {
+    countryName: "Canada",
+    states: [
+      {
+        state: "Alberta",
+        cities: ["Calgary", "Edmonton"],
+      },
+      {
+        state: "British Columbia",
+        cities: ["Vancouver", "Victoria"],
+      },
+      {
+        state: "Manitoba",
+        cities: ["Winnipeg", "Brandon"],
+      },
+      {
+        state: "New Brunswick",
+        cities: ["Fredericton", "Moncton"],
+      },
+      {
+        state: "Newfoundland and Labrador",
+        cities: ["St. John's", "Corner Brook"],
+      },
+      {
+        state: "Nova Scotia",
+        cities: ["Halifax", "Sydney"],
+      },
+      {
+        state: "Ontario",
+        cities: ["Toronto", "Ottawa", "Hamilton"],
+      },
+      {
+        state: "Prince Edward Island",
+        cities: ["Charlottetown", "Summerside"],
+      },
+      {
+        state: "Quebec",
+        cities: ["Montreal", "Quebec City"],
+      },
+      {
+        state: "Saskatchewan",
+        cities: ["Regina", "Saskatoon"],
+      },
+      {
+        state: "Northwest Territories",
+        cities: ["Yellowknife"],
+      },
+      {
+        state: "Nunavut",
+        cities: ["Iqaluit"],
+      },
+      {
+        state: "Yukon",
+        cities: ["Whitehorse"],
+      },
+    ],
+  },
+  {
+    countryName: "Germany",
+    states: [
+      {
+        state: "Baden-Württemberg",
+        cities: ["Stuttgart", "Karlsruhe", "Mannheim"],
+      },
+      {
+        state: "Bavaria",
+        cities: ["Munich", "Nuremberg", "Augsburg"],
+      },
+      {
+        state: "Berlin",
+        cities: ["Berlin"],
+      },
+      {
+        state: "Brandenburg",
+        cities: ["Potsdam", "Cottbus", "Brandenburg an der Havel"],
+      },
+      {
+        state: "Bremen",
+        cities: ["Bremen", "Bremerhaven"],
+      },
+      {
+        state: "Hamburg",
+        cities: ["Hamburg"],
+      },
+      {
+        state: "Hesse",
+        cities: ["Wiesbaden", "Frankfurt", "Darmstadt"],
+      },
+      {
+        state: "Lower Saxony",
+        cities: ["Hanover", "Braunschweig", "Osnabrück"],
+      },
+      {
+        state: "Mecklenburg-Vorpommern",
+        cities: ["Schwerin", "Rostock", "Neubrandenburg"],
+      },
+      {
+        state: "North Rhine-Westphalia",
+        cities: ["Cologne", "Düsseldorf", "Dortmund", "Essen"],
+      },
+      {
+        state: "Rhineland-Palatinate",
+        cities: ["Mainz", "Koblenz", "Ludwigshafen"],
+      },
+      {
+        state: "Saarland",
+        cities: ["Saarbrücken", "Neunkirchen"],
+      },
+      {
+        state: "Saxony",
+        cities: ["Dresden", "Leipzig", "Chemnitz"],
+      },
+      {
+        state: "Saxony-Anhalt",
+        cities: ["Magdeburg", "Halle", "Dessau-Roßlau"],
+      },
+      {
+        state: "Schleswig-Holstein",
+        cities: ["Kiel", "Lübeck", "Flensburg"],
+      },
+      {
+        state: "Thuringia",
+        cities: ["Erfurt", "Jena", "Gera"],
+      },
+    ],
+  },
 ];

@@ -1,4 +1,4 @@
-export type IAuthTabs = "STUDENT" | "EMPLOYER";
+export type IAuthTabs = "Aspirants" | "Organization";
 export type IAuthModalTypes =
   | null
   | "LOGIN"

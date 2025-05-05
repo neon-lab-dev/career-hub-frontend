@@ -53,7 +53,7 @@ const Login = () => {
   });
 
   const onSubmit = async (data: any) => {
-    if (activeTab === "STUDENT") {
+    if (activeTab === "Aspirants") {
       employeeMutate(data);
     } else {
       employerMutate(data);

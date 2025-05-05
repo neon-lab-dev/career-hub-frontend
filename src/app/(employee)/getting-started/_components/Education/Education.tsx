@@ -1,5 +1,4 @@
 "use client";
-
 import { ICONS, IMAGES } from "@/assets";
 import Image from "next/image";
 import { useState } from "react";
@@ -9,7 +8,6 @@ import { TEducationDetails } from "../../page";
 type TEducationProps = {
   onChange: (education: TEducationDetails[]) => void;
 };
-
 const Education: React.FC<TEducationProps> = ({ onChange }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [educationList, setEducationList] = useState<TEducationDetails[]>([]);

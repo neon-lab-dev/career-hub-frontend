@@ -89,7 +89,7 @@ const OTP = ({
 
   // Handle OTP form submission
   const onSubmit = async (data: any) => {
-    if (activeTab === "STUDENT") {
+    if (activeTab === "Aspirants") {
       employee.mutate({
         otp: Number(data.otp),
         email: mail,

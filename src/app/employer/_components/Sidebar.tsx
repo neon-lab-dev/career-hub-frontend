@@ -18,7 +18,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
   const pathname = usePathname();
-
+console.log(pathname)
 
   return (
     <div className="w-[270px] sticky top-0 left-0 pl-6 py-7 font-plus-jakarta-sans bg-white border-r border-neutral-150 min-h-screen overflow-y-auto h-full flex flex-col gap-16">
@@ -29,19 +29,19 @@ const Sidebar: React.FC<SidebarProps> = ({navlinks}) => {
         {navlinks.map((navlink, index) => (
           <div key={index} className="py-2 flex items-center justify-between">
             <Link
-              href={navlink.path}
-              className={`flex items-center gap-[6px] ${
-                pathname === navlink?.path
-                  ? "text-primary-500"
-                  : "text-neutral-600"
-              } text-sm font-600`}
-            >
-              {
-                navlink?.icon &&
-              <Image src={navlink?.icon} alt={`${navlink.label}-icon`} className="size-5" />
-              }
-              {navlink.label}
-            </Link>
+  href={navlink.path}
+  className={`flex items-center gap-[6px] text-sm font-600 ${
+    pathname === navlink.path
+      ? "text-primary-500"
+      : "text-neutral-600"
+  } ${pathname === "/employer/getting-started" ? "pointer-events-none opacity-50 cursor-not-allowed" : ""}`}
+>
+  {navlink?.icon && (
+    <Image src={navlink.icon} alt={`${navlink.label}-icon`} className="size-5" />
+  )}
+  {navlink.label}
+</Link>
+
             {pathname === navlink?.path ? (
               <div className="w-1 h-[22px] bg-primary-500 rounded-l-[20px]"></div>
             ) : (
