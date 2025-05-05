@@ -20,7 +20,7 @@ const EducationModal: React.FC<TEducationModalProps> = ({
   onSubmit,
   defaultValues,
 }) => {
-  const [selectedDesignation, setSelectedDesignation] = useState("Medical");
+  const [selectedDesignation, setSelectedDesignation] = useState("11/12th");
 
   const [formValues, setFormValues] = useState<TEducationDetails>({
     institutionName: "",
@@ -29,7 +29,7 @@ const EducationModal: React.FC<TEducationModalProps> = ({
     grade: "",
     startDate: "",
     endDate: "",
-    designationType: "Medical",
+    designationType: "11/12th",
   });
 
   useEffect(() => {
@@ -52,9 +52,9 @@ const EducationModal: React.FC<TEducationModalProps> = ({
       grade: "",
       startDate: "",
       endDate: "",
-      designationType: "Medical",
+      designationType: "11/12th",
     });
-    setSelectedDesignation("Medical");
+    setSelectedDesignation("11/12th");
   };
 
   const designationTypes = [
@@ -193,7 +193,7 @@ const EducationModal: React.FC<TEducationModalProps> = ({
             <TextInput
               name="courseName"
               label={
-                selectedDesignation === "11/12th" ? "Department" : "Course"
+                selectedDesignation === "11/12th" ? "Stream" : "Course"
               }
               placeholder={
                 selectedDesignation === "11/12th"
