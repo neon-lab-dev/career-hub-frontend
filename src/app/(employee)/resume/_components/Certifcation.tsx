@@ -3,11 +3,11 @@ import ResumeCertificationModel from './ResumeCertificationModel';
 
 interface Certification {
   name: string;
-  issuingOrganization: string;
   issueDate: string;
   expirationDate: string;
   credentialID: string;
   credentialURL: string;
+  issuingOrganization: string;
 }
 
 interface CertificationsProps {
@@ -26,14 +26,14 @@ const Certifications: React.FC<CertificationsProps> = ({ certifications }) => {
             <ResumeCertificationModel/>
           </div>
           <hr className='pb-10 mx-4' />
-          {certifications.length > 0 ? (
-            certifications.map((certification, index) => (
+          {certifications?.length > 0 ? (
+            certifications?.map((certification, index) => (
               <div key={index} className="flex justify-between items-start max-md:items-center border-2 border-neutral-100 p-6 max-md:p-3 rounded-xl mb-4">
                 <div className="flex gap-4 items-center">
                   <div className="font-plus-jakarta-sans">
                     <div className="flex gap-2">
                       <div className='flex items-center gap-3 max-md:gap-1'>
-                        <span className="text-neutral-950 text-xl font-600 max-md:text-xs">{certification.name}</span>
+                        <span className="text-neutral-950 text-xl font-600 max-md:text-xs">{certification?.name} from {certification?.issuingOrganization}</span>
                         <span className='text-sm text-neutral-500 max-md:text-xs'>{new Date(certification.issueDate).toLocaleDateString()}</span>
                       </div>
                     </div>

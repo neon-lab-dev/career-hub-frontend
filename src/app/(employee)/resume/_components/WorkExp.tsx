@@ -4,16 +4,16 @@ import Image from 'next/image';
 import ResumeWorkExpModel from './ResumeWorkExpModel';
 
 interface WorkExperience {
-  company: string;
+  companyName: string;
   description: string;
   endDate: string;
-  location: string;
+  companyLocation: string;
   startDate: string;
-  title: string;
+  designation: string;
 }
 
 interface WorkExpProps {
-  experiences?: WorkExperience[]; // Optional prop
+  experiences?: WorkExperience[];
 }
 
 const WorkExp: React.FC<WorkExpProps> = ({ experiences = [] }) => {
@@ -28,18 +28,18 @@ const WorkExp: React.FC<WorkExpProps> = ({ experiences = [] }) => {
             <ResumeWorkExpModel />
           </div>
           <hr className='pb-10 mx-4' />
-          {experiences.length > 0 ? (
+          {experiences?.length > 0 ? (
             experiences.map((experience, index) => (
               <div key={index} className="flex justify-between max-md:flex-col items-start border-2 border-neutral-100 p-6 rounded-xl mb-4">
                 <div className="flex gap-4 items-center">
                   <div className="font-plus-jakarta-sans">
                     <div className="flex gap-2">
                       <div className='flex flex-col items-start'>
-                        <span className="text-neutral-950 text-xl font-600 max-md:text-sm">{experience.title} @ {experience.company}</span>
-                        <span className='text-sm text-neutral-500 max-md:text-xs'>{new Date(experience.startDate).toLocaleDateString()} - {new Date(experience.endDate).toLocaleDateString()} | {experience.location}</span>
+                        <span className="text-neutral-950 text-xl font-600 max-md:text-sm">{experience?.designation} @ {experience?.companyName}</span>
+                        <span className='text-sm text-neutral-500 max-md:text-xs'>{new Date(experience?.startDate).toLocaleDateString()} - {new Date(experience?.endDate).toLocaleDateString()} | {experience?.companyLocation}</span>
                       </div>
                     </div>
-                    <p className='text-neutral-600 text-md max-md:text-sm px-4 py-2'>{experience.description}</p>
+                    <p className='text-neutral-600 text-md max-md:text-sm px-4 py-2'>{experience?.description}</p>
                   </div>
                 </div>
               </div>
