@@ -17,7 +17,7 @@ const AuthModal = () => {
   );
   const dispatch = useAppDispatch();
   const [confirmationEmail, setConfirmationEmail] = useState<string>("");
-  const tabButtons = ["STUDENT", "EMPLOYER"];
+  const tabButtons = ["Aspirants", "Organization"];
   return (
     <div className="mx-auto  flex items-center justify-center m-10">
       <div

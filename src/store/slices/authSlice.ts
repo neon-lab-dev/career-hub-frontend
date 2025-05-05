@@ -17,7 +17,7 @@ interface AuthState {
 // Define the initial state using that type
 const initialState: AuthState = {
   studentProfile: null,
-  activeTab: "STUDENT",
+  activeTab: "Aspirants",
   isAuthModalOpen: false,
   authModalType: "LOGIN",
   employerProfile: null,
