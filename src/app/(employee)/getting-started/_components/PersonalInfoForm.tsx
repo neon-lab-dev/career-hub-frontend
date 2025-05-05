@@ -61,7 +61,7 @@ const PersonalInfoForm:React.FC<TPersonalInfoFormProps> = ({ register, errors })
         isRequired={false}
       /> */}
        <TextInput
-          label="Occupation"
+          label="Guardian Occupation"
           placeholder="Ex: Teacher, Engineer, Doctor, Farmer"
           error={errors.guardian?.occupation}
           {...register("guardian.occupation" ,{required : "Occupation is required"})}

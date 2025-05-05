@@ -297,7 +297,6 @@ const GettingStarted = () => {
   const handleSkip = async (tab: number) => {
     setSkippedSteps((prev) => [...prev, tab]);
 
-    // Reset form state
     if (tab === 1) {
       setValue("full_name", "");
       setValue("dob", "");
