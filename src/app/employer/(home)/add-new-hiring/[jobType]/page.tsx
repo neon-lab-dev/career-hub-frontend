@@ -78,64 +78,59 @@ const useCreateJobMutation = (): UseMutationResult<any, Error, FormData> => {
 
 const subDepartmentOptions: Record<string, string[]> = {
   Clinical: [
-   "Anesthesia",
-  "Anatomy",
-  "Cardiology",
-  "Dermatology",
-  "Dentistry",
-  "Emergency Medicine",
-  "Endocrinology",
-  "ENT",
-  "Forensic Medicine & Toxicology",
-  "Gastroenterology",
-  "Geriatric Medicine",
-  "Gynecology",
-  "Hematology",
-  "Infertility & IVF",
-  "Medical Surgical",
-  "Medicine",
-  "Nephrology",
-  "Neurology",
-  "Surgery",
-  "Ophthalmology",
-  "Out Patient Department OPD",
-  "Orthopedics",
-  "Pediatrics",
-  "Physical Medicine & Rehabilitation",
-  "Physiology",
-  "Physiotherapy",
-  "Plastic Surgery",
-  "Pulmonary Medicine and sleep disorders",
-  "Psychiatry",
-  "Rheumatology",
-  "Surgery",
-  "Urology",
+    "Anesthesia",
+    "Anatomy",
+    "Cardiology",
+    "Dermatology",
+    "Dentistry",
+    "Emergency Medicine",
+    "Endocrinology",
+    "ENT",
+    "Forensic Medicine & Toxicology",
+    "Gastroenterology",
+    "Geriatric Medicine",
+    "Gynecology",
+    "Hematology",
+    "Infertility & IVF",
+    "Medical Surgical",
+    "Medicine",
+    "Nephrology",
+    "Neurology",
+    "Surgery",
+    "Ophthalmology",
+    "Out Patient Department OPD",
+    "Orthopedics",
+    "Pediatrics",
+    "Physical Medicine & Rehabilitation",
+    "Physiology",
+    "Physiotherapy",
+    "Plastic Surgery",
+    "Pulmonary Medicine and sleep disorders",
+    "Psychiatry",
+    "Rheumatology",
+    "Surgery",
+    "Urology",
   ],
   "Diagnostic Labs": [
     "Lab Technician",
-  "Blood Bank",
-  "Biochemistry",
-  "Microbiology",
-  "Pathology",
-  "Pharmacology",
-  "Radio diagnosis",
-  "Radiographers",
+    "Blood Bank",
+    "Biochemistry",
+    "Microbiology",
+    "Pathology",
+    "Pharmacology",
+    "Radio diagnosis",
+    "Radiographers",
   ],
-  Technique: [
-    "OT Technicians",
-"Technicians CSSD",
-"Nursing",
-  ],
-  Other: [
+  "Technique": ["OT Technicians", "Technicians CSSD", "Nursing"],
+  "Other": [
     "Hospital Administration",
-"Laundry",
-"Pharmacist",
-"Dietician",
-"HR",
-"Ward assistance"
-  ]
+    "Laundry",
+    "Pharmacist",
+    "Dietician",
+    "HR",
+    "Ward assistance",
+  ],
 };
-
 
 const Page = () => {
   const pathname = usePathname();
@@ -308,7 +303,6 @@ const Page = () => {
             </div>
           </div>
 
-          
           <div className="flex justify-center mt-8 gap-6 w-full">
             <div className="flex flex-col gap-2">
               <label htmlFor="employmentType">
@@ -362,7 +356,6 @@ const Page = () => {
               )}
             </div>
 
-            
             <div className="flex flex-col gap-2">
               <label htmlFor="employmentDuration">
                 <span className="text-lg">Employment Duration (in years)</span>
@@ -384,54 +377,53 @@ const Page = () => {
             </div>
           </div>
 
-
           <div className="flex justify-center mt-8 gap-6 w-full">
-      {/* Department */}
-      <div className="flex flex-col gap-2">
-        <label htmlFor="department">
-          <span className="text-lg">Department</span>
-        </label>
-        <select
-          {...register("department", {
-            required: "Department is required",
-          })}
-          className="p-3 border rounded-xl w-[370px]"
-        >
-          <option value="">Select Department</option>
-          {Object.keys(subDepartmentOptions).map((dept) => (
-            <option key={dept} value={dept}>
-              {dept}
-            </option>
-          ))}
-        </select>
-        {errors.department && (
-          <p className="text-red-500">{errors.department.message}</p>
-        )}
-      </div>
+            {/* Department */}
+            <div className="flex flex-col gap-2">
+              <label htmlFor="department">
+                <span className="text-lg">Department</span>
+              </label>
+              <select
+                {...register("department", {
+                  required: "Department is required",
+                })}
+                className="p-3 border rounded-xl w-[370px]"
+              >
+                <option value="">Select Department</option>
+                {Object.keys(subDepartmentOptions).map((dept) => (
+                  <option key={dept} value={dept}>
+                    {dept}
+                  </option>
+                ))}
+              </select>
+              {errors.department && (
+                <p className="text-red-500">{errors.department.message}</p>
+              )}
+            </div>
 
-      {/* Sub Department */}
-      <div className="flex flex-col gap-2">
-        <label htmlFor="subDepartment">
-          <span className="text-lg">Sub Department</span>
-        </label>
-        <select
-          {...register("subDepartment", {
-            required: "Sub Department is required",
-          })}
-          className="p-3 border rounded-xl w-[370px]"
-        >
-          <option value="">Select Sub Department</option>
-          {subDepartments.map((subDept) => (
-            <option key={subDept} value={subDept}>
-              {subDept}
-            </option>
-          ))}
-        </select>
-        {errors.subDepartment && (
-          <p className="text-red-500">{errors.subDepartment.message}</p>
-        )}
-      </div>
-    </div>
+            {/* Sub Department */}
+            <div className="flex flex-col gap-2">
+              <label htmlFor="subDepartment">
+                <span className="text-lg">Sub Department</span>
+              </label>
+              <select
+                {...register("subDepartment", {
+                  required: "Sub Department is required",
+                })}
+                className="p-3 border rounded-xl w-[370px]"
+              >
+                <option value="">Select Sub Department</option>
+                {subDepartments.map((subDept) => (
+                  <option key={subDept} value={subDept}>
+                    {subDept}
+                  </option>
+                ))}
+              </select>
+              {errors.subDepartment && (
+                <p className="text-red-500">{errors.subDepartment.message}</p>
+              )}
+            </div>
+          </div>
 
           <div className="flex justify-center mt-8 gap-6">
             <div className="flex flex-col gap-2">
