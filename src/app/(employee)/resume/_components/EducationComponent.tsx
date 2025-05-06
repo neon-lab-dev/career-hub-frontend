@@ -37,7 +37,7 @@ const EducationComponent: React.FC<EducationComponentProps> = ({ education }) =>
                     <div className='flex gap-2'>
                       <span className='text-neutral-950 text-xl max-md:text-sm font-600'>{edu?.institutionName}</span>
                     </div>
-                    <span className='text-neutral-600 text-lg max-md:text-xs'>{edu?.courseName} in {edu?.designationType} | {edu?.grade}</span>
+                    <h1 className='text-neutral-600 text-lg max-md:text-xs'><span className="font-500">{edu?.courseName}</span> in <span className="font-500">{edu?.designationType}</span> | with Grade {edu?.grade}</h1>
                     <span className='text-neutral-600 text-lg max-md:text-xs'>{convertDate(edu?.startDate)} - {convertDate(edu?.endDate)}</span>
                   </div>
                 </div>

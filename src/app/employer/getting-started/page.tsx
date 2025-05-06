@@ -43,6 +43,7 @@ const Page = () => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<any>({});
+  console.log(formData);
 
   // Mutation for API call
   const mutation = useMutation({
@@ -106,14 +107,49 @@ const Page = () => {
     }
   }, [formData, step, loading]);
 
-  // const handleSkip = () => {
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [`step${step}`]: {},
-  //   }));
-  //   reset();
-  //   setStep(step + 1);
-  // };
+  const handleSkip = () => {
+    setFormData((prevData: FormData) => {
+      const updatedData = { ...prevData };
+
+      if (step === 1) {
+        // Address is an array of one empty object
+        updatedData.address = [
+          {
+            street: "",
+            city: "",
+            state: "",
+            postalCode: "",
+            country: "",
+          },
+        ];
+      } else if (step === 2 || step === 3) {
+        // CompanyDetails is also an array of one empty object
+        updatedData.companyDetails = [
+          {
+            companyName: "",
+            industryType: "",
+            bio: "",
+            websiteLink: "",
+            companyLocation: "",
+            contactEmail: "",
+            contactPhone: "",
+            soicalLink: {
+              linkedin: "",
+              github: "",
+            },
+          },
+        ];
+      }
+
+      return updatedData;
+    });
+
+    if (step === 3) {
+      setLoading(true); // triggers mutation in useEffect
+    } else {
+      setStep(step + 1);
+    }
+  };
 
   const goToPreviousStep = () => {
     if (step > 1) {
@@ -123,60 +159,58 @@ const Page = () => {
 
   const medicalDepartments = [
     "Anesthesia",
-  "Anatomy",
-  "Cardiology",
-  "Dermatology",
-  "Dentistry",
-  "Emergency Medicine",
-  "Endocrinology",
-  "ENT",
-  "Forensic Medicine & Toxicology",
-  "Gastroenterology",
-  "Geriatric Medicine",
-  "Gynecology",
-  "Hematology",
-  "Infertility & IVF",
-  "Medical Surgical",
-  "Medicine",
-  "Nephrology",
-  "Neurology",
-  "Surgery",
-  "Ophthalmology",
-  "Out Patient Department OPD",
-  "Orthopedics",
-  "Pediatrics",
-  "Physical Medicine & Rehabilitation",
-  "Physiology",
-  "Physiotherapy",
-  "Plastic Surgery",
-  "Pulmonary Medicine and sleep disorders",
-  "Psychiatry",
-  "Rheumatology",
-  "Surgery",
-  "Urology",
+    "Anatomy",
+    "Cardiology",
+    "Dermatology",
+    "Dentistry",
+    "Emergency Medicine",
+    "Endocrinology",
+    "ENT",
+    "Forensic Medicine & Toxicology",
+    "Gastroenterology",
+    "Geriatric Medicine",
+    "Gynecology",
+    "Hematology",
+    "Infertility & IVF",
+    "Medical Surgical",
+    "Medicine",
+    "Nephrology",
+    "Neurology",
+    "Surgery",
+    "Ophthalmology",
+    "Out Patient Department OPD",
+    "Orthopedics",
+    "Pediatrics",
+    "Physical Medicine & Rehabilitation",
+    "Physiology",
+    "Physiotherapy",
+    "Plastic Surgery",
+    "Pulmonary Medicine and sleep disorders",
+    "Psychiatry",
+    "Rheumatology",
+    "Surgery",
+    "Urology",
 
-  "Lab Technician",
-  "Blood Bank",
-  "Biochemistry",
-  "Microbiology",
-  "Pathology",
-  "Pharmacology",
-  "Radio diagnosis",
-  "Radiographers",
+    "Lab Technician",
+    "Blood Bank",
+    "Biochemistry",
+    "Microbiology",
+    "Pathology",
+    "Pharmacology",
+    "Radio diagnosis",
+    "Radiographers",
 
-  "OT Technicians",
-"Technicians CSSD",
-"Nursing",
+    "OT Technicians",
+    "Technicians CSSD",
+    "Nursing",
 
-"Hospital Administration",
-"Laundry",
-"Pharmacist",
-"Dietician",
-"HR",
-"Ward assistance"
-
+    "Hospital Administration",
+    "Laundry",
+    "Pharmacist",
+    "Dietician",
+    "HR",
+    "Ward assistance",
   ];
-  
 
   return (
     <GetStartedLayout progress={step * 25} goToPreviousStep={goToPreviousStep}>
@@ -287,34 +321,40 @@ const Page = () => {
                       </span>
                     )}
                   </div>
-
-                 
                 </div>
                 <div className="flex flex-col gap-2 mt-5">
-                    <label htmlFor="address.street">Street</label>
-                    <Controller
-                      name="address.0.street"
-                      control={control}
-                      defaultValue=""
-                      rules={{ required: "Street is required" }}
-                      render={({ field }) => (
-                        <Input
-                          {...field}
-                          placeholder="Street"
-                          className="max-md:placeholder:text-xs"
-                        />
-                      )}
-                    />
-                    {errors.address?.[0]?.street && (
-                      <span className="text-red-500">
-                        {errors.address[0].street.message}
-                      </span>
+                  <label htmlFor="address.street">Street</label>
+                  <Controller
+                    name="address.0.street"
+                    control={control}
+                    defaultValue=""
+                    rules={{ required: "Street is required" }}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        placeholder="Street"
+                        className="max-md:placeholder:text-xs"
+                      />
                     )}
-                  </div>
+                  />
+                  {errors.address?.[0]?.street && (
+                    <span className="text-red-500">
+                      {errors.address[0].street.message}
+                    </span>
+                  )}
+                </div>
 
-                <Button type="submit" className="mt-8">
-                  Continue
-                </Button>
+                <div className="flex items-center justify-between mt-8">
+                  <Button type="submit">Continue</Button>
+                  <Button
+                    onClick={handleSkip}
+                    variant="secondary"
+                    type="button"
+                    className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                  >
+                    Skip
+                  </Button>
+                </div>
               </>
             )}
             {step === 2 && (
@@ -364,13 +404,11 @@ const Page = () => {
                             <option value="" selected disabled>
                               Select Industry
                             </option>
-                            {
-                              medicalDepartments?.map(department => 
-                                <option key={department} value={department}>
-                              {department}
-                            </option>
-                              )
-                            }
+                            {medicalDepartments?.map((department) => (
+                              <option key={department} value={department}>
+                                {department}
+                              </option>
+                            ))}
                           </select>
                         )}
                       />
@@ -447,9 +485,17 @@ const Page = () => {
                     )}
                   </div>
                 </div>
-                <Button type="submit" className="mt-8">
-                  Continue
-                </Button>
+                <div className="flex items-center justify-between mt-8">
+                  <Button type="submit">Continue</Button>
+                  <Button
+                    onClick={handleSkip}
+                    variant="secondary"
+                    type="button"
+                    className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                  >
+                    Skip
+                  </Button>
+                </div>
               </>
             )}
             {step === 3 && (
@@ -547,9 +593,17 @@ const Page = () => {
                   />
                   {/* {errors.companyDetails?.[0]?.soicalLink?.github && <span className="text-red-500">{errors.companyDetails[0].soicalLink.github.message}</span>} */}
                 </div>
-                <Button type="submit" className="mt-8">
-                  Continue
-                </Button>
+                <div className="flex items-center justify-between mt-8">
+                  <Button type="submit">Continue</Button>
+                  <Button
+                    onClick={handleSkip}
+                    variant="secondary"
+                    type="button"
+                    className="max-md:w-[230px] max-lg:w-[400px] ml-4"
+                  >
+                    Skip
+                  </Button>
+                </div>
               </>
             )}
             {step === 4 && <Successfully />}
