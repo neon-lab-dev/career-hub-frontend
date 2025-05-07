@@ -126,7 +126,7 @@ const EditCoursePage = ({id} : {id:string}) => {
   const skillMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.put(
-        `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`,
+        `http://localhost:7000/api/v1/courses/${id}`,
         data,
         {
           withCredentials: true,
@@ -136,7 +136,7 @@ const EditCoursePage = ({id} : {id:string}) => {
     },
     onSuccess: () => {
       toast.success("Course updated successfully!");
-      router.push("/admin/courses")
+      router.push("/employer/courses")
     },
     onError: () => {
       toast.error("Failed to update Course.");
@@ -187,7 +187,7 @@ const EditCoursePage = ({id} : {id:string}) => {
         <div className="w-full">
               <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
                 {/* Course videos */}
-                <div className="flex items-center gap-4">
+                <div className="flex items-center justify-center gap-4">
                   {
                     course?.course?.videos?.map((video:TVideo) => 
                      <div key={video._id} className="w-[300px] h-[250px] rounded-lg relative">
