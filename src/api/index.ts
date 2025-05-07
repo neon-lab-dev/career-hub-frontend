@@ -43,6 +43,7 @@ const api = {
   findCandidate: baseUrl+"/employeer/find-candidates",
   sendHiredEmail: baseUrl+"/send-hired-email",
   getAllEmployerCourses: baseUrl+"/employeer/course",
+  getAllEmployerSkillProgrammes: baseUrl+"/employeer/skill-programmes",
 
   // for admin
   adminLogin: baseUrl + "/login/admin",

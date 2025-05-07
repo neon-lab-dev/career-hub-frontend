@@ -50,7 +50,7 @@ export default function EmployeeRootLayout({ children }: any) {
     },
     {
       label: "Skill Programmes",
-      path: "/employer/skill-proogrammes",
+      path: "/employer/skill-programmes",
       icon: ICONS.skillProgramme
     },
   ];

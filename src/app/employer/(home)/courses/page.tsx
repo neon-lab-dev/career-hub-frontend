@@ -63,7 +63,7 @@ const EmployerCoursesPage = () => {
     onSuccess: () => {
       toast.success("Course deleted successfully");
       // Invalidate the query to refresh the course list
-      queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
+      queryClient.invalidateQueries({ queryKey: ["course"] });
     },
     onError: (error: string) => {
       toast.error(error);

@@ -139,11 +139,26 @@ export const fetchJobData = async (): Promise<JobData> => {
   return response.data;
 };
 
-export const getAllEmployerCourses = async (): Promise<JobData> => {
+export const getAllEmployerCourses = async (): Promise<any> => {
   const response = await axios.get(api.getAllEmployerCourses, {
     withCredentials: true,
   });
   return response.data;
+};
+
+export const getAllEmployerSkillProgrammes = async (): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(api.getAllEmployerSkillProgrammes, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        resolve(res?.data ?? null);
+      })
+      .catch((err) => {
+        reject(err?.response?.message ?? "Something went wrong");
+      });
+  });
 };
 
 export const fetchJobs = async () => {
