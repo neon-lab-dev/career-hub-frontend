@@ -139,6 +139,13 @@ export const fetchJobData = async (): Promise<JobData> => {
   return response.data;
 };
 
+export const getAllEmployerCourses = async (): Promise<JobData> => {
+  const response = await axios.get(api.getAllEmployerCourses, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
 export const fetchJobs = async () => {
   const response = await axios.get(api.employerJob, {
     withCredentials: true,

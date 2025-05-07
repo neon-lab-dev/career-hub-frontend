@@ -64,6 +64,8 @@ import locationFooter from "@/assets/icons/location-footer.svg";
 import phoneFooter from "@/assets/icons/phone-footer.svg";
 import emailFooter from "@/assets/icons/email-footer.svg";
 import upArrow from "@/assets/icons/up-arrow.svg";
+import course from "@/assets/icons/course.svg";
+import skillProgramme from "@/assets/icons/skill-programme.svg";
 
 import behance from "@/assets/icons/social media/behance.svg";
 import discord from "@/assets/icons/social media/discord.svg";
@@ -173,6 +175,8 @@ export const ICONS = {
   phoneFooter,
   emailFooter,
   upArrow,
+  skillProgramme,
+  course,
 
   // Social Icons
   facebook,
