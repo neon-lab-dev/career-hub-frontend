@@ -41,6 +41,7 @@ const EditCoursePage = ({ id }: { id: string }) => {
     register: videoRegister,
     handleSubmit: videoHandleSubmit,
     formState: { errors: videoErrors },
+    reset: videoReset,
   } = useForm<VideoFormData>();
   const [videoId, setVideoId] = useState<string | null>(null);
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
@@ -53,8 +54,8 @@ const EditCoursePage = ({ id }: { id: string }) => {
   });
 
   const [videoIds, setVideoIds] = useState<string[]>([]);
-  console.log(videoIds)
 
+  // To store the video ids as soon as the component loads
   useEffect(() => {
     if (course?.course?.videos) {
       const ids = course?.course?.videos?.map((video:TVideo) => video._id);
@@ -71,9 +72,11 @@ const EditCoursePage = ({ id }: { id: string }) => {
       return;
     }
 
-    const formData = new FormData();
-    videoIds.forEach((id) => formData.append("videos[]", id));
+    const updatedVideoIds = [...videoIds, videoId];
 
+  const formData = new FormData();
+  formData.append("videos[]", videoId);
+console.log(updatedVideoIds, "hello")
     axios
       .put(
         `http://localhost:7000/api/v1/courses/${id}`,
@@ -84,6 +87,9 @@ const EditCoursePage = ({ id }: { id: string }) => {
       )
       .then(() => {
         toast.success("Course updated with new video!");
+        videoReset();
+        setVideoEditExpanded(false);
+        window.location.reload();
         queryClient.invalidateQueries({ queryKey: ["courses"] });
       })
       .catch(() => {
@@ -193,8 +199,11 @@ const EditCoursePage = ({ id }: { id: string }) => {
 
   // Delete course video
   const handleDeleteVideo = (id: string) => {
+    console.log(id);
     deleteVideo(id);
   };
+
+  console.log(course?.course?.videos);
 
   if (isLoading) return <Loading className="h-[60vh] w-full" />;
   return (
