@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useState } from "react";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 type VideoFormData = {
@@ -20,6 +20,7 @@ type SkillFormData = {
 };
 
 const CreateSkillProgramme = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const [videoId, setVideoId] = useState<string | null>(null);
   // Video Upload Form Handling
@@ -48,6 +49,7 @@ const CreateSkillProgramme = () => {
     onSuccess: (data) => {
       setVideoId(data?.video?._id);
       toast.success("Video uploaded successfully!");
+      queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
     },
     onError: (error) => {
       console.error('Mutation error:', error);
