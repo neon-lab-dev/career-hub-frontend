@@ -144,8 +144,6 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
     },
   });
 
-  console.log(skill);
-
   const onSubmitSkill = (data: SkillFormData) => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -165,22 +163,19 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
 
   // Delete course
   const { mutate: deleteVideo } = useMutation({
-    mutationFn: (id: string) => deleteVideoById(id),
-    onMutate: () => {
-      // Show loading toast when the mutation is triggered
-      toast.loading("Deleting video...");
-    },
-    onSuccess: () => {
-      // Remove the loading toast and show success
-      toast.success("Video deleted successfully");
-      // Invalidate the query to refresh the video list
-      queryClient.invalidateQueries({ queryKey: ["skillProgramme"] });
-    },
-    onError: (error: string) => {
-      // Remove the loading toast and show error
-      toast.error(error);
-    },
-  });
+  mutationFn: (id: string) => deleteVideoById(id),
+  onMutate: () => {
+    toast.loading("Deleting video...", { id: "delete-video" });
+  },
+  onSuccess: () => {
+    toast.success("Video deleted successfully", { id: "delete-video" });
+    queryClient.invalidateQueries({ queryKey: ["skillProgramme"] });
+  },
+  onError: (error: string) => {
+    toast.error(error, { id: "delete-video" });
+  },
+});
+
 
   // Delete course video
   const handleDeleteVideo = (id: string) => {
@@ -213,7 +208,7 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
           </div>
         )}
 
-        {videoId === "" && (
+        {videoId === ""  && (
           <button
             onClick={() => {
               setVideoEditExpanded(!videoEditExpanded);

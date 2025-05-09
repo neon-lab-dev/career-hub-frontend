@@ -86,17 +86,23 @@ const SkillProgramme = () => {
 
 
   // Delete skill
-  const { mutate: deleteSkill } = useMutation({
-    mutationFn: (skillId: string) => deleteSkillProgramme(skillId),
-    onSuccess: () => {
-      toast.success("Skill deleted successfully");
-      // Invalidate the query to refresh the skills list
-      queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
-    },
-    onError: (error: string) => {
-      toast.error(error);
-    },
-  });
+ const { mutate: deleteSkill } = useMutation({
+  mutationFn: (skillId: string) => deleteSkillProgramme(skillId),
+  onMutate: () => {
+    // Show loader toast with a consistent ID
+    toast.loading("Deleting skill...", { id: "delete-skill" });
+  },
+  onSuccess: () => {
+    // Update the same toast with success message
+    toast.success("Skill deleted successfully", { id: "delete-skill" });
+    queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
+  },
+  onError: (error: string) => {
+    // Update the same toast with error message
+    toast.error(error, { id: "delete-skill" });
+  },
+});
+
 
   // Delete skill
   const handleDeleteSkill = (skillId: string) => {
@@ -158,50 +164,9 @@ const SkillProgramme = () => {
 
   return (
     <div className="bg-neutral-450 p-6 flex flex-col gap-[51px]">
-      {/* <div className="flex items-center gap-5">
-        <KPICard
-          classNames="w-full max-w-full"
-          image={jobPosted}
-          title="Total Opportunities"
-          value={isLoading ? "..." : data?.length || 0}
-          alt="employees-icon"
-        />
-        <KPICard
-          classNames="w-full max-w-full"
-          image={applicationIcon}
-          title="Jobs"
-          value={
-            isLoading
-              ? "..."
-              : data?.filter((job) => job.employmentType !== "Internship")
-                  .length || 0
-          }
-          alt="employees-icon"
-        />
-        <KPICard
-          classNames="w-full max-w-full"
-          image={applicationIcon}
-          title="Internships"
-          value={
-            isLoading
-              ? "..."
-              : data?.filter((job) => job.employmentType === "Internship")
-                  .length || 0
-          }
-          alt="employees-icon"
-        />
-      </div> */}
 
       <div className="bg-white flex flex-col gap-3 pt-3">
-        <div className="flex items-center justify-between px-4">
-          {/* Search field */}
-          <SearchInput
-            placeholder="Search user"
-            icon={search}
-            onChange={(e) => {
-              debouncedSetKeyword(e.target.value);
-            }}
-          />
+        <div className="flex items-center justify-end px-4">
 
           {/* Download CSV button */}
           <Link href={"/admin/create-skill-programme"}

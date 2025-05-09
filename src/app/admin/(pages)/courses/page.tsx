@@ -56,17 +56,20 @@ const Courses = () => {
   
 
   // Delete course
-  const { mutate: deleteCourse } = useMutation({
-    mutationFn: (id: string) => deleteCourseById(id),
-    onSuccess: () => {
-      toast.success("Course deleted successfully");
-      // Invalidate the query to refresh the course list
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
-    },
-    onError: (error: string) => {
-      toast.error(error);
-    },
-  });
+ const { mutate: deleteCourse } = useMutation({
+  mutationFn: (id: string) => deleteCourseById(id),
+  onMutate: () => {
+    toast.loading("Deleting course...", { id: "delete-course" });
+  },
+  onSuccess: () => {
+    toast.success("Course deleted successfully", { id: "delete-course" });
+    queryClient.invalidateQueries({ queryKey: ["courses"] });
+  },
+  onError: (error: string) => {
+    toast.error(`Failed to delete course: ${error}`, { id: "delete-course" });
+  },
+});
+
 
   // Delete course
   const handleDeleteCourse = (id: string) => {
