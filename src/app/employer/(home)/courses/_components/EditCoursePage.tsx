@@ -5,7 +5,7 @@ import Loading from "@/components/Loading";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ type SkillFormData = {
 };
 const EditCoursePage = ({ id }: { id: string }) => {
   const router = useRouter();
-  const [videoIds, setVideoIds] = useState<string[]>([]);
+  
   const queryClient = useQueryClient();
   const {
     register: videoRegister,
@@ -52,34 +52,17 @@ const EditCoursePage = ({ id }: { id: string }) => {
     queryFn: () => getSingleCourse(id),
   });
 
-  // Video Update Form Handling
-  const videoMutation = useMutation({
-    mutationFn: async (data: FormData) => {
-      const response = await axios.post(
-        "https://carrerhub-backend.vercel.app/api/v1/video/create",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
-      return response.data;
-    },
-    onSuccess: (data) => {
-      const newVideoId = data?.video?._id;
-      setVideoIds((prev) => [...prev, newVideoId]);
-      setVideoId(newVideoId); // Save the newly uploaded video ID in state
-      toast.success("Video uploaded successfully!");
+  const [videoIds, setVideoIds] = useState<string[]>([]);
+  console.log(videoIds)
 
-      // Call the Edit Course API to update the course with the new video ID
-      updateCourseWithNewVideo(newVideoId);
-    },
-    onError: () => {
-      toast.error("Failed to upload video.");
-    },
-  });
+  useEffect(() => {
+    if (course?.course?.videos) {
+      const ids = course?.course?.videos?.map((video:TVideo) => video._id);
+      setVideoIds(ids);
+    }
+  }, [course]);
+
+
 
   // Function to call the Edit Course API with the new video ID
   const updateCourseWithNewVideo = (videoId: string) => {
@@ -89,11 +72,11 @@ const EditCoursePage = ({ id }: { id: string }) => {
     }
 
     const formData = new FormData();
-    formData.append("videoId", videoId);
+    videoIds.forEach((id) => formData.append("videos[]", id));
 
     axios
       .put(
-        `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`,
+        `http://localhost:7000/api/v1/courses/${id}`,
         formData,
         {
           withCredentials: true,
@@ -108,6 +91,38 @@ const EditCoursePage = ({ id }: { id: string }) => {
       });
   };
 
+  // Video create Form Handling
+  const videoMutation = useMutation({
+    mutationFn: async (data: FormData) => {
+      const response = await axios.post(
+        "http://localhost:7000/api/v1/video/create",
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    },
+    onSuccess: (data) => {
+      const newVideoId = data?.video?._id;
+      setVideoIds((prev) => [...prev, newVideoId]);
+      setVideoId(newVideoId);
+      toast.success("Video uploaded successfully!");
+
+      // Call the Edit Course API to update the course with the new video ID
+      updateCourseWithNewVideo(newVideoId);
+    },
+    onError: () => {
+      toast.error("Failed to upload video.");
+    },
+  });
+
+  
+
+  // To add new vide
   const onSubmitVideo = async (data: VideoFormData) => {
     const formData = new FormData();
     formData.append("title", data.title);
@@ -147,11 +162,11 @@ const EditCoursePage = ({ id }: { id: string }) => {
     },
   });
 
-  const onSubmitSkill = (data: SkillFormData) => {
+  const onSubmitCourse = (data: SkillFormData) => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("description", data.description);
-    formData.append("videoId", course?.course?.video?._id);
+    videoIds.forEach((id) => formData.append("videos[]", id));
     if (data.image && data.image.length > 0) {
       formData.append("image", data.image[0]);
     }
@@ -200,7 +215,7 @@ const EditCoursePage = ({ id }: { id: string }) => {
               />
               <div
                 onClick={() => {
-                  handleDeleteVideo(video._id);
+                  handleDeleteVideo(video?._id);
                 }}
                 className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
               >
@@ -280,7 +295,7 @@ const EditCoursePage = ({ id }: { id: string }) => {
 
         {/* Course Update Form */}
         <form
-          onSubmit={skillHandleSubmit(onSubmitSkill)}
+          onSubmit={skillHandleSubmit(onSubmitCourse)}
           className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 max-w-[800px] w-full mx-auto"
         >
           <div>

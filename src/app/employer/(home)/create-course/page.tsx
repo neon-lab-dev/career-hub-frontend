@@ -54,6 +54,7 @@ const CreateCourse = () => {
     },
   });
 
+  // To add video
   const onSubmitVideo = async (data: VideoFormData) => {
     const formData = new FormData();
     formData.append("title", data.title);
