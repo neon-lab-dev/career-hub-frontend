@@ -69,8 +69,7 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
       .then(() => {
         toast.success("Updated with new video.");
         setVideoEditExpanded(false);
-        window.location.reload();
-        queryClient.invalidateQueries({ queryKey: ["courses"] });
+        queryClient.invalidateQueries({ queryKey: ["skillProgramme"] });
       })
       .catch(() => {
         toast.error("Failed to update skill programme with new video.");
@@ -137,7 +136,8 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
     },
     onSuccess: () => {
       toast.success("Skill programme updated successfully!");
-      router.push("/admin/skill-programmes");
+      queryClient.invalidateQueries({ queryKey: ["skillProgrammes"] });
+      router.push("/employer/skill-programmes");
     },
     onError: () => {
       toast.error("Failed to update skill programme.");
@@ -174,7 +174,7 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
       // Remove the loading toast and show success
       toast.success("Video deleted successfully");
       // Invalidate the query to refresh the video list
-      queryClient.invalidateQueries({ queryKey: ["video"] });
+      queryClient.invalidateQueries({ queryKey: ["skillProgramme"] });
     },
     onError: (error: string) => {
       // Remove the loading toast and show error

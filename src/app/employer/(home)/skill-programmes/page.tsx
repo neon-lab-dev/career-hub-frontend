@@ -71,17 +71,20 @@ const SkillProgramme = () => {
 
 
   // Delete skill
-  const { mutate: deleteSkill } = useMutation({
-    mutationFn: (skillId: string) => deleteSkillProgramme(skillId),
-    onSuccess: () => {
-      toast.success("Skill deleted successfully");
-      // Invalidate the query to refresh the skills list
-      queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
-    },
-    onError: (error: string) => {
-      toast.error(error);
-    },
-  });
+const { mutate: deleteSkill } = useMutation({
+  mutationFn: (skillId: string) => deleteSkillProgramme(skillId),
+  onMutate: () => {
+    toast.loading("Deleting skill...", { id: "delete-skill" });
+  },
+  onSuccess: () => {
+    toast.success("Skill deleted successfully", { id: "delete-skill" });
+    queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
+  },
+  onError: (error: string) => {
+    toast.error(`Failed to delete skill: ${error}`, { id: "delete-skill" });
+  },
+});
+
 
   // Delete skill
   const handleDeleteSkill = (skillId: string) => {
