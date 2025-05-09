@@ -149,15 +149,7 @@ const { mutate: deleteSkill } = useMutation({
       
 
       <div className="bg-white flex flex-col gap-3 pt-3">
-        <div className="flex items-center justify-between px-4">
-          {/* Search field */}
-          <SearchInput
-            placeholder="Search user"
-            icon={search}
-            onChange={(e) => {
-              debouncedSetKeyword(e.target.value);
-            }}
-          />
+        <div className="flex items-center justify-end px-4">
 
           {/* Download CSV button */}
           <Link href={"/employer/create-skill-programme"}

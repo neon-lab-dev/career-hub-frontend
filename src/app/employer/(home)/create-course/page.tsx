@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
 type VideoFormData = {
@@ -18,6 +18,7 @@ type CourseFormData = {
 };
 
 const CreateCourse = () => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const [videoIds, setVideoIds] = useState<string[]>([]);
 
@@ -86,7 +87,8 @@ const CreateCourse = () => {
     },
     onSuccess: () => {
       toast.success("Course created successfully!");
-      router.push("/employer/courses")
+      queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
+      router.push("/employer/courses");
     },
     onError: () => {
       toast.error("Failed to create course.");
