@@ -95,6 +95,7 @@ const CreateCourse = () => {
     },
   });
 
+  // Function to create course
   const onSubmitCourse = (data: CourseFormData) => {
     if (videoIds.length === 0) {
       toast.error("Please upload videos first.");

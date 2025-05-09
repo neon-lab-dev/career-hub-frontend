@@ -83,7 +83,6 @@ const EditCoursePage = ({ id }: { id: string }) => {
         toast.success("Course updated with new video!");
         videoReset();
         setVideoEditExpanded(false);
-        window.location.reload();
         queryClient.invalidateQueries({ queryKey: ["courses"] });
       })
       .catch(() => {
@@ -111,6 +110,7 @@ const EditCoursePage = ({ id }: { id: string }) => {
       setVideoIds((prev) => [...prev, newVideoId]);
       setVideoId(newVideoId);
       toast.success("Video uploaded successfully!");
+      queryClient.invalidateQueries({ queryKey: ["courses"] });
 
       // Call the Edit Course API to update the course with the new video ID
       updateCourseWithNewVideo(newVideoId);
@@ -140,7 +140,7 @@ const EditCoursePage = ({ id }: { id: string }) => {
     formState: { errors: skillErrors },
   } = useForm<SkillFormData>();
 
-  const skillMutation = useMutation({
+  const courseMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.put(
         `http://localhost:7000/api/v1/courses/${id}`,
@@ -153,7 +153,8 @@ const EditCoursePage = ({ id }: { id: string }) => {
     },
     onSuccess: () => {
       toast.success("Course updated successfully!");
-      router.push("/employer/courses");
+      queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
+      // router.push("/employer/courses");
     },
     onError: () => {
       toast.error("Failed to update Course.");
@@ -169,7 +170,7 @@ const EditCoursePage = ({ id }: { id: string }) => {
       formData.append("image", data.image[0]);
     }
 
-    toast.promise(skillMutation.mutateAsync(formData), {
+    toast.promise(courseMutation.mutateAsync(formData), {
       loading: "Updating course...",
       success: "Course updated successfully!",
       error: "Failed to update course.",
