@@ -35,7 +35,7 @@ type SkillFormData = {
 };
 const EditCoursePage = ({ id }: { id: string }) => {
   const router = useRouter();
-  
+
   const queryClient = useQueryClient();
   const {
     register: videoRegister,
@@ -58,12 +58,10 @@ const EditCoursePage = ({ id }: { id: string }) => {
   // To store the video ids as soon as the component loads
   useEffect(() => {
     if (course?.course?.videos) {
-      const ids = course?.course?.videos?.map((video:TVideo) => video._id);
+      const ids = course?.course?.videos?.map((video: TVideo) => video._id);
       setVideoIds(ids);
     }
   }, [course]);
-
-
 
   // Function to call the Edit Course API with the new video ID
   const updateCourseWithNewVideo = (videoId: string) => {
@@ -74,17 +72,13 @@ const EditCoursePage = ({ id }: { id: string }) => {
 
     const updatedVideoIds = [...videoIds, videoId];
 
-  const formData = new FormData();
-  formData.append("videos[]", videoId);
-console.log(updatedVideoIds, "hello")
+    const formData = new FormData();
+    formData.append("videos[]", videoId);
+    console.log(updatedVideoIds, "hello");
     axios
-      .put(
-        `http://localhost:7000/api/v1/courses/${id}`,
-        formData,
-        {
-          withCredentials: true,
-        }
-      )
+      .put(`http://localhost:7000/api/v1/courses/${id}`, formData, {
+        withCredentials: true,
+      })
       .then(() => {
         toast.success("Course updated with new video!");
         videoReset();
@@ -125,8 +119,6 @@ console.log(updatedVideoIds, "hello")
       toast.error("Failed to upload video.");
     },
   });
-
-  
 
   // To add new vide
   const onSubmitVideo = async (data: VideoFormData) => {
@@ -187,23 +179,22 @@ console.log(updatedVideoIds, "hello")
   // Delete course
   const { mutate: deleteVideo } = useMutation({
     mutationFn: (id: string) => deleteVideoById(id),
+    onMutate: () => {
+      toast.loading("Deleting video...");
+    },
     onSuccess: () => {
       toast.success("Video deleted successfully");
-      // Invalidate the query to refresh the course list
       queryClient.invalidateQueries({ queryKey: ["courses"] });
     },
     onError: (error: string) => {
-      toast.error(error);
+      toast.error(`Failed to delete video: ${error}`);
     },
   });
 
   // Delete course video
   const handleDeleteVideo = (id: string) => {
-    console.log(id);
     deleteVideo(id);
   };
-
-  console.log(course?.course?.videos);
 
   if (isLoading) return <Loading className="h-[60vh] w-full" />;
   return (

@@ -5,7 +5,7 @@ import Loading from "@/components/Loading";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
@@ -38,13 +38,21 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
     handleSubmit: videoHandleSubmit,
     formState: { errors: videoErrors },
   } = useForm<VideoFormData>();
-  const [videoId, setVideoId] = useState<string | null>("");
-  const [editExpanded, setEditExpanded] = useState<boolean>(false);
-  const [videoEditExpanded, setVideoEditExpanded] = useState<boolean>(false);
+
   const { isLoading, data: skill } = useQuery({
     queryKey: ["skillProgramme", id],
     queryFn: () => getSingleSkill(id),
   });
+
+  const [videoId, setVideoId] = useState<string | null>("");
+  useEffect(() => {
+    if (skill?.skill?.video) {
+      setVideoId(skill?.skill?.video._id);
+    }
+  }, [skill]);
+
+  const [editExpanded, setEditExpanded] = useState<boolean>(false);
+  const [videoEditExpanded, setVideoEditExpanded] = useState<boolean>(false);
 
   const updateVideoWithNewVideo = (videoId: string) => {
     if (!videoId) {
@@ -55,7 +63,7 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
     const formData = new FormData();
     formData.append("videoId", videoId);
     axios
-      .put(`http://localhost:7000/api/v1/courses/${id}`, formData, {
+      .put(`http://localhost:7000/api/v1/skills/${id}`, formData, {
         withCredentials: true,
       })
       .then(() => {
@@ -65,7 +73,7 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
         queryClient.invalidateQueries({ queryKey: ["courses"] });
       })
       .catch(() => {
-        toast.error("Failed to update course with new video.");
+        toast.error("Failed to update skill programme with new video.");
       });
   };
 
@@ -158,12 +166,18 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
   // Delete course
   const { mutate: deleteVideo } = useMutation({
     mutationFn: (id: string) => deleteVideoById(id),
+    onMutate: () => {
+      // Show loading toast when the mutation is triggered
+      toast.loading("Deleting video...");
+    },
     onSuccess: () => {
+      // Remove the loading toast and show success
       toast.success("Video deleted successfully");
-      // Invalidate the query to refresh the course list
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
+      // Invalidate the query to refresh the video list
+      queryClient.invalidateQueries({ queryKey: ["video"] });
     },
     onError: (error: string) => {
+      // Remove the loading toast and show error
       toast.error(error);
     },
   });
@@ -180,32 +194,36 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
       <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
         {/* Course videos */}
 
-        <div className="max-w-[800px] w-full mx-auto h-[300px] rounded-lg relative">
-          <video
-            src={skill?.skill?.video?.url}
-            controls
-            autoPlay
-            className="w-full h-[300px] rounded-lg"
-          />
-          <div
-            onClick={() => {
-              handleDeleteVideo(skill?.skill?.video._id);
-            }}
-            className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
-          >
-            Delete
+        {skill?.skill?.video && (
+          <div className="max-w-[800px] w-full mx-auto h-[300px] rounded-lg relative">
+            <video
+              src={skill?.skill?.video?.url}
+              controls
+              autoPlay
+              className="w-full h-[300px] rounded-lg"
+            />
+            <div
+              onClick={() => {
+                handleDeleteVideo(skill?.skill?.video._id);
+              }}
+              className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
+            >
+              Delete
+            </div>
           </div>
-        </div>
+        )}
 
-        <button
-          onClick={() => {
-            setVideoEditExpanded(!videoEditExpanded);
-          }}
-          type="submit"
-          className="bg-primary-600 text-white px-4 py-3 rounded-md max-w-[800px] w-full mx-auto"
-        >
-          Add New Video
-        </button>
+        {videoId === "" && (
+          <button
+            onClick={() => {
+              setVideoEditExpanded(!videoEditExpanded);
+            }}
+            type="submit"
+            className="bg-primary-600 text-white px-4 py-3 rounded-md max-w-[800px] w-full mx-auto"
+          >
+            Add New Video
+          </button>
+        )}
 
         {/* Video Update Form */}
         {videoEditExpanded && (
