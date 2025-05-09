@@ -125,7 +125,7 @@ export const sendHiredEmail = async (userId: string, companyName: string): Promi
 };
 
 export const fetchEmployerProfileData = async () => {
-  const response = await axios.get('https://carrerhub-backend.vercel.app/api/v1/employeer/me', {
+  const response = await axios.get('http://localhost:7000/api/v1/employeer/me', {
     withCredentials: true,
   });
   return response.data;

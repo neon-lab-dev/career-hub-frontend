@@ -38,7 +38,7 @@ const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
     mutationFn: async (data: FormData) => {
       try {
         const response = await axios.put(
-          `https://carrerhub-backend.vercel.app/api/v1/video/${skill?.skill?.video?._id}`,
+          `http://localhost:7000/api/v1/video/${skill?.skill?.video?._id}`,
           data,
           {
             headers: {
@@ -85,7 +85,7 @@ const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
   const skillMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.put(
-        `https://carrerhub-backend.vercel.app/api/v1/skills/${id}`,
+        `http://localhost:7000/api/v1/skills/${id}`,
         data,
         {
           withCredentials: true,

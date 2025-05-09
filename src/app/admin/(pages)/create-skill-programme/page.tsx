@@ -29,7 +29,7 @@ const CreateSkillProgramme = () => {
     mutationFn: async (data: FormData) => {
       try {  
         const response = await axios.post(
-          "https://carrerhub-backend.vercel.app/api/v1/video/create", 
+          "http://localhost:7000/api/v1/video/create", 
           data, 
           {
             headers: {
@@ -79,7 +79,7 @@ const CreateSkillProgramme = () => {
   const skillMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "https://carrerhub-backend.vercel.app/api/v1/skills/create", 
+        "http://localhost:7000/api/v1/skills/create", 
         data, 
         {
           withCredentials: true,
