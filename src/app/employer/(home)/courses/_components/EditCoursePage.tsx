@@ -29,12 +29,6 @@ type VideoFormData = {
   video: FileList;
 };
 
-type SkillFormData = {
-  name: string;
-  description: string;
-  videoId: string;
-  image: FileList;
-};
 
 type CourseFormData = {
   courseName: string;
@@ -49,28 +43,20 @@ type CourseFormData = {
   fee?: number;
   numberOfSeats?: number;
   isIncludedCertificate?: boolean;
+  image: FileList;
 };
 
 
 const EditCoursePage = ({ id }: { id: string }) => {
-  const router = useRouter();
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
+  // Fetching data by id
   const { isLoading, data } = useQuery({
     queryKey: ["courses", id],
     queryFn: () => getSingleCourse(id),
   });
-
-  
-
-  // Skill Update Form Handling
-  const {
-    register: skillRegister,
-    handleSubmit: skillHandleSubmit,
-    formState: { errors: skillErrors },
-  } = useForm<SkillFormData>();
 
   const courseMutation = useMutation({
     mutationFn: async (data: FormData) => {
@@ -93,9 +79,28 @@ const EditCoursePage = ({ id }: { id: string }) => {
     },
   });
 
-  const onSubmitCourse = (data: SkillFormData) => {
+  const onSubmitCourse = (data: CourseFormData) => {
     const formData = new FormData();
-    formData.append("name", data.name);
+    formData.append("courseName", data.courseName);
+    formData.append("courseOverview", data.courseOverview);
+    formData.append("courseDescription", description || "");
+    formData.append("courseType", selectedCourseType);
+    formData.append("department", selectedDepartment);
+    formData.append("duration", data.duration);
+    formData.append(
+      "desiredQualificationOrExperience",
+      data.desiredQualificationOrExperience || ""
+    );
+    formData.append("courseLink", data.courseLink || "");
+    formData.append("pricingType", pricingType || "Free");
+    formData.append("fee", String(data.fee ?? 0));
+    formData.append("numberOfSeats", String(data.numberOfSeats ?? 0));
+    formData.append(
+      "isIncludedCertificate",
+      String(isIncludedCertificate === "Yes" ? true : false)
+    );
+
+
     if (data.image && data.image.length > 0) {
       formData.append("image", data.image[0]);
     }
@@ -106,7 +111,6 @@ const EditCoursePage = ({ id }: { id: string }) => {
       error: "Failed to update course.",
     });
   };
-
 
 
   const editor = useRef(null);
