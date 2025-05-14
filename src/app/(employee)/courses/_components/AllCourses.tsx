@@ -14,7 +14,6 @@ import axios from "axios";
 import Button from "@/components/Button";
 
 const AllCourses = () => {
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allCourses, setAllCourses] = useState<any>([]);
   // For search bard
@@ -33,19 +32,22 @@ const AllCourses = () => {
     setSelectedPricingType(pricingType);
   };
 
-useEffect(() => {
+  useEffect(() => {
     const fetchAllCourses = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get("http://localhost:7000/api/v1/courses", {
-          params: {
-            keyword: keyword || undefined,
-            courseType: selectedCourseType || undefined,
-            department: selectedDepartment || undefined,
-            pricingType: selectedPricingType || undefined,
-          },
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://localhost:7000/api/v1/courses",
+          {
+            params: {
+              keyword: keyword || undefined,
+              courseType: selectedCourseType || undefined,
+              department: selectedDepartment || undefined,
+              pricingType: selectedPricingType || undefined,
+            },
+            withCredentials: true,
+          }
+        );
         setAllCourses(response?.data?.courses);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -58,19 +60,18 @@ useEffect(() => {
   }, [keyword, selectedCourseType, selectedDepartment, selectedPricingType]);
 
   const handleResetFilters = () => {
-  setKeyword("");
-  setSelectedCourseType("");
-  setSelectedDepartment("");
-  setSelectedPricingType("");
-};
-
+    setKeyword("");
+    setSelectedCourseType("");
+    setSelectedDepartment("");
+    setSelectedPricingType("");
+  };
 
   return (
     <Container>
-      <div className="flex items-center justify-between w-full">
-        <div className="px-4 py-3 text-base rounded-md bg-white shadow-secondary-button text-neutral-700 leading-6 cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap flex gap-2 justify-between items-center">
+      <div className="flex flex-col xl:flex-row gap-5 xl:gap-0 items-center justify-between w-full">
+        <div className="px-4 py-3 text-base rounded-md bg-white shadow-secondary-button text-neutral-700 leading-6 cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap flex gap-2 justify-between items-center w-full xl:w-fit">
           <input
-          value={keyword}
+            value={keyword}
             onChange={(e) => {
               setKeyword(e.target.value);
             }}
@@ -81,14 +82,14 @@ useEffect(() => {
           <Image src={ICONS.magnifer} alt="search-icon" className="w-[18px]" />
         </div>
 
-        <div className="flex items-center gap-5">
+        <div className="flex flex-col lg:flex-row items-center gap-5 w-full 2xl:w-fit">
           <FilterDropdown
             label="Select Course Type"
             items={["Certificate", "Diploma", "Bachelor", "Master"]}
             icon={ICONS.downArrow}
             onSelect={handleSelectCourseType}
             selectedData={selectedCourseType}
-            classNames="px-4 py-3 text-base rounded-md w-fit lg:w-[200px] gap-3"
+            classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
           />
           <FilterDropdown
             label="Select Department"
@@ -96,7 +97,7 @@ useEffect(() => {
             icon={ICONS.downArrow}
             onSelect={handleSelectDepartment}
             selectedData={selectedDepartment}
-            classNames="px-4 py-3 text-base rounded-md w-fit lg:w-[200px] gap-3"
+            classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
           />
           <FilterDropdown
             label="Select Pricing Type"
@@ -104,16 +105,15 @@ useEffect(() => {
             icon={ICONS.downArrow}
             onSelect={handleSelectPricingType}
             selectedData={selectedPricingType}
-            classNames="px-4 py-3 text-base rounded-md w-fit lg:w-[200px] gap-3"
+            classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
           />
           <Button
-  variant="normal"
-  className="px-6 py-[10px] w-fit"
-  onClick={handleResetFilters}
->
-  Reset Filter
-</Button>
-
+            variant="normal"
+            className="px-6 py-[10px] w-full xl:w-fit text-nowrap"
+            onClick={handleResetFilters}
+          >
+            Reset Filter
+          </Button>
         </div>
       </div>
 

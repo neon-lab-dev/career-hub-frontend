@@ -31,11 +31,11 @@ const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, on
   };
 
   return (
-    <div ref={dropDownRef} className="relative mx-auto w-fit text-white">
+    <div ref={dropDownRef} className="relative mx-auto w-full text-white">
       <button
         onClick={() => setOpen((prev) => !prev)}
         className={twMerge(
-          "px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 leading-6 text-xl rounded-2xl w-[300px] lg:w-[277px] cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap",
+          "px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 leading-6 text-xl rounded-2xl w-full lg:w-[277px] cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap",
           classNames,
         )}
       >
