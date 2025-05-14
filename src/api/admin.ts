@@ -79,16 +79,10 @@ export const deleteSkillProgramme = async (id: string): Promise<void> => {
 
 
 // Get all courses
-export const getAllCourses = async (params: {
-  keyword?: string;
-  courseType?: string;
-  department?: string;
-  pricingType?: string;
-}): Promise<any> => {
+export const getAllCourses = async (): Promise<any> => {
   return new Promise((resolve, reject) => {
     axios
       .get(api.getAllCourses, {
-        params,
         withCredentials: true,
       })
       .then((res) => {
@@ -99,7 +93,6 @@ export const getAllCourses = async (params: {
       });
   });
 };
-
 
 
 

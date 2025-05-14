@@ -1,9 +1,7 @@
 "use client";
 import { getAllCourses } from "@/api/admin";
-import { ICourse } from "@/app/admin/(pages)/courses/page";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import Link from "next/link";
 import CourseCard from "./CourseCard";
 import NoDataFound from "@/components/NoDataFound";
 import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
