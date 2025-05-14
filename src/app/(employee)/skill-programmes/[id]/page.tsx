@@ -35,7 +35,7 @@ interface ISkillProgramme {
 
 const fetchCourseById = async (id: string) => {
   const { data } = await axios.get(
-    `https://carrerhub-backend.vercel.app/api/v1/skills/${id}`
+    `http://localhost:7000/api/v1/skills/${id}`
   );
   return data;
 };

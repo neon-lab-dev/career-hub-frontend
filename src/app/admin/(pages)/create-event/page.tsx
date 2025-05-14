@@ -58,7 +58,7 @@ const CreateEventPage = () => {
   const createEventMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "https://carrerhub-backend.vercel.app/api/v1/admin/events/create-event",
+        "http://localhost:7000/api/v1/admin/events/create-event",
         data,
         { withCredentials: true }
       );

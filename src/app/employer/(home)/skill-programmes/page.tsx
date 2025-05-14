@@ -1,38 +1,41 @@
 "use client";
-import React, { useState } from "react";
-import KPICard from "@/components/KPICard";
+import React, { useCallback, useState } from "react";
 import trash from "@/assets/icons/Trash Bin Trash.svg";
 import eye from "@/assets/icons/eye.svg";
 import search from "@/assets/icons/Search.svg";
 import Image from "next/image";
 import menuDots from "@/assets/icons/menu-dots.svg";
-import Table from "@/components/Table";
-import { Header } from "../../tableTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  handleDeleteJobService,
+} from "@/api/jobs";
 import { toast } from "sonner";
 import Link from "next/link";
 import Loading from "@/components/Loading";
-import { deleteCourseById, getAllCourses } from "@/api/admin";
+import debounce from "@/helpers/debounce";
+import { getAllSkillProgrammes, deleteSkillProgramme } from "@/api/admin";
+import { Header } from "../courses/page";
+import SearchInput from "@/app/admin/_components/SearchInput";
+import Table from "@/components/Table";
+import { getAllEmployerSkillProgrammes } from "@/api/employer";
 
-
-interface IDataItem {
+type DataItem = {
   name: string;
   postedDate: string;
-  description: string;
-  videos: string;
   actions: string;
 };
 
-export interface ICourse {
+export interface ISkill {
   _id: string;
   name: string;
   description: string;
-  videos: {
+  skillCovered: string;
+  video: {
       _id: string;
       name: string;
       url: string;
       createdAt: string;
-  }[];
+  };
   thumbnail: {
       _id: string;
       fileId: string;
@@ -44,51 +47,60 @@ export interface ICourse {
   __v: number;
 }
 
-const Courses = () => {
+
+const SkillProgramme = () => {
   const [jobThatIsBeingDeleted, setJobThatIsBeingDeleted] = useState("");
+  const [keyword, setKeyword] = useState("");
   const queryClient = useQueryClient();
 
   const { isLoading, data } = useQuery({
-    queryKey: ["courses"],
-    queryFn: getAllCourses,
+    queryKey: ["skillprogrammes"],
+    queryFn: getAllEmployerSkillProgrammes,
   });
 
-  
+  console.log(data);
 
-  // Delete course
- const { mutate: deleteCourse } = useMutation({
-  mutationFn: (id: string) => deleteCourseById(id),
+
+  const debouncedSetKeyword = useCallback(
+    debounce((queryParams) => {
+      setKeyword(queryParams);
+    }),
+    [] // dependencies
+  ); //callback to ensure that setSearchParams is not called on every render
+
+
+
+  // Delete skill
+const { mutate: deleteSkill } = useMutation({
+  mutationFn: (skillId: string) => deleteSkillProgramme(skillId),
   onMutate: () => {
-    toast.loading("Deleting course...", { id: "delete-course" });
+    toast.loading("Deleting skill...", { id: "delete-skill" });
   },
   onSuccess: () => {
-    toast.success("Course deleted successfully", { id: "delete-course" });
-    queryClient.invalidateQueries({ queryKey: ["courses"] });
+    toast.success("Skill deleted successfully", { id: "delete-skill" });
+    queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
   },
   onError: (error: string) => {
-    toast.error(`Failed to delete course: ${error}`, { id: "delete-course" });
+    toast.error(`Failed to delete skill: ${error}`, { id: "delete-skill" });
   },
 });
 
 
-  // Delete course
-  const handleDeleteCourse = (id: string) => {
-    deleteCourse(id);
+  // Delete skill
+  const handleDeleteSkill = (skillId: string) => {
+    deleteSkill(skillId);
   };
-
-  console.log(data?.courses)
+  
 
 
   // Table data
-  const headers: Header<IDataItem>[] = [
+  const headers: Header<DataItem>[] = [
     { header: "Name", accessor: "name" },
-    { header: "Description", accessor: "description" },
-    { header: "Videos", accessor: "videos" },
     { header: "Posted Date", accessor: "postedDate" },
     { header: "Actions", accessor: "actions" },
   ];
 
-  const renderCustomCell = (column: Header<IDataItem>, item: IDataItem) => {
+  const renderCustomCell = (column: Header<DataItem>, item: DataItem) => {
     if (column.accessor === "actions") {
       return (
         <div key="actions">
@@ -106,17 +118,17 @@ const Courses = () => {
             >
               <li>
                 <Link
-                  href={`/admin/courses/${item.actions}`}
+                  href={`/employer/skill-programmes/${item.actions}`}
                   className="flex gap-2"
                 >
                   <Image src={eye} alt="eye-icon" />
-                  <span>Edit Course</span>
+                  <span>Edit</span>
                 </Link>
               </li>
               <li>
                 <button
                   onClick={() => {
-                    handleDeleteCourse(item.actions);
+                    handleDeleteSkill(item.actions);
                   }}
                   className="flex gap-2 text-red-500"
                 >
@@ -133,24 +145,17 @@ const Courses = () => {
   };
 
   return (
-    <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
+    <div className="bg-neutral-450 p-6 flex flex-col gap-[51px]">
+      
 
       <div className="bg-white flex flex-col gap-3 pt-3">
         <div className="flex items-center justify-end px-4">
-          {/* Search field */}
-          {/* <SearchInput
-            placeholder="Search user"
-            icon={search}
-            onChange={(e) => {
-              debouncedSetKeyword(e.target.value);
-            }}
-          /> */}
 
           {/* Download CSV button */}
-          <Link href={"/admin/create-course"}
+          <Link href={"/employer/create-skill-programme"}
         className="bg-neutral-450 border border-neutral-550 rounded-[10px] font-plus-jakarta-sans text-base font-500 text-secondary-925 px-4 pt-3 pb-[14px]"
       >
-        Create Course
+        Create Programme
       </Link>
         </div>
 
@@ -161,13 +166,11 @@ const Courses = () => {
             className="w-full max-w-full pb-32"
             headers={headers}
             data={
-              data?.courses?.map((course:ICourse) => ({
-                name:course.name,
-                description: course.description,
-                videos: course?.videos ? course?.videos?.length : 0,
-                postedDate: new Date(course.createdAt).toDateString(),
-                actions: course._id,
-              })) as IDataItem[]
+              data?.skills?.map((skill:ISkill) => ({
+                name: skill.name,
+                postedDate: new Date(skill.createdAt).toDateString(),
+                actions: skill._id,
+              })) as DataItem[]
             }
             renderCustomCell={renderCustomCell}
           />
@@ -177,4 +180,4 @@ const Courses = () => {
   );
 };
 
-export default Courses;
+export default SkillProgramme;

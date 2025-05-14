@@ -5,17 +5,21 @@ import Image from "next/image";
 import Link from "next/link";
 
 type TCourseCardProps = {
-  name: string;
+  courseName: string;
   thumbnail: { url: string };
-  description: string;
+  courseOverview: string;
   href?: string;
+  pricingType: string;
+  fee: number;
 };
 
 const CourseCard: React.FC<TCourseCardProps> = ({
-  name,
+  courseName,
   thumbnail,
-  description,
+  courseOverview,
   href,
+  pricingType,
+  fee
 }) => {
   return (
     <div
@@ -32,15 +36,21 @@ const CourseCard: React.FC<TCourseCardProps> = ({
       </div>
 
       <div className="p-5">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
           <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">
             For All Levels
           </div>
-          <h1 className="text-success-100 text-xl font-600">Free</h1>
+          <h1 className="text-success-100 text-xl font-600">{pricingType}</h1>
+        </div>
+         {
+          pricingType === "Paid" &&
+            <h1 className="text-primary-500 text-xl font-600">₹{fee}</h1>
+          }
         </div>
         {/* Course Name */}
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
-          {name}
+          {courseName}
         </h1>
 
         {/* Student and lesson */}
@@ -72,12 +82,14 @@ const CourseCard: React.FC<TCourseCardProps> = ({
             For All Levels
           </div>
           <h1 className="text-success-100 text-xl font-600 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
-            Free
+            {
+              pricingType
+            }
           </h1>
         </div>
 
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
-          {name}
+          {courseName}
         </h1>
 
         {/* <div className="flex items-center gap-5 mt-4 text-neutral-600 text-sm">
@@ -100,9 +112,9 @@ const CourseCard: React.FC<TCourseCardProps> = ({
         </div> */}
 
         <p className="text-neutral-400 text-[15px] mt-6 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
-          {description?.length > 150
-            ? `${description.slice(0, 150)}...`
-            : description}
+          {courseOverview?.length > 150
+            ? `${courseOverview.slice(0, 150)}...`
+            : courseOverview}
         </p>
 
         <Link href={href ? href : ""}>

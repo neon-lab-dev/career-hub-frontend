@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { deleteJob, fetchJobs } from "@/api/employer";
 import { IMAGES } from "@/assets";
 import StatusLabel from "@/components/StatusLabel";
@@ -11,50 +11,55 @@ import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 interface Internship {
-    _id: string;
-    title: string;
-    salary: string;
-    applicants: any[];
-    employmentType: string;
-    status: string;
-  }
-  
-  interface Props {
-    className: string;
-  }
-  
-  const useFetchInternships = () => {
-    return useQuery<Internship[], Error>({
-      queryKey: ['jobs-employer-job'],
-      queryFn: fetchJobs,
-    });
-  };
-  
-  const useDeleteJob = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-      mutationFn: deleteJob,
-      onSuccess: (data: { success: boolean; message: string }) => {
-        queryClient.invalidateQueries({ queryKey: ['jobs-employer-job'] }); 
-        if (data.success) {
-          toast.success('Job deleted successfully');
-          queryClient.invalidateQueries({ queryKey: ['jobs'] });
-        } else {
-          toast.error(`Failed to delete job: ${data.message}`);
-        }
-      },
-      onError: (error: any) => {
-        const errorMessage = error.response?.data?.message || error.message || 'Failed to delete job';
-        console.error('Error deleting job:', errorMessage);
-        toast.error(`Error: ${errorMessage}`);
-      },
-    });
-  };
+  _id: string;
+  title: string;
+  salary: string;
+  applicants: any[];
+  employmentType: string;
+  status: string;
+}
 
-const InternshipTable = ({className} : {className:string}) => {
-    const [dropdownOpenId, setDropdownOpenId] = useState<string | null>(null);
+interface Props {
+  className: string;
+}
+
+const useFetchInternships = () => {
+  return useQuery<Internship[], Error>({
+    queryKey: ["jobs-employer-job"],
+    queryFn: fetchJobs,
+  });
+};
+
+const useDeleteJob = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteJob,
+    onSuccess: (data: { success: boolean; message: string }) => {
+      queryClient.invalidateQueries({ queryKey: ["jobs-employer-job"] });
+      if (data.success) {
+        toast.success("Job deleted successfully");
+        queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      } else {
+        toast.error(`Failed to delete job: ${data.message}`);
+      }
+    },
+    onError: (error: any) => {
+      const errorMessage =
+        error.response?.data?.message ||
+        error.message ||
+        "Failed to delete job";
+      console.error("Error deleting job:", errorMessage);
+      toast.error(`Error: ${errorMessage}`);
+    },
+  });
+};
+
+const InternshipTable = ({ className }: { className: string }) => {
+  const [dropdownOpenId, setDropdownOpenId] = useState<string | null>(null);
   const { data: jobs = [], isLoading, isError, error } = useFetchInternships();
-  const allInternship = jobs.filter(job => job?.employmentType === "Internship");
+  const allInternship = jobs.filter(
+    (job) => job?.employmentType === "Internship"
+  );
   const { mutate: deleteJob } = useDeleteJob();
 
   const handleMenuClick = (id: string) => {
@@ -83,10 +88,19 @@ const InternshipTable = ({className} : {className:string}) => {
   }
 
   if (isError) {
-    return <div>Error fetching jobs: {error instanceof Error ? error.message : 'Unknown error'}</div>;
-  }
     return (
-        <div className={twMerge(`w-full overflow-x-auto h-[700px] max-w-[1300px] font-Poppins mx-auto px-0 ${className}`)}>
+      <div>
+        Error fetching jobs:{" "}
+        {error instanceof Error ? error.message : "Unknown error"}
+      </div>
+    );
+  }
+  return (
+    <div
+      className={twMerge(
+        `w-full overflow-x-auto h-[700px] max-w-[1300px] font-Poppins mx-auto px-0 ${className}`
+      )}
+    >
       <div className="rounded-[124px]">
         <table className="table w-full">
           <thead className="bg-secondary-100 w-full text-secondary-800 font-plus-jakarta-sans font-500 text-base">
@@ -146,10 +160,12 @@ const InternshipTable = ({className} : {className:string}) => {
                   <td>
                     <div className="flex items-center gap-2">
                       <span>
-                        {job.applicants.length}{' '}
+                        {job.applicants.length}{" "}
                         <Link href={`/employer/dashboard/${job._id}`}>
-                          <span className="text-red-500 underline cursor-pointer">View Applications</span>
-                        </Link>{' '}
+                          <span className="text-red-500 underline cursor-pointer">
+                            View Applications
+                          </span>
+                        </Link>{" "}
                       </span>
                     </div>
                   </td>
@@ -167,7 +183,10 @@ const InternshipTable = ({className} : {className:string}) => {
                   </td>
                   <td>
                     <div className="relative flex items-center gap-2">
-                      <div onClick={() => handleMenuClick(job._id)} className="cursor-pointer">
+                      <div
+                        onClick={() => handleMenuClick(job._id)}
+                        className="cursor-pointer"
+                      >
                         <Image src={IMAGES.menudots} alt="Menu Icon" />
                       </div>
                       {dropdownOpenId === job._id && (
@@ -184,7 +203,10 @@ const InternshipTable = ({className} : {className:string}) => {
                               <span>View</span>
                             </div>
                           </Link>
-                          <div onClick={() => handleDelete(job._id)} className="flex items-center gap-2 text-sm p-2 cursor-pointer">
+                          <div
+                            onClick={() => handleDelete(job._id)}
+                            className="flex items-center gap-2 text-sm p-2 cursor-pointer"
+                          >
                             <Image src={IMAGES.bin} alt="Role Icon" />
                             <span className="text-red-500">Delete</span>
                           </div>
@@ -199,7 +221,7 @@ const InternshipTable = ({className} : {className:string}) => {
         </table>
       </div>
     </div>
-    );
+  );
 };
 
 export default InternshipTable;

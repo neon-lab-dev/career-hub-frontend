@@ -43,6 +43,16 @@ export default function EmployeeRootLayout({ children }: any) {
       path: "/employer/find-candidates",
       icon: ICONS.findCandidates
     },
+    {
+      label: "Courses",
+      path: "/employer/courses",
+      icon: ICONS.course
+    },
+    {
+      label: "Skill Programmes",
+      path: "/employer/skill-programmes",
+      icon: ICONS.skillProgramme
+    },
   ];
 
 
