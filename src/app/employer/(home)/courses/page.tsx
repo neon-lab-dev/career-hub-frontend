@@ -16,30 +16,32 @@ export type Header<T> = {
   accessor: keyof T;
 };
 
-interface IDataItem {
+export interface IDataItem {
   name: string;
+  courseType: string;
+  department: string;
+  duration: string;
+  pricingType: string;
+  fee: number;
   postedDate: string;
-  description: string;
-  videos: string;
   actions: string;
 }
 
 export interface ICourse {
   _id: string;
-  name: string;
-  description: string;
-  videos: {
-    _id: string;
-    name: string;
-    url: string;
-    createdAt: string;
-  }[];
+  courseName: string;
+  courseOverview: string;
   thumbnail: {
     _id: string;
     fileId: string;
     name: string;
     url: string;
   };
+  courseType: string;
+  department: string;
+  duration: string;
+  pricingType: string;
+  fee: number;
   createdAt: string;
   updatedAt: string;
   __v: number;

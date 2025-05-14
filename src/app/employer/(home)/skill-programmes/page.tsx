@@ -19,23 +19,25 @@ import SearchInput from "@/app/admin/_components/SearchInput";
 import Table from "@/components/Table";
 import { getAllEmployerSkillProgrammes } from "@/api/employer";
 
-type DataItem = {
+export interface IDataItem {
   name: string;
+  programmeType: string;
+  department: string;
+  duration: string;
+  pricingType: string;
+  fee: number;
   postedDate: string;
   actions: string;
-};
+}
 
 export interface ISkill {
   _id: string;
-  name: string;
-  description: string;
-  skillCovered: string;
-  video: {
-      _id: string;
-      name: string;
-      url: string;
-      createdAt: string;
-  };
+  skillProgrammeName: string;
+  programmeType: string;
+  department: string;
+  duration: string;
+  pricingType: string;
+  fee: number;
   thumbnail: {
       _id: string;
       fileId: string;
@@ -94,8 +96,13 @@ const { mutate: deleteSkill } = useMutation({
 
 
   // Table data
-  const headers: Header<DataItem>[] = [
+   const headers: Header<IDataItem>[] = [
     { header: "Name", accessor: "name" },
+    { header: "Programme Type", accessor: "programmeType" },
+    { header: "Department", accessor: "department" },
+    { header: "Duration", accessor: "duration" },
+    { header: "Pricing Type", accessor: "pricingType" },
+    { header: "Fee", accessor: "fee" },
     { header: "Posted Date", accessor: "postedDate" },
     { header: "Actions", accessor: "actions" },
   ];
@@ -166,12 +173,18 @@ const { mutate: deleteSkill } = useMutation({
             className="w-full max-w-full pb-32"
             headers={headers}
             data={
-              data?.skills?.map((skill:ISkill) => ({
-                name: skill.name,
-                postedDate: new Date(skill.createdAt).toDateString(),
-                actions: skill._id,
-              })) as DataItem[]
-            }
+  data?.skills?.map((skill: ISkill) => ({
+    name: skill.skillProgrammeName,
+    programmeType: skill.programmeType,
+    department: skill.department,
+    duration: skill.duration,
+    pricingType: skill.pricingType,
+    fee: skill.fee,
+    postedDate: new Date(skill.createdAt).toDateString(),
+    actions: skill._id,
+  })) as DataItem[]
+}
+
             renderCustomCell={renderCustomCell}
           />
         )}
