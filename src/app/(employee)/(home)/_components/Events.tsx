@@ -67,8 +67,8 @@ const Events = () => {
                 spaceBetween={20}
                 slidesPerView={1}
                 navigation={{
-                  prevEl: "#prevProjectButton",
-                  nextEl: "#nextProjectButton",
+                  prevEl: "#prevEventButton",
+                  nextEl: "#nextEventButton",
                 }}
                 modules={[Navigation, Pagination]}
                 pagination={{
@@ -103,7 +103,7 @@ const Events = () => {
 
               <div className="flex items-center justify-center gap-4 mt-6">
                 <button
-                  id="prevProjectButton"
+                  id="prevEventButton"
                   className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
                 >
                   <Image
@@ -113,7 +113,7 @@ const Events = () => {
                   />
                 </button>
                 <button
-                  id="nextProjectButton"
+                  id="nextEventButton"
                   className="p-2 rounded-lg bg-primary-500 border border-primary-10 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
                 >
                   <Image src={ICONS.rightArrow2} alt="" className="size-6" />

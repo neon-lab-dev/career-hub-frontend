@@ -16,7 +16,6 @@ import { Navigation, Pagination } from "swiper/modules";
 import Container from "@/components/Container";
 
 const SkillProgrammes = () => {
-
   const { isLoading, data } = useQuery({
     queryKey: ["skillprogrammes"],
     queryFn: getAllSkillProgrammes,
@@ -24,70 +23,74 @@ const SkillProgrammes = () => {
 
   return (
     <Container>
-      <div id="skill-programme" className="py-section flex flex-col items-center justify-center gap-14">
+      <div
+        id="skill-programme"
+        className="py-section flex flex-col items-center justify-center gap-14"
+      >
         <SectionHeading
           highlightedText="Skill"
           normalText="Programmes⚡"
           align="left"
         />
-        {
-          data?.skills?.length < 1 ?
+        {data?.skills?.length < 1 ? (
           <NoDataFound message="No Skill Programmes Available" />
-          :
+        ) : (
           <div className="w-full">
-          <Swiper
-            spaceBetween={20}
-            slidesPerView={1}
-            navigation={{
-              prevEl: "#prevProjectButton",
-              nextEl: "#nextProjectButton",
-            }}
-            modules={[Navigation, Pagination]}
-            pagination={{
-              clickable: true,
-            }}
-            breakpoints={{
-              360: { slidesPerView: 1 },
-              425: { slidesPerView: 1 },
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-              1366: { slidesPerView: 4 },
-            }}
-            className="w-full mt-10"
-          >
-            {data?.skills?.map((skillProgramme:any) => (
-              <SwiperSlide key={skillProgramme?._id} className="mb-10 w-full">
-                <CourseCard
-                courseName={skillProgramme?.skillProgrammeName}
-                thumbnail={skillProgramme?.thumbnail?.url}
-                courseOverview={skillProgramme?.programmeOverview}
-                pricingType={skillProgramme?.pricingType}
-                fee={skillProgramme?.fee}
-                href={`/skill-programmes/${skillProgramme?._id}`} />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <button
-              id="prevProjectButton"
-              className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+            <Swiper
+              spaceBetween={20}
+              slidesPerView={1}
+              navigation={{
+                prevEl: "#prevSkillProgrammeButton",
+                nextEl: "#nextSkillProgrammeButton",
+              }}
+              modules={[Navigation, Pagination]}
+              pagination={{
+                clickable: true,
+              }}
+              breakpoints={{
+                360: { slidesPerView: 1 },
+                425: { slidesPerView: 1 },
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+                1366: { slidesPerView: 4 },
+              }}
+              className="w-full mt-10"
             >
-              <Image
-                src={ICONS.rightArrowDark}
-                alt=""
-                className="size-6 rotate-180"
-              />
-            </button>
-            <button
-              id="nextProjectButton"
-              className="p-2 rounded-lg bg-primary-500 border border-primary-10 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
-            >
-              <Image src={ICONS.rightArrow2} alt="" className="size-6" />
-            </button>
+              {data?.skills?.map((skillProgramme: any) => (
+                <SwiperSlide key={skillProgramme?._id} className="mb-10 w-full">
+                  <CourseCard
+                    courseName={skillProgramme?.skillProgrammeName}
+                    thumbnail={skillProgramme?.thumbnail?.url}
+                    courseOverview={skillProgramme?.programmeOverview}
+                    pricingType={skillProgramme?.pricingType}
+                    fee={skillProgramme?.fee}
+                    href={`/skill-programmes/${skillProgramme?._id}`}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <button
+                id="prevSkillProgrammeButton"
+                className="p-2 rounded-lg bg-white border border-neutral-60 hover:bg-gray-100 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+              >
+                <Image
+                  src={ICONS.rightArrowDark}
+                  alt=""
+                  className="size-6 rotate-180"
+                />
+              </button>
+              <button
+                id="nextSkillProgrammeButton"
+                className="p-2 rounded-lg bg-primary-500 border border-primary-10 transition-all duration-300 ease-in-out transform active:scale-95 cursor-pointer"
+              >
+                <Image src={ICONS.rightArrow2} alt="" className="size-6" />
+              </button>
+            </div>
           </div>
-        </div>
-        }
+        )}
       </div>
     </Container>
   );
