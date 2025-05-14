@@ -58,7 +58,13 @@ const SkillProgrammes = () => {
           >
             {data?.skills?.map((skillProgramme:any) => (
               <SwiperSlide key={skillProgramme?._id} className="mb-10 w-full">
-                <CourseCard {...skillProgramme} href={`/skill-programmes/${skillProgramme?._id}`} />
+                <CourseCard
+                courseName={skillProgramme?.skillProgrammeName}
+                thumbnail={skillProgramme?.thumbnail?.url}
+                courseOverview={skillProgramme?.programmeOverview}
+                pricingType={skillProgramme?.pricingType}
+                fee={skillProgramme?.fee}
+                href={`/skill-programmes/${skillProgramme?._id}`} />
               </SwiperSlide>
             ))}
           </Swiper>

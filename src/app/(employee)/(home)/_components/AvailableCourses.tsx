@@ -58,7 +58,13 @@ const AvailableCourses = () => {
         >
           {data?.courses?.map((course:any) => (
             <SwiperSlide key={course?._id} className="mb-16 w-full">
-              <CourseCard {...course} href={`/courses/${course?._id}`} />
+              <CourseCard 
+              courseName={course?.courseName}
+              thumbnail={course?.thumbnail?.url}
+                courseOverview={course?.courseOverview}
+                pricingType={course?.pricingType}
+                fee={course?.fee}
+              href={`/courses/${course?._id}`} />
             </SwiperSlide>
           ))}
         </Swiper>
