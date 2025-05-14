@@ -19,7 +19,7 @@ const CourseCard: React.FC<TCourseCardProps> = ({
   courseOverview,
   href,
   pricingType,
-  fee
+  fee,
 }) => {
   return (
     <div
@@ -38,15 +38,14 @@ const CourseCard: React.FC<TCourseCardProps> = ({
       <div className="p-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-          <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">
-            For All Levels
+            <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">
+              For All Levels
+            </div>
+            <h1 className="text-success-100 text-xl font-600">{pricingType}</h1>
           </div>
-          <h1 className="text-success-100 text-xl font-600">{pricingType}</h1>
-        </div>
-         {
-          pricingType === "Paid" &&
+          {pricingType === "Paid" && (
             <h1 className="text-primary-500 text-xl font-600">₹{fee}</h1>
-          }
+          )}
         </div>
         {/* Course Name */}
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
@@ -79,15 +78,14 @@ const CourseCard: React.FC<TCourseCardProps> = ({
       <div className="flex flex-col bg-neutral-450 rounded-3xl absolute bottom-0 w-full h-full translate-y-full group-hover:translate-y-0 transition-all duration-[600ms] overflow-hidden p-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-          <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">
-            For All Levels
+            <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-650 w-fit rounded-md">
+              For All Levels
+            </div>
+            <h1 className="text-success-100 text-xl font-600">{pricingType}</h1>
           </div>
-          <h1 className="text-success-100 text-xl font-600">{pricingType}</h1>
-        </div>
-         {
-          pricingType === "Paid" &&
+          {pricingType === "Paid" && (
             <h1 className="text-primary-500 text-xl font-600">₹{fee}</h1>
-          }
+          )}
         </div>
 
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
