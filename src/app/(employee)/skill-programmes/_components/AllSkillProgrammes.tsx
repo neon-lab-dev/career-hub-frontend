@@ -32,7 +32,14 @@ const AllSkillProgrammes = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8">
           {data?.skills?.map((skillProgramme: any) => (
-            <CourseCard key={skillProgramme?._id} {...skillProgramme} href={`/skill-programmes/${skillProgramme?._id}`} />
+            <CourseCard
+            key={skillProgramme?._id}
+            courseName={skillProgramme?.skillProgrammeName}
+                thumbnail={skillProgramme?.thumbnail?.url}
+                courseOverview={skillProgramme?.programmeOverview}
+                pricingType={skillProgramme?.pricingType}
+                fee={skillProgramme?.fee}
+            href={`/skill-programmes/${skillProgramme?._id}`} />
           ))}
         </div>
       )}

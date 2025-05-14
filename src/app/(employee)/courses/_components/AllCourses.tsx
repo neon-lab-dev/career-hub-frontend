@@ -32,7 +32,15 @@ const AllCourses = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8">
           {data?.courses?.map((course: any) => (
-            <CourseCard key={course?._id} {...course} href={`/courses/${course?._id}`} />
+            <CourseCard
+            key={course?._id} 
+            courseName={course?.courseName}
+              thumbnail={course?.thumbnail?.url}
+                courseOverview={course?.courseOverview}
+                pricingType={course?.pricingType}
+                fee={course?.fee}
+              href={`/courses/${course?._id}`}
+            />
           ))}
         </div>
       )}

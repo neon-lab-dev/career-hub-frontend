@@ -61,34 +61,34 @@ const CourseDetails = () => {
 
   const courseData = [
     {
-      label : "Course Type",
-      value : course?.courseType
+      label: "Course Type",
+      value: course?.courseType,
     },
     {
-      label : "Department",
-      value : course?.department
+      label: "Department",
+      value: course?.department,
     },
     {
-      label : "Duration",
-      value : course?.duration
+      label: "Duration",
+      value: course?.duration,
     },
     {
-      label : "Price Type",
-      value : course?.pricingType
+      label: "Price Type",
+      value: course?.pricingType,
     },
     {
-      label : "Fee",
-      value : `₹${course?.fee}`
+      label: "Fee",
+      value: `₹${course?.fee}`,
     },
     {
-      label : "Number of Seats",
-      value : course?.numberOfSeats
+      label: "Number of Seats",
+      value: course?.numberOfSeats,
     },
     {
-      label : "Course",
-      value : course?.courseType
+      label: "Certificate Provided",
+      value: course?.isIncludedCertificate ? "Yes" : "No",
     },
-  ]
+  ];
   if (isLoading) return <Loading />;
 
   return (
@@ -97,8 +97,8 @@ const CourseDetails = () => {
         <h3 className="section-heading text-3xl font-bold">
           {course?.courseName}
         </h3>
-        <div className="flex gap-10 font-plus-jakarta-sans mt-7">
-          <div className="w-[70%]">
+        <div className="flex flex-col lg:flex-row gap-10 font-plus-jakarta-sans mt-7">
+          <div className="w-full lg:w-[70%]">
             <div className="flex flex-col items-center lg:items-start gap-6">
               <Image
                 src={course?.thumbnail?.url as string}
@@ -125,7 +125,9 @@ const CourseDetails = () => {
               </div>
 
               <div>
-                <p className="text-neutral-600 font-600">Necessary Qualification Or Experience</p>
+                <p className="text-neutral-600 font-600">
+                  Necessary Qualification Or Experience
+                </p>
                 <p className="text-neutral-600 text-[15px] mt-2">
                   {course?.desiredQualificationOrExperience}
                 </p>
@@ -133,25 +135,34 @@ const CourseDetails = () => {
             </div>
           </div>
 
-
-            {/* Right column */}
-          <div className="w-[30%] rounded-2xl p-5 bg-white border border-neutral-300 shadow-job-card-shadow h-fit flex flex-col gap-5">
-            {
-              courseData?.map(data => 
-                <div key={data?.label} className="flex items-center justify-between">
+          {/* Right column */}
+          <div className="w-full lg:w-[30%] rounded-2xl p-4 lg:p-6 bg-white border border-neutral-300 shadow-job-card-shadow h-fit flex flex-col gap-5">
+            {courseData?.map((data) => (
+              <div
+                key={data?.label}
+                className="flex items-center justify-between"
+              >
                 <p className="text-neutral-600 font-600">{data?.label}</p>
-                <p className="text-neutral-600 text-[15px]">
+                <p
+                  className={`${
+                    data?.label === "Price Type"
+                      ? "text-green-600"
+                      : "text-neutral-600"
+                  }`}
+                >
                   {data?.value}
                 </p>
               </div>
-              )
-            }
+            ))}
 
-            <Link href={course?.courseLink ? course?.courseLink : ""} target="_blank">
-          <Button variant="normal" className="px-6 py-[10px] w-full">
-            View Details
-          </Button>
-        </Link>
+            <Link
+              href={course?.courseLink ? course?.courseLink : ""}
+              target="_blank"
+            >
+              <Button variant="normal" className="px-6 py-[10px] w-full">
+                View Details
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
