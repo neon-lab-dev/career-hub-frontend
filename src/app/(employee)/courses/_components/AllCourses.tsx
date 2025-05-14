@@ -7,23 +7,21 @@ import CourseCard from "../../(home)/_components/CourseCard";
 import { Oval } from "react-loader-spinner";
 import Image from "next/image";
 import { ICONS } from "@/assets";
-import { useState } from "react";
-import DropdownInput from "@/components/Reusable/DopdownInput/DropdownInput";
+import { useState, useEffect } from "react";
 import FilterDropdown from "@/components/Reusable/FilterDropdown/FilterDropdown";
 import { departments } from "@/mockData/departments";
+import axios from "axios";
+import Button from "@/components/Button";
 
 const AllCourses = () => {
-  const [queryParams, setQueryParams] = useState({
-    keyword: "",
-  });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allCourses, setAllCourses] = useState<any>([]);
+  // For search bard
+  const [keyword, setKeyword] = useState("");
   const [selectedCourseType, setSelectedCourseType] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState("");
   const [selectedPricingType, setSelectedPricingType] = useState("");
-
-  const { isLoading, data } = useQuery({
-    queryKey: ["courses"],
-    queryFn: getAllCourses,
-  });
 
   const handleSelectCourseType = (courseType: string) => {
     setSelectedCourseType(courseType);
@@ -34,57 +32,90 @@ const AllCourses = () => {
   const handleSelectPricingType = (pricingType: string) => {
     setSelectedPricingType(pricingType);
   };
+
+useEffect(() => {
+    const fetchAllCourses = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get("http://localhost:7000/api/v1/courses", {
+          params: {
+            keyword: keyword || undefined,
+            courseType: selectedCourseType || undefined,
+            department: selectedDepartment || undefined,
+            pricingType: selectedPricingType || undefined,
+          },
+          withCredentials: true,
+        });
+        setAllCourses(response?.data?.courses);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllCourses();
+  }, [keyword, selectedCourseType, selectedDepartment, selectedPricingType]);
+
+  const handleResetFilters = () => {
+  setKeyword("");
+  setSelectedCourseType("");
+  setSelectedDepartment("");
+  setSelectedPricingType("");
+};
+
+
   return (
     <Container>
       <div className="flex items-center justify-between w-full">
         <div className="px-4 py-3 text-base rounded-md bg-white shadow-secondary-button text-neutral-700 leading-6 cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap flex gap-2 justify-between items-center">
           <input
-            // value={queryParams.keyword}
+          value={keyword}
             onChange={(e) => {
-              setQueryParams({
-                ...queryParams,
-                keyword: e.target.value,
-              });
+              setKeyword(e.target.value);
             }}
             type="text"
             placeholder={`Search course...`}
             className="bg-white focus:outline-none"
           />
-          <Image
-            src={ICONS.magnifer}
-            alt="search-icon"
-            className="w-[18px]"
-          />
+          <Image src={ICONS.magnifer} alt="search-icon" className="w-[18px]" />
         </div>
 
         <div className="flex items-center gap-5">
           <FilterDropdown
-              label="Select Course Type"
-              items={["Certificate", "Diploma", "Bachelor", "Master"]}
-              icon={ICONS.downArrow}
-              onSelect={handleSelectCourseType}
-              selectedData={selectedCourseType}
-              classNames="px-4 py-3 text-base rounded-md w-fit lg:w-fit gap-3"
-            />
+            label="Select Course Type"
+            items={["Certificate", "Diploma", "Bachelor", "Master"]}
+            icon={ICONS.downArrow}
+            onSelect={handleSelectCourseType}
+            selectedData={selectedCourseType}
+            classNames="px-4 py-3 text-base rounded-md w-fit lg:w-[200px] gap-3"
+          />
           <FilterDropdown
-              label="Select Department"
-              items={departments}
-              icon={ICONS.downArrow}
-              onSelect={handleSelectDepartment}
-              selectedData={selectedDepartment}
-              classNames="px-4 py-3 text-base rounded-md w-fit lg:w-fit gap-3"
-            />
+            label="Select Department"
+            items={departments}
+            icon={ICONS.downArrow}
+            onSelect={handleSelectDepartment}
+            selectedData={selectedDepartment}
+            classNames="px-4 py-3 text-base rounded-md w-fit lg:w-[200px] gap-3"
+          />
           <FilterDropdown
-              label="Select Pricing Type"
-              items={["Free", "Paid"]}
-              icon={ICONS.downArrow}
-              onSelect={handleSelectPricingType}
-              selectedData={selectedPricingType}
-              classNames="px-4 py-3 text-base rounded-md w-fit lg:w-fit gap-3"
-            />
+            label="Select Pricing Type"
+            items={["Free", "Paid"]}
+            icon={ICONS.downArrow}
+            onSelect={handleSelectPricingType}
+            selectedData={selectedPricingType}
+            classNames="px-4 py-3 text-base rounded-md w-fit lg:w-[200px] gap-3"
+          />
+          <Button
+  variant="normal"
+  className="px-6 py-[10px] w-fit"
+  onClick={handleResetFilters}
+>
+  Reset Filter
+</Button>
+
         </div>
       </div>
-
 
       <div className="my-10">
         {isLoading ? (
@@ -100,11 +131,11 @@ const AllCourses = () => {
               strokeWidthSecondary={2}
             />
           </div>
-        ) : data?.courses?.length < 1 ? (
+        ) : allCourses?.length < 1 ? (
           <NoDataFound message="No Course Available" />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 xl:gap-8">
-            {data?.courses?.map((course: any) => (
+            {allCourses?.map((course: any) => (
               <CourseCard
                 key={course?._id}
                 courseName={course?.courseName}
