@@ -6,9 +6,7 @@ import search from "@/assets/icons/Search.svg";
 import Image from "next/image";
 import menuDots from "@/assets/icons/menu-dots.svg";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  handleDeleteJobService,
-} from "@/api/jobs";
+import { handleDeleteJobService } from "@/api/jobs";
 import { toast } from "sonner";
 import Link from "next/link";
 import Loading from "@/components/Loading";
@@ -39,16 +37,15 @@ export interface ISkill {
   pricingType: string;
   fee: number;
   thumbnail: {
-      _id: string;
-      fileId: string;
-      name: string;
-      url: string;
+    _id: string;
+    fileId: string;
+    name: string;
+    url: string;
   };
   createdAt: string;
   updatedAt: string;
   __v: number;
 }
-
 
 const SkillProgramme = () => {
   const [jobThatIsBeingDeleted, setJobThatIsBeingDeleted] = useState("");
@@ -62,7 +59,6 @@ const SkillProgramme = () => {
 
   console.log(data);
 
-
   const debouncedSetKeyword = useCallback(
     debounce((queryParams) => {
       setKeyword(queryParams);
@@ -70,33 +66,28 @@ const SkillProgramme = () => {
     [] // dependencies
   ); //callback to ensure that setSearchParams is not called on every render
 
-
-
   // Delete skill
-const { mutate: deleteSkill } = useMutation({
-  mutationFn: (skillId: string) => deleteSkillProgramme(skillId),
-  onMutate: () => {
-    toast.loading("Deleting skill...", { id: "delete-skill" });
-  },
-  onSuccess: () => {
-    toast.success("Skill deleted successfully", { id: "delete-skill" });
-    queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
-  },
-  onError: (error: string) => {
-    toast.error(`Failed to delete skill: ${error}`, { id: "delete-skill" });
-  },
-});
-
+  const { mutate: deleteSkill } = useMutation({
+    mutationFn: (skillId: string) => deleteSkillProgramme(skillId),
+    onMutate: () => {
+      toast.loading("Deleting skill...", { id: "delete-skill" });
+    },
+    onSuccess: () => {
+      toast.success("Skill deleted successfully", { id: "delete-skill" });
+      queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
+    },
+    onError: (error: string) => {
+      toast.error(`Failed to delete skill: ${error}`, { id: "delete-skill" });
+    },
+  });
 
   // Delete skill
   const handleDeleteSkill = (skillId: string) => {
     deleteSkill(skillId);
   };
-  
-
 
   // Table data
-   const headers: Header<IDataItem>[] = [
+  const headers: Header<IDataItem>[] = [
     { header: "Name", accessor: "name" },
     { header: "Programme Type", accessor: "programmeType" },
     { header: "Department", accessor: "department" },
@@ -107,7 +98,7 @@ const { mutate: deleteSkill } = useMutation({
     { header: "Actions", accessor: "actions" },
   ];
 
-  const renderCustomCell = (column: Header<DataItem>, item: DataItem) => {
+  const renderCustomCell = (column: Header<IDataItem>, item: IDataItem) => {
     if (column.accessor === "actions") {
       return (
         <div key="actions">
@@ -153,17 +144,15 @@ const { mutate: deleteSkill } = useMutation({
 
   return (
     <div className="bg-neutral-450 p-6 flex flex-col gap-[51px]">
-      
-
       <div className="bg-white flex flex-col gap-3 pt-3">
         <div className="flex items-center justify-end px-4">
-
           {/* Download CSV button */}
-          <Link href={"/employer/create-skill-programme"}
-        className="bg-neutral-450 border border-neutral-550 rounded-[10px] font-plus-jakarta-sans text-base font-500 text-secondary-925 px-4 pt-3 pb-[14px]"
-      >
-        Create Programme
-      </Link>
+          <Link
+            href={"/employer/create-skill-programme"}
+            className="bg-neutral-450 border border-neutral-550 rounded-[10px] font-plus-jakarta-sans text-base font-500 text-secondary-925 px-4 pt-3 pb-[14px]"
+          >
+            Create Programme
+          </Link>
         </div>
 
         {isLoading ? (
@@ -173,18 +162,17 @@ const { mutate: deleteSkill } = useMutation({
             className="w-full max-w-full pb-32"
             headers={headers}
             data={
-  data?.skills?.map((skill: ISkill) => ({
-    name: skill.skillProgrammeName,
-    programmeType: skill.programmeType,
-    department: skill.department,
-    duration: skill.duration,
-    pricingType: skill.pricingType,
-    fee: skill.fee,
-    postedDate: new Date(skill.createdAt).toDateString(),
-    actions: skill._id,
-  })) as DataItem[]
-}
-
+              data?.skills?.map((skill: ISkill) => ({
+                name: skill.skillProgrammeName,
+                programmeType: skill.programmeType,
+                department: skill.department,
+                duration: skill.duration,
+                pricingType: skill.pricingType,
+                fee: skill.fee,
+                postedDate: new Date(skill.createdAt).toDateString(),
+                actions: skill._id,
+              })) as IDataItem[]
+            }
             renderCustomCell={renderCustomCell}
           />
         )}

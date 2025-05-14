@@ -17,28 +17,26 @@ interface TextAreaProps {
   cols : number;
 }
 
-const TextArea = forwardRef<HTMLInputElement, TextAreaProps>(
-  ({ label, name, placeholder = "", rows, cols, error, defaultValue, isDisabled = false, isRequired = true, ...rest }, ref) => {
+const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  ({ label, name, placeholder = "", rows, cols, error, isDisabled = false, isRequired = true, ...rest }, ref) => {
     return (
       <div className="flex flex-col gap-2 font-Inter w-full font-plus-jakarta-sans">
         <label htmlFor={name} className="text-neutral-700 font-500">
           {label}
-          {
-            isRequired &&
-            <span className="text-red-600"> *</span>
-          }
+          {isRequired && <span className="text-red-600"> *</span>}
         </label>
         <textarea
+          ref={ref}
           required={isRequired}
           id={name}
           name={name}
           rows={rows}
           cols={cols}
           placeholder={placeholder}
-          defaultValue={defaultValue}
           disabled={isDisabled}
-          className={`p-4 rounded-xl bg-white border  focus:outline-none focus:border-primary-500 transition duration-300 ${error ? "border-red-500" : "border-neutral-300"
-            }`}
+          className={`p-4 rounded-xl bg-white border focus:outline-none focus:border-primary-500 transition duration-300 ${
+            error ? "border-red-500" : "border-neutral-300"
+          }`}
           {...rest}
         />
         {error?.message && (
@@ -48,6 +46,7 @@ const TextArea = forwardRef<HTMLInputElement, TextAreaProps>(
     );
   }
 );
+
 
 TextArea.displayName = "TextArea";
 
