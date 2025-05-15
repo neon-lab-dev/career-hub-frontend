@@ -18,18 +18,6 @@ const JoditEditor = dynamic(() => import("jodit-react"), {
   loading: () => <p>Loading...</p>,
 });
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-type VideoFormData = {
-  title: string;
-  video: FileList;
-};
-
-
 type CourseFormData = {
   courseName: string;
   courseOverview: string;
@@ -45,7 +33,6 @@ type CourseFormData = {
   isIncludedCertificate?: boolean;
   image: FileList;
 };
-
 
 const EditCoursePage = ({ id }: { id: string }) => {
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
@@ -100,7 +87,6 @@ const EditCoursePage = ({ id }: { id: string }) => {
       String(isIncludedCertificate === "Yes" ? true : false)
     );
 
-
     if (data.image && data.image.length > 0) {
       formData.append("image", data.image[0]);
     }
@@ -112,15 +98,14 @@ const EditCoursePage = ({ id }: { id: string }) => {
     });
   };
 
-
   const editor = useRef(null);
-  
-    const [description, setDescription] = useState("");
-    const [selectedCourseType, setSelectedCourseType] = useState("");
-    const [selectedDepartment, setSelectedDepartment] = useState("");
-    const [pricingType, setPricingType] = useState("");
-    const [isIncludedCertificate, setIsIncludedCertificate] = useState("");
-    const [contentError, setDescriptionError] = useState("");
+
+  const [description, setDescription] = useState("");
+  const [selectedCourseType, setSelectedCourseType] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [pricingType, setPricingType] = useState("");
+  const [isIncludedCertificate, setIsIncludedCertificate] = useState("");
+  const [contentError, setDescriptionError] = useState("");
 
   const {
     register,
@@ -137,7 +122,10 @@ const EditCoursePage = ({ id }: { id: string }) => {
       setSelectedCourseType(data.course.courseType);
       setSelectedDepartment(data.course.department);
       setValue("duration", data.course.duration || "");
-      setValue("desiredQualificationOrExperience", data.course.desiredQualificationOrExperience || "");
+      setValue(
+        "desiredQualificationOrExperience",
+        data.course.desiredQualificationOrExperience || ""
+      );
       setValue("courseLink", data.course.courseLink || "");
       setPricingType(data.course.pricingType);
       setValue("fee", data.course.fee || 0);
@@ -148,136 +136,134 @@ const EditCoursePage = ({ id }: { id: string }) => {
 
   if (isLoading) return <Loading className="h-[60vh] w-full" />;
 
-
   return (
     <div className="w-full">
       <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
-
         {/* Course Update Form */}
         <form
           onSubmit={handleSubmit(onSubmitCourse)}
           className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 max-w-[800px] w-full mx-auto"
         >
-          
-          
-<TextInput
-          label="Course Name"
-          placeholder="Enter course name"
-          error={errors.courseName}
-          {...register("courseName", { required: "Course name is required" })}
-        />
-        <TextArea
-          label="Course Overview"
-          placeholder="Write something about your course"
-          cols={4}
-          rows={4}
-          error={errors.courseOverview}
-          {...register("courseOverview", {
-            required: "Course overview is required",
-          })}
-        />
-
-        <DropdownInput
-          label="Course Type"
-          options={["Certificate", "Diploma", "Bachelor", "Master"]}
-          value={selectedCourseType}
-          onChange={(e) => {
-            setSelectedCourseType(e.target.value);
-          }}
-          error={errors.courseType}
-        />
-
-        <DropdownInput
-          label="Department"
-          options={departments}
-          value={selectedDepartment}
-          onChange={(e) => {
-            setSelectedDepartment(e.target.value);
-          }}
-          error={errors.courseType}
-        />
-
-        <TextInput
-          label="Course Duration"
-          placeholder="ex- 3 Months"
-          error={errors.duration}
-          {...register("duration", { required: "Course duration is required" })}
-        />
-
-        <TextArea
-          label="Necessary Qualification or Experience"
-          placeholder="What are you expecting from the students?"
-          cols={4}
-          rows={4}
-          error={errors.desiredQualificationOrExperience}
-          {...register("desiredQualificationOrExperience")}
-          isRequired={false}
-        />
-
-        <TextInput
-          label="Course Link"
-          placeholder="ex- https://mitraconsultancy.co.in/internship-programmes"
-          error={errors.courseLink}
-          {...register("courseLink")}
-          isRequired={false}
-        />
-
-        <DropdownInput
-          label="Pricing Type"
-          options={["Free", "Paid"]}
-          value={pricingType}
-          onChange={(e) => {
-            setPricingType(e.target.value);
-          }}
-          error={errors.courseType}
-        />
-
-        {pricingType === "Paid" && (
           <TextInput
-            label="Course Fee (₹)"
-            type="number"
-            placeholder="ex- 999"
-            error={errors.fee}
-            {...register("fee")}
+            label="Course Name"
+            placeholder="Enter course name"
+            error={errors.courseName}
+            {...register("courseName", { required: "Course name is required" })}
+          />
+          <TextArea
+            label="Course Overview"
+            placeholder="Write something about your course"
+            cols={4}
+            rows={4}
+            error={errors.courseOverview}
+            {...register("courseOverview", {
+              required: "Course overview is required",
+            })}
+          />
+
+          <DropdownInput
+            label="Course Type"
+            options={["Certificate", "Diploma", "Bachelor", "Master"]}
+            value={selectedCourseType}
+            onChange={(e) => {
+              setSelectedCourseType(e.target.value);
+            }}
+            error={errors.courseType}
+          />
+
+          <DropdownInput
+            label="Department"
+            options={departments}
+            value={selectedDepartment}
+            onChange={(e) => {
+              setSelectedDepartment(e.target.value);
+            }}
+            error={errors.courseType}
+          />
+
+          <TextInput
+            label="Course Duration"
+            placeholder="ex- 3 Months"
+            error={errors.duration}
+            {...register("duration", {
+              required: "Course duration is required",
+            })}
+          />
+
+          <TextArea
+            label="Necessary Qualification or Experience"
+            placeholder="What are you expecting from the students?"
+            cols={4}
+            rows={4}
+            error={errors.desiredQualificationOrExperience}
+            {...register("desiredQualificationOrExperience")}
             isRequired={false}
           />
-        )}
 
-        <TextInput
-          label="Number Of Seats"
-          type="number"
-          placeholder="ex- 50"
-          error={errors.numberOfSeats}
-          {...register("numberOfSeats")}
-          isRequired={false}
-        />
-
-        <DropdownInput
-          label="Certificate Included?"
-          options={["Yes", "No"]}
-          value={isIncludedCertificate}
-          onChange={(e) => {
-            setIsIncludedCertificate(e.target.value);
-          }}
-          error={errors.isIncludedCertificate}
-        />
-
-        <div className="space-y-2 text-sm">
-          <label
-            htmlFor="Course Description"
-            className="block text-zinc-700 font-medium"
-          >
-            Course Description
-          </label>
-          <JoditEditor
-            ref={editor}
-            value={description}
-            onChange={(newContent) => setDescription(newContent)}
+          <TextInput
+            label="Course Link"
+            placeholder="ex- https://mitraconsultancy.co.in/internship-programmes"
+            error={errors.courseLink}
+            {...register("courseLink")}
+            isRequired={false}
           />
-          {contentError && (
-            <span className="text-warning-10 text-start">{contentError}</span>
+
+          <DropdownInput
+            label="Pricing Type"
+            options={["Free", "Paid"]}
+            value={pricingType}
+            onChange={(e) => {
+              setPricingType(e.target.value);
+            }}
+            error={errors.courseType}
+          />
+
+          {pricingType === "Paid" && (
+            <TextInput
+              label="Course Fee (₹)"
+              type="number"
+              placeholder="ex- 999"
+              error={errors.fee}
+              {...register("fee")}
+              isRequired={false}
+            />
           )}
-        </div>
+
+          <TextInput
+            label="Number Of Seats"
+            type="number"
+            placeholder="ex- 50"
+            error={errors.numberOfSeats}
+            {...register("numberOfSeats")}
+            isRequired={false}
+          />
+
+          <DropdownInput
+            label="Certificate Included?"
+            options={["Yes", "No"]}
+            value={isIncludedCertificate}
+            onChange={(e) => {
+              setIsIncludedCertificate(e.target.value);
+            }}
+            error={errors.isIncludedCertificate}
+          />
+
+          <div className="space-y-2 text-sm">
+            <label
+              htmlFor="Course Description"
+              className="block text-zinc-700 font-medium"
+            >
+              Course Description
+            </label>
+            <JoditEditor
+              ref={editor}
+              value={description}
+              onChange={(newContent) => setDescription(newContent)}
+            />
+            {contentError && (
+              <span className="text-warning-10 text-start">{contentError}</span>
+            )}
+          </div>
 
           <div>
             {data?.course?.thumbnail?.url ? (
@@ -313,7 +299,7 @@ const EditCoursePage = ({ id }: { id: string }) => {
                 id="image"
                 type="file"
                 className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-                {...skillRegister("image")}
+                {...register("image")}
               />
             </div>
           )}

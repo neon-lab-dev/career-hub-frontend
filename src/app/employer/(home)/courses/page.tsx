@@ -83,7 +83,7 @@ const EmployerCoursesPage = () => {
     { header: "Department", accessor: "department" },
     { header: "Duration", accessor: "duration" },
     { header: "Pricing Type", accessor: "pricingType" },
-    { header: "Fee", accessor: "fee" },
+    { header: "Fee (₹)", accessor: "fee" },
     { header: "Posted Date", accessor: "postedDate" },
     { header: "Actions", accessor: "actions" },
   ];
