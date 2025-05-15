@@ -13,36 +13,8 @@ import { toast } from "sonner";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 import { deleteCourseById, getAllCourses } from "@/api/admin";
+import { ICourse, IDataItem } from "@/app/employer/(home)/courses/page";
 
-
-interface IDataItem {
-  name: string;
-  postedDate: string;
-  description: string;
-  videos: string;
-  actions: string;
-};
-
-export interface ICourse {
-  _id: string;
-  name: string;
-  description: string;
-  videos: {
-      _id: string;
-      name: string;
-      url: string;
-      createdAt: string;
-  }[];
-  thumbnail: {
-      _id: string;
-      fileId: string;
-      name: string;
-      url: string;
-  };
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
-}
 
 const Courses = () => {
   const [jobThatIsBeingDeleted, setJobThatIsBeingDeleted] = useState("");
@@ -70,7 +42,6 @@ const Courses = () => {
   },
 });
 
-
   // Delete course
   const handleDeleteCourse = (id: string) => {
     deleteCourse(id);
@@ -81,12 +52,15 @@ const Courses = () => {
 
   // Table data
   const headers: Header<IDataItem>[] = [
-    { header: "Name", accessor: "name" },
-    { header: "Description", accessor: "description" },
-    { header: "Videos", accessor: "videos" },
-    { header: "Posted Date", accessor: "postedDate" },
-    { header: "Actions", accessor: "actions" },
-  ];
+      { header: "Name", accessor: "name" },
+      { header: "Course Type", accessor: "courseType" },
+      { header: "Department", accessor: "department" },
+      { header: "Duration", accessor: "duration" },
+      { header: "Pricing Type", accessor: "pricingType" },
+      { header: "Fee (₹)", accessor: "fee" },
+      { header: "Posted Date", accessor: "postedDate" },
+      { header: "Actions", accessor: "actions" },
+    ];
 
   const renderCustomCell = (column: Header<IDataItem>, item: IDataItem) => {
     if (column.accessor === "actions") {
@@ -161,10 +135,13 @@ const Courses = () => {
             className="w-full max-w-full pb-32"
             headers={headers}
             data={
-              data?.courses?.map((course:ICourse) => ({
-                name:course.name,
-                description: course.description,
-                videos: course?.videos ? course?.videos?.length : 0,
+              data?.courses?.map((course: ICourse) => ({
+                name: course.courseName,
+                courseType: course.courseType,
+                department: course.department,
+                duration: course.duration,
+                pricingType: course.pricingType,
+                fee: course.fee,
                 postedDate: new Date(course.createdAt).toDateString(),
                 actions: course._id,
               })) as IDataItem[]
