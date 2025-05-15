@@ -1,122 +1,37 @@
-"use client"
-
-import { deleteVideoById, getSingleSkill } from "@/api/admin";
+"use client";
+import { getSingleSkill } from "@/api/admin";
 import Loading from "@/components/Loading";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { SkillProgrammeFormData } from "@/app/employer/(home)/skill-programmes/_components/SkillsProgrammesPageEmployer";
+import dynamic from "next/dynamic";
+import TextInput from "@/components/Reusable/TextInput/TextInput";
+import TextArea from "@/components/Reusable/TextArea/TextArea";
+import DropdownInput from "@/components/Reusable/DopdownInput/DropdownInput";
+import { departments } from "@/mockData/departments";
+const JoditEditor = dynamic(() => import("jodit-react"), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
-type VideoFormData = {
-    title: string;
-    video: FileList;
-  };
-  
-  type SkillFormData = {
-    name: string;
-    description: string;
-    skillCovered: string;
-    videoId: string;
-    image: FileList;
-  };
-
-const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
-  const queryClient = useQueryClient();
+const SkillsProgrammesPageAdmin = ({ id }: { id: string }) => {
   const router = useRouter();
-  const {
-    register: videoRegister,
-    handleSubmit: videoHandleSubmit,
-    formState: { errors: videoErrors },
-  } = useForm<VideoFormData>();
 
-  const { isLoading, data: skill } = useQuery({
-    queryKey: ["skillProgrammes", id],
+  const [editExpanded, setEditExpanded] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+
+  // Fetching data by id
+  const { isLoading, data } = useQuery({
+    queryKey: ["courses", id],
     queryFn: () => getSingleSkill(id),
   });
 
-  const [videoId, setVideoId] = useState<string | null>("");
-  useEffect(() => {
-    if (skill?.skill?.video) {
-      setVideoId(skill?.skill?.video._id);
-    }
-  }, [skill]);
-
-  const [editExpanded, setEditExpanded] = useState<boolean>(false);
-  const [videoEditExpanded, setVideoEditExpanded] = useState<boolean>(false);
-
-  const updateVideoWithNewVideo = (videoId: string) => {
-    if (!videoId) {
-      toast.error("Please upload a video first.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("videoId", videoId);
-    axios
-      .put(`http://localhost:7000/api/v1/skills/${id}`, formData, {
-        withCredentials: true,
-      })
-      .then(() => {
-        toast.success("Updated with new video.");
-        setVideoEditExpanded(false);
-        queryClient.invalidateQueries({ queryKey: ["skillProgrammes"] });
-      })
-      .catch(() => {
-        toast.error("Failed to update skill programme with new video.");
-      });
-  };
-
-  // Video create Form Handling
-  const videoMutation = useMutation({
-    mutationFn: async (data: FormData) => {
-      const response = await axios.post(
-        "http://localhost:7000/api/v1/video/create",
-        data,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-          withCredentials: true,
-        }
-      );
-      return response.data;
-    },
-    onSuccess: (data) => {
-      const newVideoId = data?.video?._id;
-      setVideoId(newVideoId);
-      toast.success("Video uploaded successfully!");
-
-      // Call the Edit Course API to update the course with the new video ID
-      updateVideoWithNewVideo(newVideoId);
-    },
-    onError: () => {
-      toast.error("Failed to upload video.");
-    },
-  });
-
-  const onSubmitVideo = async (data: VideoFormData) => {
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("video", data.video[0]);
-
-    toast.promise(videoMutation.mutateAsync(formData), {
-      loading: "Updating video...",
-      success: "Video updated successfully!",
-      error: "Failed to update video.",
-    });
-  };
-
-  // Skill Update Form Handling
-  const {
-    register: skillRegister,
-    handleSubmit: skillHandleSubmit,
-    formState: { errors: skillErrors },
-  } = useForm<SkillFormData>();
-
-  const skillMutation = useMutation({
+  const courseMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.put(
         `http://localhost:7000/api/v1/skills/${id}`,
@@ -128,267 +43,275 @@ const SkillsProgrammesPageAdmin = ({id} : {id:string}) => {
       return response.data;
     },
     onSuccess: () => {
-      toast.success("Skill programme updated successfully!");
-      queryClient.invalidateQueries({ queryKey: ["skillProgrammes"] });
-      router.push("/employer/skill-programmes");
+      toast.success("Course updated successfully!");
+      queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
+      // router.push("/employer/courses");
     },
     onError: () => {
-      toast.error("Failed to update skill programme.");
+      toast.error("Failed to update Course.");
     },
   });
 
-  const onSubmitSkill = (data: SkillFormData) => {
+  const onSubmitCourse = (data: SkillProgrammeFormData) => {
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("skillCovered", data.skillCovered);
-    formData.append("videoId", skill?.skill?.video?._id);
+    formData.append("skillProgrammeName", data.skillProgrammeName);
+    formData.append("programmeOverview", data.programmeOverview);
+    formData.append("courseDescription", description || "");
+    formData.append("programmeType", selectedProgrammeType);
+    formData.append("department", selectedDepartment);
+    formData.append("duration", data.duration);
+    formData.append(
+      "desiredQualificationOrExperience",
+      data.desiredQualificationOrExperience || ""
+    );
+    formData.append("programmeLink", data.programmeLink || "");
+    formData.append("pricingType", pricingType || "Free");
+    formData.append("fee", String(data.fee ?? 0));
+    formData.append("numberOfSeats", String(data.numberOfSeats ?? 0));
+    formData.append(
+      "isIncludedCertificate",
+      String(isIncludedCertificate === "Yes" ? true : false)
+    );
+
     if (data.image && data.image.length > 0) {
       formData.append("image", data.image[0]);
     }
 
-    toast.promise(skillMutation.mutateAsync(formData), {
-      loading: "Updating skill programme...",
-      success: "Skill programme updated successfully!",
-      error: "Failed to update skill programme.",
-    });
+    toast.promise(
+      courseMutation.mutateAsync(formData).then(() => {
+        router.push("/employer/skill-programmes");
+      }),
+      {
+        loading: "Updating...",
+        success: "Updated successfully!",
+        error: "Failed to update.",
+      }
+    );
   };
 
-  // Delete course
-  const { mutate: deleteVideo } = useMutation({
-  mutationFn: (id: string) => deleteVideoById(id),
-  onMutate: () => {
-    toast.loading("Deleting video...", { id: "delete-video" });
-  },
-  onSuccess: () => {
-    toast.success("Video deleted successfully", { id: "delete-video" });
-    queryClient.invalidateQueries({ queryKey: ["skillProgrammes"] });
-  },
-  onError: (error: string) => {
-    toast.error(error, { id: "delete-video" });
-  },
-});
+  const editor = useRef(null);
 
+  const [description, setDescription] = useState("");
+  const [selectedProgrammeType, setSelectedProgrammeType] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [pricingType, setPricingType] = useState("");
+  const [isIncludedCertificate, setIsIncludedCertificate] = useState("");
+  const [contentError, setDescriptionError] = useState("");
 
-  // Delete course video
-  const handleDeleteVideo = (id: string) => {
-    deleteVideo(id);
-    setVideoId("");
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+  } = useForm<SkillProgrammeFormData>();
+
+  useEffect(() => {
+    if (data?.skill) {
+      setValue("skillProgrammeName", data.skill.skillProgrammeName || "");
+      setValue("programmeOverview", data.skill.programmeOverview || "");
+      setDescription(data.skill.programmeDescription || "");
+      setSelectedProgrammeType(data.skill.programmeType);
+      setSelectedDepartment(data.skill.department);
+      setValue("duration", data.skill.duration || "");
+      setValue(
+        "desiredQualificationOrExperience",
+        data.skill.desiredQualificationOrExperience || ""
+      );
+      setValue("programmeLink", data.skill.programmeLink || "");
+      setPricingType(data.skill.pricingType);
+      setValue("fee", data.skill.fee || 0);
+      setValue("numberOfSeats", data.skill.numberOfSeats || 0);
+      setIsIncludedCertificate(data.skill.isIncludedCertificate);
+    }
+  }, [data?.skill, setValue]);
 
   if (isLoading) return <Loading className="h-[60vh] w-full" />;
-    return (
-        <div className="w-full">
-              <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
-                {/* Course videos */}
-        
-                {skill?.skill?.video && (
-                  <div className="max-w-[800px] w-full mx-auto h-[300px] rounded-lg relative">
-                    <video
-                      src={skill?.skill?.video?.url}
-                      controls
-                      autoPlay
-                      className="w-full h-[300px] rounded-lg"
-                    />
-                    <div
-                      onClick={() => {
-                        handleDeleteVideo(skill?.skill?.video._id);
-                      }}
-                      className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
-                    >
-                      Delete
-                    </div>
-                  </div>
-                )}
-        
-                {videoId === "" && (
-                  <button
-                    onClick={() => {
-                      setVideoEditExpanded(!videoEditExpanded);
-                    }}
-                    type="submit"
-                    className="bg-primary-600 text-white px-4 py-3 rounded-md max-w-[800px] w-full mx-auto"
-                  >
-                    Add New Video
-                  </button>
-                )}
-        
-                {/* Video Update Form */}
-                {videoEditExpanded && (
-                  <form
-                    onSubmit={videoHandleSubmit(onSubmitVideo)}
-                    className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 max-w-[800px] w-full mx-auto"
-                  >
-                    <div>
-                      <label
-                        className="text-neutral-600 font-500 font-plus-jakarta-sans"
-                        htmlFor="title"
-                      >
-                        Video Title
-                      </label>
-                      <input
-                        id="title"
-                        type="text"
-                        className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-                        {...videoRegister("title", {
-                          required: "Video title is required",
-                        })}
-                      />
-                      {videoErrors.title && (
-                        <span className="text-red-500">
-                          {videoErrors.title.message}
-                        </span>
-                      )}
-                    </div>
-        
-                    <div>
-                      <label
-                        className="text-neutral-600 font-500 font-plus-jakarta-sans"
-                        htmlFor="video"
-                      >
-                        Upload Video
-                      </label>
-                      <input
-                        id="video"
-                        type="file"
-                        className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-                        {...videoRegister("video", { required: "Video is required" })}
-                      />
-                      {videoErrors.video && (
-                        <span className="text-red-500">
-                          {videoErrors.video.message}
-                        </span>
-                      )}
-                    </div>
-        
-                    <button
-                      type="submit"
-                      className="bg-primary-600 text-white px-4 py-3 rounded-md"
-                    >
-                      Upload Video
-                    </button>
-                  </form>
-                )}
-        
-                {/* Skill Update Form */}
-                <form
-                  onSubmit={skillHandleSubmit(onSubmitSkill)}
-                  className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 max-w-[800px] w-full mx-auto"
+  return (
+    <div className="w-full">
+      <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
+        {/* Skill programme Update Form */}
+        <form
+          onSubmit={handleSubmit(onSubmitCourse)}
+          className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 max-w-[800px] w-full mx-auto"
+        >
+          <TextInput
+            label="Skill Programme Name"
+            placeholder="Enter skill programme name"
+            error={errors.skillProgrammeName}
+            {...register("skillProgrammeName", {
+              required: "Skill programme name is required",
+            })}
+          />
+          <TextArea
+            label="Programme Overview"
+            placeholder="Write something about your skill programme"
+            cols={4}
+            rows={4}
+            error={errors.programmeOverview}
+            {...register("programmeOverview", {
+              required: "Skill programme overview is required",
+            })}
+          />
+
+          <DropdownInput
+            label="Programme Type"
+            options={[
+              "Offline",
+              "Online",
+              "Fellowship",
+              "Scholarships",
+              "Events",
+            ]}
+            value={selectedProgrammeType}
+            onChange={(e) => {
+              setSelectedProgrammeType(e.target.value);
+            }}
+            error={errors.programmeType}
+          />
+
+          <DropdownInput
+            label="Department"
+            options={departments}
+            value={selectedDepartment}
+            onChange={(e) => {
+              setSelectedDepartment(e.target.value);
+            }}
+            error={errors.programmeType}
+          />
+
+          <TextInput
+            label="Programme Duration"
+            placeholder="ex- 3 Months"
+            error={errors.duration}
+            {...register("duration", {
+              required: "Programme duration is required",
+            })}
+          />
+
+          <TextArea
+            label="Necessary Qualification or Experience"
+            placeholder="What are you expecting from the students?"
+            cols={4}
+            rows={4}
+            error={errors.desiredQualificationOrExperience}
+            {...register("desiredQualificationOrExperience")}
+            isRequired={false}
+          />
+
+          <TextInput
+            label="Programme Link"
+            placeholder="ex- https://mitraconsultancy.co.in/internship-programmes"
+            error={errors.programmeLink}
+            {...register("programmeLink")}
+            isRequired={false}
+          />
+
+          <DropdownInput
+            label="Pricing Type"
+            options={["Free", "Paid"]}
+            value={pricingType}
+            onChange={(e) => {
+              setPricingType(e.target.value);
+            }}
+            error={errors.programmeType}
+          />
+
+          {pricingType === "Paid" && (
+            <TextInput
+              label="Skill Programme Fee (₹)"
+              type="number"
+              placeholder="ex- 999"
+              error={errors.fee}
+              {...register("fee")}
+              isRequired={false}
+            />
+          )}
+
+          <TextInput
+            label="Number Of Seats"
+            type="number"
+            placeholder="ex- 50"
+            error={errors.numberOfSeats}
+            {...register("numberOfSeats")}
+            isRequired={false}
+          />
+
+          <DropdownInput
+            label="Certificate Included?"
+            options={["Yes", "No"]}
+            value={isIncludedCertificate}
+            onChange={(e) => {
+              setIsIncludedCertificate(e.target.value);
+            }}
+            error={errors.isIncludedCertificate}
+          />
+
+          <div className="space-y-2 text-sm">
+            <label
+              htmlFor="Course Description"
+              className="block text-zinc-700 font-medium"
+            >
+              Course Description
+            </label>
+            <JoditEditor
+              ref={editor}
+              value={description}
+              onChange={(newContent) => setDescription(newContent)}
+            />
+            {contentError && (
+              <span className="text-warning-10 text-start">{contentError}</span>
+            )}
+          </div>
+
+          <div>
+            {data?.skill?.thumbnail?.url ? (
+              <div className="relative w-fit">
+                <Image
+                  src={data?.skill?.thumbnail?.url}
+                  width={400}
+                  height={400}
+                  className="object-cover"
+                  alt={data?.skill?.thumbnail?.name}
+                />
+                <div
+                  onClick={() => setEditExpanded(!editExpanded)}
+                  className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
                 >
-                  <div>
-                    <label
-                      className="text-neutral-600 font-500 font-plus-jakarta-sans"
-                      htmlFor="name"
-                    >
-                      Skill Name
-                    </label>
-                    <input
-                      defaultValue={skill?.skill?.name}
-                      id="name"
-                      type="text"
-                      className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-                      {...skillRegister("name", { required: "Skill name is required" })}
-                    />
-                    {skillErrors.name && (
-                      <span className="text-red-500">{skillErrors.name.message}</span>
-                    )}
-                  </div>
-        
-                  <div>
-                    <label
-                      className="text-neutral-600 font-500 font-plus-jakarta-sans"
-                      htmlFor="description"
-                    >
-                      Description
-                    </label>
-                    <input
-                      defaultValue={skill?.skill?.description}
-                      id="description"
-                      type="text"
-                      className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-                      {...skillRegister("description", {
-                        required: "Description is required",
-                      })}
-                    />
-                    {skillErrors.description && (
-                      <span className="text-red-500">
-                        {skillErrors.description.message}
-                      </span>
-                    )}
-                  </div>
-        
-                  <div>
-                    <label
-                      className="text-neutral-600 font-500 font-plus-jakarta-sans"
-                      htmlFor="skillCovered"
-                    >
-                      Skills Covered
-                    </label>
-                    <input
-                      defaultValue={skill?.skill?.skillCovered}
-                      id="skillCovered"
-                      type="text"
-                      className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-                      {...skillRegister("skillCovered", {
-                        required: "Skills covered are required",
-                      })}
-                    />
-                    {skillErrors.skillCovered && (
-                      <span className="text-red-500">
-                        {skillErrors.skillCovered.message}
-                      </span>
-                    )}
-                  </div>
-        
-                  <div>
-                    {skill?.skill?.thumbnail?.url ? (
-                      <div className="relative w-fit">
-                        <Image
-                          src={skill?.skill?.thumbnail?.url}
-                          width={400}
-                          height={400}
-                          className="object-cover"
-                          alt={skill?.skill?.thumbnail?.name}
-                        />
-                        <div
-                          onClick={() => setEditExpanded(!editExpanded)}
-                          className="px-4 py-2 bg-primary-600 text-white rounded-lg absolute top-2 right-2 cursor-pointer"
-                        >
-                          Edit
-                        </div>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-        
-                  {editExpanded && (
-                    <div>
-                      <label
-                        className="text-neutral-600 font-500 font-plus-jakarta-sans"
-                        htmlFor="image"
-                      >
-                        Upload Image
-                      </label>
-                      <input
-                        id="image"
-                        type="file"
-                        className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-                        {...skillRegister("image")}
-                      />
-                    </div>
-                  )}
-        
-                  <button
-                    type="submit"
-                    className="bg-primary-600 text-white px-4 py-3 rounded-md"
-                  >
-                    Update Skill Programme
-                  </button>
-                </form>
+                  Edit
+                </div>
               </div>
+            ) : (
+              ""
+            )}
+          </div>
+
+          {editExpanded && (
+            <div>
+              <label
+                className="text-neutral-600 font-500 font-plus-jakarta-sans"
+                htmlFor="image"
+              >
+                Upload Image
+              </label>
+              <input
+                id="image"
+                type="file"
+                className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
+                {...register("image")}
+              />
             </div>
-    );
+          )}
+
+          <button
+            type="submit"
+            className="bg-primary-600 text-white px-4 py-3 rounded-md"
+          >
+            Update Course
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default SkillsProgrammesPageAdmin;

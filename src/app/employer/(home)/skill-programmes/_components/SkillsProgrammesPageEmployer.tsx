@@ -19,7 +19,7 @@ const JoditEditor = dynamic(() => import("jodit-react"), {
   loading: () => <p>Loading...</p>,
 });
 
-type CourseFormData = {
+export type SkillProgrammeFormData = {
   skillProgrammeName: string;
   programmeOverview: string;
   programmeDescription?: string;
@@ -36,8 +36,9 @@ type CourseFormData = {
 };
 
 const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
-  const [editExpanded, setEditExpanded] = useState<boolean>(false);
+  const router = useRouter();
 
+  const [editExpanded, setEditExpanded] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   // Fetching data by id
@@ -67,37 +68,42 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
     },
   });
 
-  const onSubmitCourse = (data: CourseFormData) => {
-    const formData = new FormData();
-    formData.append("skillProgrammeName", data.skillProgrammeName);
-    formData.append("programmeOverview", data.programmeOverview);
-    formData.append("courseDescription", description || "");
-    formData.append("programmeType", selectedProgrammeType);
-    formData.append("department", selectedDepartment);
-    formData.append("duration", data.duration);
-    formData.append(
-      "desiredQualificationOrExperience",
-      data.desiredQualificationOrExperience || ""
-    );
-    formData.append("programmeLink", data.programmeLink || "");
-    formData.append("pricingType", pricingType || "Free");
-    formData.append("fee", String(data.fee ?? 0));
-    formData.append("numberOfSeats", String(data.numberOfSeats ?? 0));
-    formData.append(
-      "isIncludedCertificate",
-      String(isIncludedCertificate === "Yes" ? true : false)
-    );
+const onSubmitCourse = (data: SkillProgrammeFormData) => {
+  const formData = new FormData();
+  formData.append("skillProgrammeName", data.skillProgrammeName);
+  formData.append("programmeOverview", data.programmeOverview);
+  formData.append("courseDescription", description || "");
+  formData.append("programmeType", selectedProgrammeType);
+  formData.append("department", selectedDepartment);
+  formData.append("duration", data.duration);
+  formData.append(
+    "desiredQualificationOrExperience",
+    data.desiredQualificationOrExperience || ""
+  );
+  formData.append("programmeLink", data.programmeLink || "");
+  formData.append("pricingType", pricingType || "Free");
+  formData.append("fee", String(data.fee ?? 0));
+  formData.append("numberOfSeats", String(data.numberOfSeats ?? 0));
+  formData.append(
+    "isIncludedCertificate",
+    String(isIncludedCertificate === "Yes" ? true : false)
+  );
 
-    if (data.image && data.image.length > 0) {
-      formData.append("image", data.image[0]);
-    }
+  if (data.image && data.image.length > 0) {
+    formData.append("image", data.image[0]);
+  }
 
-    toast.promise(courseMutation.mutateAsync(formData), {
+  toast.promise(
+    courseMutation.mutateAsync(formData).then(() => {
+      router.push("/employer/skill-programmes");
+    }),
+    {
       loading: "Updating...",
       success: "Updated successfully!",
       error: "Failed to update.",
-    });
-  };
+    }
+  );
+};
 
   const editor = useRef(null);
 
@@ -113,7 +119,7 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm<CourseFormData>();
+  } = useForm<SkillProgrammeFormData>();
 
   useEffect(() => {
     if (data?.skill) {
@@ -266,14 +272,14 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
               </div>
     
               <div>
-                {data?.course?.thumbnail?.url ? (
+                {data?.skill?.thumbnail?.url ? (
                   <div className="relative w-fit">
                     <Image
-                      src={data?.course?.thumbnail?.url}
+                      src={data?.skill?.thumbnail?.url}
                       width={400}
                       height={400}
                       className="object-cover"
-                      alt={data?.course?.thumbnail?.name}
+                      alt={data?.skill?.thumbnail?.name}
                     />
                     <div
                       onClick={() => setEditExpanded(!editExpanded)}

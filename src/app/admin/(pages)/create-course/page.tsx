@@ -1,81 +1,48 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-
-type VideoFormData = {
-  title: string;
-  video: FileList;
-};
-
-type CourseFormData = {
-  name: string;
-  description: string;
-  image: FileList;
-};
+import { CourseFormData } from "@/app/employer/(home)/courses/_components/EditCoursePage";
+import dynamic from "next/dynamic";
+import TextInput from "@/components/Reusable/TextInput/TextInput";
+import TextArea from "@/components/Reusable/TextArea/TextArea";
+import DropdownInput from "@/components/Reusable/DopdownInput/DropdownInput";
+import { departments } from "@/mockData/departments";
+const JoditEditor = dynamic(() => import("jodit-react"), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 const CreateCourse = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const [videoIds, setVideoIds] = useState<string[]>([]);
+  const editor = useRef(null);
 
-  // Video Upload Form Handling
+  const [description, setDescription] = useState("");
+  const [selectedCourseType, setSelectedCourseType] = useState("");
+  const [selectedDepartment, setSelectedDepartment] = useState("");
+  const [pricingType, setPricingType] = useState("");
+  const [isIncludedCertificate, setIsIncludedCertificate] = useState("");
+  const [contentError, setDescriptionError] = useState("");
+
+  useEffect(() => {
+    setDescriptionError("");
+    if (description?.length === 0) {
+      setDescriptionError("");
+    } else if (description?.length < 1) {
+      setDescriptionError("Course description is required");
+    } else {
+      setDescriptionError("");
+    }
+  }, [description]);
+
   const {
-    register: videoRegister,
-    handleSubmit: videoHandleSubmit,
-    formState: { errors: videoErrors },
-  } = useForm<VideoFormData>();
-
-  const videoMutation = useMutation({
-    mutationFn: async (data: FormData) => {
-      try {
-        const response = await axios.post(
-          "http://localhost:7000/api/v1/video/create",
-          data,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            withCredentials: true,
-          }
-        );
-        return response.data;
-      } catch (error) {
-        toast.error("Error occurred during API call");
-        throw error;
-      }
-    },
-    onSuccess: (data) => {
-      setVideoIds((prev) => [...prev, data?.video?._id]);
-      toast.success("Video uploaded successfully!");
-    },
-    onError: (error) => {
-      console.error("Mutation error:", error);
-      toast.error("Failed to upload video.");
-    },
-  });
-
-  // To add video
-  const onSubmitVideo = async (data: VideoFormData) => {
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("video", data.video[0]);
-
-    toast.promise(videoMutation.mutateAsync(formData), {
-      loading: "Uploading video...",
-      success: "Video uploaded successfully!",
-      error: "Failed to upload video.",
-    });
-  };
-
-  // Course Creation Form Handling
-  const {
-    register: courseRegister,
-    handleSubmit: courseHandleSubmit,
-    formState: { errors: courseErrors },
+    register,
+    handleSubmit,
+    formState: { errors },
   } = useForm<CourseFormData>();
 
   const courseMutation = useMutation({
@@ -91,8 +58,8 @@ const CreateCourse = () => {
     },
     onSuccess: () => {
       toast.success("Course created successfully!");
-      queryClient.invalidateQueries({ queryKey: ["courses"] });
-      router.push("/admin/courses");
+      queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
+      router.push("/employer/courses");
     },
     onError: () => {
       toast.error("Failed to create course.");
@@ -101,16 +68,31 @@ const CreateCourse = () => {
 
   // Function to create course
   const onSubmitCourse = (data: CourseFormData) => {
-    if (videoIds.length === 0) {
-      toast.error("Please upload videos first.");
-      return;
-    }
-
     const formData = new FormData();
-    formData.append("name", data.name);
-    formData.append("description", data.description);
-    formData.append("image", data.image[0]);
-    videoIds.forEach((id) => formData.append("videos[]", id));
+
+    formData.append("courseName", data.courseName);
+    formData.append("courseOverview", data.courseOverview);
+    formData.append("courseDescription", description || "");
+    formData.append("courseType", selectedCourseType);
+    formData.append("department", selectedDepartment);
+    formData.append("duration", data.duration);
+    formData.append(
+      "desiredQualificationOrExperience",
+      data.desiredQualificationOrExperience || ""
+    );
+    formData.append("courseLink", data.courseLink || "");
+    formData.append("pricingType", pricingType || "Free");
+    formData.append("fee", String(data.fee ?? 0));
+    formData.append("numberOfSeats", String(data.numberOfSeats ?? 0));
+    formData.append(
+      "isIncludedCertificate",
+      String(isIncludedCertificate === "Yes" ? true : false)
+    );
+
+    // Assuming image is uploaded
+    if (data.image && data.image.length > 0) {
+      formData.append("image", data.image[0]);
+    }
 
     toast.promise(courseMutation.mutateAsync(formData), {
       loading: "Creating course...",
@@ -119,118 +101,131 @@ const CreateCourse = () => {
     });
   };
 
-  // Alert on page refresh
-  useEffect(() => {
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      if (videoIds.length > 0) {
-        const confirmationMessage =
-          "You have unsaved changes. Are you sure you want to leave?";
-        event.returnValue = confirmationMessage;
-        return confirmationMessage;
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [videoIds]);
-
   return (
-    <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
-      {/* Video Upload Form */}
-      <form
-        onSubmit={videoHandleSubmit(onSubmitVideo)}
-        className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 max-w-[800px] w-full mx-auto"
-      >
-        <h3 className="text-xl font-semibold">Upload Videos</h3>
-        <div>
-          <label
-            className="text-neutral-600 font-500 font-plus-jakarta-sans"
-            htmlFor="title"
-          >
-            Video Title
-          </label>
-          <input
-            id="title"
-            type="text"
-            className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-            {...videoRegister("title", { required: "Video title is required" })}
-          />
-          {videoErrors.title && (
-            <span className="text-red-500">{videoErrors.title.message}</span>
-          )}
-        </div>
-
-        <div>
-          <label
-            className="text-neutral-600 font-500 font-plus-jakarta-sans"
-            htmlFor="video"
-          >
-            Upload Video
-          </label>
-          <input
-            id="video"
-            type="file"
-            className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-            {...videoRegister("video", { required: "Video is required" })}
-          />
-          {videoErrors.video && (
-            <span className="text-red-500">{videoErrors.video.message}</span>
-          )}
-        </div>
-        <button
-          type="submit"
-          className="bg-primary-600 text-white px-4 py-3 rounded-md"
-        >
-          Upload Videos
-        </button>
-      </form>
-
+     <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">
       {/* Course Creation Form */}
       <form
-        onSubmit={courseHandleSubmit(onSubmitCourse)}
+        onSubmit={handleSubmit(onSubmitCourse)}
         className="bg-white p-4 rounded-lg shadow-md flex flex-col gap-4 max-w-[800px] w-full mx-auto"
       >
         <h3 className="text-xl font-semibold">Create Course</h3>
-        <div>
-          <label
-            htmlFor="name"
-            className="text-neutral-600 font-500 font-plus-jakarta-sans"
-          >
-            Course Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-            {...courseRegister("name", { required: "Course name is required" })}
-          />
-          {courseErrors.name && (
-            <span className="text-red-500">{courseErrors.name.message}</span>
-          )}
-        </div>
 
-        <div>
-          <label
-            htmlFor="description"
-            className="text-neutral-600 font-500 font-plus-jakarta-sans"
-          >
-            Description
-          </label>
-          <input
-            id="description"
-            type="text"
-            className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-            {...courseRegister("description", {
-              required: "Description is required",
-            })}
+        <TextInput
+          label="Course Name"
+          placeholder="Enter course name"
+          error={errors.courseName}
+          {...register("courseName", { required: "Course name is required" })}
+        />
+        <TextArea
+          label="Course Overview"
+          placeholder="Write something about your course"
+          cols={4}
+          rows={4}
+          error={errors.courseOverview}
+          {...register("courseOverview", {
+            required: "Course overview is required",
+          })}
+        />
+
+        <DropdownInput
+          label="Course Type"
+          options={["Certificate", "Diploma", "Bachelor", "Master"]}
+          value={selectedCourseType}
+          onChange={(e) => {
+            setSelectedCourseType(e.target.value);
+          }}
+          error={errors.courseType}
+        />
+
+        <DropdownInput
+          label="Department"
+          options={departments}
+          value={selectedDepartment}
+          onChange={(e) => {
+            setSelectedDepartment(e.target.value);
+          }}
+          error={errors.courseType}
+        />
+
+        <TextInput
+          label="Course Duration"
+          placeholder="ex- 3 Months"
+          error={errors.duration}
+          {...register("duration", { required: "Course duration is required" })}
+        />
+
+        <TextArea
+          label="Necessary Qualification or Experience"
+          placeholder="What are you expecting from the students?"
+          cols={4}
+          rows={4}
+          error={errors.desiredQualificationOrExperience}
+          {...register("desiredQualificationOrExperience")}
+          isRequired={false}
+        />
+
+        <TextInput
+          label="Course Link"
+          placeholder="ex- https://mitraconsultancy.co.in/internship-programmes"
+          error={errors.courseLink}
+          {...register("courseLink")}
+          isRequired={false}
+        />
+
+        <DropdownInput
+          label="Pricing Type"
+          options={["Free", "Paid"]}
+          value={pricingType}
+          onChange={(e) => {
+            setPricingType(e.target.value);
+          }}
+          error={errors.courseType}
+        />
+
+        {pricingType === "Paid" && (
+          <TextInput
+            label="Course Fee (₹)"
+            type="number"
+            placeholder="ex- 999"
+            error={errors.fee}
+            {...register("fee")}
+            isRequired={false}
           />
-          {courseErrors.description && (
-            <span className="text-red-500">
-              {courseErrors.description.message}
-            </span>
+        )}
+
+        <TextInput
+          label="Number Of Seats"
+          type="number"
+          placeholder="ex- 50"
+          error={errors.numberOfSeats}
+          {...register("numberOfSeats")}
+          isRequired={false}
+        />
+
+        <DropdownInput
+          label="Certificate Included?"
+          options={["Yes", "No"]}
+          value={isIncludedCertificate}
+          onChange={(e) => {
+            setIsIncludedCertificate(e.target.value);
+          }}
+          error={errors.isIncludedCertificate}
+        />
+
+        <div className="space-y-2 text-sm">
+          <label
+            htmlFor="Course Description"
+            className="block text-zinc-700 font-medium"
+          >
+            Course Description
+          </label>
+          <JoditEditor
+            ref={editor}
+            value={description}
+            onChange={(newContent) => setDescription(newContent)}
+          />
+          {contentError && (
+            <span className="text-warning-10 text-start">{contentError}</span>
           )}
         </div>
 
@@ -245,10 +240,10 @@ const CreateCourse = () => {
             id="image"
             type="file"
             className="bg-neutral-450 border border-neutral-550 rounded-[10px] px-4 py-2 focus:outline-none w-full"
-            {...courseRegister("image", { required: "Image is required" })}
+            {...register("image", { required: "Image is required" })}
           />
-          {courseErrors.image && (
-            <span className="text-red-500">{courseErrors.image.message}</span>
+          {errors.image && (
+            <span className="text-red-500">{errors.image.message}</span>
           )}
         </div>
 

@@ -15,10 +15,10 @@ import { departments } from "@/mockData/departments";
 import dynamic from "next/dynamic";
 const JoditEditor = dynamic(() => import("jodit-react"), {
   ssr: false,
-  loading: () => <p>Loading...</p>,
+  loading: () => <p>Loading...</p>
 });
 
-type CourseFormData = {
+export type CourseFormData = {
   courseName: string;
   courseOverview: string;
   courseDescription?: string;

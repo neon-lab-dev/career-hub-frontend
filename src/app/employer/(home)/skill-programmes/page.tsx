@@ -17,7 +17,7 @@ import SearchInput from "@/app/admin/_components/SearchInput";
 import Table from "@/components/Table";
 import { getAllEmployerSkillProgrammes } from "@/api/employer";
 
-export interface IDataItem {
+export interface ISkillDataItem {
   name: string;
   programmeType: string;
   department: string;
@@ -87,7 +87,7 @@ const SkillProgramme = () => {
   };
 
   // Table data
-  const headers: Header<IDataItem>[] = [
+  const headers: Header<ISkillDataItem>[] = [
     { header: "Name", accessor: "name" },
     { header: "Programme Type", accessor: "programmeType" },
     { header: "Department", accessor: "department" },
@@ -98,7 +98,7 @@ const SkillProgramme = () => {
     { header: "Actions", accessor: "actions" },
   ];
 
-  const renderCustomCell = (column: Header<IDataItem>, item: IDataItem) => {
+  const renderCustomCell = (column: Header<ISkillDataItem>, item: ISkillDataItem) => {
     if (column.accessor === "actions") {
       return (
         <div key="actions">
@@ -171,7 +171,7 @@ const SkillProgramme = () => {
                 fee: skill.fee,
                 postedDate: new Date(skill.createdAt).toDateString(),
                 actions: skill._id,
-              })) as IDataItem[]
+              })) as ISkillDataItem[]
             }
             renderCustomCell={renderCustomCell}
           />

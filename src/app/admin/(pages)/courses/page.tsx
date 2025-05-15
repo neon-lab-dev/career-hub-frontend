@@ -25,6 +25,8 @@ const Courses = () => {
     queryFn: getAllCourses,
   });
 
+  console.log(data)
+
   
 
   // Delete course
