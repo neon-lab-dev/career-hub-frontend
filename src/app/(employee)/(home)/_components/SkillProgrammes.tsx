@@ -1,11 +1,9 @@
 "use client";
 import { getAllSkillProgrammes } from "@/api/skillProgrammes";
-import { ISkill } from "@/app/admin/(pages)/skill-programmes/page";
 import NoDataFound from "@/components/NoDataFound";
 import SectionHeading from "@/components/Reusable/SectionHeading/SectionHeading";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
-import { useState } from "react";
 import CourseCard from "./CourseCard";
 import { ICONS } from "@/assets";
 import { Swiper, SwiperSlide } from "swiper/react";
