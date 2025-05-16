@@ -35,8 +35,8 @@ export type CourseFormData = {
 };
 
 const EditCoursePage = ({ id }: { id: string }) => {
+  const router = useRouter();
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
-
   const queryClient = useQueryClient();
 
   // Fetching data by id
@@ -59,7 +59,7 @@ const EditCoursePage = ({ id }: { id: string }) => {
     onSuccess: () => {
       toast.success("Course updated successfully!");
       queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
-      // router.push("/employer/courses");
+      router.push("/employer/courses");
     },
     onError: () => {
       toast.error("Failed to update Course.");

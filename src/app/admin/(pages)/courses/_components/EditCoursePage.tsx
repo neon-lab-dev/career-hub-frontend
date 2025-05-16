@@ -20,30 +20,8 @@ const JoditEditor = dynamic(() => import("jodit-react"), {
   loading: () => <p>Loading...</p>
 });
 
-type TVideo = {
-    _id: string;
-    name: string;
-    url: string;
-    createdAt: string;
-}
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-type VideoFormData = {
-  title: string;
-  video: FileList;
-};
-
-type SkillFormData = {
-  name: string;
-  description: string;
-  videoId: string;
-  image: FileList;
-};
 const EditCoursePage = ({id} : {id:string}) => {
+  const router = useRouter();
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
@@ -63,12 +41,13 @@ const EditCoursePage = ({id} : {id:string}) => {
           withCredentials: true,
         }
       );
+      console.log(response)
       return response.data;
     },
     onSuccess: () => {
       toast.success("Course updated successfully!");
       queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
-      // router.push("/employer/courses");
+      router.push("/admin/courses");
     },
     onError: () => {
       toast.error("Failed to update Course.");

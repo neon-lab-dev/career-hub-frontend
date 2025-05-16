@@ -25,10 +25,6 @@ const Courses = () => {
     queryFn: getAllCourses,
   });
 
-  console.log(data)
-
-  
-
   // Delete course
  const { mutate: deleteCourse } = useMutation({
   mutationFn: (id: string) => deleteCourseById(id),
@@ -49,10 +45,8 @@ const Courses = () => {
     deleteCourse(id);
   };
 
-  console.log(data?.courses)
 
-
-  // Table data
+  // Table headers
   const headers: Header<IDataItem>[] = [
       { header: "Name", accessor: "name" },
       { header: "Course Type", accessor: "courseType" },
@@ -81,13 +75,13 @@ const Courses = () => {
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
             >
               <li>
-                <Link
+                <a
                   href={`/admin/courses/${item.actions}`}
                   className="flex gap-2"
                 >
                   <Image src={eye} alt="eye-icon" />
                   <span>Edit Course</span>
-                </Link>
+                </a>
               </li>
               <li>
                 <button

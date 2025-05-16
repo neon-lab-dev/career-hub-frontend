@@ -21,13 +21,12 @@ const JoditEditor = dynamic(() => import("jodit-react"), {
 
 const SkillsProgrammesPageAdmin = ({ id }: { id: string }) => {
   const router = useRouter();
-
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   // Fetching data by id
   const { isLoading, data } = useQuery({
-    queryKey: ["courses", id],
+    queryKey: ["skillProgramme", id],
     queryFn: () => getSingleSkill(id),
   });
 
@@ -43,9 +42,9 @@ const SkillsProgrammesPageAdmin = ({ id }: { id: string }) => {
       return response.data;
     },
     onSuccess: () => {
-      toast.success("Course updated successfully!");
-      queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
-      // router.push("/employer/courses");
+      toast.success("Updated successfully!");
+      queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
+      router.push("/admin/skill-programmes");
     },
     onError: () => {
       toast.error("Failed to update Course.");
@@ -79,7 +78,7 @@ const SkillsProgrammesPageAdmin = ({ id }: { id: string }) => {
 
     toast.promise(
       courseMutation.mutateAsync(formData).then(() => {
-        router.push("/employer/skill-programmes");
+        router.push("/admin/skill-programmes");
       }),
       {
         loading: "Updating...",

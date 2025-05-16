@@ -115,13 +115,13 @@ const SkillProgramme = () => {
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
             >
               <li>
-                <Link
+                <a
                   href={`/employer/skill-programmes/${item.actions}`}
                   className="flex gap-2"
                 >
                   <Image src={eye} alt="eye-icon" />
                   <span>Edit</span>
-                </Link>
+                </a>
               </li>
               <li>
                 <button

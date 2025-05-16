@@ -104,13 +104,13 @@ const EmployerCoursesPage = () => {
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
             >
               <li>
-                <Link
+                <a
                   href={`/employer/courses/${item.actions}`}
                   className="flex gap-2"
                 >
                   <Image src={IMAGES.view} alt="eye-icon" />
                   <span>Edit Course</span>
-                </Link>
+                </a>
               </li>
               <li>
                 <button

@@ -30,14 +30,12 @@ const SkillProgramme = () => {
     queryFn: getAllSkillProgrammes,
   });
 
-  console.log(data);
-
   const debouncedSetKeyword = useCallback(
     debounce((queryParams) => {
       setKeyword(queryParams);
     }),
-    [] // dependencies
-  ); //callback to ensure that setSearchParams is not called on every render
+    []
+  );
 
   // Delete skill
   const { mutate: deleteSkill } = useMutation({
@@ -91,13 +89,13 @@ const SkillProgramme = () => {
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-40 p-2 shadow"
             >
               <li>
-                <Link
+                <a
                   href={`/admin/skill-programmes/${item.actions}`}
                   className="flex gap-2"
                 >
                   <Image src={eye} alt="eye-icon" />
                   <span>Edit</span>
-                </Link>
+                </a>
               </li>
               <li>
                 <button

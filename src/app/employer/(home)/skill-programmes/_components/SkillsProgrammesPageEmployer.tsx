@@ -37,13 +37,12 @@ export type SkillProgrammeFormData = {
 
 const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
   const router = useRouter();
-
   const [editExpanded, setEditExpanded] = useState<boolean>(false);
   const queryClient = useQueryClient();
 
   // Fetching data by id
   const { isLoading, data } = useQuery({
-    queryKey: ["courses", id],
+    queryKey: ["skillprogramme", id],
     queryFn: () => getSingleSkill(id),
   });
 
@@ -60,14 +59,15 @@ const SkillsProgrammesPageEmployer = ({ id }: { id: string }) => {
     },
     onSuccess: () => {
       toast.success("Course updated successfully!");
-      queryClient.invalidateQueries({ queryKey: ["employerCourses"] });
-      // router.push("/employer/courses");
+      queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
+      router.push("/employer/skill-programmes");
     },
     onError: () => {
       toast.error("Failed to update Course.");
     },
   });
 
+  // Function to update skill programme
 const onSubmitCourse = (data: SkillProgrammeFormData) => {
   const formData = new FormData();
   formData.append("skillProgrammeName", data.skillProgrammeName);
