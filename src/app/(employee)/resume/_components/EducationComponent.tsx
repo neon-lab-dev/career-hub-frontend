@@ -33,12 +33,13 @@ const EducationComponent: React.FC<EducationComponentProps> = ({ education }) =>
             education?.map((edu, index) => (
               <div key={index} className='flex max-md:flex-col justify-between border-2 border-neutral-100 p-6 rounded-xl mb-4'>
                 <div className='flex gap-4 items-center'>
-                  <div className='flex-col flex justify-start items-start font-plus-jakarta-sans mb-6'>
+                  <div className='flex-col flex justify-start items-start font-plus-jakarta-sans mb-6 gap-1'>
+                    <h1 className='text-neutral-950 text-sm md:text-xl font-600'><span className="">{edu?.courseName}</span> in <span className="">{edu?.designationType}</span> | with Grade {edu?.grade}</h1>
                     <div className='flex gap-2'>
-                      <span className='text-neutral-950 text-xl max-md:text-sm font-600'>{edu?.institutionName}</span>
+                      <span className='text-neutral-950 md:text-lg text-sm font-600'><span className="font-500 text-neutral-600">from</span> {edu?.institutionName}</span>
                     </div>
-                    <h1 className='text-neutral-600 text-lg max-md:text-xs'><span className="font-500">{edu?.courseName}</span> in <span className="font-500">{edu?.designationType}</span> | with Grade {edu?.grade}</h1>
-                    <span className='text-neutral-600 text-lg max-md:text-xs'>{convertDate(edu?.startDate)} - {convertDate(edu?.endDate)}</span>
+                    <span className='text-neutral-600 md:text-lg text-xs'>{convertDate(edu?.startDate)} - {convertDate(edu?.endDate)}</span>
+                    
                   </div>
                 </div>
               </div>

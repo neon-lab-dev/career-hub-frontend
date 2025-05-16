@@ -139,10 +139,10 @@ const Profile: React.FC<ProfileProps> = ({
                   <Image
                     src={avatarUrl}
                     alt=""
-                    className="rounded-full"
+                    className="rounded-full size-[60px]"
                     width={60}
                     height={60}
-                    unoptimized // Optional: Use this if you want to skip optimization for URLs from external sources
+                    unoptimized
                   />
                 ) : (
                   <div className="w-[60px] h-[60px] rounded-full bg-gray-300"></div> // Placeholder or empty div
@@ -161,9 +161,9 @@ const Profile: React.FC<ProfileProps> = ({
                   className="cursor-pointer"
                 />
               </div>
-              <span className="text-neutral-600 text-lg max-md:text-xs">
+              <p className="text-neutral-600 text-lg max-md:text-xs text-start">
                 {institutionName}
-              </span>
+              </p>
             </div>
           </div>
           {resumeUrl ? (

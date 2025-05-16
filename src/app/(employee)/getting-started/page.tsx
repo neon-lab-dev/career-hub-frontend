@@ -95,7 +95,7 @@ type TFormValues = {
   };
   education: TEducationDetails[];
   projects: TProjectDetails[];
-  workExperience: TWorkExperience[];
+  experience: TWorkExperience[];
   certifications: TCertificateDetails[];
   socialLinks: TSocialLinks;
   skills: string[];
@@ -163,6 +163,8 @@ const GettingStarted = () => {
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [selectedSocialLinks, setSelectedSocialLinks] = useState<TSocialLinks[]>([]);
   const [selectedResume, setSelectedResume] = useState<File | null>(null);
+
+  console.log(selectedSkills)
 
   useEffect(() => {
     console.log("Updated resume:", selectedResume);
@@ -259,7 +261,7 @@ const GettingStarted = () => {
         },
         education: selectedEducation,
         projects: selectedProject,
-        workExperience: selectedExperience,
+        experience: selectedExperience,
         certifications: selectedCertificate,
         socialLinks: selectedSocialLinks,
         skills: selectedSkills,
@@ -344,7 +346,7 @@ const GettingStarted = () => {
         address: getValues("address"),
         education: selectedEducation,
         projects: selectedProject,
-        workExperience: selectedExperience,
+        experience: selectedExperience,
         certifications: selectedCertificate,
         socialLinks: selectedSocialLinks,
         skills: selectedSkills,

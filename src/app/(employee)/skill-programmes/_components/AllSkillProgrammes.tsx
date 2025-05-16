@@ -87,6 +87,7 @@ const AllSkillProgrammes = () => {
             onSelect={handleSelectProgrammeType}
             selectedData={selectedProgrammeType}
             classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
+            containerWidth="w-full"
           />
           <FilterDropdown
             label="Select Department"
@@ -95,6 +96,7 @@ const AllSkillProgrammes = () => {
             onSelect={handleSelectDepartment}
             selectedData={selectedDepartment}
             classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
+            containerWidth="w-full"
           />
           <FilterDropdown
             label="Select Pricing Type"
@@ -103,6 +105,7 @@ const AllSkillProgrammes = () => {
             onSelect={handleSelectPricingType}
             selectedData={selectedPricingType}
             classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
+            containerWidth="w-full"
           />
           <Button
             variant="normal"

@@ -9,9 +9,10 @@ type TFilterDropdownProps = {
   onSelect?: (item: string) => void;
   selectedData: string | null;
   classNames? : string;
+  containerWidth? : string;
 };
 
-const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, onSelect, selectedData, classNames }) => {
+const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, onSelect, selectedData, classNames, containerWidth="w-full lg:w-fit" }) => {
   const [open, setOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -31,7 +32,7 @@ const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, on
   };
 
   return (
-    <div ref={dropDownRef} className="relative mx-auto w-full text-white">
+    <div ref={dropDownRef} className={`relative mx-auto text-white ${containerWidth}`}>
       <button
         onClick={() => setOpen((prev) => !prev)}
         className={twMerge(
