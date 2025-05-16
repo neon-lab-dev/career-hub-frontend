@@ -59,6 +59,7 @@ const CreateSkillProgramme = () => {
       return response.data;
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["skillprogrammes"] });
       toast.success("Skill programme created successfully!");
       router.push("/admin/skill-programmes");
     },

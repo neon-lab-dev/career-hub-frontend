@@ -1,7 +1,7 @@
 "use client"
 import TextInput from "@/components/Reusable/TextInput/TextInput";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from 'sonner';
 import { useState } from "react";
@@ -19,6 +19,7 @@ type TCreateEventFormValues = {
 };
 
 const CreateEventPage = () => {
+   const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
@@ -67,6 +68,7 @@ const CreateEventPage = () => {
     },
     onSuccess: () => {
       toast.success("Event created successfully!");
+      queryClient.invalidateQueries({ queryKey: ["events"] });
       reset();
       setSelectedSkills([]);
     },
