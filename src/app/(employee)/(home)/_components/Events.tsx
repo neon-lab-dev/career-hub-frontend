@@ -45,12 +45,12 @@ const Events = () => {
     queryFn: getAllEvents,
   });
   return (
-    <div id="events" className="bg-gradient-to-r from-slate-50 to-blue-50 py-10 relative">
-      <Image
+    <div id="events" className="bg-gradient-to-r from-slate-50/30 to-blue-50/50 py-10 relative">
+      {/* <Image
         src={IMAGES.linnerBg}
         alt=""
-        className="absolute top-0 bottom-0 right-0 left-0 z-0 h-full w-full opacity-20"
-      />
+        className="absolute top-0 bottom-0 right-0 left-0 z-0 h-full w-full opacity-10"
+      /> */}
       <Container>
         <div className="py-section flex flex-col items-center justify-center gap-14">
           <SectionHeading

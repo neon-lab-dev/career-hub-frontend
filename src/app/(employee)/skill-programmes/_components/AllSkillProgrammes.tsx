@@ -65,7 +65,7 @@ const AllSkillProgrammes = () => {
   };
   return (
     <Container>
-      <div className="flex flex-col xl:flex-row gap-5 xl:gap-0 items-center justify-between w-full">
+      <div className="flex flex-col xl:flex-row gap-5 items-center justify-between w-full">
         <div className="px-4 py-3 text-base rounded-md bg-white shadow-secondary-button text-neutral-700 leading-6 cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap flex gap-2 justify-between items-center w-full xl:w-fit">
           <input
             value={keyword}
@@ -86,7 +86,7 @@ const AllSkillProgrammes = () => {
             icon={ICONS.downArrow}
             onSelect={handleSelectProgrammeType}
             selectedData={selectedProgrammeType}
-            classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
+            classNames="px-4 py-3 text-base rounded-md w-full 2xl:w-[250px] gap-3"
             containerWidth="w-full"
           />
           <FilterDropdown
@@ -95,7 +95,7 @@ const AllSkillProgrammes = () => {
             icon={ICONS.downArrow}
             onSelect={handleSelectDepartment}
             selectedData={selectedDepartment}
-            classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
+            classNames="px-4 py-3 text-base rounded-md w-full 2xl:w-[200px] gap-3"
             containerWidth="w-full"
           />
           <FilterDropdown
@@ -104,7 +104,7 @@ const AllSkillProgrammes = () => {
             icon={ICONS.downArrow}
             onSelect={handleSelectPricingType}
             selectedData={selectedPricingType}
-            classNames="px-4 py-3 text-base rounded-md w-full lg:w-full 2xl:w-[200px] gap-3"
+            classNames="px-4 py-3 text-base rounded-md w-full 2xl:w-[200px] gap-3"
             containerWidth="w-full"
           />
           <Button

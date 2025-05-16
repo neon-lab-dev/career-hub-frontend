@@ -26,7 +26,7 @@ const EducationComponent: React.FC<EducationComponentProps> = ({ education }) =>
             <div className='flex gap-4 max-md:gap-1 items-center '>
               <span className='text-4xl text-secondary-700 font-600 max-md:text-lg'>Education Details</span>
             </div>
-            <ResumeEducationModel />
+            {/* <ResumeEducationModel /> */}
           </div>
           <hr className='pb-10 mx-2' />
           {education?.length > 0 ? (

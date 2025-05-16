@@ -23,7 +23,7 @@ const Certifications: React.FC<CertificationsProps> = ({ certifications }) => {
             <div className="flex gap-4 items-center">
               <span className="text-4xl text-secondary-700 font-600 max-md:text-lg">Certifications</span>
             </div>
-            <ResumeCertificationModel/>
+            {/* <ResumeCertificationModel/> */}
           </div>
           <hr className='pb-10 mx-4' />
           {certifications?.length > 0 ? (

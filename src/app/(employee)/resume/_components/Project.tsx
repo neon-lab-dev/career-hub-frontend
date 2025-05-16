@@ -25,7 +25,7 @@ const ProjectComponent: React.FC<ProjectComponentProps> = ({ projects }) => {
             <div className="flex gap-4 items-center">
               <span className="text-4xl text-secondary-700 font-600 max-md:text-base">Project Details</span>
             </div>
-            <ResumeProjectDetailsModel />
+            {/* <ResumeProjectDetailsModel /> */}
           </div>
           <hr className='pb-10 mx-4' />
           {projects.length > 0 ? (
