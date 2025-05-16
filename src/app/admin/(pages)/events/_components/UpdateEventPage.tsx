@@ -19,6 +19,7 @@ type EventFormValues = {
   time: string;
   companyName: string;
   companyLocation: string;
+  eventUrl: string;
   skillCovered: string[];
   image: FileList;
 };
@@ -49,6 +50,7 @@ const UpdateEventPage = ({ id }: { id: string }) => {
       setValue("eventName", event?.data?.eventName);
       setValue("date", event?.data?.date);
       setValue("time", event?.data?.time);
+      setValue("eventUrl", event?.data?.eventUrl);
       setValue("companyName", event?.data?.company?.companyName);
       setValue("companyLocation", event?.data?.company?.companyLocation);
       setSelectedSkills(event?.data?.skillCovered);
@@ -82,6 +84,7 @@ const UpdateEventPage = ({ id }: { id: string }) => {
     formData.append("eventName", data.eventName);
     formData.append("date", data.date);
     formData.append("time", data.time);
+    formData.append("eventUrl", data.eventUrl);
     formData.append("companyName", data.companyName);
     formData.append("companyLocation", data.companyLocation);
     formData.append("skillCovered", JSON.stringify(selectedSkills));
@@ -153,6 +156,15 @@ const UpdateEventPage = ({ id }: { id: string }) => {
         })}
       />
 
+      <TextInput
+          label="Event Link/URL"
+          placeholder="Enter your event link"
+          error={errors.eventUrl}
+          {...register("eventUrl", {
+            required: "Event link is required",
+          })}
+        />
+
       <div className="w-full">
         <label className="font-semibold text-sm mb-1 block">
           Skills Covered
@@ -169,7 +181,7 @@ const UpdateEventPage = ({ id }: { id: string }) => {
           {selectedSkills?.map((skill, index) => (
             <span
               key={index}
-              className="flex items-center bg-primary-100 text-primary-600 px-3 py-1 rounded-full text-sm"
+              className="flex items-center bg-primary-100 text-primary-600 px-3 py-1 rounded-full text-sm capitalize"
             >
               {skill}
               <button
@@ -224,7 +236,7 @@ const UpdateEventPage = ({ id }: { id: string }) => {
 
       <button
         type="submit"
-        className="bg-primary-600 text-white px-4 py-3 rounded-md"
+        className="bg-primary-600 text-white px-4 py-3 rounded-md flex items-center justify-center"
       >
         {isSubmitting ? (
           <Oval height="25" width="25" color="white" strokeWidth="5" />

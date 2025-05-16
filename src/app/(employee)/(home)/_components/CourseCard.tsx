@@ -6,7 +6,7 @@ import Link from "next/link";
 
 type TCourseCardProps = {
   courseName: string;
-  thumbnail: { url: string };
+  thumbnail: any;
   courseOverview: string;
   href?: string;
   pricingType: string;
@@ -19,7 +19,7 @@ const CourseCard: React.FC<TCourseCardProps> = ({
   courseOverview,
   href,
   pricingType,
-  fee
+  fee,
 }) => {
   return (
     <div
@@ -27,7 +27,7 @@ const CourseCard: React.FC<TCourseCardProps> = ({
     >
       <div className="relative w-full max-h-[207px] h-[207px] rounded-t-3xl overflow-hidden">
         <Image
-          src={thumbnail?.url ? thumbnail?.url : IMAGES.courseImg}
+          src={thumbnail ? thumbnail : IMAGES.courseImg}
           alt=""
           fill
           className="object-cover rounded-t-3xl"
@@ -38,15 +38,14 @@ const CourseCard: React.FC<TCourseCardProps> = ({
       <div className="p-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-          <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">
-            For All Levels
+            <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-450 w-fit rounded-md">
+              For All Levels
+            </div>
+            <h1 className="text-success-100 text-xl font-600">{pricingType}</h1>
           </div>
-          <h1 className="text-success-100 text-xl font-600">{pricingType}</h1>
-        </div>
-         {
-          pricingType === "Paid" &&
+          {pricingType === "Paid" && (
             <h1 className="text-primary-500 text-xl font-600">₹{fee}</h1>
-          }
+          )}
         </div>
         {/* Course Name */}
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">
@@ -77,15 +76,16 @@ const CourseCard: React.FC<TCourseCardProps> = ({
 
       {/* Hover card */}
       <div className="flex flex-col bg-neutral-450 rounded-3xl absolute bottom-0 w-full h-full translate-y-full group-hover:translate-y-0 transition-all duration-[600ms] overflow-hidden p-5">
-        <div className="flex items-center gap-3">
-          <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-white w-fit rounded-md translate-y-[-50px] group-hover:translate-y-0 transition-all duration-700 opacity-0 group-hover:opacity-100">
-            For All Levels
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="px-3 py-2 text-secondary-600 font-500 text-sm bg-neutral-650 w-fit rounded-md">
+              For All Levels
+            </div>
+            <h1 className="text-success-100 text-xl font-600">{pricingType}</h1>
           </div>
-          <h1 className="text-success-100 text-xl font-600 translate-y-[100px] group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100">
-            {
-              pricingType
-            }
-          </h1>
+          {pricingType === "Paid" && (
+            <h1 className="text-primary-500 text-xl font-600">₹{fee}</h1>
+          )}
         </div>
 
         <h1 className="text-neutral-600 text-lg font-700 mt-4 leading-7">

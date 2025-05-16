@@ -1,5 +1,4 @@
 import React from 'react';
-import { ICONS } from '@/assets'; // Importing only necessary assets
 import Chip from '@/components/Chip';
 
 const Skills = ({ skills = [] }) => {
@@ -11,9 +10,9 @@ const Skills = ({ skills = [] }) => {
                         <div className="flex gap-4 items-center">
                             <span className="text-4xl text-secondary-700 font-600">Skills</span>
                         </div>
-                        <Chip variant="add" className="w-[140px] items-center">
+                        {/* <Chip variant="add" className="w-[140px] items-center">
                             <span>Add New</span>
-                        </Chip>
+                        </Chip> */}
                     </div>
                     <hr className='pb-10 mx-4' />
                     <div className="flex justify-start gap-3 flex-wrap items-start border-2 border-neutral-100 p-6 max-md:p-1 rounded-xl">

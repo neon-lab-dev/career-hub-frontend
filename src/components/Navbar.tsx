@@ -20,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import Container from "./Container";
 
 const pfileItems = [
   { text: "My Applications", href: "/applications" },
@@ -90,10 +91,10 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
-    <>
+    <Container>
       <div
         id="navbar"
-        className="flex justify-between items-center  bg-white py-6  max-lg:px-4 wrapper max-width m-auto"
+        className="flex justify-between items-center bg-white py-6"
       >
         <div className="flex items-center gap-8 font-Poppins">
           <span className="text-3xl font-bold pr-6">
@@ -361,7 +362,7 @@ const Navbar = () => {
         </div>
       </div>
       {isAuthModalOpen && <AuthModal />}
-    </>
+    </Container>
   );
 };
 

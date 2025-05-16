@@ -25,7 +25,7 @@ const ProjectComponent: React.FC<ProjectComponentProps> = ({ projects }) => {
             <div className="flex gap-4 items-center">
               <span className="text-4xl text-secondary-700 font-600 max-md:text-base">Project Details</span>
             </div>
-            <ResumeProjectDetailsModel />
+            {/* <ResumeProjectDetailsModel /> */}
           </div>
           <hr className='pb-10 mx-4' />
           {projects.length > 0 ? (
@@ -34,9 +34,9 @@ const ProjectComponent: React.FC<ProjectComponentProps> = ({ projects }) => {
                 <div className="flex gap-4 items-center">
                   <div className="font-plus-jakarta-sans">
                     <div className="flex flex-col gap-2 text-start">
-                      <span className="text-neutral-950 text-xl font-600">{project.title}</span>
-                      <p className="text-neutral-600 text-sm">{project.description}</p>
-                      <div className="flex flex-col gap-1 text-xs text-neutral-500">
+                      <span className="text-neutral-950 text-sm md:text-xl font-600">{project.title}</span>
+                      <p className="text-neutral-600 text-sm md:text-lg">{project.description}</p>
+                      <div className="flex flex-col gap-1 text-sm md:text-lg text-neutral-500">
                         <span><strong>Start Date:</strong> {new Date(project.startDate).toLocaleDateString()}</span>
                         <span><strong>End Date:</strong> {new Date(project.endDate).toLocaleDateString()}</span>
                         <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-primary-500 hover:underline">View Project Link</a>

@@ -4,15 +4,17 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import TextInput from "@/components/Reusable/TextInput/TextInput";
 import TextArea from "@/components/Reusable/TextArea/TextArea";
 import DropdownInput from "@/components/Reusable/DopdownInput/DropdownInput";
+import { departments } from "@/mockData/departments";
+import dynamic from "next/dynamic";
 const JoditEditor = dynamic(() => import("jodit-react"), {
   ssr: false,
   loading: () => <p>Loading...</p>,
 });
+
 
 type CourseFormData = {
   courseName: string;
@@ -115,57 +117,7 @@ const CreateCourse = () => {
     });
   };
 
-  const departments: string[] = [
-    "Anesthesia",
-    "Anatomy",
-    "Cardiology",
-    "Dermatology",
-    "Dentistry",
-    "Emergency Medicine",
-    "Endocrinology",
-    "ENT",
-    "Forensic Medicine & Toxicology",
-    "Gastroenterology",
-    "Geriatric Medicine",
-    "Gynecology",
-    "Hematology",
-    "Infertility & IVF",
-    "Medical Surgical",
-    "Medicine",
-    "Nephrology",
-    "Neurology",
-    "Surgery",
-    "Ophthalmology",
-    "Out Patient Department OPD",
-    "Orthopedics",
-    "Pediatrics",
-    "Physical Medicine & Rehabilitation",
-    "Physiology",
-    "Physiotherapy",
-    "Plastic Surgery",
-    "Pulmonary Medicine and sleep disorders",
-    "Psychiatry",
-    "Rheumatology",
-    "Surgery",
-    "Urology",
-    "Lab Technician",
-    "Blood Bank",
-    "Biochemistry",
-    "Microbiology",
-    "Pathology",
-    "Pharmacology",
-    "Radio diagnosis",
-    "Radiographers",
-    "OT Technicians",
-    "Technicians CSSD",
-    "Nursing",
-    "Hospital Administration",
-    "Laundry",
-    "Pharmacist",
-    "Dietician",
-    "HR",
-    "Ward assistance",
-  ];
+  
 
   return (
     <div className="bg-[#f5f6fa] p-6 flex flex-col gap-[51px]">

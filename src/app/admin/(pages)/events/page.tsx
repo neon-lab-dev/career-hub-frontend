@@ -15,18 +15,11 @@ import { toast } from "sonner";
 
 const EventsPage = () => {
   const queryClient = useQueryClient();
-  const [keyword, setKeyword] = useState("");
   const { isLoading, data: events } = useQuery({
     queryKey: ["events"],
     queryFn: getAllEvents,
   });
 
-  const debouncedSetKeyword = useCallback(
-    debounce((queryParams) => {
-      setKeyword(queryParams);
-    }),
-    []
-  );
 
   // Delete event
   const { mutate: deleteEventMutation, isPending: isEventDeleting } =
@@ -106,20 +99,11 @@ const EventsPage = () => {
 
   return (
     <div className="bg-neutral-450 p-6 flex flex-col gap-[51px]">
-      <div className="flex items-center justify-between px-4">
-        {/* Search field */}
-        <SearchInput
-          placeholder="Search event"
-          icon={ICONS.searchGray}
-          onChange={(e) => {
-            debouncedSetKeyword(e.target.value);
-          }}
-        />
-
+      <div className="flex items-center justify-end px-4">
         {/* Create event button */}
         <Link
           href={"/admin/create-event"}
-          className="bg-neutral-450 border border-neutral-550 rounded-[10px] font-plus-jakarta-sans text-base font-500 text-secondary-925 px-4 pt-3 pb-[14px]"
+          className="bg-neutral-650 border border-neutral-550 rounded-[10px] font-plus-jakarta-sans text-base font-500 text-secondary-925 px-4 pt-3 pb-[14px]"
         >
           Create Event
         </Link>

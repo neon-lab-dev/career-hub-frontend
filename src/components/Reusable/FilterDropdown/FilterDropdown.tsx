@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { twMerge } from "tailwind-merge";
 
 type TFilterDropdownProps = {
   label: string;
@@ -7,9 +8,11 @@ type TFilterDropdownProps = {
   icon: string;
   onSelect?: (item: string) => void;
   selectedData: string | null;
+  classNames? : string;
+  containerWidth? : string;
 };
 
-const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, onSelect, selectedData }) => {
+const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, onSelect, selectedData, classNames, containerWidth="w-full lg:w-fit" }) => {
   const [open, setOpen] = useState(false);
   const dropDownRef = useRef<HTMLDivElement>(null);
 
@@ -29,10 +32,13 @@ const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, on
   };
 
   return (
-    <div ref={dropDownRef} className="relative mx-auto w-fit text-white">
+    <div ref={dropDownRef} className={`relative mx-auto text-white ${containerWidth}`}>
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 text-xl leading-6 rounded-2xl w-[300px] lg:w-[277px] cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap"
+        className={twMerge(
+          "px-6 py-5 bg-white shadow-secondary-button flex items-center justify-between text-neutral-700 leading-6 text-xl rounded-2xl w-full lg:w-[277px] cursor-pointer transition-all duration-300 ease-in-out transform active:scale-95 text-nowrap",
+          classNames,
+        )}
       >
         {
           selectedData ?
@@ -45,7 +51,7 @@ const FilterDropdown: React.FC<TFilterDropdownProps> = ({ label, items, icon, on
       <div
         className={`${
           open ? "visible bg-white shadow-secondary-button" : "invisible"
-        } absolute top-12 z-50 w-full flex flex-col gap-2 p-3 rounded-b-2xl`}
+        } absolute top-12 z-50 w-full flex flex-col gap-2 p-3 rounded-b-2xl max-h-64 overflow-y-auto`}
       >
         {items.map((item, idx) => (
           <button
