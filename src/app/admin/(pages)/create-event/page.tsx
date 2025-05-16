@@ -13,7 +13,8 @@ type TCreateEventFormValues = {
   time: string;
   companyName: string;
   companyLocation: string;
-  skillCovered: string; // comma separated string
+  skillCovered: string;
+  eventUrl : string;
   image: FileList;
 };
 
@@ -38,7 +39,7 @@ const CreateEventPage = () => {
 
     const updated = [...selectedSkills, normalizedSkill];
     setSelectedSkills(updated);
-    setValue("skillCovered", updated.join(",")); // Set to form value
+    setValue("skillCovered", updated.join(","));
     setSkillInput("");
   };
 
@@ -79,6 +80,7 @@ const CreateEventPage = () => {
     formData.append("eventName", data.eventName);
     formData.append("date", data.date);
     formData.append("time", data.time);
+    formData.append("eventUrl", data.eventUrl);
     const company = {
       companyName: data.companyName,
       companyLocation: data.companyLocation,
@@ -143,6 +145,15 @@ const CreateEventPage = () => {
           })}
         />
 
+        <TextInput
+          label="Event Link/URL"
+          placeholder="Enter your event link"
+          error={errors.eventUrl}
+          {...register("eventUrl", {
+            required: "Event link is required",
+          })}
+        />
+
         {/* ✅ Skill Input Section */}
         <div className="w-full">
           <label className="font-semibold text-sm mb-1 block">Skills Covered</label>
@@ -158,7 +169,7 @@ const CreateEventPage = () => {
             {selectedSkills.map((skill, index) => (
               <span
                 key={index}
-                className="flex items-center bg-primary-100 text-primary-600 px-3 py-1 rounded-full text-sm"
+                className="flex items-center bg-primary-100 text-primary-600 px-3 py-1 rounded-full text-sm capitalize"
               >
                 {skill}
                 <button
