@@ -64,7 +64,7 @@ const CreateCourse = () => {
   const courseMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "http://localhost:7000/api/v1/courses/create",
+        "https://carrerhub-backend.vercel.app/api/v1/courses/create",
         data,
         {
           withCredentials: true,

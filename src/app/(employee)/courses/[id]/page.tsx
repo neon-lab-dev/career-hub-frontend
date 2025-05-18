@@ -36,7 +36,7 @@ export type TCourse = {
 
 const fetchCourseById = async (id: string) => {
   const { data } = await axios.get(
-    `http://localhost:7000/api/v1/courses/${id}`
+    `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`
   );
   return data;
 };

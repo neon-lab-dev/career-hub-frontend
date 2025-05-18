@@ -35,7 +35,7 @@ const EditCoursePage = ({id} : {id:string}) => {
   const courseMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.put(
-        `http://localhost:7000/api/v1/courses/${id}`,
+        `https://carrerhub-backend.vercel.app/api/v1/courses/${id}`,
         data,
         {
           withCredentials: true,
