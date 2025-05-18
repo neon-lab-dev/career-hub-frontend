@@ -37,7 +37,7 @@ const AllCourses = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:7000/api/v1/courses",
+          "https://carrerhub-backend.vercel.app/api/v1/courses",
           {
             params: {
               keyword: keyword || undefined,

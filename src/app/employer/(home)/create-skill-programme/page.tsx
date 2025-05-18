@@ -65,7 +65,7 @@ const CreateSkillProgramme = () => {
   const skillMutation = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post(
-        "http://localhost:7000/api/v1/skills/create", 
+        "https://carrerhub-backend.vercel.app/api/v1/skills/create", 
         data, 
         {
           withCredentials: true,
